@@ -496,7 +496,7 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
         isWaiting = false;
         setStatus("ваш ход", false);
         userInput.focus();
-    }
+    }:
 
     async function sendMessage() {
         if (isWaiting) return;
