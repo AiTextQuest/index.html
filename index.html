@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Dark Script — Игра с ИИ (Прогресс)</title>
+    <title>Dark Script — Игра с ИИ</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
@@ -335,14 +335,10 @@
 
 <script>
     // ==================================================
-    // ТВОЙ OPENROUTER КЛЮЧ (ЗАМЕНИ НА АКТУАЛЬНЫЙ, ЕСЛИ НУЖНО)
-    const API_KEY = 'AQVNzdc2nFo6euhGYkqoPz8XvR0XmerRbsfGw4_j';
+    // ТВОЙ YANDEXGPT КЛЮЧ И ID КАТАЛОГА
+    const FOLDER_ID = 'b1g9i925fihm3dpptcua1';      // ⚠️ ВСТАВЬ СВОЙ FOLDER ID (из консоли Яндекса)
+    const API_KEY = 'AQVNzdc2nFo6euhGYkqoPz8XvR0XmerRbsfGw4_j';  // твой ключ
     // ==================================================
-
-    // Проверка наличия ключа
-    if (!API_KEY || API_KEY === 'AQVNzdc2nFo6euhGYkqoPz8XvR0XmerRbsfGw4_j' && confirm('Вы используете тестовый ключ? Если игра не работает, возможно, ключ недействителен.')) {
-        console.warn('API_KEY не задан или используется тестовый.');
-    }
 
     let currentTopic = '';
     let messagesHistory = [];
@@ -429,60 +425,70 @@
         }
     }
 
-    async function callOpenRouter(userMessage, isFirstMessage = false) {
-        let systemPrompt;
+    async function callYandexGPT(userMessage, isFirstMessage = false) {
+        let systemText;
         if (isFirstMessage) {
-            systemPrompt = `Ты — мастер повествования в жанре "${currentTopic}".
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}".
 Цель игры: найти ${MAX_CLUES} улик, чтобы раскрыть тайну. Начальное состояние: улик 0/${MAX_CLUES}, рассудок 100%.
 ПРАВИЛА:
 - Твои ответы должны быть на русском, атмосферными, 3-5 предложений.
 - В конце каждого ответа добавляй строку с текущим состоянием в формате: "Улики: X/${MAX_CLUES}. Рассудок: Y%."
 - Если игрок делает что-то, что помогает расследованию (находит зацепку, разговаривает со свидетелем, находит предмет), увеличивай улики на 1 (но не больше максимума).
-- Если игрок совершает опасные или глупые действия (идёт в одиночку в тёмный подвал, вступает в конфликт с монстром, теряет самообладание) — снижай рассудок на 10-20%.
+- Если игрок совершает опасные или глупые действия — снижай рассудок на 10-20%.
 - При достижении ${MAX_CLUES} улик — завершай игру победой и напиши эпилог.
 - При рассудке 0% — завершай игру поражением.
 - В первом сообщении опиши место, атмосферу, загадку и поставь игрока в ситуацию, где он должен начать искать улики. Не забудь указать начальное состояние: Улики: 0/${MAX_CLUES}. Рассудок: 100%.`;
         } else {
-            systemPrompt = `Ты — мастер повествования в жанре "${currentTopic}".
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}".
 Текущее состояние: улик ${clues}/${MAX_CLUES}, рассудок ${sanity}%.
 Правила те же: после каждого ответа указывай новое состояние в формате "Улики: X/${MAX_CLUES}. Рассудок: Y%.".
-Изменяй улики и рассудок в зависимости от действий игрока. Если игра завершена (победа или поражение) — просто напиши эпилог и перестань менять состояние.`;
+Изменяй улики и рассудок в зависимости от действий игрока. Если игра завершена — просто напиши эпилог и перестань менять состояние.`;
         }
 
-        let messages = [{ role: "system", content: systemPrompt }];
+        let messages = [
+            { role: "system", text: systemText }
+        ];
+        
         const lastMessages = messagesHistory.slice(-10);
         for (let msg of lastMessages) {
-            messages.push({ role: msg.isUser ? "user" : "assistant", content: msg.text });
+            messages.push({ role: msg.isUser ? "user" : "assistant", text: msg.text });
         }
-        messages.push({ role: "user", content: userMessage });
+        messages.push({ role: "user", text: userMessage });
 
         try {
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            const response = await fetch("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${API_KEY}`,
+                    "Authorization": `Api-Key ${API_KEY}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    model: "openrouter/free",
-                    messages: messages,
-                    max_tokens: 600,
-                    temperature: 0.85
+                    modelUri: `gpt://${FOLDER_ID}/yandexgpt-lite`,
+                    completionOptions: { 
+                        stream: false, 
+                        temperature: 0.85, 
+                        maxTokens: 600 
+                    },
+                    messages: messages
                 })
             });
+            
             const data = await response.json();
+            console.log('Ответ YandexGPT:', data);
+            
             if (data.error) {
-                console.error('OpenRouter error:', data.error);
-                return `Ошибка API: ${data.error.message || JSON.stringify(data.error)}`;
+                return `Ошибка YandexGPT: ${data.error.message || JSON.stringify(data.error)}`;
             }
-            if (data.choices && data.choices[0] && data.choices[0].message) {
-                return data.choices[0].message.content;
+            
+            // Извлекаем текст ответа
+            if (data.result && data.result.alternatives && data.result.alternatives[0]) {
+                return data.result.alternatives[0].message.text;
             } else {
-                return `Неожиданный ответ от API: ${JSON.stringify(data)}`;
+                return `Неожиданный формат ответа: ${JSON.stringify(data)}`;
             }
         } catch(e) {
-            console.error('Fetch error:', e);
-            return `Ошибка соединения: ${e.message}. Возможно, нужен VPN или ключ недействителен.`;
+            console.error('Ошибка:', e);
+            return `Ошибка соединения: ${e.message}. Проверьте интернет и FOLDER_ID.`;
         }
     }
 
@@ -501,7 +507,7 @@
         sendBtn.disabled = false;
         isWaiting = true;
         setStatus("ИИ создаёт мир...", true);
-        const firstScene = await callOpenRouter("Создай детальное, атмосферное начало игры, введи игрока в ситуацию и задай вопрос.", true);
+        const firstScene = await callYandexGPT("Создай детальное, атмосферное начало игры, введи игрока в ситуацию и задай вопрос.", true);
         addMessage(firstScene, false);
         messagesHistory.push({ text: firstScene, isUser: false });
         const progress = parseProgressFromText(firstScene);
@@ -521,7 +527,7 @@
         input.value = '';
         isWaiting = true;
         setStatus("история продолжается...", true);
-        const reply = await callOpenRouter(text, false);
+        const reply = await callYandexGPT(text, false);
         addMessage(reply, false);
         messagesHistory.push({ text: reply, isUser: false });
         const progress = parseProgressFromText(reply);
