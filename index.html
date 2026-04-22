@@ -324,7 +324,7 @@
             <div class="sidebar-title">Новая история</div>
             <input type="text" id="topicInput" class="topic-input" placeholder="например: нуар-детектив в 80-х">
             <div class="topics-grid">
-                <span class="topic-tag" data-topic="Психологический хоррор">ХоРРор</span>
+                <span class="topic-tag" data-topic="Психологический хоррор">Хоррор</span>
                 <span class="topic-tag" data-topic="Киберпанк-детектив">Киберпанк</span>
                 <span class="topic-tag" data-topic="Фэнтези про тёмного мага">Фэнтези</span>
                 <span class="topic-tag" data-topic="Космическая опера">Космос</span>
@@ -369,7 +369,10 @@
 </div>
 
 <script>
+    // ⚠️ ВНИМАНИЕ: Это ключ OpenRouter, НЕ YandexGPT!
+    // Для YandexGPT нужен другой ключ. Пока оставь как есть.
     const API_KEY = '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';
+    
     let currentTopic = '';
     let messagesHistory = [];
     let isWaiting = false;
@@ -428,50 +431,51 @@
         }
     }
 
-async function callYandexGPT(userMessage, isFirstMessage = false) {
-    let systemText;
-    if (isFirstMessage) {
-        systemText = `Ты — мастер повествования в жанре "${currentTopic}". Напиши 4-6 предложений. Опиши время суток, погоду, звуки, освещение. Введи загадку. Закончи вопросом "Что ты делаешь?"`;
-    } else {
-        systemText = `Ты — мастер повествования в жанре "${currentTopic}". Продолжай историю, опираясь на прошлое. Не меняй жанр. Каждый ответ заканчивай вопросом "Что ты делаешь?". Отвечай кратко: 2-4 предложения.`;
-    }
-    
-    let messages = [{ role: "system", text: systemText }];
-    const lastMessages = messagesHistory.slice(-10);
-    for (let msg of lastMessages) {
-        messages.push({ role: msg.isUser ? "user" : "assistant", text: msg.text });
-    }
-    messages.push({ role: "user", text: userMessage });
-
-    try {
-        const response = await fetch("https://yandex-proxy-1-xzf2.onrender.com/api/gpt", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ messages })
-        });
-        
-        const data = await response.json();  // ← объявляем data здесь
-        
-        console.log('Ответ от прокси:', data);  // ← смотрим, что пришло
-        
-        // Проверяем на ошибку
-        if (data.error) {
-            return `Ошибка прокси: ${data.error}`;
-        }
-        
-        // Пробуем разные варианты ответа YandexGPT
-        if (data.result && data.result.alternatives && data.result.alternatives[0]) {
-            return data.result.alternatives[0].message.text;
-        } else if (data.alternatives && data.alternatives[0]) {
-            return data.alternatives[0].message.text;
+    async function callYandexGPT(userMessage, isFirstMessage = false) {
+        let systemText;
+        if (isFirstMessage) {
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}". Напиши 4-6 предложений. Опиши время суток, погоду, звуки, освещение. Введи загадку. Закончи вопросом "Что ты делаешь?"`;
         } else {
-            return `Неожиданный ответ от YandexGPT: ${JSON.stringify(data)}`;
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}". Продолжай историю, опираясь на прошлое. Не меняй жанр. Каждый ответ заканчивай вопросом "Что ты делаешь?". Отвечай кратко: 2-4 предложения.`;
         }
-    } catch(e) {
-        console.error('Ошибка запроса:', e);
-        return `Ошибка соединения: ${e.message}`;
+        
+        let messages = [{ role: "system", text: systemText }];
+        const lastMessages = messagesHistory.slice(-10);
+        for (let msg of lastMessages) {
+            messages.push({ role: msg.isUser ? "user" : "assistant", text: msg.text });
+        }
+        messages.push({ role: "user", text: userMessage });
+
+        try {
+            const response = await fetch("https://yandex-proxy-1-xzf2.onrender.com/api/gpt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages })
+            });
+            
+            const data = await response.json();
+            
+            console.log('Ответ от прокси:', data);
+            
+            if (data.error) {
+                return `Ошибка прокси: ${data.error}`;
+            }
+            
+            // YandexGPT возвращает ответ в data.result.alternatives[0].message.text
+            if (data.result && data.result.alternatives && data.result.alternatives[0]) {
+                return data.result.alternatives[0].message.text;
+            } else if (data.alternatives && data.alternatives[0]) {
+                return data.alternatives[0].message.text;
+            } else {
+                // Если структура неожиданная — показываем весь ответ для отладки
+                return `Неожиданный ответ: ${JSON.stringify(data)}`;
+            }
+        } catch(e) {
+            console.error('Ошибка запроса:', e);
+            return `Ошибка соединения: ${e.message}`;
+        }
     }
-}
+
     async function startGame() {
         if (isWaiting) return;
 
@@ -492,10 +496,9 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
         isWaiting = true;
         setStatus("ИИ создаёт мир...", true);
 
-        // Специальный промпт для первого, максимально детального сообщения
         const firstScene = await callYandexGPT(
             "Создай максимально детальное, атмосферное начало игры. Опиши окружение, настроение, загадку или тайну. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'",
-            true  // isFirstMessage = true
+            true
         );
         
         addMessage(firstScene, false);
@@ -504,7 +507,7 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
         isWaiting = false;
         setStatus("ваш ход", false);
         userInput.focus();
-    }:
+    }
 
     async function sendMessage() {
         if (isWaiting) return;
