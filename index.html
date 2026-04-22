@@ -445,7 +445,7 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
 
     try {
         // ⚠️ ВСТАВЬ СВОЙ АДРЕС С RENDER:
-        const response = await fetch("https://yandex-proxy-1-xzf2.onrender.com", {
+        const response = await fetch("https://yandex-proxy-1-xzf2.onrender.com/api/gpt", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ messages })
