@@ -443,13 +443,14 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
     }
     messages.push({ role: "user", text: userMessage });
 
-    try {
+    try {console.log('Полный ответ от прокси:', data);  // <- добавить эту строку
         // ⚠️ ВСТАВЬ СВОЙ АДРЕС С RENDER:
         const response = await fetch("https://yandex-proxy-1-xzf2.onrender.com/api/gpt", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ messages })
         });
+    
         const data = await response.json();
         
         if (data.error) {
@@ -458,8 +459,9 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
         
         return data.result.alternatives[0].message.text;
     } catch(e) {
-        return `Ошибка соединения: ${e.message}`;
-    }
+    console.error('Ошибка запроса:', e);
+    return `Ошибка соединения: ${e.message}`;
+}
 }
 
     async function startGame() {
