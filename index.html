@@ -483,7 +483,7 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
         setStatus("ИИ создаёт мир...", true);
 
         // Специальный промпт для первого, максимально детального сообщения
-        const firstScene = await callAI(
+        const firstScene = await callYandexGPT(
             "Создай максимально детальное, атмосферное начало игры. Опиши окружение, настроение, загадку или тайну. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'",
             true  // isFirstMessage = true
         );
@@ -510,7 +510,7 @@ async function callYandexGPT(userMessage, isFirstMessage = false) {
         isWaiting = true;
         setStatus("история продолжается...", true);
 
-        const reply = await callAI(text, false);
+        const reply = await callYandexGPT(text, false);
         addMessage(reply, false);
         messagesHistory.push({ text: reply, isUser: false });
 
