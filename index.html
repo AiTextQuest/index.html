@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Dark Script — игра с ИИ (Полная версия)</title>
+    <title>Dark Script — Безумный детектив с ИИ</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #1e1e2e;
+            background-color: #0f0f1a;
             color: #e0e0e0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             height: 100vh;
@@ -37,8 +37,8 @@
             left: 0;
             width: 280px;
             height: 100%;
-            background-color: #15161e;
-            border-right: 1px solid #2a2a3a;
+            background-color: #0a0a12;
+            border-right: 1px solid #1a1a2a;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -46,7 +46,7 @@
             transform: translateX(-100%);
             transition: transform 0.3s ease;
             z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
         }
 
         .sidebar.open {
@@ -59,7 +59,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 999;
             display: none;
         }
@@ -70,7 +70,7 @@
 
         .sidebar-section {
             padding: 0 20px 20px 20px;
-            border-bottom: 1px solid #2a2a3a;
+            border-bottom: 1px solid #1a1a2a;
         }
 
         .sidebar-section:last-child {
@@ -82,11 +82,10 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #7c7f9a;
+            color: #6c6f8a;
             margin-bottom: 16px;
         }
 
-        /* Характеристики */
         .stats-grid {
             display: flex;
             flex-direction: column;
@@ -95,9 +94,16 @@
         }
 
         .stat-item {
-            background: #1a1b26;
+            background: #12121c;
             padding: 10px 12px;
             border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .stat-item:active {
+            background: #1a1a2a;
+            transform: scale(0.98);
         }
 
         .stat-header {
@@ -118,7 +124,7 @@
         }
 
         .stat-bar-bg {
-            background-color: #2a2a3a;
+            background-color: #1a1a2a;
             border-radius: 6px;
             height: 4px;
             overflow: hidden;
@@ -132,7 +138,6 @@
             transition: width 0.3s ease;
         }
 
-        /* Инвентарь */
         .inventory-list {
             margin-bottom: 20px;
             max-height: 200px;
@@ -140,7 +145,7 @@
         }
 
         .inventory-item {
-            background: #1a1b26;
+            background: #12121c;
             padding: 8px 12px;
             border-radius: 8px;
             margin-bottom: 6px;
@@ -156,19 +161,13 @@
             gap: 6px;
         }
 
-        .inventory-item-effect {
-            font-size: 10px;
-            color: #7c3aed;
-        }
-
         .empty-inventory {
-            color: #7c7f9a;
+            color: #6c6f8a;
             font-size: 12px;
             text-align: center;
             padding: 12px;
         }
 
-        /* Блок прогресса */
         .progress-item {
             margin-bottom: 20px;
         }
@@ -180,7 +179,7 @@
             color: #a0a0c0;
         }
         .progress-bar-bg {
-            background-color: #2a2a3a;
+            background-color: #1a1a2a;
             border-radius: 10px;
             height: 8px;
             overflow: hidden;
@@ -198,8 +197,8 @@
 
         .topic-input {
             width: 100%;
-            background: #1a1b26;
-            border: 1px solid #2a2a3a;
+            background: #12121c;
+            border: 1px solid #1a1a2a;
             color: #e0e0e0;
             padding: 12px 14px;
             border-radius: 10px;
@@ -221,8 +220,8 @@
         }
 
         .topic-tag {
-            background: #1a1b26;
-            border: 1px solid #2a2a3a;
+            background: #12121c;
+            border: 1px solid #1a1a2a;
             color: #a0a0c0;
             padding: 10px 16px;
             border-radius: 30px;
@@ -233,7 +232,7 @@
         }
 
         .topic-tag:active {
-            background: #2a2a3a;
+            background: #1a1a2a;
             border-color: #7c3aed;
             color: #e0e0e0;
         }
@@ -248,7 +247,7 @@
             font-weight: 600;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.15s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -259,6 +258,7 @@
 
         .btn-primary:active {
             background: #6d28d9;
+            transform: scale(0.98);
         }
 
         .btn-primary:disabled {
@@ -268,7 +268,7 @@
 
         .btn-secondary {
             width: 100%;
-            background: #2a2a3a;
+            background: #1a1a2a;
             color: #e0e0e0;
             border: none;
             padding: 10px;
@@ -276,7 +276,7 @@
             font-weight: 500;
             font-size: 14px;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.15s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -285,7 +285,8 @@
         }
 
         .btn-secondary:active {
-            background: #3a3a4a;
+            background: #2a2a3a;
+            transform: scale(0.98);
         }
 
         .main {
@@ -298,8 +299,8 @@
 
         .chat-header {
             padding: 16px 20px;
-            border-bottom: 1px solid #2a2a3a;
-            background: #1e1e2e;
+            border-bottom: 1px solid #1a1a2a;
+            background: #0f0f1a;
             display: flex;
             align-items: baseline;
             gap: 12px;
@@ -332,7 +333,7 @@
 
         .chat-header p {
             font-size: 12px;
-            color: #7c7f9a;
+            color: #6c6f8a;
             margin-top: 4px;
         }
 
@@ -376,7 +377,7 @@
         }
 
         .message-content {
-            background: #181926;
+            background: #12121c;
             padding: 14px 16px;
             border-radius: 16px;
             line-height: 1.5;
@@ -385,15 +386,65 @@
             color: #d0d0e0;
         }
 
+        .voice-message .message-content {
+            border-left-color: #f97316;
+            background: #1a1220;
+            font-style: italic;
+        }
+
         .user-message .message-content {
             border-left-color: #4a4a6a;
-            background: #15161e;
+            background: #0a0a12;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
+
+        .action-btn {
+            background: #1a1a2a;
+            border: 1px solid #2a2a3a;
+            color: #e0e0e0;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-btn:active {
+            background: #2a2a3a;
+            transform: scale(0.96);
+            border-color: #7c3aed;
+        }
+
+        .action-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .roll-result {
+            display: inline-block;
+            background: #1a1a2a;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-left: 8px;
+            font-family: monospace;
         }
 
         .input-area {
             padding: 12px 16px 20px;
-            border-top: 1px solid #2a2a3a;
-            background: #1e1e2e;
+            border-top: 1px solid #1a1a2a;
+            background: #0f0f1a;
         }
 
         .input-wrapper {
@@ -404,8 +455,8 @@
 
         .input-wrapper input {
             flex: 1;
-            background: #181926;
-            border: 1px solid #2a2a3a;
+            background: #12121c;
+            border: 1px solid #1a1a2a;
             color: #e0e0e0;
             padding: 14px 16px;
             border-radius: 30px;
@@ -424,7 +475,7 @@
         }
 
         .send-btn {
-            background: #2a2a3a;
+            background: #1a1a2a;
             border: none;
             padding: 14px;
             border-radius: 30px;
@@ -441,6 +492,7 @@
         .send-btn:active:not(:disabled) {
             background: #7c3aed;
             color: white;
+            transform: scale(0.96);
         }
 
         .send-btn:disabled {
@@ -450,10 +502,10 @@
 
         .status-bar {
             padding: 8px 20px;
-            background: #15161e;
-            border-top: 1px solid #2a2a3a;
+            background: #0a0a12;
+            border-top: 1px solid #1a1a2a;
             font-size: 12px;
-            color: #7c7f9a;
+            color: #6c6f8a;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -469,7 +521,7 @@
         .share-btn {
             background: none;
             border: none;
-            color: #7c7f9a;
+            color: #6c6f8a;
             cursor: pointer;
             padding: 4px 8px;
             font-size: 12px;
@@ -481,7 +533,7 @@
         }
 
         .share-btn:active {
-            background: #2a2a3a;
+            background: #1a1a2a;
             color: #e0e0e0;
         }
 
@@ -507,18 +559,18 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #1e1e2e;
+            background: #0f0f1a;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #3a3a4a;
+            background: #2a2a3a;
             border-radius: 4px;
         }
 
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #7c7f9a;
+            color: #6c6f8a;
         }
 
         @media (min-width: 768px) {
@@ -565,6 +617,11 @@
                 padding: 12px 14px;
             }
             
+            .action-btn {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+            
             .chat-header h1 {
                 font-size: 16px;
             }
@@ -580,21 +637,21 @@
         <div class="sidebar-section">
             <div class="sidebar-title">ХАРАКТЕРИСТИКИ</div>
             <div class="stats-grid">
-                <div class="stat-item">
+                <div class="stat-item" data-stat="strength">
                     <div class="stat-header">
                         <span class="stat-name">💪 Сила</span>
                         <span class="stat-value" id="strengthValue">5</span>
                     </div>
                     <div class="stat-bar-bg"><div class="stat-bar-fill" id="strengthBar" style="width: 50%;"></div></div>
                 </div>
-                <div class="stat-item">
+                <div class="stat-item" data-stat="charisma">
                     <div class="stat-header">
                         <span class="stat-name">✨ Харизма</span>
                         <span class="stat-value" id="charismaValue">5</span>
                     </div>
                     <div class="stat-bar-bg"><div class="stat-bar-fill" id="charismaBar" style="width: 50%;"></div></div>
                 </div>
-                <div class="stat-item">
+                <div class="stat-item" data-stat="intellect">
                     <div class="stat-header">
                         <span class="stat-name">🧠 Интеллект</span>
                         <span class="stat-value" id="intellectValue">5</span>
@@ -608,6 +665,13 @@
             <div class="sidebar-title">📦 ИНВЕНТАРЬ</div>
             <div class="inventory-list" id="inventoryList">
                 <div class="empty-inventory">Пусто</div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">🏆 МЕТКИ СЛАВЫ</div>
+            <div class="inventory-list" id="fameList">
+                <div class="empty-inventory">Пока пусто</div>
             </div>
         </div>
 
@@ -653,21 +717,21 @@
             </button>
             <div class="header-text">
                 <h1 id="gameTitle">Dark Script</h1>
-                <p id="gameSubtitle">выберите тему и начните приключение</p>
+                <p id="gameSubtitle">безумный детектив с чёрным юмором</p>
             </div>
         </div>
 
         <div class="messages" id="messagesContainer">
             <div class="empty-state">
-                <i data-lucide="book-open" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                <p>Нет активной игры</p>
-                <p style="font-size: 12px; margin-top: 8px;">выберите тему в меню ☰</p>
+                <i data-lucide="skull" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                <p>Выберите тему и начните безумие</p>
+                <p style="font-size: 12px; margin-top: 8px;">обещаем, будет смешно и страшно</p>
             </div>
         </div>
 
         <div class="input-area">
             <div class="input-wrapper">
-                <input type="text" id="userInput" placeholder="ваше действие..." disabled>
+                <input type="text" id="userInput" placeholder="или напишите своё действие..." disabled>
                 <button class="send-btn" id="sendBtn" disabled>
                     <i data-lucide="send" style="width: 20px; height: 20px;"></i>
                 </button>
@@ -689,7 +753,6 @@
 
 <script>
     // ==================== КОНФИГУРАЦИЯ ====================
-    const API_KEY = 'AQVNzdc2nFo6euhGYkqoPz8XvR0XmerRbsfGw4_j';
     const MAX_CLUES = 3;
     const MAX_STAT = 10;
     const MIN_STAT = 0;
@@ -705,17 +768,24 @@
     let clues = 0;
     let sanity = 100;
     
-    // Характеристики (0-10)
+    // Характеристики
     let strength = 5;
     let charisma = 5;
     let intellect = 5;
     
-    // Инвентарь: каждый предмет имеет имя и эффект
+    // Инвентарь и метки славы
     let inventory = [];
+    let fameTags = [];
     
     // Концовки
     let endingTriggered = false;
     let currentEnding = null;
+    
+    // Счётчик ходов для случайных событий
+    let turnCounter = 0;
+    
+    // Предыдущий ответ ИИ для генерации вариантов
+    let lastAIResponse = '';
     
     // ==================== DOM ЭЛЕМЕНТЫ ====================
     const cluesSpan = document.getElementById('cluesCount');
@@ -729,13 +799,196 @@
     const intellectSpan = document.getElementById('intellectValue');
     const intellectBar = document.getElementById('intellectBar');
     const inventoryDiv = document.getElementById('inventoryList');
+    const fameDiv = document.getElementById('fameList');
     
-    // ==================== ФУНКЦИИ ОБНОВЛЕНИЯ UI ====================
+    // ==================== СИСТЕМА БРОСКОВ КУБА ====================
+    function rollD20(statValue) {
+        const roll = Math.floor(Math.random() * 20) + 1;
+        const modifier = Math.floor((statValue - 5) * 1.5);
+        const total = roll + modifier;
+        
+        let result = '';
+        let emoji = '🎲';
+        
+        if (total >= 20) {
+            result = 'КРИТИЧЕСКИЙ УСПЕХ!';
+            emoji = '🔥';
+        } else if (total >= 15) {
+            result = 'УСПЕХ';
+            emoji = '✅';
+        } else if (total >= 10) {
+            result = 'НЕЙТРАЛЬНО';
+            emoji = '🤔';
+        } else if (total >= 5) {
+            result = 'ПРОВАЛ';
+            emoji = '😅';
+        } else {
+            result = 'КРИТИЧЕСКИЙ ПРОВАЛ!';
+            emoji = '💀';
+        }
+        
+        return { roll, modifier, total, result, emoji };
+    }
+    
+    // ==================== ГЕНЕРАЦИЯ ВАРИАНТОВ ДЕЙСТВИЙ ====================
+    function generateActionButtons() {
+        const container = document.getElementById('messagesContainer');
+        const lastMessage = container.lastChild;
+        if (!lastMessage || lastMessage.classList.contains('action-buttons-container')) return;
+        
+        const actions = [];
+        
+        // Анализируем последний ответ ИИ и генерируем варианты
+        const lowerResponse = lastAIResponse.toLowerCase();
+        
+        if (lowerResponse.includes('двер') || lowerResponse.includes('вход') || lowerResponse.includes('проход')) {
+            actions.push({ stat: 'strength', name: 'Выбить дверь', emoji: '💪', difficulty: 'hard' });
+            actions.push({ stat: 'intellect', name: 'Найти скрытый замок', emoji: '🧠', difficulty: 'medium' });
+            actions.push({ stat: 'charisma', name: 'Уговорить кого-то открыть', emoji: '✨', difficulty: 'easy' });
+        }
+        
+        if (lowerResponse.includes('человек') || lowerResponse.includes('страж') || lowerResponse.includes('нпс')) {
+            actions.push({ stat: 'charisma', name: 'Убедить', emoji: '✨', difficulty: 'medium' });
+            actions.push({ stat: 'strength', name: 'Пригрозить', emoji: '💪', difficulty: 'hard' });
+            actions.push({ stat: 'intellect', name: 'Перехитрить', emoji: '🧠', difficulty: 'easy' });
+        }
+        
+        if (lowerResponse.includes('ящик') || lowerResponse.includes('сундук') || lowerResponse.includes('тайник')) {
+            actions.push({ stat: 'strength', name: 'Взломать силой', emoji: '💪', difficulty: 'hard' });
+            actions.push({ stat: 'intellect', name: 'Открыть логически', emoji: '🧠', difficulty: 'easy' });
+        }
+        
+        // Всегда добавляем универсальные варианты
+        actions.push({ stat: 'intellect', name: 'Осмотреться', emoji: '🔍', difficulty: 'easy' });
+        actions.push({ stat: 'charisma', name: 'Позвать на помощь', emoji: '📢', difficulty: 'medium' });
+        
+        // Делаем уникальными
+        const uniqueActions = actions.slice(0, 4);
+        
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.className = 'action-buttons-container';
+        buttonsDiv.style.marginTop = '12px';
+        
+        const buttonsHtml = uniqueActions.map(action => {
+            let statValue = strength;
+            if (action.stat === 'charisma') statValue = charisma;
+            if (action.stat === 'intellect') statValue = intellect;
+            
+            let statName = '';
+            if (action.stat === 'strength') statName = 'Сила';
+            if (action.stat === 'charisma') statName = 'Харизма';
+            if (action.stat === 'intellect') statName = 'Интеллект';
+            
+            return `<button class="action-btn" data-action="${action.name}" data-stat="${action.stat}" data-stat-value="${statValue}">
+                ${action.emoji} [${statName} ${statValue}] ${action.name}
+            </button>`;
+        }).join('');
+        
+        buttonsDiv.innerHTML = buttonsHtml;
+        container.appendChild(buttonsDiv);
+        container.scrollTop = container.scrollHeight;
+        
+        // Добавляем обработчики
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (isWaiting || !gameActive || !gameStarted || endingTriggered) return;
+                
+                const action = btn.dataset.action;
+                const stat = btn.dataset.stat;
+                const statValue = parseInt(btn.dataset.statValue);
+                
+                let currentStat = strength;
+                if (stat === 'charisma') currentStat = charisma;
+                if (stat === 'intellect') currentStat = intellect;
+                
+                const diceResult = rollD20(currentStat);
+                
+                let resultText = `${action} (${stat === 'strength' ? 'Сила' : stat === 'charisma' ? 'Харизма' : 'Интеллект'} ${currentStat}) → 🎲 ${diceResult.roll} + ${diceResult.modifier} = ${diceResult.total} → ${diceResult.emoji} ${diceResult.result}`;
+                
+                addMessage(resultText, true);
+                messagesHistory.push({ text: resultText, isUser: true });
+                
+                let actionDescription = `${action}. Результат броска: ${diceResult.result.toLowerCase()}. `;
+                
+                if (diceResult.total >= 15) {
+                    actionDescription += `Это сработало блестяще! ${action} привело к неожиданно хорошему результату.`;
+                } else if (diceResult.total >= 10) {
+                    actionDescription += `Это сработало, но с нюансами. ${action} дало результат, но не идеальный.`;
+                } else if (diceResult.total >= 5) {
+                    actionDescription += `Это провалилось с треском. ${action} обернулось против вас, но добавило юмора в ситуацию.`;
+                } else {
+                    actionDescription += `Это провалилось катастрофически! ${action} вызвало цепную реакцию абсурдных событий. Ваш внутренний голос комментирует: "Ну ты и идиот. Я горжусь тобой."`;
+                }
+                
+                await sendActionToAI(actionDescription);
+            });
+        });
+        
+        lucide.createIcons();
+    }
+    
+    // ==================== ГОЛОСА В ГОЛОВЕ ====================
+    async function maybeAddInnerVoice() {
+        if (sanity < 40 && !endingTriggered && Math.random() < 0.4) {
+            const voices = [
+                "Голос в голове: 'Знаешь, а может, просто поджечь всё к чёрту?'",
+                "Внутренний демон: 'Съешь эту улику. Она хрустит.'",
+                "Ваше альтер-эго: 'Ты уверен, что это хорошая идея? Потому что я — нет.'",
+                "Параноидальный голос: 'За тобой следят. Определённо. И у них есть попкорн.'",
+                "Голос разума (редкое явление): 'Стоп. Подумай. Нет, не так. ВООБЩЕ не так.'"
+            ];
+            const randomVoice = voices[Math.floor(Math.random() * voices.length)];
+            addMessage(randomVoice, false);
+            messagesHistory.push({ text: randomVoice, isUser: false });
+            
+            if (sanity < 20) {
+                const panicVoice = "ГОЛОС КРИЧИТ: 'БЕЖИМ! НО НЕ ЗНАЮ КУДА! ПРОСТО БЕЖИМ!'";
+                addMessage(panicVoice, false);
+                messagesHistory.push({ text: panicVoice, isUser: false });
+            }
+        }
+    }
+    
+    // ==================== СЛУЧАЙНЫЕ СОБЫТИЯ ====================
+    async function triggerRandomEvent() {
+        if (!gameActive || endingTriggered) return;
+        
+        const events = [
+            { text: "💥 ВНЕЗАПНО: С потолка падает кирпич. Прямо перед вами. Кто-то явно хочет вас убить.", effect: { sanity: -5 } },
+            { text: "📻 Из ниоткуда начинает играть странная музыка. Ваша харизма временно повышается... или это просто кажется.", effect: { charisma: 1 } },
+            { text: "🐈 К вам подходит чёрный кот. Он смотрит прямо в душу и говорит: 'Мяу. Я знаю, что ты натворил прошлым летом.'", effect: { sanity: -3 } },
+            { text: "🍺 Вы находите бутылку виски. На этикетке: 'Выпить, чтобы забыть'. Ваш рассудок немного восстанавливается.", effect: { sanity: 8 } },
+            { text: "📱 Звонит телефон. Неизвестный голос шепчет: 'Твой следующий шаг будет последним... или первым. Я забыл.'", effect: { sanity: -2 } }
+        ];
+        
+        const event = events[Math.floor(Math.random() * events.length)];
+        addMessage(event.text, false);
+        messagesHistory.push({ text: event.text, isUser: false });
+        
+        if (event.effect.sanity) {
+            sanity = Math.max(0, Math.min(100, sanity + event.effect.sanity));
+            updateProgressUI();
+        }
+        if (event.effect.charisma) {
+            charisma = Math.max(0, Math.min(10, charisma + event.effect.charisma));
+            updateStatsUI();
+        }
+    }
+    
+    // ==================== ОБНОВЛЕНИЕ UI ====================
     function updateProgressUI() {
         cluesSpan.innerText = clues;
         cluesBar.style.width = (clues / MAX_CLUES) * 100 + '%';
         sanitySpan.innerText = sanity;
         sanityBar.style.width = sanity + '%';
+        
+        if (sanity < 30) {
+            sanityBar.style.backgroundColor = '#dc2626';
+        } else if (sanity < 60) {
+            sanityBar.style.backgroundColor = '#f97316';
+        } else {
+            sanityBar.style.backgroundColor = '#7c3aed';
+        }
     }
     
     function updateStatsUI() {
@@ -752,22 +1005,39 @@
         inventoryDiv.innerHTML = '';
         if (inventory.length === 0) {
             inventoryDiv.innerHTML = '<div class="empty-inventory">Пусто</div>';
-            return;
+        } else {
+            inventory.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'inventory-item';
+                itemDiv.innerHTML = `
+                    <div class="inventory-item-name">
+                        <span>📦</span> ${escapeHtml(item.name)}
+                    </div>
+                `;
+                inventoryDiv.appendChild(itemDiv);
+            });
         }
-        inventory.forEach((item, idx) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'inventory-item';
-            itemDiv.innerHTML = `
-                <div class="inventory-item-name">
-                    <span>📦</span> ${escapeHtml(item.name)}
-                </div>
-                <div class="inventory-item-effect">${escapeHtml(item.effect || '')}</div>
-            `;
-            inventoryDiv.appendChild(itemDiv);
-        });
+        
+        if (fameDiv) {
+            fameDiv.innerHTML = '';
+            if (fameTags.length === 0) {
+                fameDiv.innerHTML = '<div class="empty-inventory">Пока пусто</div>';
+            } else {
+                fameTags.forEach(tag => {
+                    const tagDiv = document.createElement('div');
+                    tagDiv.className = 'inventory-item';
+                    tagDiv.innerHTML = `
+                        <div class="inventory-item-name">
+                            <span>🏆</span> ${escapeHtml(tag)}
+                        </div>
+                    `;
+                    fameDiv.appendChild(tagDiv);
+                });
+            }
+        }
     }
     
-    // ==================== ПАРСИНГ ПРОГРЕССА ИЗ ТЕКСТА ИИ ====================
+    // ==================== ПАРСИНГ ПРОГРЕССА ====================
     function parseProgressFromText(text) {
         let newClues = null;
         let newSanity = null;
@@ -775,6 +1045,7 @@
         let newCharisma = null;
         let newIntellect = null;
         let newInventory = null;
+        let newFame = null;
         let newEnding = null;
         
         const cluesMatch = text.match(/Улики:\s*(\d+)\s*\/\s*(\d+)/i);
@@ -792,38 +1063,24 @@
         const intellectMatch = text.match(/Интеллект:\s*(\d+)\s*\/\s*(\d+)/i);
         if (intellectMatch) newIntellect = parseInt(intellectMatch[1]);
         
-        // Парсинг инвентаря: [Инвентарь: предмет1, предмет2]
         const inventoryMatch = text.match(/Инвентарь:\s*\[(.*?)\]/i);
-        if (inventoryMatch) {
-            const itemsStr = inventoryMatch[1];
-            if (itemsStr.trim()) {
-                newInventory = itemsStr.split(',').map(s => s.trim()).filter(s => s);
-            } else {
-                newInventory = [];
-            }
+        if (inventoryMatch && inventoryMatch[1].trim()) {
+            newInventory = inventoryMatch[1].split(',').map(s => s.trim()).filter(s => s);
         }
         
-        // Парсинг концовки
+        const fameMatch = text.match(/Метки:\s*\[(.*?)\]/i);
+        if (fameMatch && fameMatch[1].trim()) {
+            newFame = fameMatch[1].split(',').map(s => s.trim()).filter(s => s);
+        }
+        
         const endingMatch = text.match(/КОНЦОВКА:\s*(.+?)(?:\n|$)/i);
         if (endingMatch) newEnding = endingMatch[1];
         
         return { 
-            clues: newClues, 
-            sanity: newSanity,
-            strength: newStrength,
-            charisma: newCharisma,
-            intellect: newIntellect,
-            inventory: newInventory,
-            ending: newEnding
+            clues: newClues, sanity: newSanity, strength: newStrength,
+            charisma: newCharisma, intellect: newIntellect,
+            inventory: newInventory, fame: newFame, ending: newEnding
         };
-    }
-    
-    function addToInventory(itemName, effect = '') {
-        if (!inventory.some(i => i.name === itemName)) {
-            inventory.push({ name: itemName, effect: effect });
-            updateInventoryUI();
-            addMessage(`🎒 +${itemName} добавлен в инвентарь`, false);
-        }
     }
     
     function applyProgress(progress) {
@@ -835,24 +1092,22 @@
         if (progress.charisma !== null && progress.charisma >= MIN_STAT && progress.charisma <= MAX_STAT) charisma = progress.charisma;
         if (progress.intellect !== null && progress.intellect >= MIN_STAT && progress.intellect <= MAX_STAT) intellect = progress.intellect;
         
-        if (progress.inventory !== null) {
-            inventory = progress.inventory.map(name => ({ name: name, effect: '' }));
-            updateInventoryUI();
-        }
+        if (progress.inventory !== null) inventory = progress.inventory.map(name => ({ name: name }));
+        if (progress.fame !== null) fameTags = [...new Set([...fameTags, ...progress.fame])];
         
         updateProgressUI();
         updateStatsUI();
+        updateInventoryUI();
         
-        // Проверка концовок (победа/поражение/особые)
         if (progress.ending) {
             triggerEnding(progress.ending);
             return;
         }
         
         if (clues >= MAX_CLUES && !endingTriggered) {
-            triggerEnding('Вы собрали все улики и раскрыли тайну! Поздравляю с победой!');
+            triggerEnding('🏆 Вы собрали все улики и раскрыли тайну! Ваш внутренний голос аплодирует: "Ну наконец-то! А то я уже начал сомневаться."');
         } else if (sanity <= 0 && !endingTriggered) {
-            triggerEnding('Ваш рассудок не выдержал ужасов... Игра окончена.');
+            triggerEnding('💀 Ваш рассудок не выдержал. Вы слышите голоса, которые сливаются в один огромный хор. Они поют: "Добро пожаловать в клуб безумцев!"');
         }
     }
     
@@ -864,7 +1119,7 @@
         
         addMessage('🎭 КОНЦОВКА', false);
         addMessage(endingText, false);
-        addMessage('Игра завершена. Начните новую игру, чтобы продолжить.', false);
+        addMessage('Игра завершена. Начните новую игру, чтобы продолжить безумие.', false);
         
         document.getElementById('userInput').disabled = true;
         document.getElementById('sendBtn').disabled = true;
@@ -879,24 +1134,13 @@
         }
         
         const saveData = {
-            version: '1.0',
-            timestamp: Date.now(),
-            currentTopic,
-            messagesHistory,
-            gameActive,
-            gameStarted,
-            clues,
-            sanity,
-            strength,
-            charisma,
-            intellect,
-            inventory,
-            endingTriggered,
-            currentEnding
+            version: '2.0', currentTopic, messagesHistory, gameActive, gameStarted,
+            clues, sanity, strength, charisma, intellect, inventory, fameTags,
+            endingTriggered, currentEnding, turnCounter
         };
         
         localStorage.setItem('darkScriptSave', JSON.stringify(saveData));
-        addMessage('💾 Игра сохранена!', false);
+        addMessage('💾 Игра сохранена! Безумие подождёт.', false);
         setStatus("сохранено", false);
         setTimeout(() => {
             if (gameActive && !isWaiting) setStatus("ваш ход", false);
@@ -923,14 +1167,15 @@
             charisma = data.charisma;
             intellect = data.intellect;
             inventory = data.inventory || [];
+            fameTags = data.fameTags || [];
             endingTriggered = data.endingTriggered || false;
             currentEnding = data.currentEnding || null;
+            turnCounter = data.turnCounter || 0;
             
             updateProgressUI();
             updateStatsUI();
             updateInventoryUI();
             
-            // Восстанавливаем чат
             const container = document.getElementById('messagesContainer');
             container.innerHTML = '';
             for (const msg of messagesHistory) {
@@ -938,12 +1183,11 @@
             }
             
             if (!gameStarted || !messagesHistory.length) {
-                container.innerHTML = '<div class="empty-state"><i data-lucide="book-open" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i><p>Загружена пустая игра. Начните новую.</p></div>';
+                container.innerHTML = '<div class="empty-state"><i data-lucide="skull" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i><p>Загружена пустая игра. Начните новую.</p></div>';
                 lucide.createIcons();
             }
             
             document.getElementById('gameTitle').innerText = currentTopic.length > 35 ? currentTopic.slice(0, 35) + '…' : (currentTopic || 'Dark Script');
-            document.getElementById('gameSubtitle').innerText = currentTopic ? `жанр: ${currentTopic}` : "выберите тему и начните приключение";
             
             const userInput = document.getElementById('userInput');
             const sendBtn = document.getElementById('sendBtn');
@@ -962,7 +1206,7 @@
                 setStatus("нет игры", false);
             }
             
-            addMessage('📀 Загрузка завершена!', false);
+            addMessage('📀 Загрузка завершена! Продолжаем безумие.', false);
             lucide.createIcons();
             
             if (window.innerWidth < 768) closeMenu();
@@ -972,7 +1216,7 @@
         }
     }
     
-    // ==================== ЭКСПОРТ ИСТОРИИ ====================
+    // ==================== ЭКСПОРТ ====================
     function shareHistory() {
         if (messagesHistory.length === 0) {
             addMessage('Нет истории для экспорта', false);
@@ -984,7 +1228,8 @@
         exportText += `Результат: улик ${clues}/${MAX_CLUES}, рассудок ${sanity}%\n`;
         exportText += `Характеристики: сила ${strength}, харизма ${charisma}, интеллект ${intellect}\n`;
         exportText += `Инвентарь: ${inventory.map(i => i.name).join(', ') || 'пусто'}\n`;
-        exportText += `\n=== ИСТОРИЯ ===\n\n`;
+        exportText += `Метки славы: ${fameTags.join(', ') || 'пусто'}\n`;
+        exportText += `\n=== БЕЗУМНАЯ ИСТОРИЯ ===\n\n`;
         
         for (const msg of messagesHistory) {
             const prefix = msg.isUser ? '> Вы: ' : 'Мастер: ';
@@ -1006,14 +1251,14 @@
         addMessage('📤 История экспортирована в файл', false);
     }
     
-    // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
+    // ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
     function escapeHtml(str) {
         return str.replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
             return m;
-        });
+        }).replace(/\n/g, '<br>');
     }
     
     function addMessage(text, isUser) {
@@ -1022,16 +1267,24 @@
         if (empty) empty.remove();
         
         const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
-        const iconName = isUser ? 'user' : 'bot';
-        const sender = isUser ? 'Вы' : 'Мастер истории';
+        let voiceClass = '';
+        let iconName = isUser ? 'user' : 'bot';
+        let sender = isUser ? 'Вы' : 'Мастер истории';
+        
+        if (!isUser && (text.includes('Голос в голове') || text.includes('ГОЛОС КРИЧИТ') || text.includes('Внутренний демон'))) {
+            voiceClass = 'voice-message';
+            iconName = 'message-square';
+            sender = '🧠 Внутренний голос';
+        }
+        
+        messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'} ${voiceClass}`;
         
         messageDiv.innerHTML = `
             <div class="message-meta">
                 <i data-lucide="${iconName}" class="message-icon"></i>
                 <span>${sender}</span>
             </div>
-            <div class="message-content">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
+            <div class="message-content">${escapeHtml(text)}</div>
         `;
         container.appendChild(messageDiv);
         container.scrollTop = container.scrollHeight;
@@ -1053,42 +1306,45 @@
     async function callYandexGPT(userMessage, isFirstMessage = false) {
         let systemText;
         if (isFirstMessage) {
-            systemText = `Ты — мастер повествования в жанре "${currentTopic}". 
+            systemText = `Ты — мастер повествования с ЧЁРНЫМ ЮМОРОМ в стиле Ведьмака (диалоги с Бомбардиром, пьяный Йорвет) и Disco Elysium (абсурд, цинизм, голоса в голове). Жанр: "${currentTopic}".
+
 ИГРОВАЯ СИСТЕМА:
-- Характеристики: Сила (0-10), Харизма (0-10), Интеллект (0-10). Начальные значения: 5/10.
-- Инвентарь: предметы, которые помогают в игре.
+- Характеристики: Сила (0-10), Харизма (0-10), Интеллект (0-10). Начальные: 5/10.
 - Улики: нужно собрать ${MAX_CLUES}.
 - Рассудок: 0-100%.
 
+СТИЛЬ ОТВЕТОВ:
+- Используй сарказм, чёрный юмор, неожиданные сравнения.
+- Если игрок провалил действие — сделай это СМЕШНЫМ, а не просто грустным.
+- Добавляй абсурдные детали (как в Disco Elysium).
+- Пример: "Вы пытаетесь открыть дверь. Дверь открывается... в вашу черепную коробку. -5 рассудка."
+
 ПРАВИЛА ОБНОВЛЕНИЙ:
-В конце каждого ответа ОБЯЗАТЕЛЬНО указывай прогресс в формате:
-"Улики: X/3. Рассудок: Y%. Сила: Z/10. Харизма: A/10. Интеллект: B/10. Инвентарь: [предмет1, предмет2]"
+В конце каждого ответа ОБЯЗАТЕЛЬНО указывай прогресс:
+"Улики: X/3. Рассудок: Y%. Сила: Z/10. Харизма: A/10. Интеллект: B/10. Инвентарь: [предмет1, предмет2]. Метки: [метка1, метка2]"
 
-ЕСЛИ ИГРОК ДОСТИГ ПОБЕДЫ (3 улики) — напиши "КОНЦОВКА: текст победы"
-ЕСЛИ РАССУДОК ПАДАЕТ ДО 0 — напиши "КОНЦОВКА: текст поражения"
+Метки славы — за эпичные или смешные действия (например: "Мастер оскорблений", "Сломал дверь ногой").
 
-Правила изменения:
-- Сила растёт от физических действий, падает от травм.
-- Харизма растёт от убеждения, падает от грубости.
-- Интеллект растёт от разгадывания загадок, падает от глупых решений.
-- Предметы добавляй в инвентарь, когда игрок их находит.
-
-Первым сообщением опиши место, загадку и задай вопрос "Что ты делаешь?". Укажи начальный прогресс.`;
+Первым сообщением: опиши место, загадку, добавь юмора и задай вопрос "Что ты делаешь?"`;
         } else {
-            systemText = `Ты — мастер повествования в жанре "${currentTopic}". 
+            systemText = `Ты — мастер с чёрным юмором. Жанр: "${currentTopic}".
+
 ТЕКУЩЕЕ СОСТОЯНИЕ:
 Улики: ${clues}/${MAX_CLUES}
 Рассудок: ${sanity}%
 Сила: ${strength}/10, Харизма: ${charisma}/10, Интеллект: ${intellect}/10
 Инвентарь: [${inventory.map(i => i.name).join(', ')}]
+Метки славы: [${fameTags.join(', ')}]
 
-ОТВЕЧАЙ НА ДЕЙСТВИЕ ИГРОКА. В конце каждого ответа обязательно указывай новый прогресс в формате выше.
-Если нужно добавить предмет в инвентарь — укажи его в формате "Инвентарь: [предмет]".
-Если игрок заслуживает победу или поражение — напиши "КОНЦОВКА: текст"`;
+СТИЛЬ: сарказм, цинизм, абсурдный юмор. Провалы делай смешными.
+ОТВЕЧАЙ НА ДЕЙСТВИЕ. В конце указывай прогресс в формате выше.
+Если нужно добавить предмет — "Инвентарь: [предмет]"
+Если добавить метку — "Метки: [новая метка]"
+При победе/поражении — "КОНЦОВКА: текст"`;
         }
         
         let messages = [{ role: "system", text: systemText }];
-        const lastMessages = messagesHistory.slice(-10);
+        const lastMessages = messagesHistory.slice(-12);
         for (let msg of lastMessages) {
             messages.push({ role: msg.isUser ? "user" : "assistant", text: msg.text });
         }
@@ -1104,76 +1360,41 @@
             const data = await response.json();
             console.log('Ответ от прокси:', data);
             
-            if (data.error) {
-                return `Ошибка прокси: ${data.error}`;
-            }
-            
-            if (data.result && data.result.alternatives && data.result.alternatives[0]) {
-                return data.result.alternatives[0].message.text;
-            } else if (data.alternatives && data.alternatives[0]) {
-                return data.alternatives[0].message.text;
-            } else {
-                return `Неожиданный ответ: ${JSON.stringify(data)}`;
-            }
+            if (data.error) return `Ошибка прокси: ${data.error}`;
+            if (data.result?.alternatives?.[0]) return data.result.alternatives[0].message.text;
+            if (data.alternatives?.[0]) return data.alternatives[0].message.text;
+            return `Неожиданный ответ: ${JSON.stringify(data)}`;
         } catch(e) {
             console.error('Ошибка запроса:', e);
-            return `Ошибка соединения: ${e.message}`;
+            return `Ошибка соединения: ${e.message}. Ваш внутренний голос шепчет: "Может, попробуем ещё раз?"`;
         }
     }
     
     // ==================== ИГРОВЫЕ ФУНКЦИИ ====================
-    async function startGame() {
-        if (isWaiting) return;
-        
-        let topic = document.getElementById('topicInput').value.trim();
-        if (!topic) topic = "таинственное приключение";
-        currentTopic = topic;
-        messagesHistory = [];
-        
-        // Сброс всего состояния
-        clues = 0;
-        sanity = 100;
-        strength = 5;
-        charisma = 5;
-        intellect = 5;
-        inventory = [];
-        gameActive = true;
-        gameStarted = true;
-        endingTriggered = false;
-        currentEnding = null;
-        
-        updateProgressUI();
-        updateStatsUI();
-        updateInventoryUI();
-        
-        document.getElementById('messagesContainer').innerHTML = '';
-        document.getElementById('gameTitle').innerText = topic.length > 35 ? topic.slice(0, 35) + '…' : topic;
-        document.getElementById('gameSubtitle').innerText = `жанр: ${topic}`;
-        
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        userInput.disabled = false;
-        sendBtn.disabled = false;
+    async function sendActionToAI(actionText) {
+        if (isWaiting || !gameActive || !gameStarted || endingTriggered) return;
         
         isWaiting = true;
-        setStatus("ИИ создаёт мир...", true);
+        setStatus("история продолжается...", true);
         
-        const firstScene = await callYandexGPT(
-            "Создай детальное, атмосферное начало игры с учётом системы характеристик и инвентаря. Опиши окружение, настроение, загадку. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'",
-            true
-        );
+        const reply = await callYandexGPT(actionText, false);
+        addMessage(reply, false);
+        messagesHistory.push({ text: reply, isUser: false });
+        lastAIResponse = reply;
         
-        addMessage(firstScene, false);
-        messagesHistory.push({ text: firstScene, isUser: false });
-        
-        const progress = parseProgressFromText(firstScene);
+        const progress = parseProgressFromText(reply);
         applyProgress(progress);
         
-        isWaiting = false;
-        if (gameActive) setStatus("ваш ход", false);
-        userInput.focus();
+        turnCounter++;
+        if (turnCounter % 4 === 0 && gameActive && !endingTriggered) {
+            await triggerRandomEvent();
+        }
         
-        if (window.innerWidth < 768) closeMenu();
+        await maybeAddInnerVoice();
+        generateActionButtons();
+        
+        isWaiting = false;
+        if (gameActive && !endingTriggered) setStatus("ваш ход", false);
     }
     
     async function sendMessage() {
@@ -1187,19 +1408,61 @@
         messagesHistory.push({ text: text, isUser: true });
         input.value = '';
         
+        await sendActionToAI(text);
+    }
+    
+    async function startGame() {
+        if (isWaiting) return;
+        
+        let topic = document.getElementById('topicInput').value.trim();
+        if (!topic) topic = "безумное приключение";
+        currentTopic = topic;
+        messagesHistory = [];
+        
+        clues = 0;
+        sanity = 100;
+        strength = 5;
+        charisma = 5;
+        intellect = 5;
+        inventory = [];
+        fameTags = [];
+        gameActive = true;
+        gameStarted = true;
+        endingTriggered = false;
+        currentEnding = null;
+        turnCounter = 0;
+        
+        updateProgressUI();
+        updateStatsUI();
+        updateInventoryUI();
+        
+        document.getElementById('messagesContainer').innerHTML = '';
+        document.getElementById('gameTitle').innerText = topic.length > 35 ? topic.slice(0, 35) + '…' : topic;
+        
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        userInput.disabled = false;
+        sendBtn.disabled = false;
+        
         isWaiting = true;
-        setStatus("история продолжается...", true);
+        setStatus("ИИ создаёт безумный мир...", true);
         
-        const reply = await callYandexGPT(text, false);
-        addMessage(reply, false);
-        messagesHistory.push({ text: reply, isUser: false });
+        const firstScene = await callYandexGPT("Создай начало с чёрным юмором, абсурдными деталями и сарказмом. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'", true);
         
-        const progress = parseProgressFromText(reply);
+        addMessage(firstScene, false);
+        messagesHistory.push({ text: firstScene, isUser: false });
+        lastAIResponse = firstScene;
+        
+        const progress = parseProgressFromText(firstScene);
         applyProgress(progress);
         
+        generateActionButtons();
+        
         isWaiting = false;
-        if (gameActive && !endingTriggered) setStatus("ваш ход", false);
-        input.focus();
+        if (gameActive) setStatus("ваш ход", false);
+        userInput.focus();
+        
+        if (window.innerWidth < 768) closeMenu();
     }
     
     // ==================== МОБИЛЬНОЕ МЕНЮ ====================
@@ -1217,13 +1480,8 @@
         overlay.classList.add('active');
     }
     
-    if (menuBtn) {
-        menuBtn.addEventListener('click', openMenu);
-    }
-    
-    if (overlay) {
-        overlay.addEventListener('click', closeMenu);
-    }
+    if (menuBtn) menuBtn.addEventListener('click', openMenu);
+    if (overlay) overlay.addEventListener('click', closeMenu);
     
     document.querySelectorAll('.topic-tag').forEach(tag => {
         tag.addEventListener('click', () => {
@@ -1247,11 +1505,8 @@
     
     lucide.createIcons();
     
-    // Автосохранение при закрытии страницы (опционально)
     window.addEventListener('beforeunload', () => {
-        if (gameStarted && messagesHistory.length > 0) {
-            saveGame();
-        }
+        if (gameStarted && messagesHistory.length > 0) saveGame();
     });
 </script>
 </body>
