@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Dark Script — Игра с ИИ</title>
+    <title>Dark Script — игра с ИИ</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -18,29 +19,65 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             height: 100vh;
             overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
 
+        /* Основной контейнер */
         .app {
             display: flex;
-            height: 100vh;
-            flex-direction: row;
+            height: 100%;
+            width: 100%;
+            position: relative;
         }
 
-        /* Боковая панель с прогрессом */
+        /* Боковая панель — по умолчанию скрыта на мобилках */
         .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 280px;
+            height: 100%;
             background-color: #15161e;
             border-right: 1px solid #2a2a3a;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
             padding: 20px 0;
-            flex-shrink: 0;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+        }
+
+        /* Панель открыта */
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        /* Затемнение фона при открытом меню */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
         }
 
         .sidebar-section {
             padding: 0 20px 20px 20px;
             border-bottom: 1px solid #2a2a3a;
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
         }
 
         .sidebar-title {
@@ -52,61 +89,43 @@
             margin-bottom: 16px;
         }
 
-        .progress-item {
-            margin-bottom: 20px;
-        }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            margin-bottom: 6px;
-            color: #a0a0c0;
-        }
-        .progress-bar-bg {
-            background-color: #2a2a3a;
-            border-radius: 10px;
-            height: 8px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            background-color: #7c3aed;
-            width: 0%;
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-        .progress-bar-fill.sanity {
-            background-color: #f97316;
-        }
-
         .topic-input {
             width: 100%;
             background: #1a1b26;
             border: 1px solid #2a2a3a;
             color: #e0e0e0;
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
             margin-bottom: 16px;
+        }
+
+        .topic-input:focus {
+            outline: none;
+            border-color: #7c3aed;
         }
 
         .topics-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 20px;
         }
+
         .topic-tag {
             background: #1a1b26;
             border: 1px solid #2a2a3a;
             color: #a0a0c0;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.15s ease;
+            touch-action: manipulation;
         }
-        .topic-tag:hover {
+
+        .topic-tag:active {
             background: #2a2a3a;
             border-color: #7c3aed;
             color: #e0e0e0;
@@ -117,22 +136,27 @@
             background: #7c3aed;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 500;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
+            transition: background 0.15s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-top: 10px;
+            touch-action: manipulation;
         }
-        .btn-primary:hover { background: #6d28d9; }
-        .btn-secondary {
-            background: #3a3a4a;
-            margin-top: 8px;
+
+        .btn-primary:active {
+            background: #6d28d9;
         }
-        .btn-secondary:hover { background: #4a4a6a; }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         /* Основная область */
         .main {
@@ -140,92 +164,171 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            width: 100%;
         }
+
+        /* Шапка чата с кнопкой меню */
         .chat-header {
-            padding: 20px 32px;
+            padding: 16px 20px;
             border-bottom: 1px solid #2a2a3a;
             background: #1e1e2e;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-        .chat-header h1 { font-size: 18px; font-weight: 500; }
-        .chat-header p { font-size: 12px; color: #7c7f9a; margin-top: 4px; }
 
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            cursor: pointer;
+            padding: 8px;
+            margin: -8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .menu-btn:active {
+            opacity: 0.7;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .chat-header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            color: #e0e0e0;
+        }
+
+        .chat-header p {
+            font-size: 12px;
+            color: #7c7f9a;
+            margin-top: 4px;
+        }
+
+        /* Сообщения */
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 32px;
+            padding: 20px 16px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
+
         .message {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             animation: fadeIn 0.2s ease;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         .message-meta {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
+            margin-bottom: 6px;
+            font-size: 12px;
             font-weight: 500;
             color: #a0a0c0;
         }
-        .message-icon { width: 18px; height: 18px; }
+
+        .message-icon {
+            width: 16px;
+            height: 16px;
+        }
+
         .message-content {
             background: #181926;
-            padding: 14px 18px;
-            border-radius: 10px;
-            line-height: 1.6;
-            font-size: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            line-height: 1.5;
+            font-size: 15px;
             border-left: 2px solid #7c3aed;
             color: #d0d0e0;
         }
+
         .user-message .message-content {
             border-left-color: #4a4a6a;
             background: #15161e;
         }
+
+        /* Поле ввода */
         .input-area {
-            padding: 20px 32px 28px;
+            padding: 12px 16px 20px;
             border-top: 1px solid #2a2a3a;
             background: #1e1e2e;
         }
+
         .input-wrapper {
             display: flex;
             gap: 12px;
             align-items: flex-end;
         }
+
         .input-wrapper input {
             flex: 1;
             background: #181926;
             border: 1px solid #2a2a3a;
             color: #e0e0e0;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 14px;
+            padding: 14px 16px;
+            border-radius: 30px;
+            font-size: 16px;
             font-family: inherit;
+            touch-action: manipulation;
         }
+
         .input-wrapper input:focus {
             outline: none;
             border-color: #7c3aed;
         }
+
+        .input-wrapper input:disabled {
+            opacity: 0.4;
+        }
+
         .send-btn {
             background: #2a2a3a;
             border: none;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 30px;
             cursor: pointer;
             color: #a0a0c0;
+            transition: all 0.15s;
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation;
+            aspect-ratio: 1;
         }
-        .send-btn:hover:not(:disabled) {
+
+        .send-btn:active:not(:disabled) {
             background: #7c3aed;
             color: white;
         }
+
+        .send-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Статус бар */
         .status-bar {
-            padding: 8px 32px;
+            padding: 8px 20px;
             background: #15161e;
             border-top: 1px solid #2a2a3a;
             font-size: 12px;
@@ -234,72 +337,106 @@
             align-items: center;
             gap: 12px;
         }
+
         .status-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background-color: #4ade80;
         }
-        .status-dot.waiting { background-color: #f97316; animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e1e2e; }
-        ::-webkit-scrollbar-thumb { background: #3a3a4a; border-radius: 4px; }
-        .empty-state { text-align: center; padding: 60px 20px; color: #7c7f9a; }
+        .status-dot.waiting {
+            background-color: #f97316;
+            animation: pulse 1s infinite;
+        }
 
-        /* Мобильная адаптация */
-        @media (max-width: 768px) {
-            .app {
-                flex-direction: column;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Скролл */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e1e2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a4a;
+            border-radius: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7c7f9a;
+        }
+
+        /* Планшеты и десктопы — показываем панель всегда */
+        @media (min-width: 768px) {
+            .menu-btn {
+                display: none;
             }
+            
             .sidebar {
-                width: 100%;
-                max-height: 40%;
-                border-right: none;
-                border-bottom: 1px solid #2a2a3a;
-                padding: 12px 0;
+                position: relative;
+                transform: translateX(0);
+                width: 260px;
+                box-shadow: none;
             }
-            .sidebar-section {
-                padding: 0 16px 12px 16px;
+            
+            .overlay {
+                display: none !important;
             }
+            
             .chat-header {
-                padding: 12px 16px;
+                padding: 20px 32px;
             }
+            
             .messages {
-                padding: 16px;
+                padding: 24px 32px;
             }
+            
             .input-area {
-                padding: 12px 16px 20px;
+                padding: 20px 32px 28px;
             }
+            
             .status-bar {
-                padding: 6px 16px;
+                padding: 8px 32px;
             }
+        }
+
+        /* Маленькие телефоны */
+        @media (max-width: 480px) {
+            .topic-tag {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+            
             .message-content {
-                font-size: 15px;
+                font-size: 14px;
                 padding: 12px 14px;
             }
-            .btn-primary {
-                padding: 8px;
+            
+            .chat-header h1 {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
+
 <div class="app">
-    <!-- Левая панель с прогрессом -->
-    <div class="sidebar">
+    <!-- Затемнение -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Боковая панель -->
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-section">
-            <div class="sidebar-title">ЦЕЛИ И СОСТОЯНИЕ</div>
-            <div class="progress-item">
-                <div class="progress-label"><span>🔍 Улики</span><span id="cluesCount">0</span><span>/ <span id="maxClues">3</span></span></div>
-                <div class="progress-bar-bg"><div class="progress-bar-fill" id="cluesBar" style="width: 0%;"></div></div>
-            </div>
-            <div class="progress-item">
-                <div class="progress-label"><span>🧠 Рассудок</span><span id="sanityValue">100</span><span>%</span></div>
-                <div class="progress-bar-bg"><div class="progress-bar-fill sanity" id="sanityBar" style="width: 100%;"></div></div>
-            </div>
-            <div class="sidebar-title" style="margin-top: 20px;">НОВАЯ ИСТОРИЯ</div>
+            <div class="sidebar-title">Новая история</div>
             <input type="text" id="topicInput" class="topic-input" placeholder="например: нуар-детектив в 80-х">
             <div class="topics-grid">
                 <span class="topic-tag" data-topic="Психологический хоррор">Хоррор</span>
@@ -309,146 +446,139 @@
                 <span class="topic-tag" data-topic="Викторианский детектив">Детектив</span>
                 <span class="topic-tag" data-topic="Постапокалипсис">Постап</span>
             </div>
-            <button class="btn-primary" id="startBtn"><i data-lucide="play" style="width: 16px; height: 16px;"></i> Начать игру</button>
-            <button class="btn-primary btn-secondary" id="resetBtn"><i data-lucide="refresh-cw" style="width: 16px; height: 16px;"></i> Новая игра</button>
+            <button class="btn-primary" id="startBtn">
+                <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+                Начать игру
+            </button>
         </div>
     </div>
 
-    <!-- Основная область -->
     <div class="main">
         <div class="chat-header">
-            <h1 id="gameTitle">Dark Script</h1>
-            <p id="gameSubtitle">выберите тему и начните приключение</p>
+            <button class="menu-btn" id="menuBtn">
+                <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+            </button>
+            <div class="header-text">
+                <h1 id="gameTitle">Dark Script</h1>
+                <p id="gameSubtitle">выберите тему и начните приключение</p>
+            </div>
         </div>
+
         <div class="messages" id="messagesContainer">
-            <div class="empty-state"><i data-lucide="book-open" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i><p>Нет активной игры</p><p style="font-size: 12px; margin-top: 8px;">выберите тему слева</p></div>
+            <div class="empty-state">
+                <i data-lucide="book-open" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                <p>Нет активной игры</p>
+                <p style="font-size: 12px; margin-top: 8px;">выберите тему в меню ☰</p>
+            </div>
         </div>
+
         <div class="input-area">
             <div class="input-wrapper">
                 <input type="text" id="userInput" placeholder="ваше действие..." disabled>
-                <button class="send-btn" id="sendBtn" disabled><i data-lucide="send" style="width: 18px; height: 18px;"></i></button>
+                <button class="send-btn" id="sendBtn" disabled>
+                    <i data-lucide="send" style="width: 20px; height: 20px;"></i>
+                </button>
             </div>
         </div>
-        <div class="status-bar"><div class="status-dot" id="statusDot"></div><span id="statusText">готов</span></div>
+
+        <div class="status-bar">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText">готов</span>
+        </div>
     </div>
 </div>
 
 <script>
-    // ==================================================
-    // ТВОЙ YANDEXGPT КЛЮЧ И ID КАТАЛОГА
-    const FOLDER_ID = 'b1g9i925fihm3dpptcua';      // ⚠️ ВСТАВЬ СВОЙ FOLDER ID (из консоли Яндекса)
-    const API_KEY = 'AQVNzdc2nFo6euhGYkqoPz8XvR0XmerRbsfGw4_j';  // твой ключ
-    // ==================================================
-
+    const API_KEY = 'AQVNzdc2nFo6euhGYkqoPz8XvR0XmerRbsfGw4_j';
     let currentTopic = '';
     let messagesHistory = [];
     let isWaiting = false;
-    let gameActive = true;
-    let clues = 0;
-    let sanity = 100;
-    const MAX_CLUES = 3;
-    const SANITY_START = 100;
 
-    // Элементы UI
-    const cluesSpan = document.getElementById('cluesCount');
-    const cluesBar = document.getElementById('cluesBar');
-    const sanitySpan = document.getElementById('sanityValue');
-    const sanityBar = document.getElementById('sanityBar');
+    lucide.createIcons();
 
-    function updateProgressUI() {
-        cluesSpan.innerText = clues;
-        cluesBar.style.width = (clues / MAX_CLUES) * 100 + '%';
-        sanitySpan.innerText = sanity;
-        sanityBar.style.width = sanity + '%';
+    function updateIcons() {
+        lucide.createIcons();
     }
 
-    function resetGameState() {
-        clues = 0;
-        sanity = SANITY_START;
-        gameActive = true;
-        messagesHistory = [];
-        updateProgressUI();
-        document.getElementById('messagesContainer').innerHTML = '';
-        document.getElementById('gameTitle').innerText = 'Dark Script';
-        document.getElementById('gameSubtitle').innerText = 'выберите тему и начните приключение';
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        userInput.disabled = true;
-        sendBtn.disabled = true;
-        userInput.value = '';
-        setStatus('готов', false);
-        // Очищаем пустое состояние, если оно есть
+    // Мобильное меню
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const menuBtn = document.getElementById('menuBtn');
+
+    function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    }
+
+    function openMenu() {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+    }
+
+    if (menuBtn) {
+        menuBtn.addEventListener('click', openMenu);
+    }
+    
+    overlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.topic-tag').forEach(tag => {
+        tag.addEventListener('click', () => {
+            document.getElementById('topicInput').value = tag.getAttribute('data-topic');
+            if (window.innerWidth < 768) closeMenu();
+        });
+    });
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function addMessage(text, isUser) {
         const container = document.getElementById('messagesContainer');
-        if (container.children.length === 0) {
-            container.innerHTML = '<div class="empty-state"><i data-lucide="book-open" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i><p>Нет активной игры</p><p style="font-size: 12px; margin-top: 8px;">выберите тему слева</p></div>';
-            lucide.createIcons();
-        }
+        const empty = container.querySelector('.empty-state');
+        if (empty) empty.remove();
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+        const iconName = isUser ? 'user' : 'bot';
+        const sender = isUser ? 'Вы' : 'Мастер истории';
+        
+        messageDiv.innerHTML = `
+            <div class="message-meta">
+                <i data-lucide="${iconName}" class="message-icon"></i>
+                <span>${sender}</span>
+            </div>
+            <div class="message-content">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
+        `;
+        container.appendChild(messageDiv);
+        container.scrollTop = container.scrollHeight;
+        updateIcons();
     }
 
-    function endGame(win, epilogue) {
-        gameActive = false;
-        addMessage(epilogue, false);
-        addMessage(win ? '🏆 ПОБЕДА! Вы раскрыли тайну.' : '💀 ПОРАЖЕНИЕ. Рассудок потерян...', false);
-        addMessage('Нажмите «Новая игра», чтобы начать заново.', false);
-        document.getElementById('userInput').disabled = true;
-        document.getElementById('sendBtn').disabled = true;
-        setStatus('игра завершена', false);
-    }
-
-    function parseProgressFromText(text) {
-        let newClues = null;
-        let newSanity = null;
-        const cluesMatch = text.match(/Улики:\s*(\d+)\s*\/\s*(\d+)/i);
-        if (cluesMatch) newClues = parseInt(cluesMatch[1]);
-        const sanityMatch = text.match(/Рассудок:\s*(\d+)%/i);
-        if (sanityMatch) newSanity = parseInt(sanityMatch[1]);
-        return { clues: newClues, sanity: newSanity };
-    }
-
-    function applyProgress(newClues, newSanity) {
-        if (!gameActive) return;
-        let changed = false;
-        if (newClues !== null && newClues >= 0 && newClues <= MAX_CLUES) {
-            if (newClues !== clues) changed = true;
-            clues = newClues;
-        }
-        if (newSanity !== null && newSanity >= 0 && newSanity <= 100) {
-            if (newSanity !== sanity) changed = true;
-            sanity = newSanity;
-        }
-        if (changed) updateProgressUI();
-
-        if (clues >= MAX_CLUES && gameActive) {
-            endGame(true, '✨ Вы собрали все улики и разгадали тайну. Истина открылась перед вами.');
-        } else if (sanity <= 0 && gameActive) {
-            endGame(false, '😵 Ваш разум не выдержал ужасов... Вы теряете связь с реальностью.');
+    function setStatus(text, isWaitingStatus = false) {
+        const statusText = document.getElementById('statusText');
+        const dot = document.getElementById('statusDot');
+        statusText.innerText = text;
+        if (isWaitingStatus) {
+            dot.classList.add('waiting');
+        } else {
+            dot.classList.remove('waiting');
         }
     }
 
     async function callYandexGPT(userMessage, isFirstMessage = false) {
         let systemText;
         if (isFirstMessage) {
-            systemText = `Ты — мастер повествования в жанре "${currentTopic}".
-Цель игры: найти ${MAX_CLUES} улик, чтобы раскрыть тайну. Начальное состояние: улик 0/${MAX_CLUES}, рассудок 100%.
-ПРАВИЛА:
-- Твои ответы должны быть на русском, атмосферными, 3-5 предложений.
-- В конце каждого ответа добавляй строку с текущим состоянием в формате: "Улики: X/${MAX_CLUES}. Рассудок: Y%."
-- Если игрок делает что-то, что помогает расследованию (находит зацепку, разговаривает со свидетелем, находит предмет), увеличивай улики на 1 (но не больше максимума).
-- Если игрок совершает опасные или глупые действия — снижай рассудок на 10-20%.
-- При достижении ${MAX_CLUES} улик — завершай игру победой и напиши эпилог.
-- При рассудке 0% — завершай игру поражением.
-- В первом сообщении опиши место, атмосферу, загадку и поставь игрока в ситуацию, где он должен начать искать улики. Не забудь указать начальное состояние: Улики: 0/${MAX_CLUES}. Рассудок: 100%.`;
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}". Напиши 4-6 предложений. Опиши время суток, погоду, звуки, освещение. Введи загадку. Закончи вопросом "Что ты делаешь?"`;
         } else {
-            systemText = `Ты — мастер повествования в жанре "${currentTopic}".
-Текущее состояние: улик ${clues}/${MAX_CLUES}, рассудок ${sanity}%.
-Правила те же: после каждого ответа указывай новое состояние в формате "Улики: X/${MAX_CLUES}. Рассудок: Y%.".
-Изменяй улики и рассудок в зависимости от действий игрока. Если игра завершена — просто напиши эпилог и перестань менять состояние.`;
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}". Продолжай историю, опираясь на прошлое. Не меняй жанр. Каждый ответ заканчивай вопросом "Что ты делаешь?". Отвечай кратко: 2-4 предложения.`;
         }
-
-        let messages = [
-            { role: "system", text: systemText }
-        ];
         
+        let messages = [{ role: "system", text: systemText }];
         const lastMessages = messagesHistory.slice(-10);
         for (let msg of lastMessages) {
             messages.push({ role: msg.isUser ? "user" : "assistant", text: msg.text });
@@ -456,131 +586,98 @@
         messages.push({ role: "user", text: userMessage });
 
         try {
-            const response = await fetch("https://llm.api.cloud.yandex.net/foundationModels/v1/completion", {
+            const response = await fetch("https://yandex-proxy-1-xzf2.onrender.com/api/gpt", {
                 method: "POST",
-                headers: {
-                    "Authorization": `Api-Key ${API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    modelUri: `gpt://${FOLDER_ID}/yandexgpt-lite`,
-                    completionOptions: { 
-                        stream: false, 
-                        temperature: 0.85, 
-                        maxTokens: 600 
-                    },
-                    messages: messages
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages })
             });
             
             const data = await response.json();
-            console.log('Ответ YandexGPT:', data);
+            
+            console.log('Ответ от прокси:', data);
             
             if (data.error) {
-                return `Ошибка YandexGPT: ${data.error.message || JSON.stringify(data.error)}`;
+                return `Ошибка прокси: ${data.error}`;
             }
             
-            // Извлекаем текст ответа
             if (data.result && data.result.alternatives && data.result.alternatives[0]) {
                 return data.result.alternatives[0].message.text;
+            } else if (data.alternatives && data.alternatives[0]) {
+                return data.alternatives[0].message.text;
             } else {
-                return `Неожиданный формат ответа: ${JSON.stringify(data)}`;
+                return `Неожиданный ответ: ${JSON.stringify(data)}`;
             }
         } catch(e) {
-            console.error('Ошибка:', e);
-            return `Ошибка соединения: ${e.message}. Проверьте интернет и FOLDER_ID.`;
+            console.error('Ошибка запроса:', e);
+            return `Ошибка соединения: ${e.message}`;
         }
     }
 
     async function startGame() {
         if (isWaiting) return;
-        resetGameState();
+
         let topic = document.getElementById('topicInput').value.trim();
         if (!topic) topic = "таинственное приключение";
         currentTopic = topic;
-        document.getElementById('gameTitle').innerText = topic.length > 40 ? topic.slice(0, 40) + '…' : topic;
+        messagesHistory = [];
+
+        document.getElementById('messagesContainer').innerHTML = '';
+        document.getElementById('gameTitle').innerText = topic.length > 35 ? topic.slice(0, 35) + '…' : topic;
         document.getElementById('gameSubtitle').innerText = `жанр: ${topic}`;
 
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         userInput.disabled = false;
         sendBtn.disabled = false;
+
         isWaiting = true;
         setStatus("ИИ создаёт мир...", true);
-        const firstScene = await callYandexGPT("Создай детальное, атмосферное начало игры, введи игрока в ситуацию и задай вопрос.", true);
+
+        const firstScene = await callYandexGPT(
+            "Создай максимально детальное, атмосферное начало игры. Опиши окружение, настроение, загадку или тайну. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'",
+            true
+        );
+        
         addMessage(firstScene, false);
         messagesHistory.push({ text: firstScene, isUser: false });
-        const progress = parseProgressFromText(firstScene);
-        applyProgress(progress.clues, progress.sanity);
+
         isWaiting = false;
         setStatus("ваш ход", false);
         userInput.focus();
+        
+        if (window.innerWidth < 768) closeMenu();
     }
 
     async function sendMessage() {
-        if (isWaiting || !gameActive) return;
+        if (isWaiting) return;
+
         const input = document.getElementById('userInput');
         const text = input.value.trim();
         if (!text) return;
+
         addMessage(text, true);
         messagesHistory.push({ text: text, isUser: true });
         input.value = '';
+
         isWaiting = true;
         setStatus("история продолжается...", true);
+
         const reply = await callYandexGPT(text, false);
         addMessage(reply, false);
         messagesHistory.push({ text: reply, isUser: false });
-        const progress = parseProgressFromText(reply);
-        applyProgress(progress.clues, progress.sanity);
+
         isWaiting = false;
-        if (gameActive) setStatus("ваш ход", false);
+        setStatus("ваш ход", false);
         input.focus();
     }
 
-    function addMessage(text, isUser) {
-        const container = document.getElementById('messagesContainer');
-        const empty = container.querySelector('.empty-state');
-        if (empty) empty.remove();
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
-        const iconName = isUser ? 'user' : 'bot';
-        const sender = isUser ? 'Вы' : 'Мастер истории';
-        const escapedText = text.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-        messageDiv.innerHTML = `<div class="message-meta"><i data-lucide="${iconName}" class="message-icon"></i><span>${sender}</span></div><div class="message-content">${escapedText.replace(/\n/g, '<br>')}</div>`;
-        container.appendChild(messageDiv);
-        container.scrollTop = container.scrollHeight;
-        lucide.createIcons();
-    }
-
-    function setStatus(text, isWaitingStatus = false) {
-        const statusText = document.getElementById('statusText');
-        const dot = document.getElementById('statusDot');
-        statusText.innerText = text;
-        if (isWaitingStatus) dot.classList.add('waiting');
-        else dot.classList.remove('waiting');
-    }
-
-    // Инициализация
-    lucide.createIcons();
-    document.querySelectorAll('.topic-tag').forEach(tag => {
-        tag.addEventListener('click', () => {
-            document.getElementById('topicInput').value = tag.getAttribute('data-topic');
-        });
-    });
     document.getElementById('startBtn').addEventListener('click', startGame);
-    document.getElementById('resetBtn').addEventListener('click', () => { resetGameState(); });
     document.getElementById('sendBtn').addEventListener('click', sendMessage);
     document.getElementById('userInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled && !isWaiting && gameActive) {
+        if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled && !isWaiting) {
             sendMessage();
         }
     });
-    resetGameState();
 </script>
 </body>
 </html>
