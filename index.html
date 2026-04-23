@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Dark Script — игра с ИИ</title>
+    <title>Dark Script — игра с ИИ (Прогресс)</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
@@ -23,7 +23,6 @@
             width: 100%;
         }
 
-        /* Основной контейнер */
         .app {
             display: flex;
             height: 100%;
@@ -31,7 +30,7 @@
             position: relative;
         }
 
-        /* Боковая панель — по умолчанию скрыта на мобилках */
+        /* Боковая панель */
         .sidebar {
             position: fixed;
             top: 0;
@@ -50,12 +49,10 @@
             box-shadow: 2px 0 10px rgba(0,0,0,0.3);
         }
 
-        /* Панель открыта */
         .sidebar.open {
             transform: translateX(0);
         }
 
-        /* Затемнение фона при открытом меню */
         .overlay {
             position: fixed;
             top: 0;
@@ -87,6 +84,34 @@
             letter-spacing: 1px;
             color: #7c7f9a;
             margin-bottom: 16px;
+        }
+
+        /* Блок прогресса */
+        .progress-item {
+            margin-bottom: 20px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 6px;
+            color: #a0a0c0;
+        }
+        .progress-bar-bg {
+            background-color: #2a2a3a;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background-color: #7c3aed;
+            width: 0%;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        .progress-bar-fill.sanity {
+            background-color: #f97316;
         }
 
         .topic-input {
@@ -158,7 +183,6 @@
             cursor: not-allowed;
         }
 
-        /* Основная область */
         .main {
             flex: 1;
             display: flex;
@@ -167,7 +191,6 @@
             width: 100%;
         }
 
-        /* Шапка чата с кнопкой меню */
         .chat-header {
             padding: 16px 20px;
             border-bottom: 1px solid #2a2a3a;
@@ -191,10 +214,6 @@
             touch-action: manipulation;
         }
 
-        .menu-btn:active {
-            opacity: 0.7;
-        }
-
         .header-text {
             flex: 1;
         }
@@ -212,7 +231,6 @@
             margin-top: 4px;
         }
 
-        /* Сообщения */
         .messages {
             flex: 1;
             overflow-y: auto;
@@ -267,7 +285,6 @@
             background: #15161e;
         }
 
-        /* Поле ввода */
         .input-area {
             padding: 12px 16px 20px;
             border-top: 1px solid #2a2a3a;
@@ -326,7 +343,6 @@
             cursor: not-allowed;
         }
 
-        /* Статус бар */
         .status-bar {
             padding: 8px 20px;
             background: #15161e;
@@ -355,7 +371,6 @@
             50% { opacity: 0.5; }
         }
 
-        /* Скролл */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -375,7 +390,6 @@
             color: #7c7f9a;
         }
 
-        /* Планшеты и десктопы — показываем панель всегда */
         @media (min-width: 768px) {
             .menu-btn {
                 display: none;
@@ -409,7 +423,6 @@
             }
         }
 
-        /* Маленькие телефоны */
         @media (max-width: 480px) {
             .topic-tag {
                 padding: 8px 14px;
@@ -430,13 +443,20 @@
 <body>
 
 <div class="app">
-    <!-- Затемнение -->
     <div class="overlay" id="overlay"></div>
     
-    <!-- Боковая панель -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-section">
-            <div class="sidebar-title">Новая история</div>
+            <div class="sidebar-title">ЦЕЛИ И СОСТОЯНИЕ</div>
+            <div class="progress-item">
+                <div class="progress-label"><span>🔍 Улики</span><span id="cluesCount">0</span><span>/<span id="maxClues">3</span></span></div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="cluesBar" style="width: 0%;"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-label"><span>🧠 Рассудок</span><span id="sanityValue">100</span><span>%</span></div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill sanity" id="sanityBar" style="width: 100%;"></div></div>
+            </div>
+            <div class="sidebar-title" style="margin-top: 20px;">НОВАЯ ИСТОРИЯ</div>
             <input type="text" id="topicInput" class="topic-input" placeholder="например: нуар-детектив в 80-х">
             <div class="topics-grid">
                 <span class="topic-tag" data-topic="Психологический хоррор">Хоррор</span>
@@ -493,6 +513,56 @@
     let currentTopic = '';
     let messagesHistory = [];
     let isWaiting = false;
+    let gameActive = true;
+    let clues = 0;
+    let sanity = 100;
+    const MAX_CLUES = 3;
+
+    // Элементы прогресса
+    const cluesSpan = document.getElementById('cluesCount');
+    const cluesBar = document.getElementById('cluesBar');
+    const sanitySpan = document.getElementById('sanityValue');
+    const sanityBar = document.getElementById('sanityBar');
+
+    function updateProgressUI() {
+        cluesSpan.innerText = clues;
+        cluesBar.style.width = (clues / MAX_CLUES) * 100 + '%';
+        sanitySpan.innerText = sanity;
+        sanityBar.style.width = sanity + '%';
+    }
+
+    function parseProgressFromText(text) {
+        let newClues = null;
+        let newSanity = null;
+        const cluesMatch = text.match(/Улики:\s*(\d+)\s*\/\s*(\d+)/i);
+        if (cluesMatch) newClues = parseInt(cluesMatch[1]);
+        const sanityMatch = text.match(/Рассудок:\s*(\d+)%/i);
+        if (sanityMatch) newSanity = parseInt(sanityMatch[1]);
+        return { clues: newClues, sanity: newSanity };
+    }
+
+    function applyProgress(newClues, newSanity) {
+        if (!gameActive) return;
+        if (newClues !== null && newClues >= 0 && newClues <= MAX_CLUES) clues = newClues;
+        if (newSanity !== null && newSanity >= 0 && newSanity <= 100) sanity = newSanity;
+        updateProgressUI();
+
+        if (clues >= MAX_CLUES && gameActive) {
+            gameActive = false;
+            addMessage('🏆 ВЫ ПОБЕДИЛИ! Вы собрали все улики и раскрыли тайну.', false);
+            addMessage('Нажмите «Новая игра» или выберите другую тему.', false);
+            document.getElementById('userInput').disabled = true;
+            document.getElementById('sendBtn').disabled = true;
+            setStatus("победа", false);
+        } else if (sanity <= 0 && gameActive) {
+            gameActive = false;
+            addMessage('💀 ПОРАЖЕНИЕ. Ваш рассудок не выдержал...', false);
+            addMessage('Нажмите «Новая игра» или выберите другую тему.', false);
+            document.getElementById('userInput').disabled = true;
+            document.getElementById('sendBtn').disabled = true;
+            setStatus("поражение", false);
+        }
+    }
 
     lucide.createIcons();
 
@@ -573,9 +643,18 @@
     async function callYandexGPT(userMessage, isFirstMessage = false) {
         let systemText;
         if (isFirstMessage) {
-            systemText = `Ты — мастер повествования в жанре "${currentTopic}". Напиши 4-6 предложений. Опиши время суток, погоду, звуки, освещение. Введи загадку. Закончи вопросом "Что ты делаешь?"`;
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}". 
+ЦЕЛЬ ИГРЫ: собрать ${MAX_CLUES} улик. Начальное состояние: улик 0/${MAX_CLUES}, рассудок 100%.
+ПРАВИЛА:
+- Пиши 4-6 предложений, атмосферно, на русском.
+- В конце каждого ответа обязательно указывай текущий прогресс: "Улики: X/3. Рассудок: Y%."
+- Если игрок делает что-то полезное для расследования — увеличивай улики.
+- Если игрок делает что-то опасное или глупое — снижай рассудок.
+- Первым сообщением опиши место, загадку и задай вопрос "Что ты делаешь?". Укажи прогресс: Улики: 0/3. Рассудок: 100%.`;
         } else {
-            systemText = `Ты — мастер повествования в жанре "${currentTopic}". Продолжай историю, опираясь на прошлое. Не меняй жанр. Каждый ответ заканчивай вопросом "Что ты делаешь?". Отвечай кратко: 2-4 предложения.`;
+            systemText = `Ты — мастер повествования в жанре "${currentTopic}". 
+Текущий прогресс: улик ${clues}/${MAX_CLUES}, рассудок ${sanity}%.
+Правила те же: отвечай 2-4 предложения, в конце обязательно указывай прогресс. Если нужно — меняй улики и рассудок.`;
         }
         
         let messages = [{ role: "system", text: systemText }];
@@ -593,7 +672,6 @@
             });
             
             const data = await response.json();
-            
             console.log('Ответ от прокси:', data);
             
             if (data.error) {
@@ -620,6 +698,10 @@
         if (!topic) topic = "таинственное приключение";
         currentTopic = topic;
         messagesHistory = [];
+        clues = 0;
+        sanity = 100;
+        gameActive = true;
+        updateProgressUI();
 
         document.getElementById('messagesContainer').innerHTML = '';
         document.getElementById('gameTitle').innerText = topic.length > 35 ? topic.slice(0, 35) + '…' : topic;
@@ -634,12 +716,16 @@
         setStatus("ИИ создаёт мир...", true);
 
         const firstScene = await callYandexGPT(
-            "Создай максимально детальное, атмосферное начало игры. Опиши окружение, настроение, загадку или тайну. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'",
+            "Создай детальное, атмосферное начало игры. Опиши окружение, настроение, загадку. Введи игрока в ситуацию. Закончи вопросом 'Что ты делаешь?'",
             true
         );
         
         addMessage(firstScene, false);
         messagesHistory.push({ text: firstScene, isUser: false });
+        
+        // Парсим прогресс из ответа ИИ
+        const progress = parseProgressFromText(firstScene);
+        applyProgress(progress.clues, progress.sanity);
 
         isWaiting = false;
         setStatus("ваш ход", false);
@@ -649,7 +735,7 @@
     }
 
     async function sendMessage() {
-        if (isWaiting) return;
+        if (isWaiting || !gameActive) return;
 
         const input = document.getElementById('userInput');
         const text = input.value.trim();
@@ -665,18 +751,27 @@
         const reply = await callYandexGPT(text, false);
         addMessage(reply, false);
         messagesHistory.push({ text: reply, isUser: false });
+        
+        // Парсим прогресс из ответа ИИ
+        const progress = parseProgressFromText(reply);
+        applyProgress(progress.clues, progress.sanity);
 
         isWaiting = false;
-        setStatus("ваш ход", false);
+        if (gameActive) setStatus("ваш ход", false);
         input.focus();
     }
 
     document.getElementById('startBtn').addEventListener('click', startGame);
     document.getElementById('sendBtn').addEventListener('click', sendMessage);
     document.getElementById('userInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled && !isWaiting) {
+        if (e.key === 'Enter' && !document.getElementById('sendBtn').disabled && !isWaiting && gameActive) {
             sendMessage();
         }
+    });
+    
+    // Кнопка новой игры через обновление страницы (простой способ)
+    document.getElementById('startBtn').addEventListener('click', () => {
+        // startGame уже вызывается, просто гарантируем сброс
     });
 </script>
 </body>
