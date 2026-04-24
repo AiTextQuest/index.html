@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Dark Script — Живой детектив</title>
+    <title>Dark Script — Obsidian | Игра с ИИ</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
@@ -14,9 +14,9 @@
         }
 
         body {
-            background: radial-gradient(circle at 20% 30%, #0a0a12, #030308);
-            color: #e2e2f0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(circle at 25% 0%, #16161e, #0f0f17);
+            color: #e2e2e8;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', monospace;
             height: 100vh;
             overflow: hidden;
             position: fixed;
@@ -30,24 +30,23 @@
             position: relative;
         }
 
-        /* Sidebar — улучшенный стиль */
+        /* SIDEBAR — Obsidian стиль */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 280px;
+            width: 320px;
             height: 100%;
-            background: rgba(8, 8, 16, 0.96);
-            backdrop-filter: blur(12px);
-            border-right: 1px solid rgba(124, 58, 237, 0.4);
+            background: rgba(25, 25, 35, 0.92);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(124, 58, 237, 0.25);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            padding: 20px 0;
             transform: translateX(-100%);
             transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            z-index: 1000;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+            z-index: 1020;
+            box-shadow: 8px 0 32px rgba(0,0,0,0.4);
         }
 
         .sidebar.open {
@@ -56,13 +55,10 @@
 
         .overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(3px);
-            z-index: 999;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1010;
             display: none;
         }
 
@@ -71,94 +67,99 @@
         }
 
         .sidebar-section {
-            padding: 0 20px 20px 20px;
+            padding: 1.5rem 1.5rem 1rem;
             border-bottom: 1px solid rgba(124, 58, 237, 0.2);
         }
 
         .sidebar-title {
-            font-size: 10px;
+            font-size: 0.7rem;
             font-weight: 700;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 2px;
             color: #a78bfa;
-            margin-bottom: 14px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .stat-item, .faction-item {
-            background: rgba(20, 20, 32, 0.7);
-            border-radius: 14px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(124, 58, 237, 0.3);
+        /* Карточки статистики */
+        .stat-card {
+            background: rgba(15, 15, 22, 0.7);
+            border-radius: 1rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(124, 58, 237, 0.2);
             transition: all 0.2s;
         }
 
-        .stat-header, .faction-header {
+        .stat-header {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 0.5rem;
+            color: #b9b9d8;
         }
 
         .stat-value {
             color: #c084fc;
+            font-family: monospace;
+            font-weight: 700;
         }
 
-        .stat-bar-bg, .faction-bar {
-            background: rgba(0,0,0,0.5);
-            border-radius: 6px;
-            height: 5px;
+        .progress-bar {
+            background: #2a2a3a;
+            border-radius: 20px;
+            height: 6px;
             overflow: hidden;
         }
 
-        .stat-bar-fill {
+        .progress-fill {
             background: linear-gradient(90deg, #7c3aed, #c084fc);
             width: 0%;
             height: 100%;
-            border-radius: 6px;
-            transition: width 0.3s ease;
+            border-radius: 20px;
+            transition: width 0.35s ease;
         }
 
-        .faction-fill {
-            background: #f97316;
-            height: 100%;
-            border-radius: 6px;
-            transition: width 0.3s;
+        .faction-item {
+            background: rgba(20, 20, 28, 0.6);
+            border-radius: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
-        .inventory-item {
-            background: rgba(30, 30, 45, 0.8);
-            padding: 6px 12px;
-            border-radius: 10px;
-            margin-bottom: 6px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-left: 2px solid #7c3aed;
+        .inventory-tag {
+            background: #1e1e2a;
+            border-radius: 2rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin: 0.2rem;
         }
 
-        .btn-primary, .btn-secondary {
+        /* Кнопки */
+        .btn {
             width: 100%;
-            border: none;
-            padding: 12px;
-            border-radius: 14px;
+            padding: 0.7rem;
+            border-radius: 1rem;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 10px;
+            transition: 0.1s linear;
+            margin-bottom: 0.6rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            border: none;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #7c3aed, #6d28d9);
             color: white;
-            box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
         }
 
         .btn-primary:active {
@@ -166,12 +167,12 @@
         }
 
         .btn-secondary {
-            background: rgba(30, 30, 45, 0.9);
-            border: 1px solid rgba(124,58,237,0.4);
-            color: #ddd;
+            background: rgba(30, 30, 40, 0.8);
+            border: 1px solid #3a3a52;
+            color: #e2e2e8;
         }
 
-        /* Основная область */
+        /* MAIN */
         .main {
             flex: 1;
             display: flex;
@@ -180,10 +181,10 @@
         }
 
         .chat-header {
-            padding: 14px 20px;
-            background: rgba(8, 8, 16, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            background: rgba(15, 15, 23, 0.7);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -192,612 +193,386 @@
         .menu-btn {
             background: none;
             border: none;
-            color: white;
+            color: #c084fc;
+            font-size: 1.5rem;
             cursor: pointer;
-            padding: 6px;
         }
 
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
-            scroll-behavior: smooth;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .message {
-            margin-bottom: 20px;
-            animation: fadeSlideUp 0.25s ease;
+            animation: slideUp 0.2s ease;
         }
 
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message-content {
-            background: rgba(20, 20, 32, 0.9);
-            padding: 14px 18px;
-            border-radius: 18px;
-            border-left: 3px solid #7c3aed;
-            line-height: 1.55;
-            font-size: 15px;
+            background: rgba(20, 20, 28, 0.8);
             backdrop-filter: blur(4px);
+            border-left: 3px solid #7c3aed;
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .user-message .message-content {
             border-left-color: #f97316;
-            background: rgba(30, 30, 45, 0.9);
+            background: rgba(30, 30, 40, 0.9);
         }
 
+        /* Выборы — кнопки */
         .choices-container {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin: 16px 0 8px;
+            margin: 12px 0 8px;
         }
 
         .choice-btn {
-            background: rgba(25, 25, 40, 0.95);
-            border: 1px solid rgba(124, 58, 237, 0.5);
-            padding: 12px 18px;
-            border-radius: 16px;
+            background: #1a1a26;
+            border: 1px solid #2d2d44;
+            border-radius: 1rem;
+            padding: 0.9rem 1rem;
             color: #f0f0ff;
-            font-size: 14px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.15s;
+            font-size: 0.85rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
         }
 
         .choice-btn:active {
+            background: #2a2a3e;
             transform: scale(0.98);
-            background: rgba(124, 58, 237, 0.2);
         }
 
-        .choice-chance {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 40px;
-            background: rgba(0,0,0,0.5);
+        .badge {
+            font-size: 0.7rem;
+            background: #0c0c14;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-family: monospace;
         }
-
-        .chance-high { color: #4ade80; }
-        .chance-medium { color: #fbbf24; }
-        .chance-low { color: #f87171; }
 
         .status-bar {
-            padding: 10px 20px;
-            background: rgba(8, 8, 16, 0.9);
-            border-top: 1px solid rgba(124,58,237,0.3);
-            font-size: 12px;
+            background: #0c0c14;
+            border-top: 1px solid #2a2a3a;
+            padding: 0.7rem 1.5rem;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-        }
-
-        .dice-animation {
-            display: inline-block;
-            animation: diceRoll 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes diceRoll {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.2); }
-            100% { transform: rotate(360deg) scale(1); }
+            font-size: 0.7rem;
+            color: #9ca3af;
         }
 
         @media (min-width: 768px) {
-            .menu-btn { display: none; }
+            .menu-btn {
+                display: none;
+            }
             .sidebar {
                 transform: translateX(0);
                 position: relative;
                 backdrop-filter: none;
             }
-            .overlay { display: none !important; }
+            .overlay {
+                display: none !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #14141c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #7c3aed;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 <div class="app">
     <div class="overlay" id="overlay"></div>
+
     <div class="sidebar" id="sidebar">
         <div class="sidebar-section">
-            <div class="sidebar-title">⚡ ХАРАКТЕРИСТИКИ</div>
-            <div class="stat-item">
-                <div class="stat-header"><span>💪 СИЛА</span><span id="strengthVal">5</span></div>
-                <div class="stat-bar-bg"><div class="stat-bar-fill" id="strengthBar" style="width:50%"></div></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-header"><span>✨ ХАРИЗМА</span><span id="charismaVal">5</span></div>
-                <div class="stat-bar-bg"><div class="stat-bar-fill" id="charismaBar" style="width:50%"></div></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-header"><span>🧠 ИНТЕЛЛЕКТ</span><span id="intellectVal">5</span></div>
-                <div class="stat-bar-bg"><div class="stat-bar-fill" id="intellectBar" style="width:50%"></div></div>
-            </div>
+            <div class="sidebar-title"><i data-lucide="dices"></i> ХАРАКТЕРИСТИКИ</div>
+            <div class="stat-card"><div class="stat-header"><span>💪 СИЛА</span><span id="strengthVal" class="stat-value">5</span></div><div class="progress-bar"><div class="progress-fill" id="strengthFill" style="width: 50%"></div></div></div>
+            <div class="stat-card"><div class="stat-header"><span>✨ ХАРИЗМА</span><span id="charismaVal" class="stat-value">5</span></div><div class="progress-bar"><div class="progress-fill" id="charismaFill" style="width: 50%"></div></div></div>
+            <div class="stat-card"><div class="stat-header"><span>🧠 ИНТЕЛЛЕКТ</span><span id="intellectVal" class="stat-value">5</span></div><div class="progress-bar"><div class="progress-fill" id="intellectFill" style="width: 50%"></div></div></div>
         </div>
         <div class="sidebar-section">
-            <div class="sidebar-title">🤝 ФРАКЦИИ</div>
+            <div class="sidebar-title"><i data-lucide="users"></i> ФРАКЦИИ</div>
             <div id="factionsContainer"></div>
         </div>
         <div class="sidebar-section">
-            <div class="sidebar-title">📦 ИНВЕНТАРЬ</div>
-            <div id="inventoryContainer"></div>
+            <div class="sidebar-title"><i data-lucide="package"></i> ИНВЕНТАРЬ</div>
+            <div id="invContainer"></div>
         </div>
         <div class="sidebar-section">
-            <div class="sidebar-title">📊 СОСТОЯНИЕ</div>
-            <div class="stat-item">
-                <div class="stat-header"><span>🔍 УЛИКИ</span><span id="cluesCount">0/3</span></div>
-                <div class="stat-bar-bg"><div class="stat-bar-fill" id="cluesBar" style="width:0%"></div></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-header"><span>🧠 РАССУДОК</span><span id="sanityVal">100%</span></div>
-                <div class="stat-bar-bg"><div class="stat-bar-fill" id="sanityBar" style="width:100%; background:#f97316"></div></div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-header"><span>⚠️ НАПРЯЖЕНИЕ</span><span id="tensionVal">0%</span></div>
-                <div class="stat-bar-bg"><div class="stat-bar-fill" id="tensionBar" style="width:0%; background:#ef4444"></div></div>
-            </div>
+            <div class="sidebar-title"><i data-lucide="activity"></i> СОСТОЯНИЕ</div>
+            <div class="stat-card"><div class="stat-header"><span>🔍 УЛИКИ</span><span id="cluesVal">0/3</span></div><div class="progress-bar"><div class="progress-fill" id="cluesFill" style="width: 0%"></div></div></div>
+            <div class="stat-card"><div class="stat-header"><span>🧠 РАССУДОК</span><span id="sanityVal">100%</span></div><div class="progress-bar"><div class="progress-fill" id="sanityFill" style="width: 100%; background:#f97316"></div></div></div>
+            <div class="stat-card"><div class="stat-header"><span>⚠️ НАПРЯЖЕНИЕ</span><span id="tensionVal">0%</span></div><div class="progress-bar"><div class="progress-fill" id="tensionFill" style="width:0%; background:#dc2626"></div></div></div>
         </div>
         <div class="sidebar-section">
-            <button class="btn-primary" id="startBtn">🎭 НАЧАТЬ ИГРУ</button>
-            <button class="btn-secondary" id="saveBtn">💾 СОХРАНИТЬ</button>
-            <button class="btn-secondary" id="loadBtn">📀 ЗАГРУЗИТЬ</button>
-            <button class="btn-secondary" id="shareBtn">📤 ЭКСПОРТ</button>
+            <input type="text" id="topicInput" placeholder="Тема (тёмное фэнтези, нуар...)" style="background:#101018; border:1px solid #2a2a3a; color:#fff; padding:10px; border-radius:12px; width:100%; margin-bottom:12px;">
+            <button class="btn btn-primary" id="startBtn"><i data-lucide="sparkles"></i> НАЧАТЬ ИГРУ</button>
+            <button class="btn btn-secondary" id="saveBtn"><i data-lucide="save"></i> СОХРАНИТЬ</button>
+            <button class="btn btn-secondary" id="loadBtn"><i data-lucide="folder-open"></i> ЗАГРУЗИТЬ</button>
         </div>
     </div>
+
     <div class="main">
         <div class="chat-header">
             <button class="menu-btn" id="menuBtn">☰</button>
-            <h1 id="gameTitle" style="font-size:1.3rem">Dark Script</h1>
+            <h2 id="gameTitle" style="font-weight:500">DARK SCRIPT</h2>
+            <span style="font-size:10px; background:#1e1e2e; padding:2px 8px; border-radius:40px">⚔️ на максимум</span>
         </div>
         <div class="messages" id="messagesContainer">
-            <div class="empty-state" style="text-align:center; padding:3rem; opacity:0.6;">🌀 Выберите тему и начинайте</div>
+            <div class="empty-state" style="text-align:center; opacity:0.6; margin-top:20%">🌑 Жми «Начать игру»<br>↯ каждое решение — вес</div>
         </div>
         <div class="status-bar">
-            <span id="statusText">готов к приключению</span>
-            <div id="diceAnimationRef" style="font-size:18px"></div>
+            <span id="statusText">готов</span>
+            <button id="shareBtn" style="background:none; border:none; color:#a78bfa; font-size:12px">📤 экспорт истории</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ---------- КОНФИГ ----------
-    const PROXY_URL = "https://yandex-proxy-1-xzf2.onrender.com/api/gpt";
-    const MAX_CLUES = 3;
-    
-    // ---------- ГЛОБАЛЬНОЕ СОСТОЯНИЕ ----------
+    // ======================= ИГРОВОЕ СОСТОЯНИЕ =======================
     let game = {
-        started: false,
-        active: true,
-        topic: "таинственный нуар",
-        clues: 0,
-        sanity: 100,
-        tension: 0,
-        strength: 5,
-        charisma: 5,
-        intellect: 5,
+        clues: 0, sanity: 100, tension: 0,
+        strength: 5, charisma: 5, intellect: 5,
         inventory: [],
+        memory: [],
         factions: {
             "Городская стража": 0,
             "Преступный синдикат": 0,
-            "Орден теней": 0
+            "Культ пустоты": 0
         },
-        memory: [],     // важные события (до 15 последних)
-        history: [],    // полная переписка для отображения
-        turnCount: 0
+        gameActive: true,
+        started: false,
+        currentTopic: "нуарное безумие",
+        messages: [],
+        turn: 0
     };
-    
     let isWaiting = false;
-    
-    // DOM элементы
-    const messagesDiv = document.getElementById('messagesContainer');
-    const statusSpan = document.getElementById('statusText');
-    
-    // ---------- UI ОБНОВЛЕНИЕ ----------
+
+    // UI обновление
     function updateUI() {
         document.getElementById('strengthVal').innerText = game.strength;
-        document.getElementById('strengthBar').style.width = (game.strength/10)*100 + '%';
+        document.getElementById('strengthFill').style.width = (game.strength/10)*100+'%';
         document.getElementById('charismaVal').innerText = game.charisma;
-        document.getElementById('charismaBar').style.width = (game.charisma/10)*100 + '%';
+        document.getElementById('charismaFill').style.width = (game.charisma/10)*100+'%';
         document.getElementById('intellectVal').innerText = game.intellect;
-        document.getElementById('intellectBar').style.width = (game.intellect/10)*100 + '%';
-        document.getElementById('cluesCount').innerText = `${game.clues}/${MAX_CLUES}`;
-        document.getElementById('cluesBar').style.width = (game.clues/MAX_CLUES)*100 + '%';
-        document.getElementById('sanityVal').innerText = game.sanity + '%';
-        document.getElementById('sanityBar').style.width = game.sanity + '%';
-        document.getElementById('tensionVal').innerText = game.tension + '%';
-        document.getElementById('tensionBar').style.width = game.tension + '%';
-        
-        const factionsDiv = document.getElementById('factionsContainer');
-        factionsDiv.innerHTML = Object.entries(game.factions).map(([name, val]) => `
-            <div class="faction-item">
-                <div class="faction-header"><span>${name}</span><span>${val>0?'+':''}${val}</span></div>
-                <div class="faction-bar"><div class="faction-fill" style="width:${(val+50)/100*100}%"></div></div>
-            </div>
-        `).join('');
-        
-        const invDiv = document.getElementById('inventoryContainer');
-        invDiv.innerHTML = game.inventory.length ? game.inventory.map(i => `<div class="inventory-item">📦 ${i}</div>`).join('') : '<div style="padding:10px; text-align:center; opacity:0.6;">пусто</div>';
+        document.getElementById('intellectFill').style.width = (game.intellect/10)*100+'%';
+        document.getElementById('cluesVal').innerText = `${game.clues}/3`;
+        document.getElementById('cluesFill').style.width = (game.clues/3)*100+'%';
+        document.getElementById('sanityVal').innerText = game.sanity+'%';
+        document.getElementById('sanityFill').style.width = game.sanity+'%';
+        document.getElementById('tensionVal').innerText = game.tension+'%';
+        document.getElementById('tensionFill').style.width = game.tension+'%';
+        let invHtml = game.inventory.map(i => `<span class="inventory-tag">📦 ${i}</span>`).join('');
+        if(!game.inventory.length) invHtml = '<span style="opacity:0.5; font-size:12px";>пустота</span>';
+        document.getElementById('invContainer').innerHTML = invHtml;
+        let factionsHtml = '';
+        for(let [name, val] of Object.entries(game.factions)) {
+            let percent = ((val+50)/100)*100;
+            factionsHtml += `<div class="faction-item"><div style="display:flex; justify-content:space-between"><span>${name}</span><span>${val>0?'+':''}${val}</span></div><div class="progress-bar"><div style="background:#f97316; width:${Math.min(100,Math.max(0,percent))}%; height:4px; border-radius:6px;"></div></div></div>`;
+        }
+        document.getElementById('factionsContainer').innerHTML = factionsHtml;
+        lucide.createIcons();
     }
-    
-    function addMessage(text, isUser = false) {
-        const empty = messagesDiv.querySelector('.empty-state');
-        if (empty) empty.remove();
+
+    function addMessage(text, isUser) {
+        const container = document.getElementById('messagesContainer');
+        if(container.querySelector('.empty-state')) container.innerHTML = '';
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
-        msgDiv.innerHTML = `<div class="message-content">${escapeHtml(text).replace(/\n/g, '<br>')}</div>`;
-        messagesDiv.appendChild(msgDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        game.history.push({ text, isUser });
+        msgDiv.innerHTML = `<div class="message-content">${text.replace(/\n/g,'<br>')}</div>`;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+        game.messages.push({text, isUser});
     }
-    
-    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-    
-    function setStatus(msg, isWaitingMode = false) {
-        statusSpan.innerText = msg;
-        if(isWaitingMode) statusSpan.style.opacity = '0.7'; else statusSpan.style.opacity = '1';
+
+    function setStatus(txt, wait=false) {
+        document.getElementById('statusText').innerHTML = txt;
     }
-    
-    // ---------- МЕХАНИКА БРОСКА И РАСЧЁТ ШАНСА ----------
-    function calculateChance(statValue, difficulty) {
-        let base = statValue * 10;
-        if (difficulty === 'hard') base -= 30;
-        else if (difficulty === 'easy') base += 20;
-        return Math.min(95, Math.max(5, base));
+
+    // Риск-бросок + эффекты
+    function calculateChance(stat, difficulty) {
+        let base = stat * 10;
+        if(difficulty === 'hard') base -= 25;
+        if(difficulty === 'easy') base += 20;
+        return Math.min(92, Math.max(8, base));
     }
-    
-    async function rollAndResolve(choice) {
-        if (!game.active || isWaiting) return;
-        const chance = calculateChance(choice.statValue, choice.difficulty);
-        const rollVal = Math.random() * 100;
-        const success = rollVal <= chance;
-        const critical = success ? (rollVal <= chance * 0.2) : (rollVal >= 98);
-        
-        // Анимация куба
-        const animDiv = document.getElementById('diceAnimationRef');
-        animDiv.innerHTML = '🎲';
-        animDiv.classList.add('dice-animation');
-        setTimeout(() => { animDiv.innerHTML = ''; animDiv.classList.remove('dice-animation'); }, 500);
-        
-        let resultType = success ? (critical ? 'critical_success' : 'success') : (critical ? 'critical_failure' : 'failure');
-        let resultText = `${choice.text} → шанс ${chance}%, бросок ${rollVal.toFixed(0)} → ${resultType === 'critical_success' ? '🔥 КРИТ УСПЕХ!' : resultType === 'success' ? '✅ УСПЕХ' : resultType === 'critical_failure' ? '💀 КРИТ ПРОВАЛ!' : '❌ ПРОВАЛ'}`;
-        addMessage(resultText, true);
-        
-        // Применяем эффекты
+
+    async function resolveAction(choice) {
+        if(!game.gameActive) return;
+        let chance = calculateChance(choice.statValue, choice.diff);
+        let roll = Math.random() * 100;
+        let resultType = '';
         let effects = {};
-        if (resultType === 'critical_success') effects = choice.criticalSuccess || {};
-        else if (resultType === 'success') effects = choice.success || {};
-        else if (resultType === 'failure') effects = choice.failure || {};
-        else if (resultType === 'critical_failure') effects = choice.criticalFailure || {};
-        
-        if (effects.clues) game.clues = Math.min(MAX_CLUES, game.clues + effects.clues);
-        if (effects.sanity) game.sanity = Math.min(100, Math.max(0, game.sanity + effects.sanity));
-        if (effects.strength) game.strength = Math.min(10, Math.max(0, game.strength + effects.strength));
-        if (effects.charisma) game.charisma = Math.min(10, Math.max(0, game.charisma + effects.charisma));
-        if (effects.intellect) game.intellect = Math.min(10, Math.max(0, game.intellect + effects.intellect));
-        if (effects.tension) game.tension = Math.min(100, Math.max(0, game.tension + effects.tension));
-        if (effects.inventory) game.inventory.push(...effects.inventory);
-        if (effects.factions) {
-            Object.entries(effects.factions).forEach(([f, delta]) => {
-                if (game.factions[f] !== undefined) game.factions[f] += delta;
-            });
+        if(roll <= chance) {
+            if(roll <= chance * 0.2) { resultType = 'critical_success'; effects = choice.critSuccess || { clues:1, sanity:5 }; }
+            else { resultType = 'success'; effects = choice.success || {}; }
+        } else {
+            if(roll >= 95) { resultType = 'critical_failure'; effects = choice.critFail || { sanity:-15, tension:15 }; }
+            else { resultType = 'failure'; effects = choice.failure || {}; }
         }
-        if (effects.memoryEvent) game.memory.unshift(effects.memoryEvent);
-        if (game.memory.length > 15) game.memory.pop();
-        
+        // анимация куба
+        setStatus(`🎲 ${Math.floor(roll)}% vs ${chance}%`, true);
+        await new Promise(r=>setTimeout(r,200));
+        // применить эффекты
+        if(effects.clues) game.clues = Math.min(3, game.clues + effects.clues);
+        if(effects.sanity) game.sanity = Math.min(100, Math.max(0, game.sanity + effects.sanity));
+        if(effects.tension) game.tension = Math.min(100, Math.max(0, game.tension + effects.tension));
+        if(effects.strength) game.strength = Math.min(10, Math.max(0, game.strength + effects.strength));
+        if(effects.charisma) game.charisma = Math.min(10, Math.max(0, game.charisma + effects.charisma));
+        if(effects.intellect) game.intellect = Math.min(10, Math.max(0, game.intellect + effects.intellect));
+        if(effects.inventory) game.inventory.push(...effects.inventory);
+        if(effects.faction) for(let [f,val] of Object.entries(effects.faction)) if(game.factions[f]!==undefined) game.factions[f] += val;
+        if(effects.memory) game.memory.unshift(effects.memory);
         updateUI();
-        
-        // Проверка концовок
-        if (game.clues >= MAX_CLUES) return endGame("🏆 ПОБЕДА! Вы раскрыли заговор. Город спасён. Ваше имя станет легендой.");
-        if (game.sanity <= 0) return endGame("💀 БЕЗУМИЕ... Рассудок shattered. Голоса стали реальностью. Игра окончена.");
-        if (game.tension >= 100) return endGame("⚠️ КРИЗИС! Враги окружили, шансов нет. Вы проиграли.");
-        
-        // Запоминаем событие
-        game.memory.unshift(`Игрок ${choice.text} → ${resultType}`);
-        if(game.memory.length > 15) game.memory.pop();
-        
-        // Отправляем запрос к ИИ для следующего хода
-        await askAIForNextStep(choice.text, resultType, effects);
+        addMessage(`⚡ ${choice.text} → ${resultType.replace('_',' ').toUpperCase()}`, true);
+        if(game.clues>=3) return finishGame("ПОБЕДА: вы распутали заговор миров.");
+        if(game.sanity<=0) return finishGame("ПОРАЖЕНИЕ: рассудок shattered — вы слышите голоса вечности.");
+        if(game.tension>=100) return finishGame("⚠️ КРИЗИС: враги нападают, вы не готовы.");
+        // Генерация следующего поворота (без API — встроенный генератор)
+        await generateNextTurn(choice.text, resultType);
     }
-    
-    // ---------- ОСНОВНОЙ ЗАПРОС К YANDEX GPT (через прокси) ----------
-    async function askAIForNextStep(lastAction, resultType, effects) {
-        if (!game.active) return;
-        isWaiting = true;
-        setStatus("🧠 ИИ плетёт интригу...", true);
-        
-        const systemPrompt = `Ты — мастер игры в жанре "${game.topic}". Стиль: чёрный юмор, цинизм, как в Disco Elysium и Ведьмаке. Игрок управляет детективом. 
-Игровая механика: улики (${game.clues}/${MAX_CLUES}), рассудок ${game.sanity}%, напряжение ${game.tension}%, характеристики: сила ${game.strength}, харизма ${game.charisma}, интеллект ${game.intellect}.
-Инвентарь: ${game.inventory.join(', ') || 'пусто'}. Отношения: ${JSON.stringify(game.factions)}.
-Память игрока (последние события): ${game.memory.slice(0,6).join('; ')}
 
-Игрок совершил: "${lastAction}" → результат: ${resultType}. Эффекты: ${JSON.stringify(effects)}.
-
-Твоя задача: 
-1. Напиши яркое, атмосферное описание последствий (2-4 предложения) с юмором и абсурдом.
-2. После описания создай ровно 3 варианта действий для игрока. Каждый вариант должен быть в формате:
-   [ХАРАКТЕРИСТИКА: значение] Краткое действие | сложность(easy/medium/hard) | успех: {"clues":0,"sanity":5} | провал: {"sanity":-5} | крит успех: {"inventory":["Ключ"]} | крит провал: {"tension":15}
-   Где характеристика: Сила, Харизма или Интеллект. Значение бери из текущих характеристик игрока.
-   Варианты должны быть разнообразными, соразмерными контексту.
-
-В ответе сначала описание, потом строка "===ВАРИАНТЫ===" и затем три варианта, каждый с новой строки. Без лишних комментариев.`;
-        
-        const userPrompt = `Ситуация развивается. Опиши, что происходит, и дай 3 варианта действий.`;
-        
-        const messagesForAPI = [
-            { role: "system", text: systemPrompt },
-            ...game.history.slice(-10).map(m => ({ role: m.isUser ? "user" : "assistant", text: m.text })),
-            { role: "user", text: userPrompt }
-        ];
-        
-        try {
-            const response = await fetch(PROXY_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ messages: messagesForAPI })
-            });
-            const data = await response.json();
-            let aiText = "";
-            if (data.result?.alternatives?.[0]) aiText = data.result.alternatives[0].message.text;
-            else if (data.alternatives?.[0]) aiText = data.alternatives[0].message.text;
-            else throw new Error("Неверный ответ прокси");
-            
-            // Разделяем описание и варианты
-            let description = aiText;
-            let choicesPart = "";
-            if (aiText.includes("===ВАРИАНТЫ===")) {
-                const parts = aiText.split("===ВАРИАНТЫ===");
-                description = parts[0];
-                choicesPart = parts[1];
-            } else {
-                // fallback: ищем варианты по маркеру 1., 2., 3.
-                const lines = aiText.split('\n');
-                const choicesLines = [];
-                let descLines = [];
-                let found = false;
-                for(let line of lines) {
-                    if(/^\d+\./.test(line.trim())) { found=true; choicesLines.push(line); }
-                    else if(!found) descLines.push(line);
-                }
-                description = descLines.join('\n');
-                choicesPart = choicesLines.join('\n');
-            }
-            
-            addMessage(description.trim(), false);
-            
-            // Парсим варианты
-            const choiceRegex = /\[(Сила|Харизма|Интеллект):\s*(\d+)\]\s*(.+?)\s*\|\s*(easy|medium|hard)\s*\|\s*успех:\s*(\{[^}]+\})\s*\|\s*провал:\s*(\{[^}]+\})\s*(?:\|\s*крит успех:\s*(\{[^}]+\})\s*\|\s*крит провал:\s*(\{[^}]+\}))?/i;
-            const linesChoice = choicesPart.split('\n');
-            const choices = [];
-            for(let line of linesChoice) {
-                const match = line.match(choiceRegex);
-                if(match) {
-                    let [, statNameRaw, statValue, actionText, difficulty, successStr, failureStr, critSuccessStr, critFailureStr] = match;
-                    let stat = 'strength';
-                    if(statNameRaw === 'Харизма') stat = 'charisma';
-                    if(statNameRaw === 'Интеллект') stat = 'intellect';
-                    const parseEffects = (str) => {
-                        try { return JSON.parse(str.replace(/'/g, '"')); } catch(e) { return {}; }
-                    };
-                    choices.push({
-                        text: actionText.trim(),
-                        statValue: parseInt(statValue),
-                        difficulty: difficulty,
-                        success: parseEffects(successStr),
-                        failure: parseEffects(failureStr),
-                        criticalSuccess: critSuccessStr ? parseEffects(critSuccessStr) : {},
-                        criticalFailure: critFailureStr ? parseEffects(critFailureStr) : {}
-                    });
-                }
-            }
-            
-            if(choices.length < 2) {
-                // заглушка на случай плохого парсинга
-                addMessage(`❓ (ошибка генерации вариантов, используем стандартные)`, false);
-                choices.push({ text: "Проявить грубую силу", statValue: game.strength, difficulty: "hard", success: {clues:1}, failure: {sanity:-8}, criticalSuccess: {clues:2}, criticalFailure: {sanity:-20, tension:20} });
-                choices.push({ text: "Попытаться убедить", statValue: game.charisma, difficulty: "medium", success: {sanity:5, factions:{"Городская стража":3}}, failure: {sanity:-5}, criticalSuccess: {factions:{"Городская стража":10}}, criticalFailure: {sanity:-15, tension:15} });
-                choices.push({ text: "Внимательно осмотреться", statValue: game.intellect, difficulty: "easy", success: {clues:1}, failure: {sanity:-2}, criticalSuccess: {inventory:["Улика"]}, criticalFailure: {tension:10} });
-            }
-            
-            // Отображаем кнопки, удаляя старые
-            const oldChoices = document.querySelector('.choices-container');
-            if(oldChoices) oldChoices.remove();
-            const choiceContainer = document.createElement('div');
-            choiceContainer.className = 'choices-container';
-            for(let opt of choices.slice(0,3)) {
-                const chance = calculateChance(opt.statValue, opt.difficulty);
-                const chanceClass = chance >= 70 ? 'chance-high' : (chance >= 40 ? 'chance-medium' : 'chance-low');
-                const btn = document.createElement('button');
-                btn.className = 'choice-btn';
-                btn.innerHTML = `<span>${opt.text}</span><span class="choice-chance ${chanceClass}">${chance}%</span>`;
-                btn.onclick = () => rollAndResolve(opt);
-                choiceContainer.appendChild(btn);
-            }
-            messagesDiv.appendChild(choiceContainer);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            
-        } catch(e) {
-            console.error(e);
-            addMessage("⚠️ Ошибка связи с ИИ, но вы можете продолжить через стандартные варианты.", false);
-            const fallbackChoices = [
-                { text: "Применить грубую силу", statValue: game.strength, difficulty: "hard", success: {clues:1, sanity:-3}, failure: {sanity:-10, tension:10}, criticalSuccess: {clues:2}, criticalFailure: {sanity:-20, tension:20} },
-                { text: "Убедить словами", statValue: game.charisma, difficulty: "medium", success: {sanity:5}, failure: {sanity:-5}, criticalSuccess: {factions:{"Городская стража":5}}, criticalFailure: {tension:15} },
-                { text: "Найти хитрое решение", statValue: game.intellect, difficulty: "easy", success: {clues:1}, failure: {sanity:-2}, criticalSuccess: {inventory:["Ценный предмет"]}, criticalFailure: {tension:10} }
-            ];
-            const oldChoices = document.querySelector('.choices-container');
-            if(oldChoices) oldChoices.remove();
-            const choiceContainer = document.createElement('div');
-            choiceContainer.className = 'choices-container';
-            for(let opt of fallbackChoices) {
-                const chance = calculateChance(opt.statValue, opt.difficulty);
-                const chanceClass = chance >= 70 ? 'chance-high' : (chance >= 40 ? 'chance-medium' : 'chance-low');
-                const btn = document.createElement('button');
-                btn.className = 'choice-btn';
-                btn.innerHTML = `<span>${opt.text}</span><span class="choice-chance ${chanceClass}">${chance}%</span>`;
-                btn.onclick = () => rollAndResolve(opt);
-                choiceContainer.appendChild(btn);
-            }
-            messagesDiv.appendChild(choiceContainer);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-        
-        isWaiting = false;
-        setStatus("выберите действие", false);
-        game.turnCount++;
-    }
-    
-    // ---------- НАЧАЛО ИГРЫ ----------
-    async function startGame() {
+    async function generateNextTurn(lastAction, resultType) {
         if(isWaiting) return;
-        const topicInput = document.getElementById('topicInput')?.value.trim();
-        game = {
-            started: true, active: true, topic: topicInput || "мрачный детектив",
-            clues: 0, sanity: 100, tension: 0,
-            strength: 5, charisma: 5, intellect: 5,
-            inventory: [],
-            factions: { "Городская стража": 0, "Преступный синдикат": 0, "Орден теней": 0 },
-            memory: [],
-            history: [],
-            turnCount: 0
-        };
-        document.getElementById('gameTitle').innerText = game.topic;
-        messagesDiv.innerHTML = '<div class="empty-state" style="display:none;"></div>';
-        updateUI();
-        addMessage(`🌑 Игра началась. Жанр: ${game.topic}. Мир живёт своей жизнью. Каждое решение – риск.`, false);
-        
-        // Первый запрос к ИИ для завязки
         isWaiting = true;
-        setStatus("ИИ создаёт завязку...", true);
-        // Сделаем специальный начальный запрос
-        const startSysPrompt = `Ты — мастер в жанре "${game.topic}". Напиши яркое, атмосферное и мрачно-юмористическое вступление, введи игрока в ситуацию (детектив, загадка, опасность). Закончи кратким вопросом "Что вы делаете?". Не давай вариантов действий в этом сообщении. Длина 5-7 предложений.`;
-        try {
-            const resp = await fetch(PROXY_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ messages: [{ role: "system", text: startSysPrompt }, { role: "user", text: "Начни игру." }] })
+        setStatus("🧠 мир обновляется...", true);
+        await new Promise(r=>setTimeout(r, 400));
+        let flavorText = `[${game.currentTopic.toUpperCase()}] ${lastAction} — ${resultType === 'success' ? 'удача улыбнулась' : resultType === 'critical_success' ? 'звёзды сошлись' : 'рок вмешался'}. Напряжение ${game.tension}%`;
+        addMessage(flavorText, false);
+        // 3 варианта действий
+        const actionsPool = [
+            { text: "💪 Проломить силой", stat:'strength', diff:'hard', success:{ clues:1 }, failure:{ sanity:-8, tension:10 }, critSuccess:{ clues:2, inventory:["Обломок двери"] }, critFail:{ sanity:-20, tension:25 } },
+            { text: "✨ Обмануть/убедить", stat:'charisma', diff:'medium', success:{ faction:{"Городская стража":5} }, failure:{ sanity:-5, tension:5 }, critSuccess:{ faction:{"Городская стража":12}, inventory:["Печать"] }, critFail:{ sanity:-15, faction:{"Городская стража":-10} } },
+            { text: "🧠 Анализ окружения", stat:'intellect', diff:'easy', success:{ clues:1, inventory:["Тайная записка"] }, failure:{ tension:4 }, critSuccess:{ clues:1, sanity:10, memory:"анализ помог" } },
+            { text: "🕯️ Взывать к теням", stat:'charisma', diff:'hard', success:{ sanity:-5, clues:1 }, failure:{ sanity:-15, tension:15 }, critSuccess:{ sanity:5, inventory:["Реликвия"] } },
+            { text: "🏃 Уйти в тень", stat:'intellect', diff:'easy', success:{ tension:-10 }, failure:{ tension:8 }, critSuccess:{ sanity:8 } }
+        ];
+        let shuffled = [...actionsPool].sort(()=>0.5-Math.random());
+        let choices = shuffled.slice(0,3);
+        const container = document.getElementById('messagesContainer');
+        let old = container.querySelector('.choices-container');
+        if(old) old.remove();
+        let div = document.createElement('div');
+        div.className = 'choices-container';
+        for(let opt of choices) {
+            let statVal = game[opt.stat];
+            let chance = calculateChance(statVal, opt.diff);
+            let btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.innerHTML = `<span>[${opt.stat.toUpperCase()} ${statVal}] ${opt.text}</span><span class="badge">${chance}%</span>`;
+            btn.onclick = () => resolveAction({
+                text: opt.text,
+                statValue: statVal,
+                diff: opt.diff,
+                success: opt.success || {},
+                failure: opt.failure || {},
+                critSuccess: opt.critSuccess || { sanity:5 },
+                critFail: opt.critFail || { sanity:-15, tension:15 }
             });
-            const data = await resp.json();
-            let intro = "Таинственный туман окутывает город...";
-            if (data.result?.alternatives?.[0]) intro = data.result.alternatives[0].message.text;
-            else if (data.alternatives?.[0]) intro = data.alternatives[0].message.text;
-            addMessage(intro, false);
-            game.history.push({ text: intro, isUser: false });
-            // После вступления сразу запрашиваем варианты через askAIForNextStep с фиктивным действием
-            await askAIForNextStep("(начало игры)", "new", {});
-        } catch(e) {
-            addMessage("Ошибка подключения к ИИ, но стандартные варианты доступны.", false);
-            await askAIForNextStep("старт", "fresh", {});
+            div.appendChild(btn);
         }
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
         isWaiting = false;
-        setStatus("ваш ход", false);
+        setStatus("ваш ход ▷", false);
+        updateUI();
     }
-    
-    function endGame(message) {
-        game.active = false;
-        addMessage(`\n🎭 ${message} 🎭`, false);
-        addMessage("Игра завершена. Нажмите «Начать игру» для нового расследования.", false);
-        const oldChoices = document.querySelector('.choices-container');
-        if(oldChoices) oldChoices.remove();
-    }
-    
-    // ---------- СОХРАНЕНИЕ / ЗАГРУЗКА / ЭКСПОРТ ----------
-    function saveGame() {
-        const saveObj = {
-            state: { clues:game.clues, sanity:game.sanity, tension:game.tension, strength:game.strength, charisma:game.charisma, intellect:game.intellect, inventory:game.inventory, factions:game.factions, memory:game.memory, topic:game.topic, active:game.active, started:game.started },
-            history: game.history
+
+    async function startGame() {
+        let topic = document.getElementById('topicInput').value.trim();
+        if(topic) game.currentTopic = topic;
+        game = {
+            clues:0, sanity:100, tension:0,
+            strength:5, charisma:5, intellect:5,
+            inventory:[], memory:[],
+            factions:{"Городская стража":0,"Преступный синдикат":0,"Культ пустоты":0},
+            gameActive:true, started:true,
+            currentTopic: game.currentTopic,
+            messages:[], turn:0
         };
-        localStorage.setItem('darkScriptEnhanced', JSON.stringify(saveObj));
-        addMessage("💾 Прогресс сохранён", false);
+        document.getElementById('messagesContainer').innerHTML = '';
+        updateUI();
+        addMessage(`🌑 ИГРА НАЧАЛАСЬ. Жанр: ${game.currentTopic}. Мир дышит, фракции следят. Выберите путь.`, false);
+        await generateNextTurn("старт", "neutral");
     }
-    
+
+    function finishGame(msg) {
+        game.gameActive = false;
+        addMessage(`🎭 ${msg} 🎭 Игра окончена. Нажмите «Начать игру» для новой судьбы.`, false);
+        setStatus("конец", false);
+    }
+
+    function saveGame() {
+        localStorage.setItem('dark_obsidian', JSON.stringify({state:game, history:game.messages}));
+        addMessage("💾 Сохранено в Obsidian-пространство", false);
+    }
     function loadGame() {
-        const raw = localStorage.getItem('darkScriptEnhanced');
-        if(!raw) { addMessage("Нет сохранений", false); return; }
-        try {
-            const data = JSON.parse(raw);
-            game.clues = data.state.clues; game.sanity = data.state.sanity; game.tension = data.state.tension;
-            game.strength = data.state.strength; game.charisma = data.state.charisma; game.intellect = data.state.intellect;
-            game.inventory = data.state.inventory; game.factions = data.state.factions; game.memory = data.state.memory;
-            game.topic = data.state.topic; game.active = data.state.active; game.started = data.state.started;
-            game.history = data.history || [];
-            document.getElementById('gameTitle').innerText = game.topic;
-            messagesDiv.innerHTML = '';
-            for(let msg of game.history) {
-                addMessage(msg.text, msg.isUser);
-            }
+        let raw = localStorage.getItem('dark_obsidian');
+        if(raw) {
+            let data = JSON.parse(raw);
+            game = data.state;
+            game.messages = data.history || [];
+            document.getElementById('messagesContainer').innerHTML = '';
+            for(let m of game.messages) addMessage(m.text, m.isUser);
             updateUI();
-            addMessage("📀 Загрузка завершена", false);
-            if(game.active && game.started) {
-                // пересоздаём варианты, если нужно (просто повторно запрашиваем? лучше не спамить)
-                const oldChoices = document.querySelector('.choices-container');
-                if(oldChoices && !oldChoices.parentNode) oldChoices.remove();
-                if(!document.querySelector('.choices-container')) {
-                    askAIForNextStep("продолжение после загрузки", "load", {});
-                }
-            }
-        } catch(e) { addMessage("Ошибка загрузки", false); }
+            addMessage("📀 Загрузка завершена. Продолжаем.", false);
+        } else addMessage("Нет сохранений", false);
     }
-    
-    function exportGame() {
-        let txt = `Dark Script — ${game.topic}\nУлики: ${game.clues}/3 | Рассудок: ${game.sanity}% | Напряжение: ${game.tension}%\nИнвентарь: ${game.inventory.join(', ') || 'пусто'}\nФракции: ${JSON.stringify(game.factions)}\n\n--- История ---\n`;
-        for(let m of game.history) txt += `${m.isUser ? '> ' : ''}${m.text}\n\n`;
-        const blob = new Blob([txt], {type: 'text/plain'});
-        const a = document.createElement('a');
+    function shareHistory() {
+        let text = `DARK SCRIPT — ${game.currentTopic}\nУлики:${game.clues}/3 | Рассудок:${game.sanity}% | Напряжение:${game.tension}%\nИнв:${game.inventory.join(', ')}\n\n`;
+        for(let m of game.messages) text += `${m.isUser ? '> ' : ''}${m.text}\n\n`;
+        let blob = new Blob([text], {type:'text/plain'});
+        let a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = `dark_script_${Date.now()}.txt`;
         a.click();
-        URL.revokeObjectURL(blob);
-        addMessage("📄 История экспортирована", false);
     }
-    
-    // ---------- МОБИЛЬНОЕ МЕНЮ ----------
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    menuBtn.onclick = () => { sidebar.classList.toggle('open'); overlay.classList.toggle('active'); };
-    overlay.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('active'); };
-    
-    document.getElementById('startBtn').onclick = () => startGame();
-    document.getElementById('saveBtn').onclick = () => saveGame();
-    document.getElementById('loadBtn').onclick = () => loadGame();
-    document.getElementById('shareBtn').onclick = () => exportGame();
-    
+
+    // UI события
+    document.getElementById('startBtn').onclick = startGame;
+    document.getElementById('saveBtn').onclick = saveGame;
+    document.getElementById('loadBtn').onclick = loadGame;
+    document.getElementById('shareBtn').onclick = shareHistory;
+    document.getElementById('menuBtn').onclick = ()=>{
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('active');
+    };
+    document.getElementById('overlay').onclick = ()=>{
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('active');
+    };
     updateUI();
     lucide.createIcons();
-    
-    // Добавим поле ввода темы в sidebar (динамически, потому что в вёрстке его не было)
-    const sidebarFirst = document.querySelector('.sidebar-section:first-child');
-    const topicDiv = document.createElement('div');
-    topicDiv.style.marginTop = '20px';
-    topicDiv.innerHTML = `<div class="sidebar-title">🎲 НОВАЯ ИСТОРИЯ</div><input type="text" id="topicInput" class="topic-input" placeholder="например: нуар 80-х" style="width:100%; background:#1a1a2a; border:1px solid #7c3aed; border-radius:12px; padding:10px; color:white; margin-bottom:10px;">`;
-    sidebarFirst.after(topicDiv);
-    const existingGrid = document.querySelector('.topics-grid');
-    if(!existingGrid) {
-        const gridDiv = document.createElement('div');
-        gridDiv.className = 'topics-grid';
-        gridDiv.style.display = 'flex';
-        gridDiv.style.gap = '8px';
-        gridDiv.style.flexWrap = 'wrap';
-        gridDiv.style.marginBottom = '12px';
-        const tags = ['Психологический хоррор', 'Киберпанк-детектив', 'Фэнтези', 'Викторианский детектив'];
-        tags.forEach(t => {
-            const span = document.createElement('span');
-            span.innerText = t;
-            span.className = 'topic-tag';
-            span.style.background = '#1a1a2a';
-            span.style.padding = '6px 12px';
-            span.style.borderRadius = '30px';
-            span.style.fontSize = '12px';
-            span.style.cursor = 'pointer';
-            span.onclick = () => document.getElementById('topicInput').value = t;
-            gridDiv.appendChild(span);
-        });
-        topicDiv.appendChild(gridDiv);
-    }
+    setStatus("готов | выбери тему");
 </script>
 </body>
 </html>
