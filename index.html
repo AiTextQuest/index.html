@@ -9,21 +9,17 @@
 :root {
   --bg-primary: #0f0f14;
   --bg-secondary: #1a1a24;
-  --bg-card: #16161f;
   --border: rgba(124,58,237,0.15);
   --border-hover: rgba(124,58,237,0.5);
   --accent: #7c3aed;
-  --accent-glow: rgba(124,58,237,0.3);
   --text-primary: #e2e2e8;
   --text-secondary: #8888a0;
-  --text-muted: #55556a;
   --voice-instinct: #f59e0b;
   --voice-logic: #3b82f6;
   --voice-ego: #eab308;
   --voice-shadow: #7c3aed;
   --danger: #ef4444;
   --success: #22c55e;
-  --sanity-ok: #3b82f6;
   --font: 'Inter', sans-serif;
   --mono: 'JetBrains Mono', monospace;
 }
@@ -36,35 +32,27 @@ body {
   font-family: var(--font);
   font-size: 15px;
   line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
+  overflow: hidden;
   position: fixed;
   width: 100%;
-  height: 100%;
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--accent); }
 
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: flex; }
+.screen { display: none; height: 100vh; overflow-y: auto; }
+.screen.active { display: flex; flex-direction: column; }
 
-/* ===== ТИТУЛЬНЫЙ ===== */
-#title-screen {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 24px;
-  text-align: center;
-}
-.title-logo { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; letter-spacing: -1px; }
+/* Титульный экран */
+#title-screen { align-items: center; justify-content: center; text-align: center; gap: 32px; padding: 24px; }
+.title-logo { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; }
 .title-logo span { color: var(--accent); }
-.title-sub { color: var(--text-secondary); font-size: 14px; letter-spacing: 4px; text-transform: uppercase; margin-top: -16px; }
-.title-tagline { color: var(--text-muted); max-width: 420px; font-size: 14px; font-style: italic; }
+.title-sub { color: var(--text-secondary); font-size: 14px; letter-spacing: 4px; text-transform: uppercase; }
+.title-tagline { color: var(--text-muted); max-width: 420px; font-size: 14px; }
 
-/* ===== КНОПКИ ===== */
+/* Кнопки */
 .btn {
   background: transparent;
   color: var(--text-primary);
@@ -74,19 +62,14 @@ body {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  touch-action: manipulation;
 }
-.btn:hover { border-color: var(--border-hover); box-shadow: 0 0 20px var(--accent-glow); }
+.btn:hover { border-color: var(--border-hover); }
 .btn-accent { border-color: var(--accent); color: var(--accent); }
 .btn-accent:hover { background: var(--accent); color: #fff; }
 
-/* ===== СОЗДАНИЕ ПЕРСОНАЖА ===== */
-#char-screen {
-  flex-direction: column;
-  align-items: center;
-  padding: 48px 24px;
-  gap: 32px;
-  overflow-y: auto;
-}
+/* Выбор персонажа */
+#char-screen { padding: 48px 24px; align-items: center; gap: 32px; }
 .char-title { font-size: 18px; color: var(--text-secondary); }
 .char-quote { color: var(--text-muted); font-style: italic; text-align: center; max-width: 500px; font-size: 14px; }
 .char-options { display: flex; flex-direction: column; gap: 16px; max-width: 560px; width: 100%; }
@@ -94,52 +77,33 @@ body {
   border: 1px solid var(--border);
   padding: 20px 24px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
-.char-card:hover { border-color: var(--border-hover); box-shadow: 0 0 24px var(--accent-glow); }
+.char-card:hover { border-color: var(--border-hover); }
 .char-card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
 .char-card-stats { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; }
 .char-card-desc { font-size: 13px; color: var(--text-secondary); }
 
-/* ===== ИГРОВОЙ ЭКРАН ===== */
-#game-screen {
-  flex-direction: row;
-  height: 100vh;
-  width: 100%;
-}
-#main-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  height: 100vh;
-}
+/* Игровой экран */
+#game-screen { flex-direction: row; padding: 0; }
+#main-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100vh; }
 #top-bar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 12px 24px;
   border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
   background: var(--bg-secondary);
+  flex-shrink: 0;
 }
 .top-bar-title { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
 .top-bar-title span { color: var(--accent); }
 .top-bar-stats { display: flex; gap: 20px; font-family: var(--mono); font-size: 12px; }
 .top-stat { display: flex; align-items: center; gap: 6px; }
 .top-stat-label { color: var(--text-muted); }
-.top-stat-value { color: var(--text-primary); }
-.top-stat-value.danger { color: var(--danger); }
-.top-stat-value.warning { color: var(--voice-instinct); }
 
-#narrative-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px;
-}
+#narrative-area { flex: 1; overflow-y: auto; padding: 24px; }
 .narrative-text p { margin-bottom: 14px; line-height: 1.7; }
 .narrative-text strong { color: #fff; }
-.narrative-text em { color: var(--text-secondary); }
 
 .voice-bubble {
   border-left: 2px solid;
@@ -166,25 +130,24 @@ body {
 #choices-area {
   padding: 16px 24px 24px;
   border-top: 1px solid var(--border);
-  flex-shrink: 0;
   background: var(--bg-secondary);
+  flex-shrink: 0;
 }
 .choice-btn {
   display: block;
   width: 100%;
   text-align: left;
   background: transparent;
-  color: var(--text-primary);
   border: 1px solid var(--border);
   padding: 12px 16px;
   margin-bottom: 8px;
   font-family: var(--font);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
   touch-action: manipulation;
+  color: var(--text-primary);
 }
-.choice-btn:last-child { margin-bottom: 0; }
 .choice-btn:hover { border-color: var(--border-hover); }
 .choice-skill-tag { font-family: var(--mono); font-size: 10px; color: var(--accent); margin-left: 8px; }
 
@@ -200,7 +163,7 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15,15,20,0.9);
+  background: rgba(15,15,20,0.95);
   z-index: 1000;
   align-items: center;
   justify-content: center;
@@ -209,13 +172,11 @@ body {
 }
 #dice-overlay.active { display: flex; }
 .dice-display { font-family: var(--mono); font-size: 64px; font-weight: 700; color: var(--accent); animation: diceRoll 0.5s ease; }
-.dice-info { font-size: 14px; color: var(--text-secondary); font-family: var(--mono); }
 @keyframes diceRoll {
   0% { transform: scale(0.5) rotate(-180deg); opacity: 0; }
   100% { transform: scale(1) rotate(0); opacity: 1; }
 }
 
-/* ===== САЙДБАР ===== */
 #sidebar {
   width: 280px;
   border-left: 1px solid var(--border);
@@ -236,19 +197,11 @@ body {
 .faction-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
 .faction-value.positive { color: var(--success); }
 .faction-value.negative { color: var(--danger); }
-.faction-hidden { color: var(--text-muted); font-style: italic; font-size: 12px; }
+.faction-hidden { color: var(--text-muted); font-style: italic; }
 
-#ending-screen {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 24px;
-  padding: 32px;
-}
+#ending-screen { align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 32px; }
 .ending-title { font-size: 28px; font-weight: 700; color: var(--accent); }
 .ending-text { max-width: 520px; color: var(--text-secondary); line-height: 1.8; }
-.ending-stats { font-family: var(--mono); font-size: 13px; color: var(--text-muted); }
 
 #mobile-menu-btn {
   display: none;
@@ -262,7 +215,6 @@ body {
   width: 44px;
   height: 44px;
   cursor: pointer;
-  touch-action: manipulation;
 }
 
 .api-error {
@@ -285,8 +237,6 @@ body {
   }
   #sidebar.open { right: 0; }
   #mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
-  .top-bar-stats { gap: 12px; }
-  .choice-btn { padding: 14px 16px; font-size: 14px; }
 }
 </style>
 </head>
@@ -307,17 +257,17 @@ body {
     <div class="char-card" onclick="startGame('fist')">
       <div class="char-card-title">🥊 Руки помнят удар</div>
       <div class="char-card-stats">СИЛ 7 / ХАР 4 / ИНТ 5</div>
-      <div class="char-card-desc">Ты решал проблемы не словами. Слова — для тех, у кого есть время.</div>
+      <div class="char-card-desc">Ты решал проблемы не словами.</div>
     </div>
     <div class="char-card" onclick="startGame('tongue')">
       <div class="char-card-title">🗣️ Язык помнит ложь</div>
       <div class="char-card-stats">СИЛ 4 / ХАР 7 / ИНТ 5</div>
-      <div class="char-card-desc">Ты мог убедить человека, что дождь идёт снизу вверх.</div>
+      <div class="char-card-desc">Ты мог убедить кого угодно.</div>
     </div>
     <div class="char-card" onclick="startGame('brain')">
       <div class="char-card-title">🧠 Голова помнит почти всё</div>
       <div class="char-card-stats">СИЛ 4 / ХАР 5 / ИНТ 7</div>
-      <div class="char-card-desc">Ты видел связи там, где другие видели хаос.</div>
+      <div class="char-card-desc">Ты видел связи там, где другие — хаос.</div>
     </div>
   </div>
 </div>
@@ -327,9 +277,9 @@ body {
     <div id="top-bar">
       <div class="top-bar-title">Dark <span>Script</span></div>
       <div class="top-bar-stats">
-        <div class="top-stat"><span class="top-stat-label">🧠</span><span class="top-stat-value" id="top-sanity">65%</span></div>
-        <div class="top-stat"><span class="top-stat-label">⚡</span><span class="top-stat-value" id="top-tension">5%</span></div>
-        <div class="top-stat"><span class="top-stat-label">📎</span><span class="top-stat-value" id="top-clues">0/3</span></div>
+        <div class="top-stat"><span class="top-stat-label">🧠</span><span id="top-sanity">65%</span></div>
+        <div class="top-stat"><span class="top-stat-label">⚡</span><span id="top-tension">5%</span></div>
+        <div class="top-stat"><span class="top-stat-label">📎</span><span id="top-clues">0/3</span></div>
       </div>
     </div>
     <div id="narrative-area"></div>
@@ -380,13 +330,10 @@ body {
 </div>
 
 <script>
-// ==================== КОНФИГУРАЦИЯ ====================
-// ВАШ КЛЮЧ — ЗАМЕНИТЕ НА РАБОЧИЙ
-const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo';
-
-// ИСПРАВЛЕНО: используем OpenRouter API (работает из браузера, без CORS)
-const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const MODEL = 'anthropic/claude-3.5-sonnet';
+// ==================== КОНФИГУРАЦИЯ BOTHUB ====================
+const BOTHUB_API_URL = 'https://openai.bothub.ru/v1/chat/completions';
+const BOTHUB_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo';
+const MODEL = 'anthropic/claude-3.5-sonnet'; // или 'claude-3-opus', 'claude-3-sonnet'
 
 // ==================== СОСТОЯНИЕ ====================
 let state = {
@@ -407,13 +354,9 @@ let currentSceneData = null;
 let lastAction = null;
 let isWaiting = false;
 
-// ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
 function clamp(val, min, max) { return Math.min(max, Math.max(min, val)); }
-
-function getModifier(stat) {
-  const val = state.stats[stat] || 5;
-  return Math.floor(val / 2) - 2;
-}
+function getModifier(stat) { return Math.floor((state.stats[stat] || 5) / 2) - 2; }
+function rollD20() { return Math.floor(Math.random() * 20) + 1; }
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -437,28 +380,23 @@ function updateUI() {
   document.getElementById('bar-cha').style.width = (state.stats.charisma * 10) + '%';
   document.getElementById('bar-int').style.width = (state.stats.intelligence * 10) + '%';
   document.getElementById('bar-sanity').style.width = state.sanity + '%';
-  document.getElementById('bar-sanity').style.background = state.sanity < 30 ? '#ef4444' : '#3b82f6';
   document.getElementById('bar-tension').style.width = state.tension + '%';
   document.getElementById('clue-count').textContent = state.clues.length;
   
   const cluesDiv = document.getElementById('clues-list');
-  if (state.clues.length === 0) cluesDiv.innerHTML = '<div class="sidebar-item">Пусто...</div>';
-  else cluesDiv.innerHTML = state.clues.map(c => `<div class="sidebar-item">📎 ${c}</div>`).join('');
+  cluesDiv.innerHTML = state.clues.length ? state.clues.map(c => `<div class="sidebar-item">📎 ${c}</div>`).join('') : '<div class="sidebar-item">Пусто...</div>';
   
   const invDiv = document.getElementById('inventory-list');
-  if (state.inventory.length === 0) invDiv.innerHTML = '<div class="sidebar-item">Пусто</div>';
-  else invDiv.innerHTML = state.inventory.map(i => `<div class="sidebar-item">• ${i}</div>`).join('');
+  invDiv.innerHTML = state.inventory.length ? state.inventory.map(i => `<div class="sidebar-item">• ${i}</div>`).join('') : '<div class="sidebar-item">Пусто</div>';
   
   const factionsDiv = document.getElementById('factions-list');
-  let facHtml = '';
-  facHtml += `<div class="faction-row"><span>⚔️ Стража</span><span class="faction-value ${state.factions.guard > 0 ? 'positive' : state.factions.guard < 0 ? 'negative' : ''}">${state.factions.guard > 0 ? '+' : ''}${state.factions.guard}</span></div>`;
-  facHtml += `<div class="faction-row"><span>🗡️ Синдикат</span><span class="faction-value ${state.factions.syndicate > 0 ? 'positive' : state.factions.syndicate < 0 ? 'negative' : ''}">${state.factions.syndicate > 0 ? '+' : ''}${state.factions.syndicate}</span></div>`;
-  if (state.factions.cult !== null) facHtml += `<div class="faction-row"><span>🌑 Культ</span><span>${state.factions.cult}</span></div>`;
-  else facHtml += `<div class="faction-hidden">??? — скрыта</div>`;
-  factionsDiv.innerHTML = facHtml;
+  factionsDiv.innerHTML = `
+    <div class="faction-row"><span>⚔️ Стража</span><span class="faction-value ${state.factions.guard > 0 ? 'positive' : state.factions.guard < 0 ? 'negative' : ''}">${state.factions.guard > 0 ? '+' : ''}${state.factions.guard}</span></div>
+    <div class="faction-row"><span>🗡️ Синдикат</span><span class="faction-value ${state.factions.syndicate > 0 ? 'positive' : state.factions.syndicate < 0 ? 'negative' : ''}">${state.factions.syndicate > 0 ? '+' : ''}${state.factions.syndicate}</span></div>
+    <div class="faction-row"><span>🌑 Культ</span>${state.factions.cult !== null ? `<span>${state.factions.cult}</span>` : '<span class="faction-hidden">??? скрыта</span>'}</div>
+  `;
 }
 
-// ==================== БРОСОК КУБА ====================
 async function showDiceRoll(roll, mod, dc, stat) {
   return new Promise(resolve => {
     const overlay = document.getElementById('dice-overlay');
@@ -478,12 +416,10 @@ async function showDiceRoll(roll, mod, dc, stat) {
   });
 }
 
-function rollD20() { return Math.floor(Math.random() * 20) + 1; }
-
 // ==================== СИСТЕМНЫЙ ПРОМПТ ====================
-const SYSTEM_PROMPT = `Ты — мастер RPG "Dark Script: Город Эхо". Отвечай ТОЛЬКО JSON.
+const SYSTEM_PROMPT = `Ты — мастер текстовой RPG "Dark Script: Город Эхо". Отвечай ТОЛЬКО JSON.
 
-Сеттинг: Альтернативные 80-е, Город Эхо. Магия просочилась через трещины реальности. Неон, синтезаторы, кассеты. Дневного света нет 3 года.
+Сеттинг: Альтернативные 80-е. Город Эхо. Магия просочилась через трещины реальности. Неон, синтезаторы, кассеты.
 
 Протагонист: Виктор Хмарь. Бывший дознаватель. Память стёрта 3 дня назад.
 
@@ -495,9 +431,9 @@ const SYSTEM_PROMPT = `Ты — мастер RPG "Dark Script: Город Эхо
 
 Тон: чёрный юмор Disco Elysium + цинизм Ведьмака. ПРОВАЛЫ ДОЛЖНЫ БЫТЬ СМЕШНЫМИ.
 
-Формат ответа:
+Формат ответа (ТОЛЬКО JSON, без markdown):
 {
-  "narrative": "описание сцены на русском",
+  "narrative": "описание сцены на русском, 2-4 абзаца",
   "voices": [{"name": "Инстинкт", "text": "реплика"}],
   "choices": [
     {"text": "действие", "skill_check": null, "consequences": {"sanity": 0, "tension": 0, "add_item": null, "add_clue": null, "faction_guard": 0, "faction_syndicate": 0}}
@@ -506,9 +442,9 @@ const SYSTEM_PROMPT = `Ты — мастер RPG "Dark Script: Город Эхо
 }
 
 Если skill_check — укажи stat: "strength"/"charisma"/"intelligence" и dc (8-18).
-Не повторяй предыдущие сцены. Двигай сюжет.`;
+Не повторяй предыдущие сцены. Двигай сюжет к финалу.`;
 
-// ==================== API ВЫЗОВ (OpenRouter) ====================
+// ==================== API ВЫЗОВ (Bothub) ====================
 async function callAI(userMessage) {
   const messages = [];
   
@@ -525,17 +461,17 @@ async function callAI(userMessage) {
 Тень разблокирована: ${state.flags.shadowUnlocked}
 Фракции: Стража ${state.factions.guard} / Синдикат ${state.factions.syndicate}${state.factions.cult !== null ? ' / Культ ' + state.factions.cult : ''}
 
-[ДЕЙСТВИЕ]
+[ДЕЙСТВИЕ ИГРОКА]
 ${userMessage}`;
   
   messages.push({ role: 'user', content: context });
   
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(BOTHUB_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
+        'Authorization': `Bearer ${BOTHUB_API_KEY}`
       },
       body: JSON.stringify({
         model: MODEL,
@@ -549,8 +485,8 @@ ${userMessage}`;
     });
     
     if (!response.ok) {
-      const err = await response.json();
-      throw new Error(`API ${response.status}: ${JSON.stringify(err)}`);
+      const errText = await response.text();
+      throw new Error(`API ${response.status}: ${errText}`);
     }
     
     const data = await response.json();
@@ -572,7 +508,6 @@ ${userMessage}`;
   }
 }
 
-// ==================== ПРИМЕНЕНИЕ ИЗМЕНЕНИЙ ====================
 function applyConsequences(cons) {
   if (!cons) return;
   if (cons.sanity) state.sanity = clamp(state.sanity + cons.sanity, 0, 100);
@@ -638,7 +573,6 @@ function showError(msg) {
   narrativeDiv.scrollTop = narrativeDiv.scrollHeight;
 }
 
-// ==================== ИГРОВОЙ ЦИКЛ ====================
 async function requestScene(action) {
   if (isWaiting) return;
   isWaiting = true;
@@ -675,24 +609,24 @@ async function makeChoice(index) {
     const mod = getModifier(stat);
     const result = await showDiceRoll(roll, mod, dc, stat);
     
-    if (result.critSuccess) actionDesc += ` | КРИТУСПЕХ! d20=${roll} против DC ${dc}`;
-    else if (result.critFail) actionDesc += ` | КРИТПРОВАЛ! d20=${roll} против DC ${dc}`;
-    else if (result.success) actionDesc += ` | Успех: d20=${roll} против DC ${dc}`;
-    else actionDesc += ` | Провал: d20=${roll} против DC ${dc}`;
+    if (result.critSuccess) actionDesc += ` | КРИТУСПЕХ! d20=${roll} vs DC ${dc}`;
+    else if (result.critFail) actionDesc += ` | КРИТПРОВАЛ! d20=${roll} vs DC ${dc}`;
+    else if (result.success) actionDesc += ` | Успех: d20=${roll} vs DC ${dc}`;
+    else actionDesc += ` | Провал: d20=${roll} vs DC ${dc}`;
   }
   
   applyConsequences(choice.consequences);
   updateUI();
   
-  if (state.clues.length >= 3) showEnding('ПОБЕДА', 'Вы собрали все улики. Истина раскрыта. Город никогда не будет прежним.', '★ Финал: «Истина»');
-  else if (state.sanity <= 0) showEnding('Пустота', 'Рассудок shattered. Голоса слились в один. Вы улыбаетесь, как те трупы.', '🌑 Финал: «Черновик»');
-  else if (state.tension >= 100) showEnding('Кризис', 'Напряжение достигло предела. Враги нашли вас первыми.', '⚡ Финал: «Перезапись»');
+  if (state.clues.length >= 3) showEnding('ПОБЕДА', 'Вы собрали все улики. Истина раскрыта.', '★ Финал: «Истина»');
+  else if (state.sanity <= 0) showEnding('Пустота', 'Рассудок shattered. Вы больше не отличаете голоса от реальности.', '🌑 Финал: «Черновик»');
+  else if (state.tension >= 100) showEnding('Кризис', 'Напряжение достигло предела. Враги нашли вас.', '⚡ Финал: «Перезапись»');
   else await requestScene(actionDesc);
 }
 
 function checkGameOver() {
-  if (state.sanity <= 0) showEnding('Пустота', 'Рассудок shattered. Вы больше не отличаете голоса от реальности.', '🌑 Финал: «Черновик»');
-  else if (state.tension >= 100) showEnding('Кризис', 'Напряжение достигло предела. Город сомкнулся вокруг вас.', '⚡ Финал: «Перезапись»');
+  if (state.sanity <= 0) showEnding('Пустота', 'Рассудок shattered.', '🌑 Финал: «Черновик»');
+  else if (state.tension >= 100) showEnding('Кризис', 'Напряжение достигло предела.', '⚡ Финал: «Перезапись»');
 }
 
 function showEnding(title, text, subtitle) {
@@ -710,7 +644,6 @@ async function retryLastAction() {
   }
 }
 
-// ==================== СТАРТ ИГРЫ ====================
 async function startGame(background) {
   switch (background) {
     case 'fist': state.stats = { strength: 7, charisma: 4, intelligence: 5 }; state.sanity = 75; break;
@@ -730,13 +663,12 @@ async function startGame(background) {
   showScreen('game-screen');
   updateUI();
   
-  await requestScene('НАЧАЛО ИГРЫ. Акт 1. Виктор Хмарь просыпается на полу своей квартиры. Не помнит ничего. Магнитофон играет. Потолок с пятном. В кармане записка "НЕ ВЕРЬ ТЕНИ". Опиши пробуждение, квартиру и задай тон всей игры. Это ПЕРВАЯ сцена.');
+  await requestScene('НАЧАЛО ИГРЫ. Акт 1. Виктор Хмарь просыпается на полу своей квартиры. Не помнит ничего. В кармане записка "НЕ ВЕРЬ ТЕНИ". Опиши пробуждение, квартиру и задай тон.');
 }
 
 function saveGame() {
   try {
-    const saveData = { state, history: state.history };
-    localStorage.setItem('darkscript_save', JSON.stringify(saveData));
+    localStorage.setItem('darkscript_save', JSON.stringify({ state, history: state.history }));
   } catch(e) {}
 }
 
@@ -748,11 +680,10 @@ function tryLoadGame() {
     state.history = data.history || [];
     showScreen('game-screen');
     updateUI();
-    requestScene('Игрок загрузил сохранение. Продолжи историю. Напомни кратко что происходит. Текущий акт: ' + state.act);
+    requestScene('Игрок загрузил сохранение. Продолжи историю. Акт: ' + state.act);
   }
 }
 
-// ==================== ИНИЦИАЛИЗАЦИЯ ====================
 document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('darkscript_save')) {
     document.getElementById('continue-btn').style.display = 'inline-block';
@@ -762,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('click', (e) => {
   const sidebar = document.getElementById('sidebar');
   const btn = document.getElementById('mobile-menu-btn');
-  if (sidebar && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !btn.contains(e.target)) {
+  if (sidebar?.classList.contains('open') && !sidebar.contains(e.target) && !btn?.contains(e.target)) {
     sidebar.classList.remove('open');
   }
 });
