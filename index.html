@@ -1,125 +1,420 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
+<title>Dark Script</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#7c3aed;--accent-rgb:124,58,237;
+  --bg1:#0d0d12;--bg2:#15151e;--bg3:#1c1c28;
+  --border:rgba(var(--accent-rgb),.12);
+  --border-h:rgba(var(--accent-rgb),.45);
+  --glow:rgba(var(--accent-rgb),.25);
+  --text1:#e4e4ec;--text2:#8889a4;--text3:#4e4f68;
+  --v-inst:#f59e0b;--v-logic:#3b82f6;--v-ego:#eab308;--v-shadow:var(--accent);
+  --danger:#ef4444;--success:#22c55e;
+  --font:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --rad:6px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{height:100%}
+body{
+  background:var(--bg1);color:var(--text1);
+  font:400 15px/1.72 var(--font);
+  min-height:100%;overflow-x:hidden;
+  transition:background .8s ease;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45}
+#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .45s ease}
+#transition.active{opacity:1;pointer-events:all}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.03;mix-blend-mode:overlay}
+.scr{display:none;position:relative;z-index:2;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease}
+.scr.on{display:flex}
+.scr.on.vis{opacity:1}
+
+#s-title{gap:28px;padding:24px;text-align:center}
+.logo{font-size:clamp(2.6rem,7vw,4.2rem);font-weight:700;letter-spacing:-2px;color:var(--text1);line-height:1.1}
+.logo b{color:var(--accent);font-weight:700;text-shadow:0 0 40px var(--glow)}
+.logo-sub{font-size:11px;font-weight:500;letter-spacing:6px;text-transform:uppercase;color:var(--text3);margin-top:2px}
+.tagline{max-width:400px;font-size:13.5px;color:var(--text3);font-style:italic;line-height:1.9}
+.title-btns{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+
+.btn{background:transparent;color:var(--text1);border:1px solid var(--border);padding:11px 28px;border-radius:var(--rad);font:500 13px var(--font);letter-spacing:.3px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden}
+.btn:hover{border-color:var(--border-h);box-shadow:0 0 24px var(--glow)}
+.btn:active{transform:scale(.97)}
+.btn.primary{border-color:var(--accent);color:var(--accent)}
+.btn.primary:hover{background:var(--accent);color:#fff}
+.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
+
+#s-reality{gap:32px;padding:32px 20px}
+.reality-head{text-align:center}
+.reality-head h2{font-size:18px;font-weight:400;color:var(--text2);letter-spacing:.5px}
+.reality-head p{font-size:12px;color:var(--text3);margin-top:6px;font-style:italic}
+.reality-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:580px;width:100%}
+@media(max-width:560px){.reality-grid{grid-template-columns:1fr;max-width:360px}}
+.r-card{border:1px solid var(--border);border-radius:var(--rad);padding:22px 20px;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden}
+.r-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,var(--cg,transparent) 0%,transparent 70%);opacity:0;transition:opacity .3s}
+.r-card:hover{border-color:var(--ca,var(--border-h));transform:translateY(-2px)}
+.r-card:hover::before{opacity:1}
+.r-card .r-icon{font-size:28px;margin-bottom:10px;display:block}
+.r-card .r-name{font-size:15px;font-weight:600;margin-bottom:4px;position:relative}
+.r-card .r-sub{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;position:relative}
+.r-card .r-desc{font-size:12.5px;color:var(--text2);line-height:1.6;position:relative}
+.r-card[data-r="neon"]{--ca:rgba(124,58,237,.5);--cg:rgba(124,58,237,.08)}
+.r-card[data-r="fantasy"]{--ca:rgba(16,185,129,.5);--cg:rgba(16,185,129,.08)}
+.r-card[data-r="ash"]{--ca:rgba(245,158,11,.5);--cg:rgba(245,158,11,.08)}
+.r-card[data-r="chrome"]{--ca:rgba(6,182,212,.5);--cg:rgba(6,182,212,.08)}
+
+#s-char{gap:28px;padding:40px 20px}
+.char-head{text-align:center}
+.char-head h2{font-size:17px;font-weight:400;color:var(--text2)}
+.char-head p{font-size:13px;color:var(--text3);font-style:italic;margin-top:6px;max-width:460px}
+.char-opts{display:flex;flex-direction:column;gap:12px;max-width:520px;width:100%}
+.c-card{border:1px solid var(--border);border-radius:var(--rad);padding:18px 22px;cursor:pointer;transition:all .25s ease}
+.c-card:hover{border-color:var(--border-h);box-shadow:0 0 20px var(--glow);transform:translateY(-1px)}
+.c-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.c-card .c-stats{font:500 12px var(--mono);color:var(--accent);margin-bottom:6px}
+.c-card .c-desc{font-size:13px;color:var(--text2);line-height:1.55}
+.c-card .c-bonus{font-size:11.5px;color:var(--v-ego);margin-top:6px}
+
+#s-game{flex-direction:row!important;align-items:stretch!important;justify-content:stretch!important;min-height:100vh}
+#main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2);position:relative;z-index:3}
+.tb-title{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3)}
+.tb-title b{color:var(--accent);font-weight:600}
+.tb-stats{display:flex;gap:16px;font:500 11px var(--mono)}
+.tb-s{display:flex;align-items:center;gap:5px}
+.tb-s .lb{color:var(--text3);font-size:10px}
+.tb-s .vl{color:var(--text1)}
+.tb-s .vl.warn{color:var(--v-inst)}
+.tb-s .vl.crit{color:var(--danger)}
+#narr{flex:1;overflow-y:auto;padding:28px 24px;max-width:760px}
+.n-text{margin-bottom:20px;line-height:1.88;font-size:15px}
+.n-text p{margin-bottom:13px}
+.n-text strong{color:#fff;font-weight:600}
+.n-text em{color:var(--text2)}
+.vb{border-left:2px solid;padding:9px 14px;margin:10px 0;font-size:13.5px;border-radius:0 var(--rad) var(--rad) 0;opacity:0;animation:vIn .4s ease forwards}
+.vb .vn{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:3px}
+.vb .vt{color:var(--text2);font-style:italic;line-height:1.65}
+.vb-inst{border-color:var(--v-inst)}.vb-inst .vn{color:var(--v-inst)}
+.vb-logic{border-color:var(--v-logic)}.vb-logic .vn{color:var(--v-logic)}
+.vb-ego{border-color:var(--v-ego)}.vb-ego .vn{color:var(--v-ego)}
+.vb-shadow{border-color:var(--v-shadow)}.vb-shadow .vn{color:var(--v-shadow)}
+@keyframes vIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+#choices{padding:14px 20px 20px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg2)}
+.ch{display:block;width:100%;text-align:left;background:transparent;color:var(--text1);border:1px solid var(--border);border-radius:var(--rad);padding:11px 15px;margin-bottom:7px;font:400 13.5px/1.5 var(--font);cursor:pointer;transition:all .2s ease}
+.ch:last-child{margin-bottom:0}
+.ch:hover{border-color:var(--border-h);padding-left:19px;box-shadow:0 0 14px var(--glow)}
+.ch:disabled{opacity:.2;cursor:default;box-shadow:none;padding-left:15px}
+.ch .sk{font:500 10px var(--mono);color:var(--accent);margin-left:6px}
+#loader{display:none;padding:28px 20px;text-align:center}
+#loader.on{display:block}
+.ld-txt{color:var(--accent);font-size:13px}
+.ld-bar{width:120px;height:2px;background:var(--bg3);margin:12px auto 0;border-radius:1px;overflow:hidden}
+.ld-bar::after{content:'';display:block;width:40%;height:100%;background:var(--accent);border-radius:1px;animation:ldB 1.2s ease-in-out infinite}
+@keyframes ldB{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+#side{width:260px;border-left:1px solid var(--border);background:var(--bg2);overflow-y:auto;padding:18px;flex-shrink:0;height:100vh;transition:right .3s ease}
+.sb-sec{margin-bottom:24px}
+.sb-lbl{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+.st-row{display:flex;align-items:center;margin-bottom:8px}
+.st-nm{font-size:11.5px;color:var(--text2);min-width:60px}
+.st-bw{flex:1;height:2px;background:rgba(255,255,255,.04);border-radius:1px;overflow:hidden;margin:0 8px}
+.st-bf{height:100%;border-radius:1px;transition:width .5s ease,background .5s}
+.st-vl{font:500 11px var(--mono);color:var(--text1);min-width:24px;text-align:right}
+.sb-item{font-size:12.5px;color:var(--text2);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.025);line-height:1.5}
+.sb-item:last-child{border-bottom:none}
+.sb-empty{font-size:11.5px;color:var(--text3);font-style:italic}
+.sb-clue{color:var(--accent)}.sb-title{color:var(--v-ego)}
+.fac-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12.5px}
+.fac-n{color:var(--text2)}.fac-v{font:500 11px var(--mono)}
+.fac-v.pos{color:var(--success)}.fac-v.neg{color:var(--danger)}.fac-v.neu{color:var(--text3)}
+.fac-h{color:var(--text3);font-style:italic;font-size:11px;padding:4px 0}
+#mob-btn{display:none;position:fixed;top:10px;right:10px;z-index:100;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);color:var(--text2);width:36px;height:36px;font-size:16px;cursor:pointer;align-items:center;justify-content:center}
+#dice{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;flex-direction:column;gap:14px}
+#dice.on{display:flex}
+.d-val{font:700 58px var(--mono);color:var(--accent);animation:dR .55s ease-out}
+.d-val.ok{color:var(--success)}.d-val.no{color:var(--danger)}
+.d-val.crit-ok{color:var(--v-ego);text-shadow:0 0 28px var(--v-ego)}
+.d-val.crit-no{color:var(--danger);text-shadow:0 0 28px var(--danger)}
+.d-info{font:400 13px var(--mono);color:var(--text2);text-align:center}
+.d-res{font-size:15px;text-align:center;margin-top:4px}
+@keyframes dR{0%{transform:scale(.4)rotate(-180deg);opacity:0}60%{transform:scale(1.15)rotate(8deg)}100%{transform:none;opacity:1}}
+#s-end{gap:24px;padding:32px;text-align:center}
+.end-t{font-size:26px;font-weight:700;color:var(--accent)}
+.end-tx{max-width:500px;color:var(--text2);line-height:1.85;font-size:14.5px}
+.end-st{font:400 12px var(--mono);color:var(--text3);line-height:2.1}
+.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--rad);color:var(--danger);padding:14px;margin:14px 0;font-size:12.5px;line-height:1.6}
+.err button{margin-top:6px;background:transparent;border:1px solid var(--danger);border-radius:var(--rad);color:var(--danger);padding:5px 14px;cursor:pointer;font:400 11px var(--font)}
+@media(max-width:840px){
+  #s-game{flex-direction:column!important}
+  #side{position:fixed;right:-280px;top:0;width:270px;height:100vh;z-index:200;border-left:1px solid var(--border)}
+  #side.open{right:0}
+  #mob-btn{display:flex}
+  #main{height:100vh;width:100%}
+  #narr{padding:20px 16px}
+  #choices{padding:10px 16px 16px}
+}
+@media(max-width:480px){.tb-stats{display:none}.ch{font-size:13px;padding:10px 13px}.reality-grid{gap:10px}.r-card{padding:16px}}
+.san-crit .st-bf{animation:sP 1.4s ease-in-out infinite}
+@keyframes sP{0%,100%{opacity:1}50%{opacity:.35}}
+#main.insane-1{filter:saturate(.82)hue-rotate(3deg)}
+#main.insane-2{filter:saturate(.6)hue-rotate(8deg)contrast(1.05)}
+#main.insane-3{filter:saturate(.35)hue-rotate(15deg)contrast(1.1);animation:sG 8s ease-in-out infinite}
+@keyframes sG{0%,92%,100%{transform:none}93%{transform:translate(-1px,1px)}95%{transform:translate(1px,-1px)}97%{transform:translate(-1px,0)}}
+.fade-in{animation:fi .6s ease forwards}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#crash{position:fixed;inset:0;z-index:99999;background:#0d0d12;color:#ef4444;font:14px/1.8 monospace;padding:40px;display:none;overflow:auto}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div id="transition"></div>
+<div id="crash"></div>
+
+<div id="s-title" class="scr on vis">
+  <div class="logo">Dark<b>Script</b></div>
+  <div class="logo-sub">Текстовая RPG</div>
+  <div class="tagline">«Ты не помнишь своего имени. Мир не помнит солнца. И только голоса в голове помнят всё — но кому из них верить?»</div>
+  <div class="title-btns">
+    <button class="btn primary" onclick="goTo('s-reality')">Новая игра</button>
+    <button class="btn" id="btn-cont" style="display:none" onclick="tryLoad()">Продолжить</button>
+  </div>
+</div>
+
+<div id="s-reality" class="scr">
+  <div class="reality-head">
+    <h2>Выбери реальность</h2>
+    <p>Каждый мир хранит свои тени. Механики одинаковы — атмосфера другая.</p>
+  </div>
+  <div class="reality-grid">
+    <div class="r-card" data-r="neon" onclick="pickReality('neon')">
+      <span class="r-icon">🌃</span>
+      <div class="r-name">Неоновый Нуар</div>
+      <div class="r-sub">80-е · Магия · Синтвейв</div>
+      <div class="r-desc">Город, где неон горит ярче солнца, а магию заряжают в кассеты.</div>
+    </div>
+    <div class="r-card" data-r="fantasy" onclick="pickReality('fantasy')">
+      <span class="r-icon">⚔️</span>
+      <div class="r-name">Тёмное Фэнтези</div>
+      <div class="r-sub">Мечи · Руны · Проклятия</div>
+      <div class="r-desc">Город-крепость на краю Пустоши. Тьма здесь — не метафора.</div>
+    </div>
+    <div class="r-card" data-r="ash" onclick="pickReality('ash')">
+      <span class="r-icon">☢️</span>
+      <div class="r-name">Пепел и Ржавчина</div>
+      <div class="r-sub">Постапокалипсис · Руины · Аномалии</div>
+      <div class="r-desc">30 лет после Конца. Кто-то всё ещё расследует убийства.</div>
+    </div>
+    <div class="r-card" data-r="chrome" onclick="pickReality('chrome')">
+      <span class="r-icon">🔮</span>
+      <div class="r-name">Хромированные Сны</div>
+      <div class="r-sub">Киберпанк · Импланты · Глитчи</div>
+      <div class="r-desc">Мегаполис из стали. Твои воспоминания — файлы. Кто-то их удалил.</div>
+    </div>
+  </div>
+</div>
+
+<div id="s-char" class="scr">
+  <div class="char-head">
+    <h2>Что помнит твоё тело?</h2>
+    <p>Имя стёрто. Но мышечная память — упрямая вещь.</p>
+  </div>
+  <div class="char-opts">
+    <div class="c-card" onclick="startGame('fist')">
+      <h3>🥊 Руки помнят удар</h3>
+      <div class="c-stats">СИЛ 7 · ХАР 4 · ИНТ 5</div>
+      <div class="c-desc">Ты решал проблемы не словами. Слова — для тех, у кого есть время.</div>
+      <div class="c-bonus">Бонус: Рассудок +10%</div>
+    </div>
+    <div class="c-card" onclick="startGame('tongue')">
+      <h3>🗣️ Язык помнит ложь</h3>
+      <div class="c-stats">СИЛ 4 · ХАР 7 · ИНТ 5</div>
+      <div class="c-desc">Ты мог убедить человека, что дождь идёт снизу вверх.</div>
+      <div class="c-bonus">Бонус: информатор лоялен</div>
+    </div>
+    <div class="c-card" onclick="startGame('brain')">
+      <h3>🧠 Голова помнит почти всё</h3>
+      <div class="c-stats">СИЛ 4 · ХАР 5 · ИНТ 7</div>
+      <div class="c-desc">Ты видел связи в хаосе. Теперь видишь их даже там, где их нет.</div>
+      <div class="c-bonus">Бонус: точные подсказки Логики</div>
+    </div>
+  </div>
+</div>
+
+<div id="s-game" class="scr">
+  <div id="main">
+    <div id="topbar">
+      <div class="tb-title">Dark<b>Script</b></div>
+      <div class="tb-stats">
+        <div class="tb-s"><span class="lb">🧠</span><span class="vl" id="t-san">65%</span></div>
+        <div class="tb-s"><span class="lb">⚡</span><span class="vl" id="t-ten">5%</span></div>
+        <div class="tb-s"><span class="lb">📎</span><span class="vl" id="t-clu">0/3</span></div>
+      </div>
+    </div>
+    <div id="narr"></div>
+    <div id="loader"><div class="ld-txt">Реальность формируется</div><div class="ld-bar"></div></div>
+    <div id="choices"></div>
+  </div>
+  <div id="side">
+    <div class="sb-sec">
+      <div class="sb-lbl">Характеристики</div>
+      <div class="st-row"><span class="st-nm">Сила</span><div class="st-bw"><div class="st-bf" id="b-str" style="width:50%;background:var(--v-inst)"></div></div><span class="st-vl" id="v-str">5</span></div>
+      <div class="st-row"><span class="st-nm">Харизма</span><div class="st-bw"><div class="st-bf" id="b-cha" style="width:50%;background:var(--v-shadow)"></div></div><span class="st-vl" id="v-cha">5</span></div>
+      <div class="st-row"><span class="st-nm">Интеллект</span><div class="st-bw"><div class="st-bf" id="b-int" style="width:50%;background:var(--v-logic)"></div></div><span class="st-vl" id="v-int">5</span></div>
+    </div>
+    <div class="sb-sec" id="san-sec">
+      <div class="sb-lbl">Состояние</div>
+      <div class="st-row"><span class="st-nm">Рассудок</span><div class="st-bw"><div class="st-bf" id="b-san" style="width:65%;background:var(--v-logic)"></div></div><span class="st-vl" id="v-san">65%</span></div>
+      <div class="st-row"><span class="st-nm">Напряжение</span><div class="st-bw"><div class="st-bf" id="b-ten" style="width:5%;background:var(--danger)"></div></div><span class="st-vl" id="v-ten">5%</span></div>
+    </div>
+    <div class="sb-sec"><div class="sb-lbl">Улики (<span id="sc-cl">0</span>/3)</div><div id="ls-cl"><div class="sb-empty">Пусто</div></div></div>
+    <div class="sb-sec"><div class="sb-lbl">Инвентарь</div><div id="ls-inv"><div class="sb-empty">Карманы пусты</div></div></div>
+    <div class="sb-sec"><div class="sb-lbl">Титулы</div><div id="ls-tit"><div class="sb-empty">Пока никто</div></div></div>
+    <div class="sb-sec"><div class="sb-lbl">Фракции</div><div id="ls-fac"></div></div>
+    <div class="sb-sec" style="margin-top:20px;padding-top:14px;border-top:1px solid var(--border)">
+      <button class="btn" style="width:100%;font-size:11px;padding:7px" onclick="saveGame()">💾 Сохранить</button>
+    </div>
+  </div>
+  <button id="mob-btn" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
+</div>
+
+<div id="dice">
+  <div class="d-val" id="dv">20</div>
+  <div class="d-info" id="di"></div>
+  <div class="d-res" id="dr"></div>
+</div>
+
+<div id="s-end" class="scr">
+  <div class="end-t" id="e-t">КОНЕЦ</div>
+  <div class="end-tx" id="e-tx"></div>
+  <div class="end-st" id="e-st"></div>
+  <button class="btn primary" onclick="location.reload()">Начать заново</button>
+</div>
+
 <script>
-/* ═══════════════════════════════════════════════════════════
-   DARK SCRIPT — GAME ENGINE v2 (стабильная версия)
-   Исправлено: обрезка JSON, rate-limit, ретраи, фоллбэки
-   ═══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   DARK SCRIPT v3 — полная стабильная версия
+   ═══════════════════════════════════════════ */
+try {
 
 // ═══ РЕАЛЬНОСТИ ═══
-const REALITIES = {
-  neon:{
-    name:'Неоновый Нуар',
-    accent:'124,58,237',bg1:'#0d0d12',bg2:'#15151e',bg3:'#1c1c28',
-    particleHue:270,
-    factions:['⚔️ Городская Стража','🗡️ Синдикат','🌑 Культ Пустоты'],
-    setting:`Альтернативные 80-е. Город Эхо — мегаполис, магия просочилась через трещины реальности. Пелена закрыла небо 3 года назад. Неон, синтезаторы, кассеты. Магию заряжают в кассеты, нюхают, колют. Запах озона. Прачечная "Чистая Совесть" (Грош), бар "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Марта Железнова — бывшая напарница. Артефакты: кассеты, магнитофон, частота 108.7.`
-  },
-  fantasy:{
-    name:'Тёмное Фэнтези',
-    accent:'16,185,129',bg1:'#0a0e0d',bg2:'#121a17',bg3:'#182320',
-    particleHue:160,
-    factions:['⚔️ Городская Стража','🗡️ Гильдия Теней','🌑 Орден Пустоты'],
-    setting:`Тёмное средневековье. Город-крепость Эхо на краю Пустоши. Магия — как чума. Факелы с фиолетовым пламенем. Свитки-ловушки вместо кассет. Руны вместо технологий. Тьма — вещество из трещин. Красильня "Чистая Совесть" (Грош), таверна "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: свитки, зеркало-ловушка, руна разомкнутого круга, Шпиль Пустоты.`
-  },
-  ash:{
-    name:'Пепел и Ржавчина',
-    accent:'245,158,11',bg1:'#110e08',bg2:'#1a1610',bg3:'#231e14',
-    particleHue:35,
-    factions:['⚔️ Ополчение','🗡️ Клан Ржавых','🌑 Дети Коллапса'],
-    setting:`30 лет после Коллапса. Руины мегаполиса Эхо. Радиация мутировала реальность — аномальные зоны, мёртвые шепчут через статику. Ржавая технология. Аномалии вместо магии. Костры и фосфоресцирующие грибы. Мастерская "Чистая Совесть" (Грош), бар из жестянок "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: магнитные ленты, рация, частота 108.7, аномальная зона.`
-  },
-  chrome:{
-    name:'Хромированные Сны',
-    accent:'6,182,212',bg1:'#080d10',bg2:'#101920',bg3:'#152028',
-    particleHue:190,
-    factions:['⚔️ Корп-Безопасность','🗡️ Чёрный Рынок','🌑 Секта Обнуления'],
-    setting:`2087 год. Мегаполис Эхо — вертикальный город из стали и голограмм. Нейроимпланты, цифровые воспоминания. Память — файлы, чьи-то удалены. Дата-чипы вместо кассет, нейроинтерфейс вместо магнитофона. Серв-станция "Чистая Совесть" (Грош), синт-бар "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: дата-чипы, нейро-логи, частота 108.7 (скрытый сервер).`
-  }
+var REALITIES = {
+  neon:{name:'Неоновый Нуар',accent:'124,58,237',bg1:'#0d0d12',bg2:'#15151e',bg3:'#1c1c28',particleHue:270,factions:['⚔️ Городская Стража','🗡️ Синдикат','🌑 Культ Пустоты'],setting:'Альтернативные 80-е. Город Эхо — магия просочилась через трещины. Пелена закрыла небо. Неон, синтезаторы, кассеты. Магию заряжают в кассеты. Прачечная "Чистая Совесть" (Грош), бар "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: кассеты, магнитофон, частота 108.7.'},
+  fantasy:{name:'Тёмное Фэнтези',accent:'16,185,129',bg1:'#0a0e0d',bg2:'#121a17',bg3:'#182320',particleHue:160,factions:['⚔️ Городская Стража','🗡️ Гильдия Теней','🌑 Орден Пустоты'],setting:'Тёмное средневековье. Город-крепость Эхо. Магия как чума. Свитки-ловушки вместо кассет. Руны вместо технологий. Таверна "Последний Аккорд" (Кеш), красильня "Чистая Совесть" (Грош), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: свитки, зеркало-ловушка, руна круга, Шпиль.'},
+  ash:{name:'Пепел и Ржавчина',accent:'245,158,11',bg1:'#110e08',bg2:'#1a1610',bg3:'#231e14',particleHue:35,factions:['⚔️ Ополчение','🗡️ Клан Ржавых','🌑 Дети Коллапса'],setting:'30 лет после Коллапса. Руины Эхо. Аномалии вместо магии. Ржавая технология. Костры, грибы. Бар "Последний Аккорд" (Кеш), мастерская "Чистая Совесть" (Грош), Переулок (Корс). Марта — напарница. Артефакты: магнитные ленты, рация, частота 108.7.'},
+  chrome:{name:'Хромированные Сны',accent:'6,182,212',bg1:'#080d10',bg2:'#101920',bg3:'#152028',particleHue:190,factions:['⚔️ Корп-Безопасность','🗡️ Чёрный Рынок','🌑 Секта Обнуления'],setting:'2087. Мегаполис Эхо — сталь и голограммы. Нейроимпланты, цифровая память. Дата-чипы вместо кассет. Синт-бар "Последний Аккорд" (Кеш), серв-станция "Чистая Совесть" (Грош), Переулок (Корс). Марта — напарница. Артефакты: дата-чипы, нейро-логи, сервер 108.7.'}
 };
 
-// ═══ СИСТЕМНЫЙ ПРОМПТ (сжатый — экономит ~800 токенов контекста) ═══
-function buildPrompt(setting, factions){
-return `Ты мастер RPG "Dark Script". ОТВЕЧАЙ ТОЛЬКО ВАЛИДНЫМ JSON — без markdown, без пояснений, без \`\`\`.
-
-${setting}
-
-Герой: бывший дознаватель, память стёрта 3 дня назад, слышит голоса.
-
-Голоса (2-3 за сцену):
-⚡ Инстинкт — параноик-выживальщик.
-🧠 Логика — педант. ИНТ≥6=верно, <6=уверенная чушь. Рассудок<30%=врёт.
-👑 Эго — нарцисс. Провал="стратегическое отступление".
-🌑 Тень — голос Пустоты. ТОЛЬКО если shadow=true. Знает забытое.
-
-Тон: чёрный юмор Disco Elysium + Ведьмак. Провалы СМЕШНЫЕ. Крит-20=подвиг+побочка. Крит-1=комедия+титул.
-
-Фракции: ${factions[0]}(закон), ${factions[1]}(преступность), ${factions[2]}(СКРЫТА до Акта 2, в Акте 1 только намёки).
-
-Сюжет: Акт1=пробуждение без памяти, убийства с улыбками+чистыми артефактами. Акт2=скрытая фракция, герой был внутри. Акт3=три пути: уничтожить/контролировать/открыть.
-
-Правила: 2-е лицо. 2-4 абзаца + 2-3 голоса + 2-4 выбора. ≥1 skill_check. DC 8/12/15/18. Двигай сюжет вперёд.
-
-JSON формат:
-{"narrative":"текст","voices":[{"name":"Инстинкт","icon":"⚡","text":"реплика"}],"choices":[{"text":"кнопка","skill_check":{"stat":"strength","dc":12},"consequences":{"sanity":0,"tension":5,"add_item":null,"add_title":null,"add_clue":null,"faction_guard":null,"faction_syndicate":null,"unlock_shadow":false,"next_scene_hint":"подсказка"}}],"state_changes":{"sanity":0,"tension":0}}`
+// ═══ ПРОМПТ ═══
+function buildPrompt(setting,factions){
+  return 'Ты мастер RPG "Dark Script". ОТВЕЧАЙ ТОЛЬКО JSON. Без markdown. Без ```.\n\n' +
+  setting + '\n\n' +
+  'Герой: бывший дознаватель, память стёрта, слышит голоса.\n' +
+  'Голоса (2-3 за сцену): ⚡Инстинкт(параноик), 🧠Логика(педант, ИНТ<6=чушь), 👑Эго(нарцисс), 🌑Тень(только если shadow=true, голос Пустоты).\n' +
+  'Тон: чёрный юмор Disco Elysium. Провалы СМЕШНЫЕ. Крит20=подвиг. Крит1=комедия+титул.\n' +
+  'Фракции: ' + factions[0] + '(закон) ' + factions[1] + '(преступность) ' + factions[2] + '(СКРЫТА до Акта2).\n' +
+  'Сюжет: Акт1=без памяти+убийства. Акт2=скрытая фракция. Акт3=финал.\n' +
+  '2-е лицо. 2-4 абзаца, 2-3 голоса, 2-4 выбора, >=1 skill_check. Двигай сюжет.\n\n' +
+  'ФОРМАТ JSON:\n' +
+  '{"narrative":"текст","voices":[{"name":"Инстинкт","icon":"⚡","text":"реплика"}],"choices":[{"text":"кнопка","skill_check":{"stat":"strength","dc":12},"consequences":{"sanity":0,"tension":5,"add_item":null,"add_title":null,"add_clue":null,"faction_guard":null,"faction_syndicate":null,"unlock_shadow":false,"next_scene_hint":"hint"}}],"state_changes":{"sanity":0,"tension":0}}';
 }
 
-// ═══ КОНФИГУРАЦИЯ ═══
-const CFG = {
-  URL:  'https://bothub.chat/api/v2/openai/v1/chat/completions',
-  KEY:  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
+// ═══ КОНФИГ ═══
+var CFG = {
+  URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',
+  KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
   MODEL:'claude-sonnet-4-20250514',
-  MAX_TOKENS: 3000,   // ← было 2200, увеличено чтобы JSON не обрезался
-  MAX_HIST:   8,       // ← было 16, сильно уменьшено — главная причина ошибок
-  RETRIES:    3,       // количество повторных попыток
-  RETRY_MS:   [1500, 3000, 5000] // пауза между ретраями
+  MAX_T:3000, MAX_H:8, RETRIES:3, RETRY_MS:[1500,3000,5000]
 };
 
 // ═══ СОСТОЯНИЕ ═══
-let S = {
-  reality:'neon', act:1, scene:0, bg:'fist',
+var S = {
+  reality:'neon',act:1,scene:0,bg:'fist',
   stats:{strength:5,charisma:5,intelligence:5},
-  san:65, ten:5,
-  clues:[], inv:[], titles:[],
+  san:65,ten:5,clues:[],inv:[],titles:[],
   fac:{guard:0,syndicate:0,cult:null},
   flags:{shadowUnlocked:false},
-  hist:[], visited:[]
+  hist:[],visited:[]
 };
-let curScene=null, lastAct=null, isLoading=false;
+var curScene=null, lastAct=null, isLoading=false;
 
 // ═══ ЧАСТИЦЫ ═══
-const cvs=document.getElementById('particles');
-const ctx2d=cvs.getContext('2d');
-let parts=[], partHue=270;
-function initP(){cvs.width=innerWidth;cvs.height=innerHeight;parts=[];for(let i=0;i<60;i++)parts.push(mkP())}
-function mkP(){return{x:Math.random()*cvs.width,y:Math.random()*cvs.height,r:Math.random()*1.5+.3,vy:-(Math.random()*.3+.1),vx:(Math.random()-.5)*.15,a:Math.random()*.5+.1,life:Math.random()*600+200}}
-function drawP(){ctx2d.clearRect(0,0,cvs.width,cvs.height);for(let p of parts){p.x+=p.vx;p.y+=p.vy;p.life--;if(p.life<60)p.a*=.97;if(p.life<=0||p.y<-10){Object.assign(p,mkP());p.y=cvs.height+10}ctx2d.beginPath();ctx2d.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2d.fillStyle=`hsla(${partHue},60%,65%,${p.a})`;ctx2d.fill()}requestAnimationFrame(drawP)}
-addEventListener('resize',()=>{cvs.width=innerWidth;cvs.height=innerHeight});
-initP();drawP();
+var cvs = document.getElementById('particles');
+var ctx2d = cvs ? cvs.getContext('2d') : null;
+var parts=[], partHue=270;
 
-// ═══ НАВИГАЦИЯ ═══
+function initP(){
+  if(!cvs) return;
+  cvs.width=window.innerWidth;
+  cvs.height=window.innerHeight;
+  parts=[];
+  for(var i=0;i<50;i++) parts.push(mkP());
+}
+function mkP(){
+  return {
+    x:Math.random()*(cvs?cvs.width:800),
+    y:Math.random()*(cvs?cvs.height:600),
+    r:Math.random()*1.5+.3,
+    vy:-(Math.random()*.3+.1),
+    vx:(Math.random()-.5)*.15,
+    a:Math.random()*.5+.1,
+    life:Math.random()*600+200
+  };
+}
+function drawP(){
+  if(!ctx2d||!cvs) return;
+  ctx2d.clearRect(0,0,cvs.width,cvs.height);
+  for(var i=0;i<parts.length;i++){
+    var p=parts[i];
+    p.x+=p.vx; p.y+=p.vy; p.life--;
+    if(p.life<60) p.a*=.97;
+    if(p.life<=0||p.y<-10){parts[i]=mkP();parts[i].y=(cvs?cvs.height:600)+10;}
+    ctx2d.beginPath();
+    ctx2d.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx2d.fillStyle='hsla('+partHue+',60%,65%,'+p.a+')';
+    ctx2d.fill();
+  }
+  requestAnimationFrame(drawP);
+}
+window.addEventListener('resize',function(){if(cvs){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}});
+initP(); drawP();
+
+// ═══ ЭКРАНЫ ═══
 function goTo(id){
-  const tr=document.getElementById('transition');
+  var tr=document.getElementById('transition');
   tr.classList.add('active');
-  setTimeout(()=>{
-    document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on','visible'));
-    const n=document.getElementById(id);n.classList.add('on');
-    setTimeout(()=>{tr.classList.remove('active');setTimeout(()=>n.classList.add('visible'),50)},100);
-  },450);
+  setTimeout(function(){
+    var all=document.querySelectorAll('.scr');
+    for(var i=0;i<all.length;i++) {all[i].classList.remove('on');all[i].classList.remove('vis');}
+    var next=document.getElementById(id);
+    if(next){
+      next.classList.add('on');
+      setTimeout(function(){
+        tr.classList.remove('active');
+        setTimeout(function(){next.classList.add('vis');},60);
+      },120);
+    }
+  },460);
 }
 
-// ═══ ВЫБОР РЕАЛЬНОСТИ ═══
-function pickReality(key){
-  S.reality=key;
-  applyTheme(key);
-  goTo('s-char');
-}
+// ═══ ТЕМА ═══
 function applyTheme(key){
-  const r=REALITIES[key],root=document.documentElement;
+  var r=REALITIES[key]; if(!r)return;
+  var root=document.documentElement;
   root.style.setProperty('--accent-rgb',r.accent);
-  root.style.setProperty('--accent',`rgb(${r.accent})`);
-  root.style.setProperty('--glow',`rgba(${r.accent},.25)`);
-  root.style.setProperty('--border',`rgba(${r.accent},.12)`);
-  root.style.setProperty('--border-h',`rgba(${r.accent},.45)`);
-  root.style.setProperty('--v-shadow',`rgb(${r.accent})`);
+  root.style.setProperty('--accent','rgb('+r.accent+')');
+  root.style.setProperty('--glow','rgba('+r.accent+',.25)');
+  root.style.setProperty('--border','rgba('+r.accent+',.12)');
+  root.style.setProperty('--border-h','rgba('+r.accent+',.45)');
+  root.style.setProperty('--v-shadow','rgb('+r.accent+')');
   root.style.setProperty('--bg1',r.bg1);
   root.style.setProperty('--bg2',r.bg2);
   root.style.setProperty('--bg3',r.bg3);
@@ -127,303 +422,227 @@ function applyTheme(key){
   partHue=r.particleHue;
 }
 
+function pickReality(key){S.reality=key;applyTheme(key);goTo('s-char');}
+
 // ═══ СТАРТ ═══
 function startGame(bg){
-  S.bg=bg; S.hist=[]; S.clues=[]; S.titles=[]; S.inv=['Записка: «НЕ ВЕРЬ ТЕНИ»'];
-  S.fac={guard:0,syndicate:0,cult:null}; S.flags={shadowUnlocked:false};
-  S.act=1; S.scene=0; S.visited=[];
-  switch(bg){
-    case'fist':S.stats={strength:7,charisma:4,intelligence:5};S.san=75;break;
-    case'tongue':S.stats={strength:4,charisma:7,intelligence:5};S.san=65;S.fac.syndicate=1;break;
-    case'brain':S.stats={strength:4,charisma:5,intelligence:7};S.san=60;break;
-  }
+  S={reality:S.reality,act:1,scene:0,bg:bg,stats:{strength:5,charisma:5,intelligence:5},san:65,ten:5,clues:[],inv:['Записка: НЕ ВЕРЬ ТЕНИ'],titles:[],fac:{guard:0,syndicate:0,cult:null},flags:{shadowUnlocked:false},hist:[],visited:[]};
+  if(bg==='fist'){S.stats={strength:7,charisma:4,intelligence:5};S.san=75;}
+  if(bg==='tongue'){S.stats={strength:4,charisma:7,intelligence:5};S.san=65;S.fac.syndicate=1;}
+  if(bg==='brain'){S.stats={strength:4,charisma:5,intelligence:7};S.san=60;}
   S.ten=5;
   goTo('s-game');
-  setTimeout(()=>{updateUI();requestScene(
-    'Начало. Акт 1. Герой просыпается на полу. Не помнит ничего. Записка «НЕ ВЕРЬ ТЕНИ». Опиши пробуждение. Задай тон.'
-  )},600);
+  setTimeout(function(){updateUI();requestScene('Начало. Акт 1. Герой просыпается на полу. Не помнит ничего. Записка НЕ ВЕРЬ ТЕНИ. Опиши пробуждение. Задай тон.');},700);
 }
 
 // ═══ УТИЛИТЫ ═══
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-const getMod=s=>Math.floor((S.stats[s]||5)/2)-2;
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function getMod(s){return Math.floor((S.stats[s]||5)/2)-2;}
+function rollD20(){return Math.floor(Math.random()*20)+1;}
 
-// ═══ d20 ═══
-function rollD20(){return Math.floor(Math.random()*20)+1}
+// ═══ БРОСОК ═══
 function showDice(roll,mod,dc,stat){
-  return new Promise(res=>{
-    const o=document.getElementById('dice'),dv=document.getElementById('dv'),
-          di=document.getElementById('di'),dr=document.getElementById('dr');
-    const tot=roll+mod,ok=tot>=dc,c20=roll===20,c1=roll===1;
-    const sn={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
+  return new Promise(function(res){
+    var o=document.getElementById('dice'),dv=document.getElementById('dv'),
+        di=document.getElementById('di'),dr=document.getElementById('dr');
+    var tot=roll+mod,ok=tot>=dc,c20=roll===20,c1=roll===1;
+    var sn={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
     o.classList.add('on');
     dv.textContent=roll;
     dv.className='d-val'+(c20?' crit-ok':c1?' crit-no':ok?' ok':' no');
-    di.textContent=`d20(${roll}) ${mod>=0?'+':''}${mod} [${sn[stat]}] = ${tot} vs DC${dc}`;
-    dr.textContent=c20?'✦ КРИТИЧЕСКИЙ УСПЕХ ✦':c1?'✗ КРИТИЧЕСКИЙ ПРОВАЛ ✗':ok?'✓ Успех':'✗ Провал';
+    di.textContent='d20('+roll+') '+(mod>=0?'+':'')+mod+' ['+sn[stat]+'] = '+tot+' vs DC'+dc;
+    dr.textContent=c20?'КРИТИЧЕСКИЙ УСПЕХ':c1?'КРИТИЧЕСКИЙ ПРОВАЛ':ok?'Успех':'Провал';
     dr.style.color=(c20||ok)?'var(--success)':'var(--danger)';
     dv.style.animation='none';dv.offsetHeight;dv.style.animation='';
-    setTimeout(()=>{o.classList.remove('on');res({roll,mod,total:tot,dc,ok,c20,c1})},1700);
+    setTimeout(function(){o.classList.remove('on');res({roll:roll,mod:mod,total:tot,dc:dc,ok:ok,c20:c20,c1:c1});},1700);
   });
 }
 
-// ══════════════════════════════════════════════════
-// FIX #1: РЕМОНТ ОБРЕЗАННОГО JSON
-// Если API обрезал ответ — пробуем закрыть скобки
-// ══════════════════════════════════════════════════
-function repairJSON(str) {
-  let s = str.trim();
-  // Убираем незакрытые строки в конце
-  // Считаем скобки
-  let inStr=false, esc=false, braces=0, brackets=0, lastGoodPos=0;
-  for(let i=0;i<s.length;i++){
-    const c=s[i];
-    if(esc){esc=false;continue}
-    if(c==='\\'){esc=true;continue}
-    if(c==='"'){inStr=!inStr;continue}
+// ═══ JSON РЕМОНТ ═══
+function repairJSON(s){
+  s=s.trim();
+  var inStr=false,esc=false,braces=0,brackets=0;
+  for(var i=0;i<s.length;i++){
+    var c=s[i];
+    if(esc){esc=false;continue;}
+    if(c==='\\'){esc=true;continue;}
+    if(c==='"'){inStr=!inStr;continue;}
     if(inStr)continue;
     if(c==='{')braces++;
-    if(c==='}'){braces--;lastGoodPos=i}
+    if(c==='}')braces--;
     if(c==='[')brackets++;
-    if(c===']'){brackets--;lastGoodPos=i}
+    if(c===']')brackets--;
   }
-  // Если внутри строки — закрываем строку
-  if(inStr) s += '"';
-  // Убираем висящие запятые перед закрытием
-  s = s.replace(/,\s*$/,'');
-  // Закрываем незакрытые скобки
-  while(brackets>0){s+=']';brackets--}
-  while(braces>0){s+='}';braces--}
+  if(inStr)s+='"';
+  s=s.replace(/,\s*$/,'');
+  while(brackets>0){s+=']';brackets--;}
+  while(braces>0){s+='}';braces--;}
   return s;
 }
 
-// ══════════════════════════════════════════════════
-// FIX #2: МНОГОСЛОЙНЫЙ ПАРСИНГ JSON
-// 4 стратегии — от простой к агрессивной
-// ══════════════════════════════════════════════════
-function parseJSON(raw) {
-  if(!raw || typeof raw !== 'string') throw new Error('Пустой ответ от API');
-
-  let text = raw.trim();
-  // Снимаем markdown-обёртку
-  text = text.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,'').trim();
-
-  // Стратегия 1: прямой парсинг
-  try { return validateScene(JSON.parse(text)); } catch(e) {}
-
-  // Стратегия 2: извлечь первый {…} блок
-  const m = text.match(/\{[\s\S]*\}/);
-  if(m){
-    try { return validateScene(JSON.parse(m[0])); } catch(e) {}
-    // Стратегия 3: ремонт извлечённого блока
-    try { return validateScene(JSON.parse(repairJSON(m[0]))); } catch(e) {}
+function validateScene(obj){
+  if(!obj||typeof obj!=='object')throw new Error('not obj');
+  if(!obj.narrative&&!obj.choices)throw new Error('empty');
+  var ch=[];
+  if(Array.isArray(obj.choices)&&obj.choices.length>0){
+    for(var i=0;i<obj.choices.length;i++){
+      var c=obj.choices[i]||{};
+      ch.push({
+        text:c.text||'Продолжить',
+        skill_check:c.skill_check||null,
+        consequences:{
+          sanity:(c.consequences&&c.consequences.sanity)||0,
+          tension:(c.consequences&&c.consequences.tension)||0,
+          add_item:(c.consequences&&c.consequences.add_item)||null,
+          add_title:(c.consequences&&c.consequences.add_title)||null,
+          add_clue:(c.consequences&&c.consequences.add_clue)||null,
+          faction_guard:(c.consequences&&c.consequences.faction_guard)||null,
+          faction_syndicate:(c.consequences&&c.consequences.faction_syndicate)||null,
+          unlock_shadow:(c.consequences&&c.consequences.unlock_shadow)||false,
+          next_scene_hint:(c.consequences&&c.consequences.next_scene_hint)||''
+        }
+      });
+    }
+  } else {
+    ch=[{text:'Продолжить',skill_check:null,consequences:{sanity:0,tension:3,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:''}}];
   }
-
-  // Стратегия 4: ремонт всего текста
-  try { return validateScene(JSON.parse(repairJSON(text))); } catch(e) {}
-
-  // Стратегия 5: экстремальная — собираем минимальный JSON из текста
-  try { return extractMinimalScene(text); } catch(e) {}
-
-  console.error('RAW RESPONSE (все стратегии провалились):', raw.substring(0, 500));
-  throw new Error('Не удалось разобрать ответ ИИ');
-}
-
-// Проверяем что JSON имеет нужную структуру и дополняем пустоты
-function validateScene(obj) {
-  if(!obj || typeof obj !== 'object') throw new Error('Не объект');
-  // Минимум — narrative должен быть
-  if(!obj.narrative && !obj.choices) throw new Error('Нет контента');
-
   return {
-    narrative: obj.narrative || 'Реальность мерцает. Ты моргаешь. Мир всё ещё здесь — к сожалению.',
-    voices: Array.isArray(obj.voices) ? obj.voices : [],
-    choices: Array.isArray(obj.choices) && obj.choices.length > 0
-      ? obj.choices.map(c => ({
-          text: c.text || 'Продолжить',
-          skill_check: c.skill_check || null,
-          consequences: {
-            sanity: c.consequences?.sanity || 0,
-            tension: c.consequences?.tension || 0,
-            add_item: c.consequences?.add_item || null,
-            add_title: c.consequences?.add_title || null,
-            add_clue: c.consequences?.add_clue || null,
-            faction_guard: c.consequences?.faction_guard || null,
-            faction_syndicate: c.consequences?.faction_syndicate || null,
-            unlock_shadow: c.consequences?.unlock_shadow || false,
-            next_scene_hint: c.consequences?.next_scene_hint || ''
-          }
-        }))
-      : [{text:'Продолжить',skill_check:null,consequences:{sanity:0,tension:3,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:'продолжение'}}],
-    state_changes: obj.state_changes || {sanity:0,tension:0}
+    narrative:obj.narrative||'Реальность мерцает. Мир всё ещё здесь.',
+    voices:Array.isArray(obj.voices)?obj.voices:[],
+    choices:ch,
+    state_changes:obj.state_changes||{sanity:0,tension:0}
   };
 }
 
-// Крайний случай: вытаскиваем narrative из текста, делаем кнопку «Продолжить»
-function extractMinimalScene(text) {
-  // Ищем хоть какой-то текст
-  let narr = text
-    .replace(/[{}$$$$"]/g,' ')
-    .replace(/narrative|voices|choices|consequences|skill_check/gi,'')
-    .replace(/\s+/g,' ').trim();
-  if(narr.length < 10) throw new Error('Нет текста');
-  if(narr.length > 1500) narr = narr.substring(0,1500)+'...';
-  return validateScene({narrative: narr});
+function parseJSON(raw){
+  if(!raw)throw new Error('Пустой ответ');
+  var t=raw.trim();
+  // убрать ```json ... ```
+  t=t.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
+  // Стратегия 1
+  try{return validateScene(JSON.parse(t));}catch(e){}
+  // Стратегия 2: regex {…}
+  var m=t.match(/\{[\s\S]*\}/);
+  if(m){
+    try{return validateScene(JSON.parse(m[0]));}catch(e){}
+    // Стратегия 3: ремонт
+    try{return validateScene(JSON.parse(repairJSON(m[0])));}catch(e){}
+  }
+  // Стратегия 4: ремонт всего
+  try{return validateScene(JSON.parse(repairJSON(t)));}catch(e){}
+  // Стратегия 5: текст как narrative
+  var plain=t.replace(/[{}$$$$]/g,' ').replace(/\s+/g,' ').trim();
+  if(plain.length>20){
+    return validateScene({narrative:plain.substring(0,1200)});
+  }
+  throw new Error('Не удалось разобрать ответ');
 }
 
-// ══════════════════════════════════════════════════
-// FIX #3: API ВЫЗОВ С РЕТРАЯМИ
-// 3 попытки, пауза растёт, промпт сокращается
-// ══════════════════════════════════════════════════
-async function callAI(msg, attempt=1) {
-  const r = REALITIES[S.reality];
-  const sysP = buildPrompt(r.setting, r.factions);
+// ═══ ФОЛЛБЭК ═══
+function makeFallback(){
+  var scenes=[
+    {narrative:"Помехи. Реальность дрожит, как старая плёнка. Ты моргаешь — мир возвращается, но что-то сдвинулось.\n\nКоридор. Слева — звуки. Справа — тишина. Оба варианта внушают одинаковое недоверие.",voices:[{name:"Инстинкт",icon:"⚡",text:"Звуки слева. Может голоса. Может эхо. В этом городе одно от другого не отличить."},{name:"Эго",icon:"👑",text:"Мы не заблудились. Мы ИССЛЕДУЕМ. Разница принципиальная."}],choices:[{text:"Пойти на звуки",skill_check:{stat:"charisma",dc:10},consequences:{sanity:-2,tension:5,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"встреча"}},{text:"Пойти в тишину",skill_check:null,consequences:{sanity:2,tension:3,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"находка"}},{text:"Осмотреть стены",skill_check:{stat:"intelligence",dc:12},consequences:{sanity:-1,tension:0,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"надпись"}}],state_changes:{sanity:0,tension:2}},
+    {narrative:"Комната. Маленькая, душная. Лампочка мигает, отсчитывая чьё-то терпение. На столе стакан мутной воды и записка.\n\nЗа стеной кашляют — долго, надрывно. Кто-то давно махнул рукой на здоровье.",voices:[{name:"Логика",icon:"🧠",text:"Лампа мигает с интервалом 3 секунды. Неисправность. Или сигнал."},{name:"Инстинкт",icon:"⚡",text:"Воду НЕ ПИТЬ. Записку читать. Кашель игнорировать."}],choices:[{text:"Прочитать записку",skill_check:null,consequences:{sanity:-3,tension:5,add_item:"Мятая записка",add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"адрес"}},{text:"Постучать соседу",skill_check:{stat:"charisma",dc:11},consequences:{sanity:0,tension:8,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"сосед"}},{text:"Выпить воду",skill_check:{stat:"strength",dc:8},consequences:{sanity:5,tension:0,add_item:null,add_title:"Рисковый",add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"последствия"}}],state_changes:{sanity:-1,tension:2}}
+  ];
+  return scenes[Math.floor(Math.random()*scenes.length)];
+}
 
-  // При каждом ретрае — берём МЕНЬШЕ истории
-  const histLimit = Math.max(2, CFG.MAX_HIST - (attempt-1)*2);
-  const msgs = [{role:'system', content: sysP}];
-  S.hist.slice(-histLimit).forEach(h => msgs.push({role:h.r, content:h.c}));
+// ═══ API ═══
+function callAI(msg,attempt){
+  attempt=attempt||1;
+  var r=REALITIES[S.reality]||REALITIES.neon;
+  var sysP=buildPrompt(r.setting,r.factions);
+  var histLimit=Math.max(2,CFG.MAX_H-(attempt-1)*2);
+  var msgs=[{role:'system',content:sysP}];
+  var recent=S.hist.slice(-histLimit);
+  for(var i=0;i<recent.length;i++) msgs.push({role:recent[i].r,content:recent[i].c});
 
-  // Контекст — тоже сжимаем при ретраях
-  const short = attempt > 1;
-  const stCtx = short
-    ? `[А:${S.act} Р:${S.san}% Н:${S.ten}% С:${S.stats.strength} Х:${S.stats.charisma} И:${S.stats.intelligence} У:${S.clues.length}/3 Тень:${S.flags.shadowUnlocked?1:0}] ${msg}`
-    : `[СОСТОЯНИЕ] Акт:${S.act} Сцена#${S.scene} Рассудок:${S.san}% Напряжение:${S.ten}% СИЛ:${S.stats.strength} ХАР:${S.stats.charisma} ИНТ:${S.stats.intelligence} Улики:${S.clues.length}/3${S.clues.length?' ('+S.clues.join('; ')+')':''} Инвентарь:${S.inv.join(', ')||'—'} Титулы:${S.titles.join(', ')||'—'} Тень:${S.flags.shadowUnlocked?'ДА':'НЕТ'} Реальность:${r.name}\n[ДЕЙСТВИЕ] ${msg}`;
+  var stCtx='[А:'+S.act+' Р:'+S.san+'% Н:'+S.ten+'% С:'+S.stats.strength+' Х:'+S.stats.charisma+' И:'+S.stats.intelligence+' У:'+S.clues.length+'/3 Тень:'+(S.flags.shadowUnlocked?1:0)+'] '+msg;
+  msgs.push({role:'user',content:stCtx});
 
-  msgs.push({role:'user', content:stCtx});
-
-  try {
-    const resp = await fetch(CFG.URL, {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer '+CFG.KEY
-      },
-      body: JSON.stringify({
-        model: CFG.MODEL,
-        max_tokens: CFG.MAX_TOKENS,
-        temperature: attempt > 1 ? 0.7 : 0.88, // при ретрае — менее рандомно
-        messages: msgs
-      })
-    });
-
-    // ── Обработка HTTP-ошибок ──
+  return fetch(CFG.URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},
+    body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:attempt>1?0.7:0.85,messages:msgs})
+  })
+  .then(function(resp){
     if(!resp.ok){
-      const errBody = await resp.text().catch(()=>'');
-      const status = resp.status;
-
-      // Rate limit — ждём дольше
-      if(status === 429) {
-        if(attempt < CFG.RETRIES) {
-          const wait = CFG.RETRY_MS[attempt-1] * 2; // удвоенная пауза для rate limit
-          console.warn(`Rate limit (429). Жду ${wait}ms, попытка ${attempt+1}...`);
-          await new Promise(r=>setTimeout(r, wait));
-          return callAI(msg, attempt+1);
+      return resp.text().then(function(t){
+        if(resp.status===429&&attempt<CFG.RETRIES){
+          var w=CFG.RETRY_MS[attempt-1]*2;
+          updateLoadText('Лимит запросов... повтор через '+(w/1000)+'с');
+          return new Promise(function(res){setTimeout(res,w);}).then(function(){return callAI(msg,attempt+1);});
         }
-      }
-      throw new Error(`HTTP ${status}: ${errBody.substring(0,150)}`);
+        throw new Error('HTTP '+resp.status+': '+t.substring(0,120));
+      });
     }
-
-    const data = await resp.json();
-    const content = data.choices?.[0]?.message?.content || '';
-
-    if(!content){
-      throw new Error('API вернул пустой content');
+    return resp.json();
+  })
+  .then(function(data){
+    if(data&&data.choices&&data.choices[0]&&data.choices[0].message){
+      var content=data.choices[0].message.content||'';
+      if(!content)throw new Error('Пустой content');
+      S.hist.push({r:'user',c:stCtx},{r:'assistant',c:content});
+      if(S.hist.length>CFG.MAX_H*2) S.hist=S.hist.slice(-CFG.MAX_H);
+      return parseJSON(content);
     }
-
-    // Сохраняем в историю ТОЛЬКО при успехе
-    S.hist.push({r:'user', c:stCtx}, {r:'assistant', c:content});
-
-    // Обрезаем историю до лимита
-    if(S.hist.length > CFG.MAX_HIST * 2) {
-      S.hist = S.hist.slice(-CFG.MAX_HIST);
+    // Если структура ответа другая — пробуем достать
+    if(data&&data.content&&data.content[0]){
+      var txt=data.content[0].text||'';
+      S.hist.push({r:'user',c:stCtx},{r:'assistant',c:txt});
+      return parseJSON(txt);
     }
-
-    return parseJSON(content);
-
-  } catch(err) {
-    console.warn(`API attempt ${attempt}/${CFG.RETRIES} failed:`, err.message);
-
-    if(attempt < CFG.RETRIES) {
-      const wait = CFG.RETRY_MS[attempt-1] || 3000;
-      updateLoadText(`Помехи на линии... повтор через ${Math.round(wait/1000)}с (${attempt}/${CFG.RETRIES})`);
-      await new Promise(r=>setTimeout(r, wait));
-      return callAI(msg, attempt+1);
+    throw new Error('Неожиданный формат ответа API');
+  })
+  .catch(function(err){
+    console.warn('API попытка '+attempt+'/'+CFG.RETRIES+':', err.message);
+    if(attempt<CFG.RETRIES){
+      var w=CFG.RETRY_MS[attempt-1]||2000;
+      updateLoadText('Помехи... повтор через '+(w/1000)+'с ('+attempt+'/'+CFG.RETRIES+')');
+      return new Promise(function(res){setTimeout(res,w);}).then(function(){return callAI(msg,attempt+1);});
     }
     throw err;
-  }
+  });
 }
 
-// ══════════════════════════════════════════════════
-// FIX #4: ФОЛЛБЭК — если API полностью недоступен
-// Генерируем сцену локально, чтобы игра не висла
-// ══════════════════════════════════════════════════
-function generateFallback(){
-  const scenarios = [
-    {
-      narrative:"Реальность дрожит, как изображение на старом экране. Ты моргаешь — мир возвращается, но что-то неуловимо сдвинулось. Воздух пахнет озоном и нехорошими предчувствиями.\n\nКоридор перед тобой уходит в две стороны. Слева — звуки. Может быть, голоса. Может быть, эхо твоих собственных мыслей, отражённое от стен, которые помнят больше, чем ты.",
-      voices:[
-        {name:"Инстинкт",icon:"⚡",text:"Слева — звуки. Значит, слева — опасность. Или возможность. В этом городе разница академическая."},
-        {name:"Эго",icon:"👑",text:"Мы стоим в коридоре и выбираем. Как настоящий детектив. Не важно, что мы не помним, что мы детектив. Стиль не забывается."}
-      ],
-      choices:[
-        {text:"Пойти на звуки",skill_check:{stat:"charisma",dc:10},consequences:{sanity:-2,tension:5,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"встреча с незнакомцем"}},
-        {text:"Пойти в тишину",skill_check:null,consequences:{sanity:2,tension:3,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"пустой тупик с находкой"}},
-        {text:"Осмотреть стены коридора",skill_check:{stat:"intelligence",dc:12},consequences:{sanity:-1,tension:0,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"надпись на стене"}}
-      ],
-      state_changes:{sanity:0,tension:2}
-    },
-    {
-      narrative:"Ты находишь комнату — маленькую, душную, с единственной лампочкой, которая мигает так, будто отсчитывает чьё-то терпение. На столе — стакан воды. Вода мутная. Рядом — записка, придавленная чем-то тяжёлым.\n\nЗа стеной кто-то кашляет. Долго, надрывно, как человек, который давно махнул рукой на здоровье и теперь здоровье отвечает взаимностью.",
-      voices:[
-        {name:"Логика",icon:"🧠",text:"Лампочка мигает с интервалом 3-4 секунды. Неисправность проводки. Или сигнал. При нашем везении — второе."},
-        {name:"Инстинкт",icon:"⚡",text:"Воду НЕ ПИТЬ. Записку — читать. Кашель — игнорировать. Если зовут по имени — тоже игнорировать. У нас нет имени. Удобно."}
-      ],
-      choices:[
-        {text:"Прочитать записку",skill_check:null,consequences:{sanity:-3,tension:5,add_item:"Мятая записка",add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"записка с адресом"}},
-        {text:"Постучать в стену — кашляющему",skill_check:{stat:"charisma",dc:11},consequences:{sanity:0,tension:8,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"сосед отвечает"}},
-        {text:"Выпить воду",skill_check:{stat:"strength",dc:8},consequences:{sanity:5,tension:0,add_item:null,add_title:"Рисковый",add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"ничего не произошло... или нет?"}}
-      ],
-      state_changes:{sanity:-1,tension:2}
-    }
-  ];
-  return scenarios[Math.floor(Math.random()*scenarios.length)];
-}
-
-// ═══ РЕНДЕРИНГ ═══
+// ═══ РЕНДЕР ═══
 function fmtNarr(t){
   if(!t)return'';
-  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .split(/\n\n|\n/).filter(p=>p.trim())
-    .map(p=>`<p>${p.trim()}</p>`).join('');
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').split(/\n\n|\n/).filter(function(p){return p.trim();}).map(function(p){return '<p>'+p.trim()+'</p>';}).join('');
 }
 function voiceCls(n){
-  if(n.includes('Инстинкт'))return'vb-inst';
-  if(n.includes('Логика'))return'vb-logic';
-  if(n.includes('Эго'))return'vb-ego';
+  n=n||'';
+  if(n.indexOf('Инстинкт')>=0)return'vb-inst';
+  if(n.indexOf('Логика')>=0)return'vb-logic';
+  if(n.indexOf('Эго')>=0)return'vb-ego';
   return'vb-shadow';
 }
 function renderScene(d){
-  const nr=document.getElementById('narr'),ch=document.getElementById('choices');
-  let h=`<div class="n-text fade-in">${fmtNarr(d.narrative)}</div>`;
-  if(d.voices)d.voices.forEach((v,i)=>{
-    if(v.name&&v.name.includes('Тень')&&!S.flags.shadowUnlocked)return;
-    h+=`<div class="vb ${voiceCls(v.name||'')}" style="animation-delay:${i*.18}s"><div class="vn">${v.icon||''} ${v.name||'???'}</div><div class="vt">«${v.text||'...'}»</div></div>`;
-  });
+  var nr=document.getElementById('narr'),ch=document.getElementById('choices');
+  var h='<div class="n-text fade-in">'+fmtNarr(d.narrative)+'</div>';
+  if(d.voices){
+    for(var i=0;i<d.voices.length;i++){
+      var v=d.voices[i];if(!v)continue;
+      if(v.name&&v.name.indexOf('Тень')>=0&&!S.flags.shadowUnlocked)continue;
+      h+='<div class="vb '+voiceCls(v.name)+'" style="animation-delay:'+(i*.18)+'s"><div class="vn">'+(v.icon||'')+' '+(v.name||'???')+'</div><div class="vt">'+(v.text||'...')+'</div></div>';
+    }
+  }
   nr.innerHTML=h;
-  setTimeout(()=>nr.scrollTop=nr.scrollHeight,50);
-  if(d.choices?.length){
-    ch.innerHTML=d.choices.map((c,i)=>{
-      let sk='';
+  setTimeout(function(){nr.scrollTop=nr.scrollHeight;},60);
+  if(d.choices&&d.choices.length>0){
+    var btns='';
+    for(var j=0;j<d.choices.length;j++){
+      var c=d.choices[j];
+      var sk='';
       if(c.skill_check){
-        const nm={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
-        sk=`<span class="sk">[${nm[c.skill_check.stat]||'???'} DC${c.skill_check.dc||10}]</span>`;
+        var nm={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
+        sk='<span class="sk">['+(nm[c.skill_check.stat]||'???')+' DC'+(c.skill_check.dc||10)+']</span>';
       }
-      return`<button class="ch" onclick="makeChoice(${i})">${c.text||'Продолжить'}${sk}</button>`;
-    }).join('');
+      btns+='<button class="ch" onclick="makeChoice('+j+')">'+(c.text||'Продолжить')+sk+'</button>';
+    }
+    ch.innerHTML=btns;
     ch.style.display='block';
-  }else ch.style.display='none';
+  }else{ch.style.display='none';}
   if(d.state_changes){
     if(d.state_changes.sanity)S.san=clamp(S.san+d.state_changes.sanity,0,100);
     if(d.state_changes.tension)S.ten=clamp(S.ten+d.state_changes.tension,0,100);
@@ -433,149 +652,163 @@ function applyCons(c){
   if(!c)return;
   if(c.sanity)S.san=clamp(S.san+c.sanity,0,100);
   if(c.tension)S.ten=clamp(S.ten+c.tension,0,100);
-  if(c.add_item&&!S.inv.includes(c.add_item))S.inv.push(c.add_item);
-  if(c.add_title&&!S.titles.includes(c.add_title))S.titles.push(c.add_title);
-  if(c.add_clue&&!S.clues.includes(c.add_clue)&&S.clues.length<3)S.clues.push(c.add_clue);
+  if(c.add_item&&S.inv.indexOf(c.add_item)<0)S.inv.push(c.add_item);
+  if(c.add_title&&S.titles.indexOf(c.add_title)<0)S.titles.push(c.add_title);
+  if(c.add_clue&&S.clues.indexOf(c.add_clue)<0&&S.clues.length<3)S.clues.push(c.add_clue);
   if(c.faction_guard)S.fac.guard+=c.faction_guard;
   if(c.faction_syndicate)S.fac.syndicate+=c.faction_syndicate;
   if(c.unlock_shadow)S.flags.shadowUnlocked=true;
 }
 
-// ═══ ОБНОВЛЕНИЕ UI ═══
+// ═══ UI ═══
 function updateUI(){
-  const ts=document.getElementById('t-san'),tt=document.getElementById('t-ten');
-  ts.textContent=S.san+'%';tt.textContent=S.ten+'%';
-  document.getElementById('t-clu').textContent=S.clues.length+'/3';
-  ts.className='vl'+(S.san<30?' crit':S.san<50?' warn':'');
-  tt.className='vl'+(S.ten>70?' crit':S.ten>50?' warn':'');
-  [['strength','str'],['charisma','cha'],['intelligence','int']].forEach(([s,k])=>{
-    document.getElementById('b-'+k).style.width=(S.stats[s]*10)+'%';
-    document.getElementById('v-'+k).textContent=S.stats[s];
-  });
-  const bs=document.getElementById('b-san');
-  bs.style.width=S.san+'%';bs.style.background=S.san<30?'var(--danger)':'var(--v-logic)';
-  document.getElementById('v-san').textContent=S.san+'%';
-  document.getElementById('b-ten').style.width=S.ten+'%';
-  document.getElementById('v-ten').textContent=S.ten+'%';
-  document.getElementById('san-sec').classList.toggle('san-crit',S.san<25);
-  const m=document.getElementById('main');
-  m.classList.remove('insane-1','insane-2','insane-3');
-  if(S.san<20)m.classList.add('insane-3');
-  else if(S.san<35)m.classList.add('insane-2');
-  else if(S.san<50)m.classList.add('insane-1');
-  document.getElementById('sc-cl').textContent=S.clues.length;
-  const cl=document.getElementById('ls-cl');
-  cl.innerHTML=S.clues.length?S.clues.map(c=>`<div class="sb-item sb-clue">📎 ${c}</div>`).join(''):'<div class="sb-empty">Пусто</div>';
-  const il=document.getElementById('ls-inv');
-  il.innerHTML=S.inv.length?S.inv.map(i=>`<div class="sb-item">• ${i}</div>`).join(''):'<div class="sb-empty">Карманы пусты</div>';
-  const tl=document.getElementById('ls-tit');
-  tl.innerHTML=S.titles.length?S.titles.map(t=>`<div class="sb-item sb-title">[${t}]</div>`).join(''):'<div class="sb-empty">Пока никто</div>';
-  const fl=document.getElementById('ls-fac'),r=REALITIES[S.reality];
-  const fd=(n,v)=>`<div class="fac-row"><span class="fac-n">${n}</span><span class="fac-v ${v>0?'pos':v<0?'neg':'neu'}">${v>0?'+':''}${v}</span></div>`;
-  let fh=fd(r.factions[0],S.fac.guard)+fd(r.factions[1],S.fac.syndicate);
-  fh+=S.fac.cult!==null?fd(r.factions[2],S.fac.cult):'<div class="fac-h">??? — неизвестно</div>';
-  fl.innerHTML=fh;
+  try{
+    var ts=document.getElementById('t-san'),tt=document.getElementById('t-ten');
+    ts.textContent=S.san+'%';tt.textContent=S.ten+'%';
+    document.getElementById('t-clu').textContent=S.clues.length+'/3';
+    ts.className='vl'+(S.san<30?' crit':S.san<50?' warn':'');
+    tt.className='vl'+(S.ten>70?' crit':S.ten>50?' warn':'');
+    var map=[['strength','str'],['charisma','cha'],['intelligence','int']];
+    for(var i=0;i<map.length;i++){
+      var el=document.getElementById('b-'+map[i][1]);if(el)el.style.width=(S.stats[map[i][0]]*10)+'%';
+      var vl=document.getElementById('v-'+map[i][1]);if(vl)vl.textContent=S.stats[map[i][0]];
+    }
+    var bs=document.getElementById('b-san');
+    if(bs){bs.style.width=S.san+'%';bs.style.background=S.san<30?'var(--danger)':'var(--v-logic)';}
+    var vs=document.getElementById('v-san');if(vs)vs.textContent=S.san+'%';
+    var bt=document.getElementById('b-ten');if(bt)bt.style.width=S.ten+'%';
+    var vt=document.getElementById('v-ten');if(vt)vt.textContent=S.ten+'%';
+    var ss=document.getElementById('san-sec');
+    if(ss){ss.classList.toggle('san-crit',S.san<25);}
+    var mn=document.getElementById('main');
+    if(mn){mn.classList.remove('insane-1','insane-2','insane-3');
+      if(S.san<20)mn.classList.add('insane-3');
+      else if(S.san<35)mn.classList.add('insane-2');
+      else if(S.san<50)mn.classList.add('insane-1');}
+    document.getElementById('sc-cl').textContent=S.clues.length;
+    var cl=document.getElementById('ls-cl');
+    cl.innerHTML=S.clues.length?S.clues.map(function(c){return'<div class="sb-item sb-clue">📎 '+c+'</div>';}).join(''):'<div class="sb-empty">Пусто</div>';
+    var il=document.getElementById('ls-inv');
+    il.innerHTML=S.inv.length?S.inv.map(function(x){return'<div class="sb-item">• '+x+'</div>';}).join(''):'<div class="sb-empty">Карманы пусты</div>';
+    var tl=document.getElementById('ls-tit');
+    tl.innerHTML=S.titles.length?S.titles.map(function(x){return'<div class="sb-item sb-title">['+x+']</div>';}).join(''):'<div class="sb-empty">Пока никто</div>';
+    var fl=document.getElementById('ls-fac'),r=REALITIES[S.reality]||REALITIES.neon;
+    function fd(n,v){return'<div class="fac-row"><span class="fac-n">'+n+'</span><span class="fac-v '+(v>0?'pos':v<0?'neg':'neu')+'">'+(v>0?'+':'')+v+'</span></div>';}
+    var fh=fd(r.factions[0],S.fac.guard)+fd(r.factions[1],S.fac.syndicate);
+    fh+=S.fac.cult!==null?fd(r.factions[2],S.fac.cult):'<div class="fac-h">??? — неизвестно</div>';
+    fl.innerHTML=fh;
+  }catch(e){console.warn('updateUI:',e);}
 }
 
-// ═══ ЗАГРУЗКА ═══
 function showLoad(v){
-  document.getElementById('loader').classList.toggle('on',v);
-  document.getElementById('choices').style.display=v?'none':'block';
+  var l=document.getElementById('loader'),c=document.getElementById('choices');
+  if(l)l.classList.toggle('on',v);
+  if(c)c.style.display=v?'none':'block';
 }
-function updateLoadText(txt){
-  const ld=document.querySelector('.ld-txt');
-  if(ld) ld.textContent=txt;
+function updateLoadText(t){
+  var el=document.querySelector('.ld-txt');
+  if(el)el.textContent=t;
 }
 
-// ══════════════════════════════════════════════════
-// ГЛАВНЫЙ ДВИЖОК
-// ══════════════════════════════════════════════════
-async function requestScene(action){
-  if(isLoading) return; // ← блокируем двойные запросы
-  isLoading=true;
-  lastAct=action;
-  showLoad(true);
-  updateLoadText('Реальность формируется');
+// ═══ ДВИЖОК ═══
+function requestScene(action){
+  if(isLoading)return;
+  isLoading=true;lastAct=action;
+  showLoad(true);updateLoadText('Реальность формируется');
+  callAI(action).then(function(d){
+    curScene=d;S.scene++;
+    renderScene(d);updateUI();checkEnd();saveGame();
+  }).catch(function(err){
+    console.error('Все попытки:', err);
+    var fb=makeFallback();
+    fb.narrative='*Помехи на линии реальности.*\n\n'+fb.narrative;
+    curScene=fb;S.scene++;
+    renderScene(fb);updateUI();saveGame();
+    var nr=document.getElementById('narr');
+    if(nr)nr.insertAdjacentHTML('afterbegin','<div class="err">⚡ Сцена сгенерирована локально <button onclick="this.parentElement.remove();retryScene()">Переподключиться</button></div>');
+  }).finally(function(){
+    isLoading=false;showLoad(false);
+  });
+}
+function retryScene(){if(lastAct&&!isLoading)requestScene(lastAct);}
 
-  try {
-    const d = await callAI(action);
-    curScene=d; S.scene++;
-    renderScene(d); updateUI(); checkEnd(); saveGame();
-  } catch(err) {
-    console.error('Все попытки провалились:', err);
+function makeChoice(i){
+  if(isLoading||!curScene||!curScene.choices||!curScene.choices[i])return;
+  var c=curScene.choices[i];
+  var btns=document.querySelectorAll('.ch');
+  for(var j=0;j<btns.length;j++)btns[j].disabled=true;
+  var desc='Игрок выбрал: "'+c.text+'"';
 
-    // ── Показываем фоллбэк вместо ошибки ──
-    const fb = generateFallback();
-    fb.narrative = `*Помехи на линии реальности. Сигнал нестабилен.*\n\n${fb.narrative}`;
-    curScene=fb; S.scene++;
-    renderScene(fb); updateUI(); saveGame();
-
-    // Маленький индикатор что был фоллбэк
-    document.getElementById('narr').insertAdjacentHTML('afterbegin',
-      `<div class="err" style="margin-bottom:12px">⚡ Связь нестабильна — сцена сгенерирована локально. <button onclick="this.parentElement.remove();retryScene()">Переподключиться</button></div>`
-    );
-  } finally {
-    isLoading=false;
-    showLoad(false);
+  function afterRoll(){
+    applyCons(c.consequences);
+    if(S.act===1&&S.clues.length>=2&&S.scene>=5){S.act=2;desc+=' [АКТ 2]';}
+    if(S.act===2&&(S.clues.length>=3||S.scene>=15)){S.act=3;S.fac.cult=0;desc+=' [АКТ 3]';}
+    updateUI();
+    var hint=c.consequences?c.consequences.next_scene_hint:'';
+    if(hint)desc+=' Далее: '+hint;
+    requestScene(desc);
   }
-}
 
-async function retryScene(){
-  if(lastAct) await requestScene(lastAct);
-}
-
-async function makeChoice(i){
-  if(isLoading || !curScene?.choices?.[i]) return;
-  const c=curScene.choices[i];
-  document.querySelectorAll('.ch').forEach(b=>b.disabled=true);
-  let desc=`Игрок выбрал: "${c.text}"`;
-  if(c.skill_check){
-    const{stat,dc}=c.skill_check;
-    const roll=rollD20(),mod=getMod(stat);
-    const r=await showDice(roll,mod,dc||10,stat);
-    if(r.c20)desc+=` | КРИТ-УСПЕХ nat20! ${roll}${mod>=0?'+':''}${mod}=${r.total} vs DC${dc}. НЕВЕРОЯТНЫЙ успех!`;
-    else if(r.c1)desc+=` | КРИТ-ПРОВАЛ nat1! ЭПИЧЕСКИ СМЕШНОЙ провал! Дай титул.`;
-    else if(r.ok)desc+=` | Успех. ${roll}${mod>=0?'+':''}${mod}=${r.total} vs DC${dc}.`;
-    else desc+=` | Провал. ${roll}${mod>=0?'+':''}${mod}=${r.total} vs DC${dc}. СМЕШНОЙ провал.`;
+  if(c.skill_check&&c.skill_check.stat){
+    var stat=c.skill_check.stat,dc=c.skill_check.dc||10;
+    var roll=rollD20(),mod=getMod(stat);
+    showDice(roll,mod,dc,stat).then(function(r){
+      if(r.c20)desc+=' | КРИТ-УСПЕХ nat20! НЕВЕРОЯТНЫЙ успех!';
+      else if(r.c1)desc+=' | КРИТ-ПРОВАЛ nat1! СМЕШНОЙ провал! Дай титул.';
+      else if(r.ok)desc+=' | Успех.';
+      else desc+=' | Провал. СМЕШНОЙ провал.';
+      afterRoll();
+    });
+  } else {
+    afterRoll();
   }
-  applyCons(c.consequences);
-  if(S.act===1&&S.clues.length>=2&&S.scene>=5){S.act=2;desc+=' [АКТ 2]'}
-  if(S.act===2&&(S.clues.length>=3||S.scene>=15)){S.act=3;S.fac.cult=0;desc+=' [АКТ 3]'}
-  updateUI();
-  const hint=c.consequences?.next_scene_hint;
-  if(hint)desc+=` Далее: ${hint}`;
-  await requestScene(desc);
 }
 
 function checkEnd(){
-  if(S.san<=0)return showEnd('Эхо','Голоса слились в один. Ты улыбаешься. Как те трупы.','🌑 «Черновик»');
-  if(S.ten>=100)return showEnd('Перезапись','Город сомкнулся. Ты знал слишком много.','⚡ «Стёртая плёнка»');
+  if(S.san<=0)return showEnd('Эхо','Голоса слились в один. Ты улыбаешься. Как те трупы.','🌑 Черновик');
+  if(S.ten>=100)return showEnd('Перезапись','Город сомкнулся. Ты знал слишком много.','⚡ Стёртая плёнка');
 }
 function showEnd(t,tx,sub){
   document.getElementById('e-t').textContent=t;
   document.getElementById('e-tx').innerHTML=tx;
-  document.getElementById('e-st').innerHTML=`${sub}<br><br>Рассудок:${S.san}% Напряжение:${S.ten}%<br>Улики:${S.clues.length}/3 Титулы:${S.titles.length}<br>Сцен:${S.scene} Акт:${S.act}<br>${REALITIES[S.reality].name}`;
+  document.getElementById('e-st').innerHTML=sub+'<br><br>Рассудок:'+S.san+'% Напряжение:'+S.ten+'%<br>Улики:'+S.clues.length+'/3 Титулы:'+S.titles.length+'<br>Сцен:'+S.scene+' Акт:'+S.act+'<br>'+(REALITIES[S.reality]||{}).name;
   goTo('s-end');localStorage.removeItem('ds_save');
 }
 
 // ═══ СОХРАНЕНИЕ ═══
-function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S))}catch(e){}}
+function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S));}catch(e){}}
 function tryLoad(){
   try{
-    const d=localStorage.getItem('ds_save');if(!d)return;
+    var d=localStorage.getItem('ds_save');if(!d)return;
     S=JSON.parse(d);
     applyTheme(S.reality);
     goTo('s-game');
-    setTimeout(()=>{updateUI();requestScene('Продолжение. Акт '+S.act+'. Напомни контекст кратко, дай выборы.')},600);
-  }catch(e){console.warn(e)}
+    setTimeout(function(){updateUI();requestScene('Продолжение. Акт '+S.act+'. Напомни контекст, дай выборы.');},700);
+  }catch(e){console.warn(e);}
 }
 
 // ═══ ИНИТ ═══
-document.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('ds_save'))document.getElementById('btn-cont').style.display='';
-  document.addEventListener('click',e=>{
-    const s=document.getElementById('side'),b=document.getElementById('mob-btn');
-    if(s&&s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open');
-  });
+if(localStorage.getItem('ds_save')){
+  var b=document.getElementById('btn-cont');if(b)b.style.display='';
+}
+document.addEventListener('click',function(e){
+  var s=document.getElementById('side'),b=document.getElementById('mob-btn');
+  if(s&&b&&s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open');
 });
+
+} catch(FATAL) {
+  // ═══ ЭКРАН АВАРИИ — если что-то сломалось ═══
+  var crash=document.getElementById('crash');
+  if(crash){
+    crash.style.display='block';
+    crash.innerHTML='<h2 style="color:#ef4444;margin-bottom:20px">⚠ Dark Script — ошибка загрузки</h2>'
+      +'<p>'+FATAL.message+'</p>'
+      +'<pre style="margin-top:12px;color:#888;font-size:12px">'+FATAL.stack+'</pre>'
+      +'<br><button onclick="location.reload()" style="color:#7c3aed;border:1px solid #7c3aed;background:none;padding:8px 20px;cursor:pointer;font-size:14px">Перезагрузить</button>';
+  } else {
+    document.body.innerHTML='<div style="padding:40px;color:red;font-family:monospace">ОШИБКА: '+FATAL.message+'<br><br><button onclick="location.reload()">Перезагрузить</button></div>';
+  }
+}
 </script>
+</body>
+</html>
