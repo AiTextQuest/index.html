@@ -7,808 +7,430 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --accent:#7c3aed;--accent-rgb:124,58,237;
-  --bg1:#0d0d12;--bg2:#15151e;--bg3:#1c1c28;
-  --border:rgba(var(--accent-rgb),.12);
-  --border-h:rgba(var(--accent-rgb),.45);
-  --glow:rgba(var(--accent-rgb),.25);
-  --text1:#e4e4ec;--text2:#8889a4;--text3:#4e4f68;
-  --v-inst:#f59e0b;--v-logic:#3b82f6;--v-ego:#eab308;--v-shadow:var(--accent);
-  --danger:#ef4444;--success:#22c55e;
-  --font:'Inter',system-ui,sans-serif;
-  --mono:'JetBrains Mono',monospace;
-  --rad:6px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{height:100%}
-body{
-  background:var(--bg1);color:var(--text1);
-  font:400 15px/1.72 var(--font);
-  min-height:100%;overflow-x:hidden;
-  transition:background .8s ease;
-}
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
-#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45}
-#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .45s ease}
-#transition.active{opacity:1;pointer-events:all}
+:root{--ac:#7c3aed;--ac-rgb:124,58,237;--bg1:#0d0d12;--bg2:#15151e;--bg3:#1c1c28;--brd:rgba(var(--ac-rgb),.12);--brd-h:rgba(var(--ac-rgb),.45);--glow:rgba(var(--ac-rgb),.25);--t1:#e4e4ec;--t2:#8889a4;--t3:#4e4f68;--vi:#f59e0b;--vl:#3b82f6;--ve:#eab308;--vs:var(--ac);--red:#ef4444;--grn:#22c55e;--f:'Inter',system-ui,sans-serif;--m:'JetBrains Mono',monospace;--r:6px}
+*{margin:0;padding:0;box-sizing:border-box}html{height:100%}
+body{background:var(--bg1);color:var(--t1);font:400 15px/1.72 var(--f);min-height:100%;overflow-x:hidden;transition:background .8s}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .45s}#transition.active{opacity:1;pointer-events:all}
 body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.03;mix-blend-mode:overlay}
-.scr{display:none;position:relative;z-index:2;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease}
-.scr.on{display:flex}
-.scr.on.vis{opacity:1}
+.scr{display:none;position:relative;z-index:2;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .5s}.scr.on{display:flex}.scr.on.vis{opacity:1}
+.btn{background:transparent;color:var(--t1);border:1px solid var(--brd);padding:10px 24px;border-radius:var(--r);font:500 13px var(--f);cursor:pointer;transition:all .25s}.btn:hover{border-color:var(--brd-h);box-shadow:0 0 20px var(--glow)}.btn:active{transform:scale(.97)}.btn.pri{border-color:var(--ac);color:var(--ac)}.btn.pri:hover{background:var(--ac);color:#fff}.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
+.inp{background:var(--bg1);border:1px solid var(--brd);color:var(--t1);padding:9px 13px;font:400 13px var(--f);border-radius:var(--r);transition:border .2s;width:100%}.inp:focus{outline:none;border-color:var(--brd-h)}.inp::placeholder{color:var(--t3)}
+textarea.inp{resize:vertical;min-height:44px;max-height:110px;line-height:1.5}
 
+/* ═══ TITLE ═══ */
 #s-title{gap:28px;padding:24px;text-align:center}
-.logo{font-size:clamp(2.6rem,7vw,4.2rem);font-weight:700;letter-spacing:-2px;color:var(--text1);line-height:1.1}
-.logo b{color:var(--accent);font-weight:700;text-shadow:0 0 40px var(--glow)}
-.logo-sub{font-size:11px;font-weight:500;letter-spacing:6px;text-transform:uppercase;color:var(--text3);margin-top:2px}
-.tagline{max-width:400px;font-size:13.5px;color:var(--text3);font-style:italic;line-height:1.9}
-.title-btns{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+.logo{font-size:clamp(2.6rem,7vw,4.2rem);font-weight:700;letter-spacing:-2px;line-height:1.1}.logo b{color:var(--ac);text-shadow:0 0 40px var(--glow)}
+.logo-sub{font-size:11px;font-weight:500;letter-spacing:6px;text-transform:uppercase;color:var(--t3);margin-top:2px}
+.tagline{max-width:420px;font-size:13px;color:var(--t3);font-style:italic;line-height:1.9}
+.t-btns{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center}
 
-.btn{background:transparent;color:var(--text1);border:1px solid var(--border);padding:11px 28px;border-radius:var(--rad);font:500 13px var(--font);letter-spacing:.3px;cursor:pointer;transition:all .25s ease;position:relative;overflow:hidden}
-.btn:hover{border-color:var(--border-h);box-shadow:0 0 24px var(--glow)}
-.btn:active{transform:scale(.97)}
-.btn.primary{border-color:var(--accent);color:var(--accent)}
-.btn.primary:hover{background:var(--accent);color:#fff}
-.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
+/* ═══ SETUP (один экран) ═══ */
+#s-setup{gap:0;padding:24px 20px;overflow-y:auto}
+.setup-wrap{max-width:560px;width:100%;display:flex;flex-direction:column;gap:22px;padding:10px 0 40px}
+.setup-section{}.setup-section h3{font-size:13px;font-weight:500;color:var(--t2);margin-bottom:8px}.setup-section h3 span{color:var(--t3);font-weight:400;font-size:11px}
+.name-row{display:flex;gap:8px}.name-row .inp{flex:1}.name-row .btn{flex-shrink:0;padding:9px 14px;font-size:16px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{padding:6px 14px;border:1px solid var(--brd);border-radius:20px;font-size:12px;color:var(--t2);cursor:pointer;transition:all .2s;user-select:none}
+.tag:hover{border-color:var(--brd-h);color:var(--t1)}.tag.on{border-color:var(--ac);color:var(--ac);background:rgba(var(--ac-rgb),.08)}
+.arch-grid{display:flex;gap:10px;flex-wrap:wrap}
+.arch{flex:1;min-width:150px;border:1px solid var(--brd);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all .25s}
+.arch:hover{border-color:var(--brd-h);box-shadow:0 0 16px var(--glow)}.arch.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.06)}
+.arch h4{font-size:14px;margin-bottom:2px}.arch .a-stats{font:500 11px var(--m);color:var(--ac);margin-bottom:4px}.arch .a-desc{font-size:12px;color:var(--t2);line-height:1.45}
+.start-row{display:flex;justify-content:center;padding-top:8px}
+.or-sep{display:flex;align-items:center;gap:10px;color:var(--t3);font-size:11px;margin:2px 0}.or-sep::before,.or-sep::after{content:'';flex:1;height:1px;background:var(--brd)}
 
-#s-reality{gap:32px;padding:32px 20px}
-.reality-head{text-align:center}
-.reality-head h2{font-size:18px;font-weight:400;color:var(--text2);letter-spacing:.5px}
-.reality-head p{font-size:12px;color:var(--text3);margin-top:6px;font-style:italic}
-.reality-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:580px;width:100%}
-@media(max-width:560px){.reality-grid{grid-template-columns:1fr;max-width:360px}}
-.r-card{border:1px solid var(--border);border-radius:var(--rad);padding:22px 20px;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden}
-.r-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 120%,var(--cg,transparent) 0%,transparent 70%);opacity:0;transition:opacity .3s}
-.r-card:hover{border-color:var(--ca,var(--border-h));transform:translateY(-2px)}
-.r-card:hover::before{opacity:1}
-.r-card .r-icon{font-size:28px;margin-bottom:10px;display:block}
-.r-card .r-name{font-size:15px;font-weight:600;margin-bottom:4px;position:relative}
-.r-card .r-sub{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;position:relative}
-.r-card .r-desc{font-size:12.5px;color:var(--text2);line-height:1.6;position:relative}
-.r-card[data-r="neon"]{--ca:rgba(124,58,237,.5);--cg:rgba(124,58,237,.08)}
-.r-card[data-r="fantasy"]{--ca:rgba(16,185,129,.5);--cg:rgba(16,185,129,.08)}
-.r-card[data-r="ash"]{--ca:rgba(245,158,11,.5);--cg:rgba(245,158,11,.08)}
-.r-card[data-r="chrome"]{--ca:rgba(6,182,212,.5);--cg:rgba(6,182,212,.08)}
-
-#s-char{gap:28px;padding:40px 20px}
-.char-head{text-align:center}
-.char-head h2{font-size:17px;font-weight:400;color:var(--text2)}
-.char-head p{font-size:13px;color:var(--text3);font-style:italic;margin-top:6px;max-width:460px}
-.char-opts{display:flex;flex-direction:column;gap:12px;max-width:520px;width:100%}
-.c-card{border:1px solid var(--border);border-radius:var(--rad);padding:18px 22px;cursor:pointer;transition:all .25s ease}
-.c-card:hover{border-color:var(--border-h);box-shadow:0 0 20px var(--glow);transform:translateY(-1px)}
-.c-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
-.c-card .c-stats{font:500 12px var(--mono);color:var(--accent);margin-bottom:6px}
-.c-card .c-desc{font-size:13px;color:var(--text2);line-height:1.55}
-.c-card .c-bonus{font-size:11.5px;color:var(--v-ego);margin-top:6px}
-
+/* ═══ GAME ═══ */
 #s-game{flex-direction:row!important;align-items:stretch!important;justify-content:stretch!important;min-height:100vh}
 #main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
-#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2);position:relative;z-index:3}
-.tb-title{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3)}
-.tb-title b{color:var(--accent);font-weight:600}
-.tb-stats{display:flex;gap:16px;font:500 11px var(--mono)}
-.tb-s{display:flex;align-items:center;gap:5px}
-.tb-s .lb{color:var(--text3);font-size:10px}
-.tb-s .vl{color:var(--text1)}
-.tb-s .vl.warn{color:var(--v-inst)}
-.tb-s .vl.crit{color:var(--danger)}
-#narr{flex:1;overflow-y:auto;padding:28px 24px;max-width:760px}
-.n-text{margin-bottom:20px;line-height:1.88;font-size:15px}
-.n-text p{margin-bottom:13px}
-.n-text strong{color:#fff;font-weight:600}
-.n-text em{color:var(--text2)}
-.vb{border-left:2px solid;padding:9px 14px;margin:10px 0;font-size:13.5px;border-radius:0 var(--rad) var(--rad) 0;opacity:0;animation:vIn .4s ease forwards}
-.vb .vn{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:3px}
-.vb .vt{color:var(--text2);font-style:italic;line-height:1.65}
-.vb-inst{border-color:var(--v-inst)}.vb-inst .vn{color:var(--v-inst)}
-.vb-logic{border-color:var(--v-logic)}.vb-logic .vn{color:var(--v-logic)}
-.vb-ego{border-color:var(--v-ego)}.vb-ego .vn{color:var(--v-ego)}
-.vb-shadow{border-color:var(--v-shadow)}.vb-shadow .vn{color:var(--v-shadow)}
-@keyframes vIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
-#choices{padding:14px 20px 20px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg2)}
-.ch{display:block;width:100%;text-align:left;background:transparent;color:var(--text1);border:1px solid var(--border);border-radius:var(--rad);padding:11px 15px;margin-bottom:7px;font:400 13.5px/1.5 var(--font);cursor:pointer;transition:all .2s ease}
-.ch:last-child{margin-bottom:0}
-.ch:hover{border-color:var(--border-h);padding-left:19px;box-shadow:0 0 14px var(--glow)}
-.ch:disabled{opacity:.2;cursor:default;box-shadow:none;padding-left:15px}
-.ch .sk{font:500 10px var(--mono);color:var(--accent);margin-left:6px}
-#loader{display:none;padding:28px 20px;text-align:center}
-#loader.on{display:block}
-.ld-txt{color:var(--accent);font-size:13px}
-.ld-bar{width:120px;height:2px;background:var(--bg3);margin:12px auto 0;border-radius:1px;overflow:hidden}
-.ld-bar::after{content:'';display:block;width:40%;height:100%;background:var(--accent);border-radius:1px;animation:ldB 1.2s ease-in-out infinite}
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--brd);flex-shrink:0;background:var(--bg2);z-index:3}
+.tb-t{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--t3)}.tb-t b{color:var(--ac)}
+.tb-s{display:flex;gap:14px;font:500 11px var(--m)}.ts{display:flex;align-items:center;gap:4px}.ts .l{color:var(--t3);font-size:10px}.ts .v{color:var(--t1)}.ts .v.w{color:var(--vi)}.ts .v.c{color:var(--red)}
+#narr{flex:1;overflow-y:auto;padding:24px 22px;max-width:740px}
+.nt{margin-bottom:18px;line-height:1.88;font-size:15px}.nt p{margin-bottom:12px}.nt strong{color:#fff;font-weight:600}.nt em{color:var(--t2)}
+.vb{border-left:2px solid;padding:8px 14px;margin:8px 0;font-size:13px;border-radius:0 var(--r) var(--r) 0;opacity:0;animation:vI .4s ease forwards}.vb .vn{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}.vb .vt{color:var(--t2);font-style:italic;line-height:1.6}
+.vb-i{border-color:var(--vi)}.vb-i .vn{color:var(--vi)}.vb-l{border-color:var(--vl)}.vb-l .vn{color:var(--vl)}.vb-e{border-color:var(--ve)}.vb-e .vn{color:var(--ve)}.vb-s{border-color:var(--vs)}.vb-s .vn{color:var(--vs)}
+@keyframes vI{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+#bottom-area{flex-shrink:0;background:var(--bg2);border-top:1px solid var(--brd)}
+#choices{padding:10px 20px 4px}
+.ch{display:block;width:100%;text-align:left;background:transparent;color:var(--t1);border:1px solid var(--brd);border-radius:var(--r);padding:10px 14px;margin-bottom:6px;font:400 13px/1.5 var(--f);cursor:pointer;transition:all .2s}.ch:hover{border-color:var(--brd-h);padding-left:18px;box-shadow:0 0 12px var(--glow)}.ch:disabled{opacity:.2;cursor:default;box-shadow:none;padding-left:14px}.ch .sk{font:500 10px var(--m);color:var(--ac);margin-left:6px}
+#free-input{display:flex;gap:8px;padding:6px 20px 14px}
+#inp-free{flex:1;padding:9px 12px;font-size:13px}
+#btn-free{background:transparent;border:1px solid var(--brd);color:var(--ac);padding:9px 16px;border-radius:var(--r);cursor:pointer;font-size:15px;transition:all .2s;flex-shrink:0}
+#btn-free:hover{background:var(--ac);color:#fff;border-color:var(--ac)}#btn-free:disabled{opacity:.2;cursor:default}
+#loader{display:none;padding:24px 20px;text-align:center}#loader.on{display:block}
+.ld-t{color:var(--ac);font-size:13px}.ld-b{width:100px;height:2px;background:var(--bg3);margin:10px auto 0;border-radius:1px;overflow:hidden}.ld-b::after{content:'';display:block;width:40%;height:100%;background:var(--ac);animation:ldB 1.2s ease-in-out infinite}
 @keyframes ldB{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
-#side{width:260px;border-left:1px solid var(--border);background:var(--bg2);overflow-y:auto;padding:18px;flex-shrink:0;height:100vh;transition:right .3s ease}
-.sb-sec{margin-bottom:24px}
-.sb-lbl{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
-.st-row{display:flex;align-items:center;margin-bottom:8px}
-.st-nm{font-size:11.5px;color:var(--text2);min-width:60px}
-.st-bw{flex:1;height:2px;background:rgba(255,255,255,.04);border-radius:1px;overflow:hidden;margin:0 8px}
-.st-bf{height:100%;border-radius:1px;transition:width .5s ease,background .5s}
-.st-vl{font:500 11px var(--mono);color:var(--text1);min-width:24px;text-align:right}
-.sb-item{font-size:12.5px;color:var(--text2);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.025);line-height:1.5}
-.sb-item:last-child{border-bottom:none}
-.sb-empty{font-size:11.5px;color:var(--text3);font-style:italic}
-.sb-clue{color:var(--accent)}.sb-title{color:var(--v-ego)}
-.fac-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12.5px}
-.fac-n{color:var(--text2)}.fac-v{font:500 11px var(--mono)}
-.fac-v.pos{color:var(--success)}.fac-v.neg{color:var(--danger)}.fac-v.neu{color:var(--text3)}
-.fac-h{color:var(--text3);font-style:italic;font-size:11px;padding:4px 0}
-#mob-btn{display:none;position:fixed;top:10px;right:10px;z-index:100;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);color:var(--text2);width:36px;height:36px;font-size:16px;cursor:pointer;align-items:center;justify-content:center}
-#dice{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;flex-direction:column;gap:14px}
-#dice.on{display:flex}
-.d-val{font:700 58px var(--mono);color:var(--accent);animation:dR .55s ease-out}
-.d-val.ok{color:var(--success)}.d-val.no{color:var(--danger)}
-.d-val.crit-ok{color:var(--v-ego);text-shadow:0 0 28px var(--v-ego)}
-.d-val.crit-no{color:var(--danger);text-shadow:0 0 28px var(--danger)}
-.d-info{font:400 13px var(--mono);color:var(--text2);text-align:center}
-.d-res{font-size:15px;text-align:center;margin-top:4px}
+
+/* ═══ SIDEBAR ═══ */
+#side{width:260px;border-left:1px solid var(--brd);background:var(--bg2);overflow-y:auto;padding:18px;flex-shrink:0;height:100vh;transition:right .3s}
+.ss{margin-bottom:22px}.sl{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.sr{display:flex;align-items:center;margin-bottom:8px}.sn{font-size:11px;color:var(--t2);min-width:52px}.sw{flex:1;height:2px;background:rgba(255,255,255,.04);border-radius:1px;overflow:hidden;margin:0 8px}.sf{height:100%;border-radius:1px;transition:width .5s,background .5s}.sv{font:500 11px var(--m);color:var(--t1);min-width:24px;text-align:right}
+.si{font-size:12px;color:var(--t2);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.025);line-height:1.45}.si:last-child{border-bottom:none}
+.se{font-size:11px;color:var(--t3);font-style:italic}.sc{color:var(--ac)}.st{color:var(--ve)}
+.fr{display:flex;justify-content:space-between;padding:3px 0;font-size:12px}.fn{color:var(--t2)}.fv{font:500 11px var(--m)}.fv.p{color:var(--grn)}.fv.n{color:var(--red)}.fv.z{color:var(--t3)}.fh{color:var(--t3);font-style:italic;font-size:11px;padding:3px 0}
+#mob-btn{display:none;position:fixed;top:10px;right:10px;z-index:100;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);color:var(--t2);width:36px;height:36px;font-size:16px;cursor:pointer;align-items:center;justify-content:center}
+#dice{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;flex-direction:column;gap:14px}#dice.on{display:flex}
+.dv{font:700 58px var(--m);color:var(--ac);animation:dR .55s ease-out}.dv.ok{color:var(--grn)}.dv.no{color:var(--red)}.dv.co{color:var(--ve);text-shadow:0 0 28px var(--ve)}.dv.cn{color:var(--red);text-shadow:0 0 28px var(--red)}
+.di{font:400 13px var(--m);color:var(--t2);text-align:center}.dr{font-size:15px;text-align:center;margin-top:4px}
 @keyframes dR{0%{transform:scale(.4)rotate(-180deg);opacity:0}60%{transform:scale(1.15)rotate(8deg)}100%{transform:none;opacity:1}}
-#s-end{gap:24px;padding:32px;text-align:center}
-.end-t{font-size:26px;font-weight:700;color:var(--accent)}
-.end-tx{max-width:500px;color:var(--text2);line-height:1.85;font-size:14.5px}
-.end-st{font:400 12px var(--mono);color:var(--text3);line-height:2.1}
-.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--rad);color:var(--danger);padding:14px;margin:14px 0;font-size:12.5px;line-height:1.6}
-.err button{margin-top:6px;background:transparent;border:1px solid var(--danger);border-radius:var(--rad);color:var(--danger);padding:5px 14px;cursor:pointer;font:400 11px var(--font)}
-@media(max-width:840px){
-  #s-game{flex-direction:column!important}
-  #side{position:fixed;right:-280px;top:0;width:270px;height:100vh;z-index:200;border-left:1px solid var(--border)}
-  #side.open{right:0}
-  #mob-btn{display:flex}
-  #main{height:100vh;width:100%}
-  #narr{padding:20px 16px}
-  #choices{padding:10px 16px 16px}
-}
-@media(max-width:480px){.tb-stats{display:none}.ch{font-size:13px;padding:10px 13px}.reality-grid{gap:10px}.r-card{padding:16px}}
-.san-crit .st-bf{animation:sP 1.4s ease-in-out infinite}
-@keyframes sP{0%,100%{opacity:1}50%{opacity:.35}}
-#main.insane-1{filter:saturate(.82)hue-rotate(3deg)}
-#main.insane-2{filter:saturate(.6)hue-rotate(8deg)contrast(1.05)}
-#main.insane-3{filter:saturate(.35)hue-rotate(15deg)contrast(1.1);animation:sG 8s ease-in-out infinite}
+#s-end{gap:24px;padding:32px;text-align:center}.et{font-size:26px;font-weight:700;color:var(--ac)}.ex{max-width:500px;color:var(--t2);line-height:1.85;font-size:14.5px}.es{font:400 12px var(--m);color:var(--t3);line-height:2.1}
+.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--r);color:var(--red);padding:12px;margin:12px 0;font-size:12px;line-height:1.6}.err button{margin-top:5px;background:none;border:1px solid var(--red);border-radius:var(--r);color:var(--red);padding:4px 12px;cursor:pointer;font:400 11px var(--f)}
+@media(max-width:840px){#s-game{flex-direction:column!important}#side{position:fixed;right:-280px;top:0;width:270px;height:100vh;z-index:200;border-left:1px solid var(--brd)}#side.open{right:0}#mob-btn{display:flex}#main{height:100vh;width:100%}#narr{padding:20px 16px}#choices{padding:8px 16px 2px}#free-input{padding:4px 16px 12px}}
+@media(max-width:560px){.tb-s{display:none}.arch-grid{flex-direction:column}.arch{min-width:auto}}
+.san-c .sf{animation:sP 1.4s ease-in-out infinite}@keyframes sP{0%,100%{opacity:1}50%{opacity:.35}}
+#main.i1{filter:saturate(.82)hue-rotate(3deg)}#main.i2{filter:saturate(.6)hue-rotate(8deg)contrast(1.05)}#main.i3{filter:saturate(.35)hue-rotate(15deg)contrast(1.1);animation:sG 8s infinite}
 @keyframes sG{0%,92%,100%{transform:none}93%{transform:translate(-1px,1px)}95%{transform:translate(1px,-1px)}97%{transform:translate(-1px,0)}}
-.fade-in{animation:fi .6s ease forwards}
-@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fi{animation:fI .6s ease forwards}@keyframes fI{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 #crash{position:fixed;inset:0;z-index:99999;background:#0d0d12;color:#ef4444;font:14px/1.8 monospace;padding:40px;display:none;overflow:auto}
 </style>
 </head>
 <body>
-
 <canvas id="particles"></canvas>
 <div id="transition"></div>
 <div id="crash"></div>
 
+<!-- TITLE -->
 <div id="s-title" class="scr on vis">
   <div class="logo">Dark<b>Script</b></div>
-  <div class="logo-sub">Текстовая RPG</div>
-  <div class="tagline">«Ты не помнишь своего имени. Мир не помнит солнца. И только голоса в голове помнят всё — но кому из них верить?»</div>
-  <div class="title-btns">
-    <button class="btn primary" onclick="goTo('s-reality')">Новая игра</button>
+  <div class="logo-sub">Интерактивная история</div>
+  <div class="tagline">«Ты не помнишь кто ты. Мир ждёт, пока ты решишь. Голоса в голове уже решили — но они не согласны друг с другом.»</div>
+  <div class="t-btns">
+    <button class="btn pri" onclick="goTo('s-setup')">Создать историю</button>
     <button class="btn" id="btn-cont" style="display:none" onclick="tryLoad()">Продолжить</button>
   </div>
 </div>
 
-<div id="s-reality" class="scr">
-  <div class="reality-head">
-    <h2>Выбери реальность</h2>
-    <p>Каждый мир хранит свои тени. Механики одинаковы — атмосфера другая.</p>
+<!-- SETUP — всё на одном экране -->
+<div id="s-setup" class="scr">
+<div class="setup-wrap">
+
+  <div class="setup-section">
+    <h3>Кто ты? <span>— имя или прозвище</span></h3>
+    <div class="name-row">
+      <input class="inp" id="inp-name" placeholder="Введи имя..." maxlength="30">
+      <button class="btn" onclick="randomName()" title="Случайное">🎲</button>
+    </div>
   </div>
-  <div class="reality-grid">
-    <div class="r-card" data-r="neon" onclick="pickReality('neon')">
-      <span class="r-icon">🌃</span>
-      <div class="r-name">Неоновый Нуар</div>
-      <div class="r-sub">80-е · Магия · Синтвейв</div>
-      <div class="r-desc">Город, где неон горит ярче солнца, а магию заряжают в кассеты.</div>
+
+  <div class="setup-section">
+    <h3>В каком мире? <span>— выбери или опиши свой</span></h3>
+    <div class="tags" id="world-tags">
+      <span class="tag on" data-w="neon">🌃 Неоновые 80-е</span>
+      <span class="tag" data-w="fantasy">⚔️ Тёмное средневековье</span>
+      <span class="tag" data-w="ash">☢️ После конца света</span>
+      <span class="tag" data-w="chrome">🔮 Кибер-мегаполис</span>
+      <span class="tag" data-w="custom">✏️ Свой мир</span>
     </div>
-    <div class="r-card" data-r="fantasy" onclick="pickReality('fantasy')">
-      <span class="r-icon">⚔️</span>
-      <div class="r-name">Тёмное Фэнтези</div>
-      <div class="r-sub">Мечи · Руны · Проклятия</div>
-      <div class="r-desc">Город-крепость на краю Пустоши. Тьма здесь — не метафора.</div>
+    <textarea class="inp" id="inp-world" placeholder="Опиши мир, в котором хочешь оказаться... Любой. Буквально любой." style="display:none"></textarea>
+  </div>
+
+  <div class="setup-section">
+    <h3>Что ты помнишь? <span>— это станет зерном сюжета</span></h3>
+    <div class="tags" id="seed-tags">
+      <span class="tag on" data-s="Запах горящих фотографий">🔥 Запах гари</span>
+      <span class="tag" data-s="Кровь на чужих руках">🩸 Кровь на руках</span>
+      <span class="tag" data-s="Шёпот из выключенного радио">📻 Шёпот из тишины</span>
+      <span class="tag" data-s="Дверь, которая не должна открываться">🚪 Запретная дверь</span>
+      <span class="tag" data-s="Чьё-то лицо без черт">👤 Лицо без черт</span>
+      <span class="tag" data-s="custom">✏️ Своё</span>
     </div>
-    <div class="r-card" data-r="ash" onclick="pickReality('ash')">
-      <span class="r-icon">☢️</span>
-      <div class="r-name">Пепел и Ржавчина</div>
-      <div class="r-sub">Постапокалипсис · Руины · Аномалии</div>
-      <div class="r-desc">30 лет после Конца. Кто-то всё ещё расследует убийства.</div>
+    <input class="inp" id="inp-seed" placeholder="Что ты помнишь? Образ, ощущение, фраза..." style="display:none">
+  </div>
+
+  <div class="setup-section">
+    <h3>С чего начнётся история? <span>— или оставь пустым для сюрприза</span></h3>
+    <textarea class="inp" id="inp-premise" placeholder="Опиши начальную ситуацию... Или оставь пустым — я придумаю."></textarea>
+  </div>
+
+  <div class="setup-section">
+    <h3>Твой архетип</h3>
+    <div class="arch-grid">
+      <div class="arch on" data-a="edge" onclick="pickArch(this)">
+        <h4>🔥 Грань</h4>
+        <div class="a-stats">ГРН 7 · МСК 4 · НТЬ 5</div>
+        <div class="a-desc">Действие. Риск. Сила. Ты решаешь проблемы до того, как они решат тебя.</div>
+      </div>
+      <div class="arch" data-a="mask" onclick="pickArch(this)">
+        <h4>🎭 Маска</h4>
+        <div class="a-stats">ГРН 4 · МСК 7 · НТЬ 5</div>
+        <div class="a-desc">Слова. Ложь. Обаяние. Люди делают то, что ты хочешь, и думают, что это была их идея.</div>
+      </div>
+      <div class="arch" data-a="thread" onclick="pickArch(this)">
+        <h4>🕸️ Нить</h4>
+        <div class="a-stats">ГРН 4 · МСК 5 · НТЬ 7</div>
+        <div class="a-desc">Паттерны. Связи. Память. Ты видишь то, что другие пропускают.</div>
+      </div>
     </div>
-    <div class="r-card" data-r="chrome" onclick="pickReality('chrome')">
-      <span class="r-icon">🔮</span>
-      <div class="r-name">Хромированные Сны</div>
-      <div class="r-sub">Киберпанк · Импланты · Глитчи</div>
-      <div class="r-desc">Мегаполис из стали. Твои воспоминания — файлы. Кто-то их удалил.</div>
-    </div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn pri" onclick="beginGame()" style="padding:12px 48px;font-size:14px">▸ Начать историю</button>
   </div>
 </div>
-
-<div id="s-char" class="scr">
-  <div class="char-head">
-    <h2>Что помнит твоё тело?</h2>
-    <p>Имя стёрто. Но мышечная память — упрямая вещь.</p>
-  </div>
-  <div class="char-opts">
-    <div class="c-card" onclick="startGame('fist')">
-      <h3>🥊 Руки помнят удар</h3>
-      <div class="c-stats">СИЛ 7 · ХАР 4 · ИНТ 5</div>
-      <div class="c-desc">Ты решал проблемы не словами. Слова — для тех, у кого есть время.</div>
-      <div class="c-bonus">Бонус: Рассудок +10%</div>
-    </div>
-    <div class="c-card" onclick="startGame('tongue')">
-      <h3>🗣️ Язык помнит ложь</h3>
-      <div class="c-stats">СИЛ 4 · ХАР 7 · ИНТ 5</div>
-      <div class="c-desc">Ты мог убедить человека, что дождь идёт снизу вверх.</div>
-      <div class="c-bonus">Бонус: информатор лоялен</div>
-    </div>
-    <div class="c-card" onclick="startGame('brain')">
-      <h3>🧠 Голова помнит почти всё</h3>
-      <div class="c-stats">СИЛ 4 · ХАР 5 · ИНТ 7</div>
-      <div class="c-desc">Ты видел связи в хаосе. Теперь видишь их даже там, где их нет.</div>
-      <div class="c-bonus">Бонус: точные подсказки Логики</div>
-    </div>
-  </div>
 </div>
 
+<!-- GAME -->
 <div id="s-game" class="scr">
   <div id="main">
     <div id="topbar">
-      <div class="tb-title">Dark<b>Script</b></div>
-      <div class="tb-stats">
-        <div class="tb-s"><span class="lb">🧠</span><span class="vl" id="t-san">65%</span></div>
-        <div class="tb-s"><span class="lb">⚡</span><span class="vl" id="t-ten">5%</span></div>
-        <div class="tb-s"><span class="lb">📎</span><span class="vl" id="t-clu">0/3</span></div>
+      <div class="tb-t">Dark<b>Script</b></div>
+      <div class="tb-s">
+        <div class="ts"><span class="l">🧠</span><span class="v" id="t-san">65%</span></div>
+        <div class="ts"><span class="l">⚡</span><span class="v" id="t-ten">5%</span></div>
+        <div class="ts"><span class="l">📎</span><span class="v" id="t-clu">0/3</span></div>
       </div>
     </div>
     <div id="narr"></div>
-    <div id="loader"><div class="ld-txt">Реальность формируется</div><div class="ld-bar"></div></div>
-    <div id="choices"></div>
+    <div id="loader"><div class="ld-t">Реальность формируется</div><div class="ld-b"></div></div>
+    <div id="bottom-area">
+      <div id="choices"></div>
+      <div id="free-input">
+        <input class="inp" id="inp-free" placeholder="Или опиши свой ход..." maxlength="300">
+        <button id="btn-free" onclick="sendFree()">→</button>
+      </div>
+    </div>
   </div>
   <div id="side">
-    <div class="sb-sec">
-      <div class="sb-lbl">Характеристики</div>
-      <div class="st-row"><span class="st-nm">Сила</span><div class="st-bw"><div class="st-bf" id="b-str" style="width:50%;background:var(--v-inst)"></div></div><span class="st-vl" id="v-str">5</span></div>
-      <div class="st-row"><span class="st-nm">Харизма</span><div class="st-bw"><div class="st-bf" id="b-cha" style="width:50%;background:var(--v-shadow)"></div></div><span class="st-vl" id="v-cha">5</span></div>
-      <div class="st-row"><span class="st-nm">Интеллект</span><div class="st-bw"><div class="st-bf" id="b-int" style="width:50%;background:var(--v-logic)"></div></div><span class="st-vl" id="v-int">5</span></div>
+    <div class="ss"><div class="sl">Персонаж</div><div id="char-name" style="font-size:14px;font-weight:600;margin-bottom:10px;color:var(--ac)"></div>
+      <div class="sr"><span class="sn">Грань</span><div class="sw"><div class="sf" id="b-edge" style="width:50%;background:var(--vi)"></div></div><span class="sv" id="v-edge">5</span></div>
+      <div class="sr"><span class="sn">Маска</span><div class="sw"><div class="sf" id="b-mask" style="width:50%;background:var(--vs)"></div></div><span class="sv" id="v-mask">5</span></div>
+      <div class="sr"><span class="sn">Нить</span><div class="sw"><div class="sf" id="b-thread" style="width:50%;background:var(--vl)"></div></div><span class="sv" id="v-thread">5</span></div>
     </div>
-    <div class="sb-sec" id="san-sec">
-      <div class="sb-lbl">Состояние</div>
-      <div class="st-row"><span class="st-nm">Рассудок</span><div class="st-bw"><div class="st-bf" id="b-san" style="width:65%;background:var(--v-logic)"></div></div><span class="st-vl" id="v-san">65%</span></div>
-      <div class="st-row"><span class="st-nm">Напряжение</span><div class="st-bw"><div class="st-bf" id="b-ten" style="width:5%;background:var(--danger)"></div></div><span class="st-vl" id="v-ten">5%</span></div>
+    <div class="ss" id="san-sec"><div class="sl">Состояние</div>
+      <div class="sr"><span class="sn">Рассудок</span><div class="sw"><div class="sf" id="b-san" style="width:65%;background:var(--vl)"></div></div><span class="sv" id="v-san">65%</span></div>
+      <div class="sr"><span class="sn">Накал</span><div class="sw"><div class="sf" id="b-ten" style="width:5%;background:var(--red)"></div></div><span class="sv" id="v-ten">5%</span></div>
     </div>
-    <div class="sb-sec"><div class="sb-lbl">Улики (<span id="sc-cl">0</span>/3)</div><div id="ls-cl"><div class="sb-empty">Пусто</div></div></div>
-    <div class="sb-sec"><div class="sb-lbl">Инвентарь</div><div id="ls-inv"><div class="sb-empty">Карманы пусты</div></div></div>
-    <div class="sb-sec"><div class="sb-lbl">Титулы</div><div id="ls-tit"><div class="sb-empty">Пока никто</div></div></div>
-    <div class="sb-sec"><div class="sb-lbl">Фракции</div><div id="ls-fac"></div></div>
-    <div class="sb-sec" style="margin-top:20px;padding-top:14px;border-top:1px solid var(--border)">
-      <button class="btn" style="width:100%;font-size:11px;padding:7px" onclick="saveGame()">💾 Сохранить</button>
-    </div>
+    <div class="ss"><div class="sl">Улики (<span id="sc-cl">0</span>/3)</div><div id="ls-cl"><div class="se">Пусто</div></div></div>
+    <div class="ss"><div class="sl">Инвентарь</div><div id="ls-inv"><div class="se">Пусто</div></div></div>
+    <div class="ss"><div class="sl">Метки</div><div id="ls-tit"><div class="se">—</div></div></div>
+    <div class="ss"><div class="sl">Фракции</div><div id="ls-fac"></div></div>
+    <div class="ss" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--brd)"><button class="btn" style="width:100%;font-size:11px;padding:7px" onclick="saveGame()">💾 Сохранить</button></div>
   </div>
   <button id="mob-btn" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
 </div>
 
-<div id="dice">
-  <div class="d-val" id="dv">20</div>
-  <div class="d-info" id="di"></div>
-  <div class="d-res" id="dr"></div>
-</div>
+<!-- DICE -->
+<div id="dice"><div class="dv" id="dv">20</div><div class="di" id="di"></div><div class="dr" id="dr"></div></div>
 
-<div id="s-end" class="scr">
-  <div class="end-t" id="e-t">КОНЕЦ</div>
-  <div class="end-tx" id="e-tx"></div>
-  <div class="end-st" id="e-st"></div>
-  <button class="btn primary" onclick="location.reload()">Начать заново</button>
-</div>
+<!-- END -->
+<div id="s-end" class="scr"><div class="et" id="e-t">КОНЕЦ</div><div class="ex" id="e-tx"></div><div class="es" id="e-st"></div><button class="btn pri" onclick="location.reload()">Новая история</button></div>
 
 <script>
-/* ═══════════════════════════════════════════
-   DARK SCRIPT v3 — полная стабильная версия
-   ═══════════════════════════════════════════ */
-try {
+try{
 
-// ═══ РЕАЛЬНОСТИ ═══
-var REALITIES = {
-  neon:{name:'Неоновый Нуар',accent:'124,58,237',bg1:'#0d0d12',bg2:'#15151e',bg3:'#1c1c28',particleHue:270,factions:['⚔️ Городская Стража','🗡️ Синдикат','🌑 Культ Пустоты'],setting:'Альтернативные 80-е. Город Эхо — магия просочилась через трещины. Пелена закрыла небо. Неон, синтезаторы, кассеты. Магию заряжают в кассеты. Прачечная "Чистая Совесть" (Грош), бар "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: кассеты, магнитофон, частота 108.7.'},
-  fantasy:{name:'Тёмное Фэнтези',accent:'16,185,129',bg1:'#0a0e0d',bg2:'#121a17',bg3:'#182320',particleHue:160,factions:['⚔️ Городская Стража','🗡️ Гильдия Теней','🌑 Орден Пустоты'],setting:'Тёмное средневековье. Город-крепость Эхо. Магия как чума. Свитки-ловушки вместо кассет. Руны вместо технологий. Таверна "Последний Аккорд" (Кеш), красильня "Чистая Совесть" (Грош), Переулок Сирен (Корс). Марта — бывшая напарница. Артефакты: свитки, зеркало-ловушка, руна круга, Шпиль.'},
-  ash:{name:'Пепел и Ржавчина',accent:'245,158,11',bg1:'#110e08',bg2:'#1a1610',bg3:'#231e14',particleHue:35,factions:['⚔️ Ополчение','🗡️ Клан Ржавых','🌑 Дети Коллапса'],setting:'30 лет после Коллапса. Руины Эхо. Аномалии вместо магии. Ржавая технология. Костры, грибы. Бар "Последний Аккорд" (Кеш), мастерская "Чистая Совесть" (Грош), Переулок (Корс). Марта — напарница. Артефакты: магнитные ленты, рация, частота 108.7.'},
-  chrome:{name:'Хромированные Сны',accent:'6,182,212',bg1:'#080d10',bg2:'#101920',bg3:'#152028',particleHue:190,factions:['⚔️ Корп-Безопасность','🗡️ Чёрный Рынок','🌑 Секта Обнуления'],setting:'2087. Мегаполис Эхо — сталь и голограммы. Нейроимпланты, цифровая память. Дата-чипы вместо кассет. Синт-бар "Последний Аккорд" (Кеш), серв-станция "Чистая Совесть" (Грош), Переулок (Корс). Марта — напарница. Артефакты: дата-чипы, нейро-логи, сервер 108.7.'}
+/* ═══════════════════════════════════════
+   КОНФИГУРАЦИЯ И ДАННЫЕ
+   ═══════════════════════════════════════ */
+var NAMES=['Хмарь','Корвус','Пепел','Морок','Гриф','Ржа','Искра','Блик','Шорох','Полынь','Марево','Чернь','Хруст','Зола','Тихон','Прах','Стекло','Дымка','Нерв','Осколок'];
+
+var WORLDS={
+  neon:{name:'Неоновый Нуар',ac:'124,58,237',bg1:'#0d0d12',bg2:'#15151e',bg3:'#1c1c28',hue:270,fac:['⚔️ Стража','🗡️ Синдикат','🌑 Культ Пустоты'],desc:'Альтернативные 80-е. Неон, синтезаторы, кассеты. Магия просочилась через трещины реальности и пахнет озоном. Небо закрыто Пеленой.'},
+  fantasy:{name:'Тёмное Фэнтези',ac:'16,185,129',bg1:'#0a0e0d',bg2:'#121a17',bg3:'#182320',hue:160,fac:['⚔️ Стража','🗡️ Гильдия Теней','🌑 Орден Пустоты'],desc:'Тёмное средневековье. Город-крепость на краю Пустоши. Магия как чума — заражает и убивает. Руны и свитки.'},
+  ash:{name:'Пепел и Ржавчина',ac:'245,158,11',bg1:'#110e08',bg2:'#1a1610',bg3:'#231e14',hue:35,fac:['⚔️ Ополчение','🗡️ Клан Ржавых','🌑 Дети Коллапса'],desc:'30 лет после Коллапса. Руины. Аномалии вместо магии. Ржавые технологии, костры, мутировавшие грибы.'},
+  chrome:{name:'Хромированные Сны',ac:'6,182,212',bg1:'#080d10',bg2:'#101920',bg3:'#152028',hue:190,fac:['⚔️ Корп-Безопасность','🗡️ Чёрный Рынок','🌑 Секта Обнуления'],desc:'2087. Вертикальный мегаполис. Нейроимпланты, дата-чипы, голограммы. Память — файлы.'},
+  custom:{name:'Свой мир',ac:'124,58,237',bg1:'#0d0d12',bg2:'#15151e',bg3:'#1c1c28',hue:270,fac:['⚔️ Порядок','🗡️ Хаос','🌑 Неизвестное'],desc:''}
 };
 
-// ═══ ПРОМПТ ═══
-function buildPrompt(setting,factions){
-  return 'Ты мастер RPG "Dark Script". ОТВЕЧАЙ ТОЛЬКО JSON. Без markdown. Без ```.\n\n' +
-  setting + '\n\n' +
-  'Герой: бывший дознаватель, память стёрта, слышит голоса.\n' +
-  'Голоса (2-3 за сцену): ⚡Инстинкт(параноик), 🧠Логика(педант, ИНТ<6=чушь), 👑Эго(нарцисс), 🌑Тень(только если shadow=true, голос Пустоты).\n' +
-  'Тон: чёрный юмор Disco Elysium. Провалы СМЕШНЫЕ. Крит20=подвиг. Крит1=комедия+титул.\n' +
-  'Фракции: ' + factions[0] + '(закон) ' + factions[1] + '(преступность) ' + factions[2] + '(СКРЫТА до Акта2).\n' +
-  'Сюжет: Акт1=без памяти+убийства. Акт2=скрытая фракция. Акт3=финал.\n' +
-  '2-е лицо. 2-4 абзаца, 2-3 голоса, 2-4 выбора, >=1 skill_check. Двигай сюжет.\n\n' +
-  'ФОРМАТ JSON:\n' +
-  '{"narrative":"текст","voices":[{"name":"Инстинкт","icon":"⚡","text":"реплика"}],"choices":[{"text":"кнопка","skill_check":{"stat":"strength","dc":12},"consequences":{"sanity":0,"tension":5,"add_item":null,"add_title":null,"add_clue":null,"faction_guard":null,"faction_syndicate":null,"unlock_shadow":false,"next_scene_hint":"hint"}}],"state_changes":{"sanity":0,"tension":0}}';
-}
+var CFG={URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',MODEL:'claude-sonnet-4-20250514',MAX_T:3000,MAX_H:8,RET:3,RMS:[1500,3000,5000]};
 
-// ═══ КОНФИГ ═══
-var CFG = {
-  URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',
-  KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
-  MODEL:'claude-sonnet-4-20250514',
-  MAX_T:3000, MAX_H:8, RETRIES:3, RETRY_MS:[1500,3000,5000]
-};
-
-// ═══ СОСТОЯНИЕ ═══
-var S = {
-  reality:'neon',act:1,scene:0,bg:'fist',
-  stats:{strength:5,charisma:5,intelligence:5},
-  san:65,ten:5,clues:[],inv:[],titles:[],
-  fac:{guard:0,syndicate:0,cult:null},
+/* ═══ СОСТОЯНИЕ ═══ */
+var S={
+  name:'',world:'neon',worldDesc:'',seed:'',premise:'',arch:'edge',
+  act:1,scene:0,
+  stats:{edge:5,mask:5,thread:5},
+  san:65,ten:5,
+  clues:[],inv:[],titles:[],
+  fac:{order:0,chaos:0,hidden:null},
   flags:{shadowUnlocked:false},
-  hist:[],visited:[]
+  hist:[],beats:[],visited:[]
 };
-var curScene=null, lastAct=null, isLoading=false;
+var curScene=null,lastAct=null,isLoading=false;
 
-// ═══ ЧАСТИЦЫ ═══
-var cvs = document.getElementById('particles');
-var ctx2d = cvs ? cvs.getContext('2d') : null;
-var parts=[], partHue=270;
+/* ═══ СИСТЕМНЫЙ ПРОМПТ ═══ */
+function buildPrompt(){
+  var w=WORLDS[S.world]||WORLDS.neon;
+  var worldText=S.world==='custom'&&S.worldDesc?S.worldDesc:w.desc;
+  var seedText=S.seed||'обрывки, которые не складываются в картину';
+  var premiseText=S.premise||'';
+  var beatsText=S.beats.length>0?'\nУЖЕ БЫЛО (НЕ ПОВТОРЯЙ): '+S.beats.join('; '):'';
 
-function initP(){
-  if(!cvs) return;
-  cvs.width=window.innerWidth;
-  cvs.height=window.innerHeight;
-  parts=[];
-  for(var i=0;i<50;i++) parts.push(mkP());
-}
-function mkP(){
-  return {
-    x:Math.random()*(cvs?cvs.width:800),
-    y:Math.random()*(cvs?cvs.height:600),
-    r:Math.random()*1.5+.3,
-    vy:-(Math.random()*.3+.1),
-    vx:(Math.random()-.5)*.15,
-    a:Math.random()*.5+.1,
-    life:Math.random()*600+200
-  };
-}
-function drawP(){
-  if(!ctx2d||!cvs) return;
-  ctx2d.clearRect(0,0,cvs.width,cvs.height);
-  for(var i=0;i<parts.length;i++){
-    var p=parts[i];
-    p.x+=p.vx; p.y+=p.vy; p.life--;
-    if(p.life<60) p.a*=.97;
-    if(p.life<=0||p.y<-10){parts[i]=mkP();parts[i].y=(cvs?cvs.height:600)+10;}
-    ctx2d.beginPath();
-    ctx2d.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx2d.fillStyle='hsla('+partHue+',60%,65%,'+p.a+')';
-    ctx2d.fill();
-  }
-  requestAnimationFrame(drawP);
-}
-window.addEventListener('resize',function(){if(cvs){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}});
-initP(); drawP();
-
-// ═══ ЭКРАНЫ ═══
-function goTo(id){
-  var tr=document.getElementById('transition');
-  tr.classList.add('active');
-  setTimeout(function(){
-    var all=document.querySelectorAll('.scr');
-    for(var i=0;i<all.length;i++) {all[i].classList.remove('on');all[i].classList.remove('vis');}
-    var next=document.getElementById(id);
-    if(next){
-      next.classList.add('on');
-      setTimeout(function(){
-        tr.classList.remove('active');
-        setTimeout(function(){next.classList.add('vis');},60);
-      },120);
-    }
-  },460);
+  return 'Ты мастер интерактивной истории "Dark Script". ОТВЕЧАЙ ТОЛЬКО JSON без обёрток.\n\n'+
+  'МИР: '+worldText+'\n'+
+  'ГЕРОЙ: '+S.name+'. Бывший дознаватель, память стёрта. Слышит голоса в голове.\n'+
+  'ЗЕРНО ПАМЯТИ (вплетай в сюжет): "'+seedText+'"\n'+
+  (premiseText?'НАЧАЛЬНАЯ СИТУАЦИЯ (только для первой сцены): '+premiseText+'\n':'')+
+  beatsText+'\n\n'+
+  'ГОЛОСА (2-3 за сцену, разные каждый раз):\n'+
+  '⚡ Инстинкт — параноик. Видит угрозы везде.\n'+
+  '🧠 Логика — педант. Нить≥6=верные выводы, <6=уверенная чушь.\n'+
+  '👑 Эго — нарцисс-неудачник. Провал="мы не готовились".\n'+
+  '🌑 Тень — голос из-за реальности. ТОЛЬКО если shadow=true. Знает то, чего герой не помнит.\n\n'+
+  'ТОН: чёрный юмор. Мир серьёзный, герой усталый, юмор от честности. Провалы СМЕШНЫЕ. Крит20=подвиг+побочка. Крит1=комедия+метка.\n\n'+
+  'ФРАКЦИИ: '+w.fac[0]+'(порядок), '+w.fac[1]+'(хаос), '+w.fac[2]+'(СКРЫТА до Акта 2).\n\n'+
+  'ХАРАКТЕРИСТИКИ: Грань(edge)=сила,риск; Маска(mask)=обаяние,ложь; Нить(thread)=наблюдательность,память.\n\n'+
+  'ПРАВИЛА:\n'+
+  '- 2-е лицо. 2-5 абзацев + 2-3 голоса + 2-4 выбора.\n'+
+  '- ≥1 выбор с skill_check (stat: edge/mask/thread, dc: 8/12/15/18).\n'+
+  '- КАЖДАЯ сцена продвигает сюжет. Новые детали, NPC, повороты.\n'+
+  '- НИКОГДА не повторяй: пробуждение на полу, одинаковые описания, те же реакции NPC.\n'+
+  '- Чередуй темп: действие→тишина→загадка→напряжение→откровение.\n'+
+  '- Реагируй на свободный ввод игрока: если он делает что-то неожиданное, мир реагирует неожиданно.\n'+
+  '- Рассудок<30% = голоса врут, реальность плывёт, текст становится ненадёжным.\n'+
+  '- Вплетай зерно памяти в сюжет периодически — это нить, связывающая историю.\n\n'+
+  'JSON: {"narrative":"текст","voices":[{"name":"Инстинкт","icon":"⚡","text":"реплика"}],"choices":[{"text":"кнопка","skill_check":{"stat":"edge","dc":12},"consequences":{"sanity":0,"tension":5,"add_item":null,"add_title":null,"add_clue":null,"faction_order":null,"faction_chaos":null,"unlock_shadow":false,"next_scene_hint":"hint","beat":"краткое описание что произошло"}}],"state_changes":{"sanity":0,"tension":0}}';
 }
 
-// ═══ ТЕМА ═══
-function applyTheme(key){
-  var r=REALITIES[key]; if(!r)return;
-  var root=document.documentElement;
-  root.style.setProperty('--accent-rgb',r.accent);
-  root.style.setProperty('--accent','rgb('+r.accent+')');
-  root.style.setProperty('--glow','rgba('+r.accent+',.25)');
-  root.style.setProperty('--border','rgba('+r.accent+',.12)');
-  root.style.setProperty('--border-h','rgba('+r.accent+',.45)');
-  root.style.setProperty('--v-shadow','rgb('+r.accent+')');
-  root.style.setProperty('--bg1',r.bg1);
-  root.style.setProperty('--bg2',r.bg2);
-  root.style.setProperty('--bg3',r.bg3);
-  document.body.style.background=r.bg1;
-  partHue=r.particleHue;
-}
+/* ═══ ЧАСТИЦЫ ═══ */
+var cvs=document.getElementById('particles'),ctx2d=cvs?cvs.getContext('2d'):null,parts=[],partHue=270;
+function initP(){if(!cvs)return;cvs.width=innerWidth;cvs.height=innerHeight;parts=[];for(var i=0;i<50;i++)parts.push(mkP())}
+function mkP(){return{x:Math.random()*(cvs?cvs.width:800),y:Math.random()*(cvs?cvs.height:600),r:Math.random()*1.5+.3,vy:-(Math.random()*.3+.1),vx:(Math.random()-.5)*.15,a:Math.random()*.5+.1,life:Math.random()*600+200}}
+function drawP(){if(!ctx2d)return;ctx2d.clearRect(0,0,cvs.width,cvs.height);for(var i=0;i<parts.length;i++){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.life--;if(p.life<60)p.a*=.97;if(p.life<=0||p.y<-10){parts[i]=mkP();parts[i].y=cvs.height+10}ctx2d.beginPath();ctx2d.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2d.fillStyle='hsla('+partHue+',60%,65%,'+p.a+')';ctx2d.fill()}requestAnimationFrame(drawP)}
+addEventListener('resize',function(){if(cvs){cvs.width=innerWidth;cvs.height=innerHeight}});initP();drawP();
 
-function pickReality(key){S.reality=key;applyTheme(key);goTo('s-char');}
+/* ═══ ЭКРАНЫ ═══ */
+function goTo(id){var tr=document.getElementById('transition');tr.classList.add('active');setTimeout(function(){var a=document.querySelectorAll('.scr');for(var i=0;i<a.length;i++){a[i].classList.remove('on');a[i].classList.remove('vis')}var n=document.getElementById(id);if(n){n.classList.add('on');setTimeout(function(){tr.classList.remove('active');setTimeout(function(){n.classList.add('vis')},60)},120)}},460)}
 
-// ═══ СТАРТ ═══
-function startGame(bg){
-  S={reality:S.reality,act:1,scene:0,bg:bg,stats:{strength:5,charisma:5,intelligence:5},san:65,ten:5,clues:[],inv:['Записка: НЕ ВЕРЬ ТЕНИ'],titles:[],fac:{guard:0,syndicate:0,cult:null},flags:{shadowUnlocked:false},hist:[],visited:[]};
-  if(bg==='fist'){S.stats={strength:7,charisma:4,intelligence:5};S.san=75;}
-  if(bg==='tongue'){S.stats={strength:4,charisma:7,intelligence:5};S.san=65;S.fac.syndicate=1;}
-  if(bg==='brain'){S.stats={strength:4,charisma:5,intelligence:7};S.san=60;}
-  S.ten=5;
-  goTo('s-game');
-  setTimeout(function(){updateUI();requestScene('Начало. Акт 1. Герой просыпается на полу. Не помнит ничего. Записка НЕ ВЕРЬ ТЕНИ. Опиши пробуждение. Задай тон.');},700);
-}
+function applyTheme(key){var w=WORLDS[key]||WORLDS.neon;var r=document.documentElement;r.style.setProperty('--ac-rgb',w.ac);r.style.setProperty('--ac','rgb('+w.ac+')');r.style.setProperty('--glow','rgba('+w.ac+',.25)');r.style.setProperty('--brd','rgba('+w.ac+',.12)');r.style.setProperty('--brd-h','rgba('+w.ac+',.45)');r.style.setProperty('--vs','rgb('+w.ac+')');r.style.setProperty('--bg1',w.bg1);r.style.setProperty('--bg2',w.bg2);r.style.setProperty('--bg3',w.bg3);document.body.style.background=w.bg1;partHue=w.hue}
 
-// ═══ УТИЛИТЫ ═══
-function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-function getMod(s){return Math.floor((S.stats[s]||5)/2)-2;}
-function rollD20(){return Math.floor(Math.random()*20)+1;}
+/* ═══ SETUP UI ═══ */
+function randomName(){document.getElementById('inp-name').value=NAMES[Math.floor(Math.random()*NAMES.length)]}
 
-// ═══ БРОСОК ═══
-function showDice(roll,mod,dc,stat){
-  return new Promise(function(res){
-    var o=document.getElementById('dice'),dv=document.getElementById('dv'),
-        di=document.getElementById('di'),dr=document.getElementById('dr');
-    var tot=roll+mod,ok=tot>=dc,c20=roll===20,c1=roll===1;
-    var sn={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
-    o.classList.add('on');
-    dv.textContent=roll;
-    dv.className='d-val'+(c20?' crit-ok':c1?' crit-no':ok?' ok':' no');
-    di.textContent='d20('+roll+') '+(mod>=0?'+':'')+mod+' ['+sn[stat]+'] = '+tot+' vs DC'+dc;
-    dr.textContent=c20?'КРИТИЧЕСКИЙ УСПЕХ':c1?'КРИТИЧЕСКИЙ ПРОВАЛ':ok?'Успех':'Провал';
-    dr.style.color=(c20||ok)?'var(--success)':'var(--danger)';
-    dv.style.animation='none';dv.offsetHeight;dv.style.animation='';
-    setTimeout(function(){o.classList.remove('on');res({roll:roll,mod:mod,total:tot,dc:dc,ok:ok,c20:c20,c1:c1});},1700);
-  });
-}
-
-// ═══ JSON РЕМОНТ ═══
-function repairJSON(s){
-  s=s.trim();
-  var inStr=false,esc=false,braces=0,brackets=0;
-  for(var i=0;i<s.length;i++){
-    var c=s[i];
-    if(esc){esc=false;continue;}
-    if(c==='\\'){esc=true;continue;}
-    if(c==='"'){inStr=!inStr;continue;}
-    if(inStr)continue;
-    if(c==='{')braces++;
-    if(c==='}')braces--;
-    if(c==='[')brackets++;
-    if(c===']')brackets--;
-  }
-  if(inStr)s+='"';
-  s=s.replace(/,\s*$/,'');
-  while(brackets>0){s+=']';brackets--;}
-  while(braces>0){s+='}';braces--;}
-  return s;
-}
-
-function validateScene(obj){
-  if(!obj||typeof obj!=='object')throw new Error('not obj');
-  if(!obj.narrative&&!obj.choices)throw new Error('empty');
-  var ch=[];
-  if(Array.isArray(obj.choices)&&obj.choices.length>0){
-    for(var i=0;i<obj.choices.length;i++){
-      var c=obj.choices[i]||{};
-      ch.push({
-        text:c.text||'Продолжить',
-        skill_check:c.skill_check||null,
-        consequences:{
-          sanity:(c.consequences&&c.consequences.sanity)||0,
-          tension:(c.consequences&&c.consequences.tension)||0,
-          add_item:(c.consequences&&c.consequences.add_item)||null,
-          add_title:(c.consequences&&c.consequences.add_title)||null,
-          add_clue:(c.consequences&&c.consequences.add_clue)||null,
-          faction_guard:(c.consequences&&c.consequences.faction_guard)||null,
-          faction_syndicate:(c.consequences&&c.consequences.faction_syndicate)||null,
-          unlock_shadow:(c.consequences&&c.consequences.unlock_shadow)||false,
-          next_scene_hint:(c.consequences&&c.consequences.next_scene_hint)||''
-        }
-      });
-    }
-  } else {
-    ch=[{text:'Продолжить',skill_check:null,consequences:{sanity:0,tension:3,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:''}}];
-  }
-  return {
-    narrative:obj.narrative||'Реальность мерцает. Мир всё ещё здесь.',
-    voices:Array.isArray(obj.voices)?obj.voices:[],
-    choices:ch,
-    state_changes:obj.state_changes||{sanity:0,tension:0}
-  };
-}
-
-function parseJSON(raw){
-  if(!raw)throw new Error('Пустой ответ');
-  var t=raw.trim();
-  // убрать ```json ... ```
-  t=t.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
-  // Стратегия 1
-  try{return validateScene(JSON.parse(t));}catch(e){}
-  // Стратегия 2: regex {…}
-  var m=t.match(/\{[\s\S]*\}/);
-  if(m){
-    try{return validateScene(JSON.parse(m[0]));}catch(e){}
-    // Стратегия 3: ремонт
-    try{return validateScene(JSON.parse(repairJSON(m[0])));}catch(e){}
-  }
-  // Стратегия 4: ремонт всего
-  try{return validateScene(JSON.parse(repairJSON(t)));}catch(e){}
-  // Стратегия 5: текст как narrative
-  var plain=t.replace(/[{}$$$$]/g,' ').replace(/\s+/g,' ').trim();
-  if(plain.length>20){
-    return validateScene({narrative:plain.substring(0,1200)});
-  }
-  throw new Error('Не удалось разобрать ответ');
-}
-
-// ═══ ФОЛЛБЭК ═══
-function makeFallback(){
-  var scenes=[
-    {narrative:"Помехи. Реальность дрожит, как старая плёнка. Ты моргаешь — мир возвращается, но что-то сдвинулось.\n\nКоридор. Слева — звуки. Справа — тишина. Оба варианта внушают одинаковое недоверие.",voices:[{name:"Инстинкт",icon:"⚡",text:"Звуки слева. Может голоса. Может эхо. В этом городе одно от другого не отличить."},{name:"Эго",icon:"👑",text:"Мы не заблудились. Мы ИССЛЕДУЕМ. Разница принципиальная."}],choices:[{text:"Пойти на звуки",skill_check:{stat:"charisma",dc:10},consequences:{sanity:-2,tension:5,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"встреча"}},{text:"Пойти в тишину",skill_check:null,consequences:{sanity:2,tension:3,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"находка"}},{text:"Осмотреть стены",skill_check:{stat:"intelligence",dc:12},consequences:{sanity:-1,tension:0,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"надпись"}}],state_changes:{sanity:0,tension:2}},
-    {narrative:"Комната. Маленькая, душная. Лампочка мигает, отсчитывая чьё-то терпение. На столе стакан мутной воды и записка.\n\nЗа стеной кашляют — долго, надрывно. Кто-то давно махнул рукой на здоровье.",voices:[{name:"Логика",icon:"🧠",text:"Лампа мигает с интервалом 3 секунды. Неисправность. Или сигнал."},{name:"Инстинкт",icon:"⚡",text:"Воду НЕ ПИТЬ. Записку читать. Кашель игнорировать."}],choices:[{text:"Прочитать записку",skill_check:null,consequences:{sanity:-3,tension:5,add_item:"Мятая записка",add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"адрес"}},{text:"Постучать соседу",skill_check:{stat:"charisma",dc:11},consequences:{sanity:0,tension:8,add_item:null,add_title:null,add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"сосед"}},{text:"Выпить воду",skill_check:{stat:"strength",dc:8},consequences:{sanity:5,tension:0,add_item:null,add_title:"Рисковый",add_clue:null,faction_guard:null,faction_syndicate:null,unlock_shadow:false,next_scene_hint:"последствия"}}],state_changes:{sanity:-1,tension:2}}
-  ];
-  return scenes[Math.floor(Math.random()*scenes.length)];
-}
-
-// ═══ API ═══
-function callAI(msg,attempt){
-  attempt=attempt||1;
-  var r=REALITIES[S.reality]||REALITIES.neon;
-  var sysP=buildPrompt(r.setting,r.factions);
-  var histLimit=Math.max(2,CFG.MAX_H-(attempt-1)*2);
-  var msgs=[{role:'system',content:sysP}];
-  var recent=S.hist.slice(-histLimit);
-  for(var i=0;i<recent.length;i++) msgs.push({role:recent[i].r,content:recent[i].c});
-
-  var stCtx='[А:'+S.act+' Р:'+S.san+'% Н:'+S.ten+'% С:'+S.stats.strength+' Х:'+S.stats.charisma+' И:'+S.stats.intelligence+' У:'+S.clues.length+'/3 Тень:'+(S.flags.shadowUnlocked?1:0)+'] '+msg;
-  msgs.push({role:'user',content:stCtx});
-
-  return fetch(CFG.URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},
-    body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:attempt>1?0.7:0.85,messages:msgs})
-  })
-  .then(function(resp){
-    if(!resp.ok){
-      return resp.text().then(function(t){
-        if(resp.status===429&&attempt<CFG.RETRIES){
-          var w=CFG.RETRY_MS[attempt-1]*2;
-          updateLoadText('Лимит запросов... повтор через '+(w/1000)+'с');
-          return new Promise(function(res){setTimeout(res,w);}).then(function(){return callAI(msg,attempt+1);});
-        }
-        throw new Error('HTTP '+resp.status+': '+t.substring(0,120));
-      });
-    }
-    return resp.json();
-  })
-  .then(function(data){
-    if(data&&data.choices&&data.choices[0]&&data.choices[0].message){
-      var content=data.choices[0].message.content||'';
-      if(!content)throw new Error('Пустой content');
-      S.hist.push({r:'user',c:stCtx},{r:'assistant',c:content});
-      if(S.hist.length>CFG.MAX_H*2) S.hist=S.hist.slice(-CFG.MAX_H);
-      return parseJSON(content);
-    }
-    // Если структура ответа другая — пробуем достать
-    if(data&&data.content&&data.content[0]){
-      var txt=data.content[0].text||'';
-      S.hist.push({r:'user',c:stCtx},{r:'assistant',c:txt});
-      return parseJSON(txt);
-    }
-    throw new Error('Неожиданный формат ответа API');
-  })
-  .catch(function(err){
-    console.warn('API попытка '+attempt+'/'+CFG.RETRIES+':', err.message);
-    if(attempt<CFG.RETRIES){
-      var w=CFG.RETRY_MS[attempt-1]||2000;
-      updateLoadText('Помехи... повтор через '+(w/1000)+'с ('+attempt+'/'+CFG.RETRIES+')');
-      return new Promise(function(res){setTimeout(res,w);}).then(function(){return callAI(msg,attempt+1);});
-    }
-    throw err;
-  });
-}
-
-// ═══ РЕНДЕР ═══
-function fmtNarr(t){
-  if(!t)return'';
-  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').split(/\n\n|\n/).filter(function(p){return p.trim();}).map(function(p){return '<p>'+p.trim()+'</p>';}).join('');
-}
-function voiceCls(n){
-  n=n||'';
-  if(n.indexOf('Инстинкт')>=0)return'vb-inst';
-  if(n.indexOf('Логика')>=0)return'vb-logic';
-  if(n.indexOf('Эго')>=0)return'vb-ego';
-  return'vb-shadow';
-}
-function renderScene(d){
-  var nr=document.getElementById('narr'),ch=document.getElementById('choices');
-  var h='<div class="n-text fade-in">'+fmtNarr(d.narrative)+'</div>';
-  if(d.voices){
-    for(var i=0;i<d.voices.length;i++){
-      var v=d.voices[i];if(!v)continue;
-      if(v.name&&v.name.indexOf('Тень')>=0&&!S.flags.shadowUnlocked)continue;
-      h+='<div class="vb '+voiceCls(v.name)+'" style="animation-delay:'+(i*.18)+'s"><div class="vn">'+(v.icon||'')+' '+(v.name||'???')+'</div><div class="vt">'+(v.text||'...')+'</div></div>';
-    }
-  }
-  nr.innerHTML=h;
-  setTimeout(function(){nr.scrollTop=nr.scrollHeight;},60);
-  if(d.choices&&d.choices.length>0){
-    var btns='';
-    for(var j=0;j<d.choices.length;j++){
-      var c=d.choices[j];
-      var sk='';
-      if(c.skill_check){
-        var nm={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
-        sk='<span class="sk">['+(nm[c.skill_check.stat]||'???')+' DC'+(c.skill_check.dc||10)+']</span>';
-      }
-      btns+='<button class="ch" onclick="makeChoice('+j+')">'+(c.text||'Продолжить')+sk+'</button>';
-    }
-    ch.innerHTML=btns;
-    ch.style.display='block';
-  }else{ch.style.display='none';}
-  if(d.state_changes){
-    if(d.state_changes.sanity)S.san=clamp(S.san+d.state_changes.sanity,0,100);
-    if(d.state_changes.tension)S.ten=clamp(S.ten+d.state_changes.tension,0,100);
-  }
-}
-function applyCons(c){
-  if(!c)return;
-  if(c.sanity)S.san=clamp(S.san+c.sanity,0,100);
-  if(c.tension)S.ten=clamp(S.ten+c.tension,0,100);
-  if(c.add_item&&S.inv.indexOf(c.add_item)<0)S.inv.push(c.add_item);
-  if(c.add_title&&S.titles.indexOf(c.add_title)<0)S.titles.push(c.add_title);
-  if(c.add_clue&&S.clues.indexOf(c.add_clue)<0&&S.clues.length<3)S.clues.push(c.add_clue);
-  if(c.faction_guard)S.fac.guard+=c.faction_guard;
-  if(c.faction_syndicate)S.fac.syndicate+=c.faction_syndicate;
-  if(c.unlock_shadow)S.flags.shadowUnlocked=true;
-}
-
-// ═══ UI ═══
-function updateUI(){
-  try{
-    var ts=document.getElementById('t-san'),tt=document.getElementById('t-ten');
-    ts.textContent=S.san+'%';tt.textContent=S.ten+'%';
-    document.getElementById('t-clu').textContent=S.clues.length+'/3';
-    ts.className='vl'+(S.san<30?' crit':S.san<50?' warn':'');
-    tt.className='vl'+(S.ten>70?' crit':S.ten>50?' warn':'');
-    var map=[['strength','str'],['charisma','cha'],['intelligence','int']];
-    for(var i=0;i<map.length;i++){
-      var el=document.getElementById('b-'+map[i][1]);if(el)el.style.width=(S.stats[map[i][0]]*10)+'%';
-      var vl=document.getElementById('v-'+map[i][1]);if(vl)vl.textContent=S.stats[map[i][0]];
-    }
-    var bs=document.getElementById('b-san');
-    if(bs){bs.style.width=S.san+'%';bs.style.background=S.san<30?'var(--danger)':'var(--v-logic)';}
-    var vs=document.getElementById('v-san');if(vs)vs.textContent=S.san+'%';
-    var bt=document.getElementById('b-ten');if(bt)bt.style.width=S.ten+'%';
-    var vt=document.getElementById('v-ten');if(vt)vt.textContent=S.ten+'%';
-    var ss=document.getElementById('san-sec');
-    if(ss){ss.classList.toggle('san-crit',S.san<25);}
-    var mn=document.getElementById('main');
-    if(mn){mn.classList.remove('insane-1','insane-2','insane-3');
-      if(S.san<20)mn.classList.add('insane-3');
-      else if(S.san<35)mn.classList.add('insane-2');
-      else if(S.san<50)mn.classList.add('insane-1');}
-    document.getElementById('sc-cl').textContent=S.clues.length;
-    var cl=document.getElementById('ls-cl');
-    cl.innerHTML=S.clues.length?S.clues.map(function(c){return'<div class="sb-item sb-clue">📎 '+c+'</div>';}).join(''):'<div class="sb-empty">Пусто</div>';
-    var il=document.getElementById('ls-inv');
-    il.innerHTML=S.inv.length?S.inv.map(function(x){return'<div class="sb-item">• '+x+'</div>';}).join(''):'<div class="sb-empty">Карманы пусты</div>';
-    var tl=document.getElementById('ls-tit');
-    tl.innerHTML=S.titles.length?S.titles.map(function(x){return'<div class="sb-item sb-title">['+x+']</div>';}).join(''):'<div class="sb-empty">Пока никто</div>';
-    var fl=document.getElementById('ls-fac'),r=REALITIES[S.reality]||REALITIES.neon;
-    function fd(n,v){return'<div class="fac-row"><span class="fac-n">'+n+'</span><span class="fac-v '+(v>0?'pos':v<0?'neg':'neu')+'">'+(v>0?'+':'')+v+'</span></div>';}
-    var fh=fd(r.factions[0],S.fac.guard)+fd(r.factions[1],S.fac.syndicate);
-    fh+=S.fac.cult!==null?fd(r.factions[2],S.fac.cult):'<div class="fac-h">??? — неизвестно</div>';
-    fl.innerHTML=fh;
-  }catch(e){console.warn('updateUI:',e);}
-}
-
-function showLoad(v){
-  var l=document.getElementById('loader'),c=document.getElementById('choices');
-  if(l)l.classList.toggle('on',v);
-  if(c)c.style.display=v?'none':'block';
-}
-function updateLoadText(t){
-  var el=document.querySelector('.ld-txt');
-  if(el)el.textContent=t;
-}
-
-// ═══ ДВИЖОК ═══
-function requestScene(action){
-  if(isLoading)return;
-  isLoading=true;lastAct=action;
-  showLoad(true);updateLoadText('Реальность формируется');
-  callAI(action).then(function(d){
-    curScene=d;S.scene++;
-    renderScene(d);updateUI();checkEnd();saveGame();
-  }).catch(function(err){
-    console.error('Все попытки:', err);
-    var fb=makeFallback();
-    fb.narrative='*Помехи на линии реальности.*\n\n'+fb.narrative;
-    curScene=fb;S.scene++;
-    renderScene(fb);updateUI();saveGame();
-    var nr=document.getElementById('narr');
-    if(nr)nr.insertAdjacentHTML('afterbegin','<div class="err">⚡ Сцена сгенерирована локально <button onclick="this.parentElement.remove();retryScene()">Переподключиться</button></div>');
-  }).finally(function(){
-    isLoading=false;showLoad(false);
-  });
-}
-function retryScene(){if(lastAct&&!isLoading)requestScene(lastAct);}
-
-function makeChoice(i){
-  if(isLoading||!curScene||!curScene.choices||!curScene.choices[i])return;
-  var c=curScene.choices[i];
-  var btns=document.querySelectorAll('.ch');
-  for(var j=0;j<btns.length;j++)btns[j].disabled=true;
-  var desc='Игрок выбрал: "'+c.text+'"';
-
-  function afterRoll(){
-    applyCons(c.consequences);
-    if(S.act===1&&S.clues.length>=2&&S.scene>=5){S.act=2;desc+=' [АКТ 2]';}
-    if(S.act===2&&(S.clues.length>=3||S.scene>=15)){S.act=3;S.fac.cult=0;desc+=' [АКТ 3]';}
-    updateUI();
-    var hint=c.consequences?c.consequences.next_scene_hint:'';
-    if(hint)desc+=' Далее: '+hint;
-    requestScene(desc);
-  }
-
-  if(c.skill_check&&c.skill_check.stat){
-    var stat=c.skill_check.stat,dc=c.skill_check.dc||10;
-    var roll=rollD20(),mod=getMod(stat);
-    showDice(roll,mod,dc,stat).then(function(r){
-      if(r.c20)desc+=' | КРИТ-УСПЕХ nat20! НЕВЕРОЯТНЫЙ успех!';
-      else if(r.c1)desc+=' | КРИТ-ПРОВАЛ nat1! СМЕШНОЙ провал! Дай титул.';
-      else if(r.ok)desc+=' | Успех.';
-      else desc+=' | Провал. СМЕШНОЙ провал.';
-      afterRoll();
-    });
-  } else {
-    afterRoll();
-  }
-}
-
-function checkEnd(){
-  if(S.san<=0)return showEnd('Эхо','Голоса слились в один. Ты улыбаешься. Как те трупы.','🌑 Черновик');
-  if(S.ten>=100)return showEnd('Перезапись','Город сомкнулся. Ты знал слишком много.','⚡ Стёртая плёнка');
-}
-function showEnd(t,tx,sub){
-  document.getElementById('e-t').textContent=t;
-  document.getElementById('e-tx').innerHTML=tx;
-  document.getElementById('e-st').innerHTML=sub+'<br><br>Рассудок:'+S.san+'% Напряжение:'+S.ten+'%<br>Улики:'+S.clues.length+'/3 Титулы:'+S.titles.length+'<br>Сцен:'+S.scene+' Акт:'+S.act+'<br>'+(REALITIES[S.reality]||{}).name;
-  goTo('s-end');localStorage.removeItem('ds_save');
-}
-
-// ═══ СОХРАНЕНИЕ ═══
-function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S));}catch(e){}}
-function tryLoad(){
-  try{
-    var d=localStorage.getItem('ds_save');if(!d)return;
-    S=JSON.parse(d);
-    applyTheme(S.reality);
-    goTo('s-game');
-    setTimeout(function(){updateUI();requestScene('Продолжение. Акт '+S.act+'. Напомни контекст, дай выборы.');},700);
-  }catch(e){console.warn(e);}
-}
-
-// ═══ ИНИТ ═══
-if(localStorage.getItem('ds_save')){
-  var b=document.getElementById('btn-cont');if(b)b.style.display='';
-}
-document.addEventListener('click',function(e){
-  var s=document.getElementById('side'),b=document.getElementById('mob-btn');
-  if(s&&b&&s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open');
+// Теги мира
+document.getElementById('world-tags').addEventListener('click',function(e){
+  var t=e.target.closest('.tag');if(!t)return;
+  var all=this.querySelectorAll('.tag');for(var i=0;i<all.length;i++)all[i].classList.remove('on');
+  t.classList.add('on');
+  var ta=document.getElementById('inp-world');
+  ta.style.display=t.dataset.w==='custom'?'block':'none';
 });
 
-} catch(FATAL) {
-  // ═══ ЭКРАН АВАРИИ — если что-то сломалось ═══
-  var crash=document.getElementById('crash');
-  if(crash){
-    crash.style.display='block';
-    crash.innerHTML='<h2 style="color:#ef4444;margin-bottom:20px">⚠ Dark Script — ошибка загрузки</h2>'
-      +'<p>'+FATAL.message+'</p>'
-      +'<pre style="margin-top:12px;color:#888;font-size:12px">'+FATAL.stack+'</pre>'
-      +'<br><button onclick="location.reload()" style="color:#7c3aed;border:1px solid #7c3aed;background:none;padding:8px 20px;cursor:pointer;font-size:14px">Перезагрузить</button>';
-  } else {
-    document.body.innerHTML='<div style="padding:40px;color:red;font-family:monospace">ОШИБКА: '+FATAL.message+'<br><br><button onclick="location.reload()">Перезагрузить</button></div>';
-  }
+// Теги памяти
+document.getElementById('seed-tags').addEventListener('click',function(e){
+  var t=e.target.closest('.tag');if(!t)return;
+  var all=this.querySelectorAll('.tag');for(var i=0;i<all.length;i++)all[i].classList.remove('on');
+  t.classList.add('on');
+  var inp=document.getElementById('inp-seed');
+  inp.style.display=t.dataset.s==='custom'?'block':'none';
+});
+
+function pickArch(el){var all=document.querySelectorAll('.arch');for(var i=0;i<all.length;i++)all[i].classList.remove('on');el.classList.add('on')}
+
+function beginGame(){
+  // Собираем данные
+  var name=document.getElementById('inp-name').value.trim()||NAMES[Math.floor(Math.random()*NAMES.length)];
+  var worldTag=document.querySelector('#world-tags .tag.on');
+  var worldKey=worldTag?worldTag.dataset.w:'neon';
+  var worldCustom=document.getElementById('inp-world').value.trim();
+  var seedTag=document.querySelector('#seed-tags .tag.on');
+  var seedVal=seedTag?(seedTag.dataset.s==='custom'?document.getElementById('inp-seed').value.trim():seedTag.dataset.s):'';
+  var premise=document.getElementById('inp-premise').value.trim();
+  var archEl=document.querySelector('.arch.on');
+  var arch=archEl?archEl.dataset.a:'edge';
+
+  S={name:name,world:worldKey,worldDesc:worldCustom,seed:seedVal||'обрывки',premise:premise,arch:arch,act:1,scene:0,stats:{edge:5,mask:5,thread:5},san:65,ten:5,clues:[],inv:[],titles:[],fac:{order:0,chaos:0,hidden:null},flags:{shadowUnlocked:false},hist:[],beats:[],visited:[]};
+
+  if(arch==='edge'){S.stats={edge:7,mask:4,thread:5};S.san=75}
+  else if(arch==='mask'){S.stats={edge:4,mask:7,thread:5};S.san=65;S.fac.chaos=1}
+  else{S.stats={edge:4,mask:5,thread:7};S.san=60}
+  S.ten=5;
+
+  applyTheme(worldKey);
+  goTo('s-game');
+
+  var opening='Начало истории. Это ПЕРВАЯ сцена для персонажа '+name+'.';
+  if(premise)opening+=' Начальная ситуация: '+premise;
+  else opening+=' Придумай уникальное, неожиданное начало. НЕ начинай с пробуждения на полу — придумай что-то оригинальное.';
+  opening+=' Зерно памяти: "'+S.seed+'". Мир: '+(worldKey==='custom'?worldCustom:(WORLDS[worldKey]||{}).desc)+'. Задай тон.';
+
+  setTimeout(function(){updateUI();requestScene(opening)},700);
 }
+
+/* ═══ УТИЛИТЫ ═══ */
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function getMod(s){return Math.floor((S.stats[s]||5)/2)-2}
+function rollD20(){return Math.floor(Math.random()*20)+1}
+function showDice(roll,mod,dc,stat){return new Promise(function(res){var o=document.getElementById('dice'),d=document.getElementById('dv'),i=document.getElementById('di'),r=document.getElementById('dr');var t=roll+mod,ok=t>=dc,c2=roll===20,c1=roll===1;var sn={edge:'Грань',mask:'Маска',thread:'Нить'};o.classList.add('on');d.textContent=roll;d.className='dv'+(c2?' co':c1?' cn':ok?' ok':' no');i.textContent='d20('+roll+') '+(mod>=0?'+':'')+mod+' ['+sn[stat]+'] = '+t+' vs DC'+dc;r.textContent=c2?'✦ КРИТИЧЕСКИЙ УСПЕХ':c1?'✗ КРИТИЧЕСКИЙ ПРОВАЛ':ok?'✓ Успех':'✗ Провал';r.style.color=(c2||ok)?'var(--grn)':'var(--red)';d.style.animation='none';d.offsetHeight;d.style.animation='';setTimeout(function(){o.classList.remove('on');res({roll:roll,mod:mod,total:t,dc:dc,ok:ok,c20:c2,c1:c1})},1700)})}
+
+/* ═══ JSON ═══ */
+function repairJSON(s){s=s.trim();var inS=false,esc=false,br=0,bk=0;for(var i=0;i<s.length;i++){var c=s[i];if(esc){esc=false;continue}if(c==='\\'){esc=true;continue}if(c==='"'){inS=!inS;continue}if(inS)continue;if(c==='{')br++;if(c==='}')br--;if(c==='[')bk++;if(c===']')bk--}if(inS)s+='"';s=s.replace(/,\s*$/,'');while(bk>0){s+=']';bk--}while(br>0){s+='}';br--}return s}
+
+function valScene(o){if(!o||typeof o!=='object')throw 1;if(!o.narrative&&!o.choices)throw 1;var ch=[];if(Array.isArray(o.choices)&&o.choices.length>0){for(var i=0;i<o.choices.length;i++){var c=o.choices[i]||{};var cs=c.consequences||{};ch.push({text:c.text||'Продолжить',skill_check:c.skill_check||null,consequences:{sanity:cs.sanity||0,tension:cs.tension||0,add_item:cs.add_item||null,add_title:cs.add_title||null,add_clue:cs.add_clue||null,faction_order:cs.faction_order||null,faction_chaos:cs.faction_chaos||null,unlock_shadow:cs.unlock_shadow||false,next_scene_hint:cs.next_scene_hint||'',beat:cs.beat||''}})}}else{ch=[{text:'Продолжить',skill_check:null,consequences:{sanity:0,tension:3,add_item:null,add_title:null,add_clue:null,faction_order:null,faction_chaos:null,unlock_shadow:false,next_scene_hint:'',beat:''}}]}return{narrative:o.narrative||'Тишина. Потом — не тишина.',voices:Array.isArray(o.voices)?o.voices:[],choices:ch,state_changes:o.state_changes||{sanity:0,tension:0}}}
+
+function parseJSON(raw){if(!raw)throw new Error('empty');var t=raw.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return valScene(JSON.parse(t))}catch(e){}var m=t.match(/\{[\s\S]*\}/);if(m){try{return valScene(JSON.parse(m[0]))}catch(e){}try{return valScene(JSON.parse(repairJSON(m[0])))}catch(e){}}try{return valScene(JSON.parse(repairJSON(t)))}catch(e){}var p=t.replace(/[{}$$$$]/g,' ').replace(/\s+/g,' ').trim();if(p.length>20)return valScene({narrative:p.substring(0,1200)});throw new Error('parse fail')}
+
+function makeFallback(){var sc=[{narrative:"Мир вокруг мерцает — как кадры плёнки, пущенной не в том порядке. Ты стоишь на перекрёстке. Три дороги. Ни одна не выглядит гостеприимно — но одна пахнет хуже остальных.\n\nИз-за угла доносится звук, который невозможно описать, но очень хочется забыть.",voices:[{name:"Инстинкт",icon:"⚡",text:"Тот запах. Третья дорога. Там что-то сдохло. Или кто-то. Разница в бюрократии."},{name:"Эго",icon:"👑",text:"Три пути — классика. Мы созданы для таких моментов. Ну, кто-то создан. Мы просто тут стоим."}],choices:[{text:"Пойти на запах — там ответы",skill_check:{stat:"edge",dc:10},consequences:{sanity:-3,tension:8,add_item:null,add_title:null,add_clue:null,faction_order:null,faction_chaos:null,unlock_shadow:false,next_scene_hint:"находка",beat:"пошёл к опасности"}},{text:"Пойти на звук",skill_check:null,consequences:{sanity:0,tension:5,add_item:null,add_title:null,add_clue:null,faction_order:null,faction_chaos:null,unlock_shadow:false,next_scene_hint:"встреча",beat:"пошёл на звук"}},{text:"Сесть и подождать",skill_check:{stat:"thread",dc:12},consequences:{sanity:2,tension:0,add_item:null,add_title:null,add_clue:null,faction_order:null,faction_chaos:null,unlock_shadow:false,next_scene_hint:"наблюдение",beat:"ждал"}}],state_changes:{sanity:0,tension:2}}];return sc[Math.floor(Math.random()*sc.length)]}
+
+/* ═══ API ═══ */
+function callAI(msg,att){att=att||1;var sysP=buildPrompt();var hl=Math.max(2,CFG.MAX_H-(att-1)*2);var msgs=[{role:'system',content:sysP}];var rec=S.hist.slice(-hl);for(var i=0;i<rec.length;i++)msgs.push({role:rec[i].r,content:rec[i].c});var ctx='['+S.name+' А:'+S.act+' #'+S.scene+' Р:'+S.san+'% Н:'+S.ten+'% Гр:'+S.stats.edge+' Мс:'+S.stats.mask+' Нт:'+S.stats.thread+' У:'+S.clues.length+'/3 Т:'+S.flags.shadowUnlocked+'] '+msg;msgs.push({role:'user',content:ctx});return fetch(CFG.URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:att>1?.7:.85,messages:msgs})}).then(function(resp){if(!resp.ok)return resp.text().then(function(t){if(resp.status===429&&att<CFG.RET){updLD('Лимит... повтор');return new Promise(function(r){setTimeout(r,CFG.RMS[att-1]*2)}).then(function(){return callAI(msg,att+1)})}throw new Error('HTTP '+resp.status)});return resp.json()}).then(function(data){if(data&&data.choices&&data.choices[0]&&data.choices[0].message){var c=data.choices[0].message.content||'';if(!c)throw new Error('empty');S.hist.push({r:'user',c:ctx},{r:'assistant',c:c});if(S.hist.length>CFG.MAX_H*2)S.hist=S.hist.slice(-CFG.MAX_H);return parseJSON(c)}throw new Error('bad format')}).catch(function(err){if(att<CFG.RET){updLD('Помехи... ('+(att)+'/'+CFG.RET+')');return new Promise(function(r){setTimeout(r,CFG.RMS[att-1]||2000)}).then(function(){return callAI(msg,att+1)})}throw err})}
+
+/* ═══ РЕНДЕР ═══ */
+function fN(t){if(!t)return'';return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').split(/\n\n|\n/).filter(function(p){return p.trim()}).map(function(p){return'<p>'+p.trim()+'</p>'}).join('')}
+function vC(n){n=n||'';if(n.indexOf('Инстинкт')>=0)return'vb-i';if(n.indexOf('Логика')>=0)return'vb-l';if(n.indexOf('Эго')>=0)return'vb-e';return'vb-s'}
+function renderScene(d){var nr=document.getElementById('narr'),ch=document.getElementById('choices');var h='<div class="nt fi">'+fN(d.narrative)+'</div>';if(d.voices)for(var i=0;i<d.voices.length;i++){var v=d.voices[i];if(!v)continue;if(v.name&&v.name.indexOf('Тень')>=0&&!S.flags.shadowUnlocked)continue;h+='<div class="vb '+vC(v.name)+'" style="animation-delay:'+(i*.18)+'s"><div class="vn">'+(v.icon||'')+' '+(v.name||'???')+'</div><div class="vt">'+(v.text||'...')+'</div></div>'}nr.innerHTML=h;setTimeout(function(){nr.scrollTop=nr.scrollHeight},60);if(d.choices&&d.choices.length>0){var b='';for(var j=0;j<d.choices.length;j++){var c=d.choices[j];var sk='';if(c.skill_check){var nm={edge:'Грань',mask:'Маска',thread:'Нить'};sk='<span class="sk">['+(nm[c.skill_check.stat]||'???')+' DC'+(c.skill_check.dc||10)+']</span>'}b+='<button class="ch" onclick="makeChoice('+j+')">'+(c.text||'Продолжить')+sk+'</button>'}ch.innerHTML=b;ch.style.display='block'}else ch.style.display='none';if(d.state_changes){if(d.state_changes.sanity)S.san=clamp(S.san+d.state_changes.sanity,0,100);if(d.state_changes.tension)S.ten=clamp(S.ten+d.state_changes.tension,0,100)}}
+
+function applyCons(c){if(!c)return;if(c.sanity)S.san=clamp(S.san+c.sanity,0,100);if(c.tension)S.ten=clamp(S.ten+c.tension,0,100);if(c.add_item&&S.inv.indexOf(c.add_item)<0)S.inv.push(c.add_item);if(c.add_title&&S.titles.indexOf(c.add_title)<0)S.titles.push(c.add_title);if(c.add_clue&&S.clues.indexOf(c.add_clue)<0&&S.clues.length<3)S.clues.push(c.add_clue);if(c.faction_order)S.fac.order+=c.faction_order;if(c.faction_chaos)S.fac.chaos+=c.faction_chaos;if(c.unlock_shadow)S.flags.shadowUnlocked=true;if(c.beat&&S.beats.indexOf(c.beat)<0)S.beats.push(c.beat);if(S.beats.length>20)S.beats=S.beats.slice(-15)}
+
+/* ═══ UI ═══ */
+function updateUI(){try{
+  document.getElementById('char-name').textContent=S.name;
+  var ts=document.getElementById('t-san'),tt=document.getElementById('t-ten');
+  ts.textContent=S.san+'%';tt.textContent=S.ten+'%';document.getElementById('t-clu').textContent=S.clues.length+'/3';
+  ts.className='v'+(S.san<30?' c':S.san<50?' w':'');tt.className='v'+(S.ten>70?' c':S.ten>50?' w':'');
+  var map=[['edge','edge'],['mask','mask'],['thread','thread']];
+  for(var i=0;i<map.length;i++){var el=document.getElementById('b-'+map[i][1]);if(el)el.style.width=(S.stats[map[i][0]]*10)+'%';var vl=document.getElementById('v-'+map[i][1]);if(vl)vl.textContent=S.stats[map[i][0]]}
+  var bs=document.getElementById('b-san');if(bs){bs.style.width=S.san+'%';bs.style.background=S.san<30?'var(--red)':'var(--vl)'}document.getElementById('v-san').textContent=S.san+'%';
+  document.getElementById('b-ten').style.width=S.ten+'%';document.getElementById('v-ten').textContent=S.ten+'%';
+  document.getElementById('san-sec').classList.toggle('san-c',S.san<25);
+  var mn=document.getElementById('main');mn.classList.remove('i1','i2','i3');if(S.san<20)mn.classList.add('i3');else if(S.san<35)mn.classList.add('i2');else if(S.san<50)mn.classList.add('i1');
+  document.getElementById('sc-cl').textContent=S.clues.length;
+  document.getElementById('ls-cl').innerHTML=S.clues.length?S.clues.map(function(c){return'<div class="si sc">📎 '+c+'</div>'}).join(''):'<div class="se">Пусто</div>';
+  document.getElementById('ls-inv').innerHTML=S.inv.length?S.inv.map(function(x){return'<div class="si">• '+x+'</div>'}).join(''):'<div class="se">Пусто</div>';
+  document.getElementById('ls-tit').innerHTML=S.titles.length?S.titles.map(function(x){return'<div class="si st">['+x+']</div>'}).join(''):'<div class="se">—</div>';
+  var w=WORLDS[S.world]||WORLDS.neon;
+  var fd=function(n,v){return'<div class="fr"><span class="fn">'+n+'</span><span class="fv '+(v>0?'p':v<0?'n':'z')+'">'+(v>0?'+':'')+v+'</span></div>'};
+  document.getElementById('ls-fac').innerHTML=fd(w.fac[0],S.fac.order)+fd(w.fac[1],S.fac.chaos)+(S.fac.hidden!==null?fd(w.fac[2],S.fac.hidden):'<div class="fh">??? — неизвестно</div>');
+}catch(e){console.warn('ui:',e)}}
+
+function showLoad(v){document.getElementById('loader').classList.toggle('on',v);document.getElementById('bottom-area').style.display=v?'none':'block'}
+function updLD(t){var e=document.querySelector('.ld-t');if(e)e.textContent=t}
+
+/* ═══ ДВИЖОК ═══ */
+function requestScene(action){if(isLoading)return;isLoading=true;lastAct=action;showLoad(true);updLD('Реальность формируется');
+  callAI(action).then(function(d){curScene=d;S.scene++;renderScene(d);updateUI();checkEnd();saveGame()}).catch(function(err){console.error(err);var fb=makeFallback();fb.narrative='*Помехи на линии.*\n\n'+fb.narrative;curScene=fb;S.scene++;renderScene(fb);updateUI();saveGame();document.getElementById('narr').insertAdjacentHTML('afterbegin','<div class="err">⚡ Локальная сцена <button onclick="this.parentElement.remove();retryScene()">Переподключиться</button></div>')}).then(function(){isLoading=false;showLoad(false);setFreeEnabled(true)})}
+function retryScene(){if(lastAct&&!isLoading)requestScene(lastAct)}
+
+function makeChoice(i){if(isLoading||!curScene||!curScene.choices||!curScene.choices[i])return;var c=curScene.choices[i];setFreeEnabled(false);var btns=document.querySelectorAll('.ch');for(var j=0;j<btns.length;j++)btns[j].disabled=true;var desc='Игрок выбрал: "'+c.text+'"';function go(){applyCons(c.consequences);if(S.act===1&&S.clues.length>=2&&S.scene>=5){S.act=2;desc+=' [АКТ 2]'}if(S.act===2&&(S.clues.length>=3||S.scene>=15)){S.act=3;S.fac.hidden=0;desc+=' [АКТ 3]'}updateUI();var h=c.consequences?c.consequences.next_scene_hint:'';if(h)desc+=' Далее: '+h;requestScene(desc)}
+  if(c.skill_check&&c.skill_check.stat){var stat=c.skill_check.stat,dc=c.skill_check.dc||10,roll=rollD20(),mod=getMod(stat);showDice(roll,mod,dc,stat).then(function(r){if(r.c20)desc+=' | КРИТ-УСПЕХ!';else if(r.c1)desc+=' | КРИТ-ПРОВАЛ! Смешной. Дай метку.';else if(r.ok)desc+=' | Успех.';else desc+=' | Провал. Смешной.';go()})}else go()}
+
+/* ═══ СВОБОДНЫЙ ВВОД ═══ */
+function sendFree(){
+  var inp=document.getElementById('inp-free');
+  var text=inp.value.trim();
+  if(!text||isLoading)return;
+  inp.value='';
+  setFreeEnabled(false);
+  var btns=document.querySelectorAll('.ch');for(var i=0;i<btns.length;i++)btns[i].disabled=true;
+  var desc=S.name+' делает: "'+text+'". Реши исход на основе характеристик (Грань:'+S.stats.edge+' Маска:'+S.stats.mask+' Нить:'+S.stats.thread+'). Если действие рискованное — опиши проверку и результат. Если действие необычное — мир реагирует необычно. Продвинь сюжет.';
+  requestScene(desc);
+}
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='inp-free'){e.preventDefault();sendFree()}});
+function setFreeEnabled(v){var inp=document.getElementById('inp-free'),btn=document.getElementById('btn-free');if(inp)inp.disabled=!v;if(btn)btn.disabled=!v}
+
+function checkEnd(){if(S.san<=0)return showEnd('Эхо','Голоса слились в один. '+S.name+' улыбается. Как те, кого уже не спасти.','🌑 «Черновик»');if(S.ten>=100)return showEnd('Перезапись',S.name+' знал слишком много. Мир это исправил.','⚡ «Стёртая плёнка»')}
+function showEnd(t,tx,sub){document.getElementById('e-t').textContent=t;document.getElementById('e-tx').innerHTML=tx;document.getElementById('e-st').innerHTML=sub+'<br><br>Рассудок:'+S.san+'% Накал:'+S.ten+'%<br>Улики:'+S.clues.length+'/3 Метки:'+S.titles.length+'<br>Сцен:'+S.scene+' Акт:'+S.act+'<br>'+(WORLDS[S.world]||{}).name+'<br>'+S.name;goTo('s-end');localStorage.removeItem('ds_save')}
+
+/* ═══ SAVE/LOAD ═══ */
+function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S))}catch(e){}}
+function tryLoad(){try{var d=localStorage.getItem('ds_save');if(!d)return;S=JSON.parse(d);applyTheme(S.world);goTo('s-game');setTimeout(function(){updateUI();requestScene('Продолжение истории '+S.name+'. Акт '+S.act+'. Напомни контекст и двигай дальше.')},700)}catch(e){console.warn(e)}}
+
+/* ═══ INIT ═══ */
+if(localStorage.getItem('ds_save')){var b=document.getElementById('btn-cont');if(b)b.style.display=''}
+randomName();
+document.addEventListener('click',function(e){var s=document.getElementById('side'),b=document.getElementById('mob-btn');if(s&&b&&s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open')});
+
+}catch(FATAL){var cr=document.getElementById('crash');if(cr){cr.style.display='block';cr.innerHTML='<h2 style="color:#ef4444;margin-bottom:20px">⚠ Ошибка</h2><p>'+FATAL.message+'</p><pre style="margin-top:12px;color:#888;font-size:12px">'+(FATAL.stack||'')+'</pre><br><button onclick="location.reload()" style="color:#7c3aed;border:1px solid #7c3aed;background:none;padding:8px 20px;cursor:pointer">Перезагрузить</button>'}else document.body.innerHTML='<div style="padding:40px;color:red;font-family:monospace">'+FATAL.message+'<br><button onclick="location.reload()">⟳</button></div>'}
 </script>
 </body>
 </html>
