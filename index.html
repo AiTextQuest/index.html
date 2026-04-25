@@ -4,22 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Dark Script: Город Эхо</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg-primary: #0f0f14;
   --bg-secondary: #1a1a24;
+  --bg-card: #16161f;
   --border: rgba(124,58,237,0.15);
   --border-hover: rgba(124,58,237,0.5);
   --accent: #7c3aed;
+  --accent-glow: rgba(124,58,237,0.3);
   --text-primary: #e2e2e8;
   --text-secondary: #8888a0;
+  --text-muted: #55556a;
   --voice-instinct: #f59e0b;
   --voice-logic: #3b82f6;
   --voice-ego: #eab308;
   --voice-shadow: #7c3aed;
   --danger: #ef4444;
   --success: #22c55e;
+  --sanity-ok: #3b82f6;
+  --sanity-low: #ef4444;
   --font: 'Inter', sans-serif;
   --mono: 'JetBrains Mono', monospace;
 }
@@ -31,28 +37,55 @@ body {
   color: var(--text-primary);
   font-family: var(--font);
   font-size: 15px;
-  line-height: 1.6;
-  height: 100vh;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--accent); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
-.screen { display: none; height: 100vh; overflow-y: auto; }
-.screen.active { display: flex; flex-direction: column; }
+/* ===== ЭКРАНЫ ===== */
+.screen { display:none; min-height:100vh; }
+.screen.active { display:flex; }
 
-/* Титульный экран */
-#title-screen { align-items: center; justify-content: center; text-align: center; gap: 32px; padding: 24px; }
-.title-logo { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; }
+/* ===== ТИТУЛЬНЫЙ ЭКРАН ===== */
+#title-screen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px;
+  text-align: center;
+}
+
+.title-logo {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text-primary);
+}
+
 .title-logo span { color: var(--accent); }
-.title-sub { color: var(--text-secondary); font-size: 14px; letter-spacing: 4px; text-transform: uppercase; }
-.title-tagline { color: var(--text-muted); max-width: 420px; font-size: 14px; }
 
-/* Кнопки */
+.title-sub {
+  color: var(--text-secondary);
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: -16px;
+}
+
+.title-tagline {
+  color: var(--text-muted);
+  max-width: 420px;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+/* ===== КНОПКИ ===== */
 .btn {
   background: transparent;
   color: var(--text-primary);
@@ -62,57 +95,192 @@ body {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  touch-action: manipulation;
+  letter-spacing: 0.5px;
 }
-.btn:hover { border-color: var(--border-hover); }
-.btn-accent { border-color: var(--accent); color: var(--accent); }
-.btn-accent:hover { background: var(--accent); color: #fff; }
 
-/* Выбор персонажа */
-#char-screen { padding: 48px 24px; align-items: center; gap: 32px; }
-.char-title { font-size: 18px; color: var(--text-secondary); }
-.char-quote { color: var(--text-muted); font-style: italic; text-align: center; max-width: 500px; font-size: 14px; }
-.char-options { display: flex; flex-direction: column; gap: 16px; max-width: 560px; width: 100%; }
+.btn:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.btn:active { transform: scale(0.98); }
+
+.btn-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-accent:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== СОЗДАНИЕ ПЕРСОНАЖА ===== */
+#char-screen {
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  gap: 32px;
+}
+
+.char-title {
+  font-size: 18px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.char-quote {
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  max-width: 500px;
+  font-size: 14px;
+}
+
+.char-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  width: 100%;
+}
+
 .char-card {
   border: 1px solid var(--border);
   padding: 20px 24px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
-.char-card:hover { border-color: var(--border-hover); }
-.char-card-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-.char-card-stats { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 8px; }
-.char-card-desc { font-size: 13px; color: var(--text-secondary); }
 
-/* Игровой экран */
-#game-screen { flex-direction: row; padding: 0; }
-#main-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100vh; }
+.char-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.char-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.char-card-stats {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.char-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.char-card-bonus {
+  font-size: 12px;
+  color: var(--voice-ego);
+  margin-top: 8px;
+}
+
+/* ===== ИГРОВОЙ ЭКРАН ===== */
+#game-screen {
+  flex-direction: row;
+  height: 100vh;
+}
+
+#main-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100vh;
+}
+
 #top-bar {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 12px 24px;
   border-bottom: 1px solid var(--border);
-  background: var(--bg-secondary);
   flex-shrink: 0;
+  background: var(--bg-secondary);
 }
-.top-bar-title { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+.top-bar-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 .top-bar-title span { color: var(--accent); }
-.top-bar-stats { display: flex; gap: 20px; font-family: var(--mono); font-size: 12px; }
-.top-stat { display: flex; align-items: center; gap: 6px; }
+
+.top-bar-stats {
+  display: flex;
+  gap: 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.top-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .top-stat-label { color: var(--text-muted); }
+.top-stat-value { color: var(--text-primary); font-weight: 500; }
+.top-stat-value.danger { color: var(--danger); }
+.top-stat-value.warning { color: var(--voice-instinct); }
 
-#narrative-area { flex: 1; overflow-y: auto; padding: 24px; }
-.narrative-text p { margin-bottom: 14px; line-height: 1.7; }
-.narrative-text strong { color: #fff; }
+#narrative-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 24px;
+  max-width: 780px;
+}
 
+.narrative-text {
+  margin-bottom: 24px;
+  line-height: 1.85;
+  font-size: 15px;
+}
+
+.narrative-text p { margin-bottom: 14px; }
+.narrative-text strong { color: #fff; font-weight: 600; }
+.narrative-text em { color: var(--text-secondary); font-style: italic; }
+
+/* ===== ГОЛОСА ===== */
 .voice-bubble {
   border-left: 2px solid;
   padding: 10px 16px;
   margin: 12px 0;
-  animation: fadeIn 0.3s ease;
+  font-size: 14px;
+  opacity: 0;
+  animation: voiceFadeIn 0.4s ease forwards;
 }
-.voice-bubble .voice-name { font-size: 11px; font-weight: 600; letter-spacing: 1px; margin-bottom: 4px; }
-.voice-bubble .voice-text { color: var(--text-secondary); font-style: italic; }
+
+.voice-bubble .voice-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.voice-bubble .voice-text {
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.7;
+}
+
 .voice-instinct { border-color: var(--voice-instinct); }
 .voice-instinct .voice-name { color: var(--voice-instinct); }
 .voice-logic { border-color: var(--voice-logic); }
@@ -122,61 +290,105 @@ body {
 .voice-shadow { border-color: var(--voice-shadow); }
 .voice-shadow .voice-name { color: var(--voice-shadow); }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-8px); }
-  to { opacity: 1; transform: translateX(0); }
+@keyframes voiceFadeIn {
+  from { opacity:0; transform:translateX(-8px); }
+  to { opacity:1; transform:translateX(0); }
 }
 
+/* ===== ВЫБОРЫ ===== */
 #choices-area {
   padding: 16px 24px 24px;
   border-top: 1px solid var(--border);
-  background: var(--bg-secondary);
   flex-shrink: 0;
+  background: var(--bg-secondary);
 }
+
 .choice-btn {
   display: block;
   width: 100%;
   text-align: left;
   background: transparent;
+  color: var(--text-primary);
   border: 1px solid var(--border);
   padding: 12px 16px;
   margin-bottom: 8px;
   font-family: var(--font);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
-  touch-action: manipulation;
-  color: var(--text-primary);
+  transition: all 0.2s ease;
+  line-height: 1.5;
 }
-.choice-btn:hover { border-color: var(--border-hover); }
-.choice-skill-tag { font-family: var(--mono); font-size: 10px; color: var(--accent); margin-left: 8px; }
 
-#loading-indicator {
-  display: none;
-  padding: 32px;
-  text-align: center;
+.choice-btn:last-child { margin-bottom: 0; }
+.choice-btn:hover {
+  border-color: var(--border-hover);
+  padding-left: 20px;
+  box-shadow: 0 0 16px var(--accent-glow);
 }
-#loading-indicator.active { display: block; }
-.loading-dots { color: var(--accent); font-size: 14px; }
 
+.choice-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  box-shadow: none;
+  padding-left: 16px;
+}
+
+.choice-skill-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-left: 8px;
+}
+
+/* ===== БРОСОК КУБИКА ===== */
 #dice-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15,15,20,0.95);
+  background: rgba(15,15,20,0.85);
   z-index: 1000;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 16px;
 }
+
 #dice-overlay.active { display: flex; }
-.dice-display { font-family: var(--mono); font-size: 64px; font-weight: 700; color: var(--accent); animation: diceRoll 0.5s ease; }
-@keyframes diceRoll {
-  0% { transform: scale(0.5) rotate(-180deg); opacity: 0; }
-  100% { transform: scale(1) rotate(0); opacity: 1; }
+
+.dice-display {
+  font-family: var(--mono);
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--accent);
+  animation: diceRoll 0.6s ease-out;
 }
 
+.dice-display.success { color: var(--success); }
+.dice-display.fail { color: var(--danger); }
+.dice-display.crit-success { color: var(--voice-ego); text-shadow: 0 0 30px var(--voice-ego); }
+.dice-display.crit-fail { color: var(--danger); text-shadow: 0 0 30px var(--danger); }
+
+.dice-info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  font-family: var(--mono);
+}
+
+.dice-result-text {
+  font-size: 16px;
+  color: var(--text-primary);
+  text-align: center;
+  margin-top: 8px;
+}
+
+@keyframes diceRoll {
+  0% { transform: scale(0.5) rotate(-180deg); opacity:0; }
+  60% { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(1) rotate(0); opacity:1; }
+}
+
+/* ===== САЙДБАР ===== */
 #sidebar {
   width: 280px;
   border-left: 1px solid var(--border);
@@ -186,23 +398,124 @@ body {
   flex-shrink: 0;
   height: 100vh;
 }
-.sidebar-section { margin-bottom: 28px; }
-.sidebar-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
-.stat-row { display: flex; align-items: center; margin-bottom: 10px; }
-.stat-name { font-size: 12px; color: var(--text-secondary); width: 70px; }
-.stat-bar-wrap { flex: 1; height: 3px; background: rgba(255,255,255,0.05); margin: 0 10px; border-radius: 2px; overflow: hidden; }
-.stat-bar { height: 100%; border-radius: 2px; transition: width 0.3s; }
-.stat-value { font-family: var(--mono); font-size: 12px; min-width: 28px; text-align: right; }
-.sidebar-item { font-size: 12px; color: var(--text-secondary); padding: 4px 0; }
-.faction-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
+
+.sidebar-section {
+  margin-bottom: 28px;
+}
+
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+/* Прогресс-бары */
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.stat-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.stat-bar-wrap {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  margin: 0 10px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease, background 0.5s ease;
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-primary);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Инвентарь, улики, титулы */
+.sidebar-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  line-height: 1.5;
+}
+
+.sidebar-item:last-child { border-bottom: none; }
+
+.sidebar-item-icon { margin-right: 6px; }
+
+.sidebar-empty {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.clue-item { color: var(--accent); }
+.title-item { color: var(--voice-ego); }
+
+.faction-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.faction-name { color: var(--text-secondary); }
+.faction-value {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
 .faction-value.positive { color: var(--success); }
 .faction-value.negative { color: var(--danger); }
-.faction-hidden { color: var(--text-muted); font-style: italic; }
+.faction-value.neutral { color: var(--text-muted); }
+.faction-hidden { color: var(--text-muted); font-style: italic; font-size: 12px; }
 
-#ending-screen { align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 32px; }
-.ending-title { font-size: 28px; font-weight: 700; color: var(--accent); }
-.ending-text { max-width: 520px; color: var(--text-secondary); line-height: 1.8; }
+/* ===== ЗАГРУЗКА ===== */
+#loading-indicator {
+  display: none;
+  padding: 32px 24px;
+  text-align: center;
+}
 
+#loading-indicator.active { display: block; }
+
+.loading-dots {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s steps(4) infinite;
+}
+
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+
+/* ===== МОБИЛЬНАЯ КНОПКА ===== */
 #mobile-menu-btn {
   display: none;
   position: fixed;
@@ -212,19 +525,65 @@ body {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
   cursor: pointer;
 }
 
+/* ===== ФИНАЛЬНЫЙ ЭКРАН ===== */
+#ending-screen {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 24px;
+  padding: 32px;
+}
+
+.ending-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.ending-text {
+  max-width: 520px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.ending-stats {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 2;
+}
+
+/* ===== ОШИБКА API ===== */
 .api-error {
   background: rgba(239,68,68,0.1);
   border: 1px solid rgba(239,68,68,0.3);
+  color: var(--danger);
   padding: 16px;
   margin: 16px 0;
   font-size: 13px;
+  line-height: 1.6;
 }
 
+.api-error button {
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 6px 16px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 12px;
+}
+
+/* ===== АДАПТИВ ===== */
 @media (max-width: 840px) {
   #game-screen { flex-direction: column; }
   #sidebar {
@@ -234,94 +593,176 @@ body {
     height: 100vh;
     z-index: 400;
     transition: right 0.3s ease;
+    border-left: 1px solid var(--border);
   }
   #sidebar.open { right: 0; }
   #mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+  #main-panel { height: 100vh; width: 100%; }
+  #narrative-area { padding: 24px 16px; }
+  #choices-area { padding: 12px 16px 20px; }
+  .top-bar-stats { gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .top-bar-stats { display: none; }
+  .choice-btn { font-size: 13px; padding: 10px 14px; }
+}
+
+/* ===== GLITCH ===== */
+.glitch-text {
+  animation: glitch 0.3s ease;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); filter: none; }
+  20% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+  40% { transform: translate(2px, -1px); filter: hue-rotate(180deg); }
+  60% { transform: translate(-1px, -1px); filter: hue-rotate(270deg); }
+  80% { transform: translate(1px, 1px); filter: hue-rotate(45deg); }
+  100% { transform: translate(0); filter: none; }
+}
+
+/* ===== Пульс рассудка ===== */
+.sanity-critical .stat-bar {
+  animation: sanityPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes sanityPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 </style>
 </head>
 <body>
 
+<!-- ======== ТИТУЛЬНЫЙ ЭКРАН ======== -->
 <div id="title-screen" class="screen active">
   <div class="title-logo">Dark <span>Script</span></div>
   <div class="title-sub">город эхо</div>
-  <div class="title-tagline">«Ты не помнишь своего имени. Город не помнит солнца. Кассеты помнят всё.»</div>
+  <div class="title-tagline">
+    «Ты не помнишь своего имени. Город не помнит солнца. Кассеты помнят всё — но молчат.»
+  </div>
   <button class="btn btn-accent" onclick="showScreen('char-screen')">Начать</button>
   <button class="btn" onclick="tryLoadGame()" id="continue-btn" style="display:none">Продолжить</button>
 </div>
 
+<!-- ======== ВЫБОР ПЕРСОНАЖА ======== -->
 <div id="char-screen" class="screen">
   <div class="char-title">Что помнят твои руки?</div>
-  <div class="char-quote">Тело помнит. Руки помнят. Язык помнит. Голова старается.</div>
+  <div class="char-quote">«Ты не помнишь имени. Но тело помнит. Руки помнят. Язык помнит. Голова... голова старается.»</div>
   <div class="char-options">
     <div class="char-card" onclick="startGame('fist')">
       <div class="char-card-title">🥊 Руки помнят удар</div>
       <div class="char-card-stats">СИЛ 7 / ХАР 4 / ИНТ 5</div>
-      <div class="char-card-desc">Ты решал проблемы не словами.</div>
+      <div class="char-card-desc">Ты решал проблемы не словами. Слова — для тех, у кого есть время.</div>
+      <div class="char-card-bonus">Бонус: Рассудок +10% (тупые — счастливые)</div>
     </div>
     <div class="char-card" onclick="startGame('tongue')">
       <div class="char-card-title">🗣️ Язык помнит ложь</div>
       <div class="char-card-stats">СИЛ 4 / ХАР 7 / ИНТ 5</div>
-      <div class="char-card-desc">Ты мог убедить кого угодно.</div>
+      <div class="char-card-desc">Ты мог убедить человека, что дождь идёт снизу вверх. Иногда — убеждал себя в том же.</div>
+      <div class="char-card-bonus">Бонус: Кеш начинает как нейтральный</div>
     </div>
     <div class="char-card" onclick="startGame('brain')">
       <div class="char-card-title">🧠 Голова помнит почти всё</div>
       <div class="char-card-stats">СИЛ 4 / ХАР 5 / ИНТ 7</div>
-      <div class="char-card-desc">Ты видел связи там, где другие — хаос.</div>
+      <div class="char-card-desc">Ты видел связи там, где другие видели хаос. Проблема: теперь видишь связи даже там, где их нет.</div>
+      <div class="char-card-bonus">Бонус: Логика даёт +1 подсказку к уликам</div>
     </div>
   </div>
 </div>
 
+<!-- ======== ИГРОВОЙ ЭКРАН ======== -->
 <div id="game-screen" class="screen">
   <div id="main-panel">
     <div id="top-bar">
       <div class="top-bar-title">Dark <span>Script</span></div>
       <div class="top-bar-stats">
-        <div class="top-stat"><span class="top-stat-label">🧠</span><span id="top-sanity">65%</span></div>
-        <div class="top-stat"><span class="top-stat-label">⚡</span><span id="top-tension">5%</span></div>
-        <div class="top-stat"><span class="top-stat-label">📎</span><span id="top-clues">0/3</span></div>
+        <div class="top-stat">
+          <span class="top-stat-label">🧠</span>
+          <span class="top-stat-value" id="top-sanity">65%</span>
+        </div>
+        <div class="top-stat">
+          <span class="top-stat-label">⚡</span>
+          <span class="top-stat-value" id="top-tension">5%</span>
+        </div>
+        <div class="top-stat">
+          <span class="top-stat-label">📎</span>
+          <span class="top-stat-value" id="top-clues">0/3</span>
+        </div>
       </div>
     </div>
     <div id="narrative-area"></div>
-    <div id="loading-indicator"><span class="loading-dots">Генерирую реальность</span></div>
+    <div id="loading-indicator">
+      <span class="loading-dots">Генерирую реальность</span>
+    </div>
     <div id="choices-area"></div>
   </div>
+
   <div id="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Характеристики</div>
-      <div class="stat-row"><span class="stat-name">Сила</span><div class="stat-bar-wrap"><div class="stat-bar" id="bar-str" style="width:50%"></div></div><span class="stat-value" id="val-str">5</span></div>
-      <div class="stat-row"><span class="stat-name">Харизма</span><div class="stat-bar-wrap"><div class="stat-bar" id="bar-cha" style="width:50%"></div></div><span class="stat-value" id="val-cha">5</span></div>
-      <div class="stat-row"><span class="stat-name">Интеллект</span><div class="stat-bar-wrap"><div class="stat-bar" id="bar-int" style="width:50%"></div></div><span class="stat-value" id="val-int">5</span></div>
+      <div class="stat-row">
+        <span class="stat-name">Сила</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-str" style="width:50%;background:var(--voice-instinct)"></div></div>
+        <span class="stat-value" id="val-str">5</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Харизма</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-cha" style="width:50%;background:var(--voice-shadow)"></div></div>
+        <span class="stat-value" id="val-cha">5</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Интеллект</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-int" style="width:50%;background:var(--voice-logic)"></div></div>
+        <span class="stat-value" id="val-int">5</span>
+      </div>
     </div>
-    <div class="sidebar-section">
+    <div class="sidebar-section" id="sanity-section">
       <div class="sidebar-label">Состояние</div>
-      <div class="stat-row"><span class="stat-name">Рассудок</span><div class="stat-bar-wrap"><div class="stat-bar" id="bar-sanity" style="width:65%"></div></div><span class="stat-value" id="val-sanity">65%</span></div>
-      <div class="stat-row"><span class="stat-name">Напряжение</span><div class="stat-bar-wrap"><div class="stat-bar" id="bar-tension" style="width:5%"></div></div><span class="stat-value" id="val-tension">5%</span></div>
+      <div class="stat-row">
+        <span class="stat-name">Рассудок</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-sanity" style="width:65%;background:var(--sanity-ok)"></div></div>
+        <span class="stat-value" id="val-sanity">65%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Напряжение</span>
+        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-tension" style="width:5%;background:var(--danger)"></div></div>
+        <span class="stat-value" id="val-tension">5%</span>
+      </div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Улики (<span id="clue-count">0</span>/3)</div>
-      <div id="clues-list"><div class="sidebar-item">Пусто...</div></div>
+      <div id="clues-list"><div class="sidebar-empty">Пусто...</div></div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Инвентарь</div>
-      <div id="inventory-list"><div class="sidebar-item">Пусто</div></div>
+      <div id="inventory-list"><div class="sidebar-empty">Карманы пусты</div></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Титулы</div>
+      <div id="titles-list"><div class="sidebar-empty">Пока никто</div></div>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-label">Фракции</div>
       <div id="factions-list"></div>
     </div>
-    <div class="sidebar-section" style="margin-top:16px; border-top:1px solid var(--border); padding-top:16px">
-      <button class="btn" style="width:100%" onclick="saveGame()">💾 Сохранить</button>
+    <div class="sidebar-section" style="margin-top:32px;border-top:1px solid var(--border);padding-top:16px">
+      <button class="btn" style="width:100%;font-size:12px;padding:8px" onclick="saveGame()">💾 Сохранить</button>
     </div>
   </div>
+
   <button id="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
 </div>
 
+<!-- ======== БРОСОК КУБИКА ======== -->
 <div id="dice-overlay">
   <div class="dice-display" id="dice-value">20</div>
   <div class="dice-info" id="dice-info"></div>
+  <div class="dice-result-text" id="dice-result"></div>
 </div>
 
+<!-- ======== ФИНАЛЬНЫЙ ЭКРАН ======== -->
 <div id="ending-screen" class="screen">
   <div class="ending-title" id="ending-title">КОНЕЦ</div>
   <div class="ending-text" id="ending-text"></div>
@@ -330,15 +771,91 @@ body {
 </div>
 
 <script>
-// ==================== КОНФИГУРАЦИЯ BOTHUB ====================
-const BOTHUB_API_URL = 'https://openai.bothub.ru/v1/chat/completions';
-const BOTHUB_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo';
-const MODEL = 'anthropic/claude-3.5-sonnet'; // или 'claude-3-opus', 'claude-3-sonnet'
+// ====================================================================
+// КОНФИГУРАЦИЯ BOTHUB (исправлено)
+// ====================================================================
+const CONFIG = {
+  API_URL: 'https://openai.bothub.chat/v1/chat/completions',
+  API_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
+  MODEL: 'claude-sonnet-4.6',
+  MAX_TOKENS: 2000,
+  MAX_HISTORY: 20
+};
 
-// ==================== СОСТОЯНИЕ ====================
+// ====================================================================
+// СИСТЕМНЫЙ ПРОМПТ
+// ====================================================================
+const SYSTEM_PROMPT = `Ты — мастер текстовой RPG "Dark Script: Город Эхо". Генерируй КАЖДЫЙ ответ строго как JSON.
+
+СЕТТИНГ: Альтернативные 80-е. Город Эхо — мегаполис, где магия просочилась через трещины реальности 3 года назад вместе с Пеленой, закрывшей небо. Неон, синтезаторы, кассетные магнитофоны. Магию заряжают в кассеты, нюхают, колют. Она пахнет озоном. Дневного света нет.
+
+ПРОТАГОНИСТ: Виктор Хмарь. Бывший дознаватель Городской Стражи. Лучший ум отдела — пока 3 дня назад не стёрлась память. Теперь живёт над прачечной "Чистая Совесть", не помнит себя, слышит голоса.
+
+4 ГОЛОСА В ГОЛОВЕ (используй 2-3 за сцену, не все сразу):
+• Инстинкт (⚡) — параноидальный выживальщик. Оценивает выходы, угрозы, оружие. Хочет убежать или ударить. Всегда.
+• Логика (🧠) — педант-аналитик. При высоком интеллекте (≥6) даёт верные выводы. При низком (<6) несёт чушь, но УВЕРЕННО. При рассудке <30% ошибается чаще.
+• Эго (👑) — нарцисс-неудачник. Считает героя гением. Любой провал — "стратегическое отступление". Любой успех — "мы всегда это знали".
+• Тень (🌑) — НЕ часть героя. Голос Пустоты. Появляется ТОЛЬКО если unlocked. Шепчет странное, предлагает сомнительное. Знает то, чего герой не помнит. Записка "НЕ ВЕРЬ ТЕНИ" — предупреждение от прошлого себя.
+
+ТОН:
+- Чёрный юмор как в Disco Elysium — абсурд, цинизм, голоса спорят
+- Циничные диалоги как в Ведьмаке
+- ПРОВАЛЫ ДОЛЖНЫ БЫТЬ СМЕШНЫМИ — не наказание, а комедия. Провал = мини-сцена абсурда
+- Критический успех (nat 20) = невозможный подвиг с побочным эффектом
+- Критический провал (nat 1) = эпически смешная катастрофа
+- Мир серьёзный, герой усталый, юмор — от честности
+
+ФРАКЦИИ:
+• Городская Стража — закон, бюрократия, честные намерения, плохое исполнение. Ключевые NPC: Марта Железнова (бывшая напарница, жёсткая, справедливая), Корс (молодой стражник, нервный)
+• Синдикат — преступность с деловым подходом. Ключевые NPC: Кеш (бармен-информатор, циник, обаятельный), Мотылёк (глава, невидимый)
+• Культ Пустоты — СКРЫТ. НЕ упоминай как реальную организацию до тех пор, пока act не станет 2 или 3. В Акте 1 — только намёки: символ разомкнутого круга, частота 108.7, странные ощущения
+
+СЮЖЕТ:
+Акт 1 "Тень": Хмарь просыпается без памяти. Расследует серию убийств в Переулке Сирен (жертвы с чистыми кассетами в руках и улыбками). Локации: квартира, прачечная "Чистая Совесть" (хозяин Грош), бар "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Финал: находит кассету со своим голосом — прошлый он предупреждает: "не слушай частоту 108.7", "жертвы не мертвы — они ПЕРЕПИСАНЫ", "найди Марту".
+Акт 2 "Откровение": Марта рассказывает часть правды. Рынок Шёпотов (Доктор Лин). Культ Пустоты раскрыт — у Хмаря связь с культом. Он был ВНУТРИ. Частота 108.7 — портал.
+Акт 3 "Выбор": Три пути к Радиовышке. Стража = уничтожить. Синдикат = контролировать. Культ = открыть. Секретный путь = обмануть всех.
+
+ПРАВИЛА ГЕНЕРАЦИИ:
+1. Описывай от 2-го лица ("Ты видишь...", "Ты говоришь...")
+2. Каждая сцена: 2-4 абзаца нарратива, 2-3 голоса, 2-4 выбора
+3. Минимум 1 выбор со skill_check за сцену
+4. При skill_check указывай stat (strength/charisma/intelligence) и dc (8=easy, 12=medium, 15=hard, 18=very hard)
+5. consequences: sanity и tension — числа от -15 до +15. add_item/add_title/add_clue — строки или null. faction_guard/faction_syndicate — числа -2...+2 или null. unlock_shadow — true когда Тень должна разблокироваться
+6. Делай сюжет непредсказуемым! Добавляй неожиданные детали, странных NPC, абсурдные ситуации
+7. Следи за напряжением — если оно >80%, намекай что опасность близка. Если рассудок <30%, голоса врут и реальность плывёт
+8. state_changes — общие изменения от самой сцены (помимо выбора)
+9. Не повторяй предыдущие сцены. Двигай сюжет вперёд
+
+СТРОГО JSON (без markdown-обёртки, без \`\`\`json):
+{
+  "narrative": "Основной текст сцены. Поддерживает **жирный** и *курсив*. Разделяй абзацы через \\n\\n",
+  "voices": [
+    {"name": "Инстинкт", "icon": "⚡", "text": "реплика курсивом"},
+    {"name": "Логика", "icon": "🧠", "text": "реплика"},
+    {"name": "Эго", "icon": "👑", "text": "реплика"}
+  ],
+  "choices": [
+    {
+      "text": "Текст кнопки",
+      "skill_check": null,
+      "consequences": {"sanity": 0, "tension": 5, "add_item": null, "add_title": null, "add_clue": null, "faction_guard": null, "faction_syndicate": null, "unlock_shadow": false, "next_scene_hint": "краткое описание, что будет дальше"}
+    },
+    {
+      "text": "Проверить замок",
+      "skill_check": {"stat": "intelligence", "dc": 12},
+      "consequences": {"sanity": -3, "tension": 0, "add_item": "Старый ключ", "add_title": null, "add_clue": null, "faction_guard": null, "faction_syndicate": null, "unlock_shadow": false, "next_scene_hint": "нашёл что-то за замком"}
+    }
+  ],
+  "state_changes": {"sanity": 0, "tension": 0}
+}`;
+
+// ====================================================================
+// СОСТОЯНИЕ ИГРЫ
+// ====================================================================
 let state = {
   act: 1,
   sceneCount: 0,
+  background: 'fist',
   stats: { strength: 5, charisma: 5, intelligence: 5 },
   sanity: 65,
   tension: 5,
@@ -346,17 +863,27 @@ let state = {
   inventory: ['Записка: «НЕ ВЕРЬ ТЕНИ»'],
   titles: [],
   factions: { guard: 0, syndicate: 0, cult: null },
-  flags: { shadowUnlocked: false, cassettePlayed: false, metMarta: false, cultRevealed: false },
-  history: []
+  flags: {
+    shadowUnlocked: false,
+    cassettePlayed: false,
+    cassetteDestroyed: false,
+    metMarta: false,
+    metKesh: false,
+    cultRevealed: false
+  },
+  history: [],
+  visitedLocations: []
 };
 
-let currentSceneData = null;
-let lastAction = null;
-let isWaiting = false;
+// ====================================================================
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// ====================================================================
+function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
 
-function clamp(val, min, max) { return Math.min(max, Math.max(min, val)); }
-function getModifier(stat) { return Math.floor((state.stats[stat] || 5) / 2) - 2; }
-function rollD20() { return Math.floor(Math.random() * 20) + 1; }
+function getModifier(stat) {
+  const val = state.stats[stat] || 5;
+  return Math.floor(val / 2) - 2;
+}
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -367,145 +894,283 @@ function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
 }
 
-function updateUI() {
-  document.getElementById('top-sanity').textContent = state.sanity + '%';
-  document.getElementById('top-tension').textContent = state.tension + '%';
-  document.getElementById('top-clues').textContent = state.clues.length + '/3';
-  document.getElementById('val-str').textContent = state.stats.strength;
-  document.getElementById('val-cha').textContent = state.stats.charisma;
-  document.getElementById('val-int').textContent = state.stats.intelligence;
-  document.getElementById('val-sanity').textContent = state.sanity + '%';
-  document.getElementById('val-tension').textContent = state.tension + '%';
-  document.getElementById('bar-str').style.width = (state.stats.strength * 10) + '%';
-  document.getElementById('bar-cha').style.width = (state.stats.charisma * 10) + '%';
-  document.getElementById('bar-int').style.width = (state.stats.intelligence * 10) + '%';
-  document.getElementById('bar-sanity').style.width = state.sanity + '%';
-  document.getElementById('bar-tension').style.width = state.tension + '%';
-  document.getElementById('clue-count').textContent = state.clues.length;
-  
-  const cluesDiv = document.getElementById('clues-list');
-  cluesDiv.innerHTML = state.clues.length ? state.clues.map(c => `<div class="sidebar-item">📎 ${c}</div>`).join('') : '<div class="sidebar-item">Пусто...</div>';
-  
-  const invDiv = document.getElementById('inventory-list');
-  invDiv.innerHTML = state.inventory.length ? state.inventory.map(i => `<div class="sidebar-item">• ${i}</div>`).join('') : '<div class="sidebar-item">Пусто</div>';
-  
-  const factionsDiv = document.getElementById('factions-list');
-  factionsDiv.innerHTML = `
-    <div class="faction-row"><span>⚔️ Стража</span><span class="faction-value ${state.factions.guard > 0 ? 'positive' : state.factions.guard < 0 ? 'negative' : ''}">${state.factions.guard > 0 ? '+' : ''}${state.factions.guard}</span></div>
-    <div class="faction-row"><span>🗡️ Синдикат</span><span class="faction-value ${state.factions.syndicate > 0 ? 'positive' : state.factions.syndicate < 0 ? 'negative' : ''}">${state.factions.syndicate > 0 ? '+' : ''}${state.factions.syndicate}</span></div>
-    <div class="faction-row"><span>🌑 Культ</span>${state.factions.cult !== null ? `<span>${state.factions.cult}</span>` : '<span class="faction-hidden">??? скрыта</span>'}</div>
-  `;
-}
+// ====================================================================
+// СИСТЕМА БРОСКОВ d20
+// ====================================================================
+function rollD20() { return Math.floor(Math.random() * 20) + 1; }
 
-async function showDiceRoll(roll, mod, dc, stat) {
+function showDiceRoll(roll, mod, dc, stat) {
   return new Promise(resolve => {
     const overlay = document.getElementById('dice-overlay');
     const diceVal = document.getElementById('dice-value');
     const diceInfo = document.getElementById('dice-info');
+    const diceRes = document.getElementById('dice-result');
+    
     const total = roll + mod;
     const success = total >= dc;
+    const critSuccess = roll === 20;
+    const critFail = roll === 1;
+
+    const statNames = { strength: 'Сила', charisma: 'Харизма', intelligence: 'Интеллект' };
     
     overlay.classList.add('active');
     diceVal.textContent = roll;
-    diceInfo.textContent = `d20(${roll}) ${mod >= 0 ? '+' : ''}${mod} = ${total} vs DC ${dc} → ${success ? 'УСПЕХ' : 'ПРОВАЛ'}`;
+    diceVal.className = 'dice-display';
     
+    if (critSuccess) diceVal.classList.add('crit-success');
+    else if (critFail) diceVal.classList.add('crit-fail');
+    else if (success) diceVal.classList.add('success');
+    else diceVal.classList.add('fail');
+
+    const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+    diceInfo.textContent = `d20(${roll}) ${modStr} [${statNames[stat]}] = ${total} vs DC ${dc}`;
+    
+    if (critSuccess) diceRes.textContent = '✦ КРИТИЧЕСКИЙ УСПЕХ ✦';
+    else if (critFail) diceRes.textContent = '✗ КРИТИЧЕСКИЙ ПРОВАЛ ✗';
+    else if (success) diceRes.textContent = '✓ Успех';
+    else diceRes.textContent = '✗ Провал';
+
+    diceVal.style.animation = 'none';
+    diceVal.offsetHeight;
+    diceVal.style.animation = '';
+
     setTimeout(() => {
       overlay.classList.remove('active');
-      resolve({ success, total, critSuccess: roll === 20, critFail: roll === 1 });
-    }, 1500);
+      resolve({ roll, mod, total, dc, success, critSuccess, critFail });
+    }, 1800);
   });
 }
 
-// ==================== СИСТЕМНЫЙ ПРОМПТ ====================
-const SYSTEM_PROMPT = `Ты — мастер текстовой RPG "Dark Script: Город Эхо". Отвечай ТОЛЬКО JSON.
-
-Сеттинг: Альтернативные 80-е. Город Эхо. Магия просочилась через трещины реальности. Неон, синтезаторы, кассеты.
-
-Протагонист: Виктор Хмарь. Бывший дознаватель. Память стёрта 3 дня назад.
-
-Голоса (используй 2-3 за сцену):
-- Инстинкт (⚡): параноидальный выживальщик
-- Логика (🧠): педант-аналитик
-- Эго (👑): нарцисс-неудачник
-- Тень (🌑): появляется ТОЛЬКО если shadowUnlocked=true
-
-Тон: чёрный юмор Disco Elysium + цинизм Ведьмака. ПРОВАЛЫ ДОЛЖНЫ БЫТЬ СМЕШНЫМИ.
-
-Формат ответа (ТОЛЬКО JSON, без markdown):
-{
-  "narrative": "описание сцены на русском, 2-4 абзаца",
-  "voices": [{"name": "Инстинкт", "text": "реплика"}],
-  "choices": [
-    {"text": "действие", "skill_check": null, "consequences": {"sanity": 0, "tension": 0, "add_item": null, "add_clue": null, "faction_guard": 0, "faction_syndicate": 0}}
-  ],
-  "state_changes": {"sanity": 0, "tension": 0}
-}
-
-Если skill_check — укажи stat: "strength"/"charisma"/"intelligence" и dc (8-18).
-Не повторяй предыдущие сцены. Двигай сюжет к финалу.`;
-
-// ==================== API ВЫЗОВ (Bothub) ====================
+// ====================================================================
+// API КОНТРОЛЛЕР (исправлено для Bothub)
+// ====================================================================
 async function callAI(userMessage) {
   const messages = [];
   
-  const historyMessages = state.history.slice(-15);
-  for (const h of historyMessages) {
+  messages.push({ role: 'system', content: SYSTEM_PROMPT });
+  
+  const recentHistory = state.history.slice(-CONFIG.MAX_HISTORY);
+  for (const h of recentHistory) {
     messages.push({ role: h.role, content: h.content });
   }
   
-  const context = `[СОСТОЯНИЕ]
-Акт: ${state.act} | Рассудок: ${state.sanity}% | Напряжение: ${state.tension}%
-Сила:${state.stats.strength} Харизма:${state.stats.charisma} Интеллект:${state.stats.intelligence}
-Улики: ${state.clues.length}/3 ${state.clues.join(', ')}
-Инвентарь: ${state.inventory.join(', ')}
-Тень разблокирована: ${state.flags.shadowUnlocked}
+  const stateContext = `
+[ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ]
+Акт: ${state.act} | Сцена #${state.sceneCount}
+Рассудок: ${state.sanity}% | Напряжение: ${state.tension}%
+Сила: ${state.stats.strength} | Харизма: ${state.stats.charisma} | Интеллект: ${state.stats.intelligence}
+Улики: ${state.clues.length}/3 ${state.clues.length > 0 ? '(' + state.clues.join('; ') + ')' : ''}
+Инвентарь: ${state.inventory.join(', ') || 'пусто'}
+Титулы: ${state.titles.join(', ') || 'нет'}
 Фракции: Стража ${state.factions.guard} / Синдикат ${state.factions.syndicate}${state.factions.cult !== null ? ' / Культ ' + state.factions.cult : ''}
+Тень разблокирована: ${state.flags.shadowUnlocked ? 'ДА' : 'НЕТ'}
+Посещённые локации: ${state.visitedLocations.join(', ') || 'нет'}
+Флаги: ${JSON.stringify(state.flags)}
 
 [ДЕЙСТВИЕ ИГРОКА]
 ${userMessage}`;
   
-  messages.push({ role: 'user', content: context });
-  
+  messages.push({ role: 'user', content: stateContext });
+
   try {
-    const response = await fetch(BOTHUB_API_URL, {
+    const response = await fetch(CONFIG.API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${BOTHUB_API_KEY}`
+        'Authorization': `Bearer ${CONFIG.API_KEY}`
       },
       body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...messages
-        ],
+        model: CONFIG.MODEL,
+        max_tokens: CONFIG.MAX_TOKENS,
         temperature: 0.9,
-        max_tokens: 2000
+        messages: messages
       })
     });
-    
+
     if (!response.ok) {
       const errText = await response.text();
       throw new Error(`API ${response.status}: ${errText}`);
     }
-    
+
     const data = await response.json();
-    const content = data.choices[0].message.content;
+    const content = data.choices[0]?.message?.content || '';
     
-    state.history.push({ role: 'user', content: context });
+    if (!content) {
+      throw new Error('Пустой ответ от API');
+    }
+    
+    state.history.push({ role: 'user', content: stateContext });
     state.history.push({ role: 'assistant', content: content });
     
-    // Парсим JSON
-    let clean = content.trim();
-    if (clean.startsWith('```json')) clean = clean.slice(7);
-    if (clean.startsWith('```')) clean = clean.slice(3);
-    if (clean.endsWith('```')) clean = clean.slice(0, -3);
+    return parseAIResponse(content);
     
-    return JSON.parse(clean);
   } catch (err) {
     console.error('API Error:', err);
     throw err;
   }
+}
+
+function parseAIResponse(text) {
+  let clean = text.trim();
+  if (clean.startsWith('```json')) clean = clean.slice(7);
+  if (clean.startsWith('```')) clean = clean.slice(3);
+  if (clean.endsWith('```')) clean = clean.slice(0, -3);
+  clean = clean.trim();
+
+  try {
+    return JSON.parse(clean);
+  } catch (e) {
+    const match = clean.match(/\{[\s\S]*\}/);
+    if (match) {
+      try {
+        return JSON.parse(match[0]);
+      } catch (e2) {
+        throw new Error('Не удалось разобрать ответ ИИ');
+      }
+    }
+    throw new Error('Ответ ИИ не содержит JSON');
+  }
+}
+
+// ====================================================================
+// UI РЕНДЕРИНГ
+// ====================================================================
+function updateAllUI() {
+  const topSanity = document.getElementById('top-sanity');
+  const topTension = document.getElementById('top-tension');
+  topSanity.textContent = state.sanity + '%';
+  topTension.textContent = state.tension + '%';
+  document.getElementById('top-clues').textContent = state.clues.length + '/3';
+
+  topSanity.className = 'top-stat-value' + (state.sanity < 30 ? ' danger' : state.sanity < 50 ? ' warning' : '');
+  topTension.className = 'top-stat-value' + (state.tension > 70 ? ' danger' : state.tension > 50 ? ' warning' : '');
+
+  ['strength', 'charisma', 'intelligence'].forEach(s => {
+    const short = s === 'strength' ? 'str' : s === 'charisma' ? 'cha' : 'int';
+    const val = state.stats[s];
+    document.getElementById('bar-' + short).style.width = (val * 10) + '%';
+    document.getElementById('val-' + short).textContent = val;
+  });
+
+  const sanBar = document.getElementById('bar-sanity');
+  sanBar.style.width = state.sanity + '%';
+  sanBar.style.background = state.sanity < 30 ? 'var(--danger)' : 'var(--sanity-ok)';
+  document.getElementById('val-sanity').textContent = state.sanity + '%';
+
+  const sanSection = document.getElementById('sanity-section');
+  sanSection.classList.toggle('sanity-critical', state.sanity < 25);
+
+  document.getElementById('bar-tension').style.width = state.tension + '%';
+  document.getElementById('val-tension').textContent = state.tension + '%';
+
+  document.getElementById('clue-count').textContent = state.clues.length;
+  const cluesList = document.getElementById('clues-list');
+  if (state.clues.length === 0) {
+    cluesList.innerHTML = '<div class="sidebar-empty">Пусто...</div>';
+  } else {
+    cluesList.innerHTML = state.clues.map(c =>
+      `<div class="sidebar-item clue-item"><span class="sidebar-item-icon">📎</span>${c}</div>`
+    ).join('');
+  }
+
+  const invList = document.getElementById('inventory-list');
+  if (state.inventory.length === 0) {
+    invList.innerHTML = '<div class="sidebar-empty">Карманы пусты</div>';
+  } else {
+    invList.innerHTML = state.inventory.map(i =>
+      `<div class="sidebar-item"><span class="sidebar-item-icon">•</span>${i}</div>`
+    ).join('');
+  }
+
+  const titList = document.getElementById('titles-list');
+  if (state.titles.length === 0) {
+    titList.innerHTML = '<div class="sidebar-empty">Пока никто</div>';
+  } else {
+    titList.innerHTML = state.titles.map(t =>
+      `<div class="sidebar-item title-item">[${t}]</div>`
+    ).join('');
+  }
+
+  const facList = document.getElementById('factions-list');
+  let facHTML = '';
+  
+  const facDisplay = (name, val) => {
+    const cls = val > 0 ? 'positive' : val < 0 ? 'negative' : 'neutral';
+    const sign = val > 0 ? '+' : '';
+    return `<div class="faction-row"><span class="faction-name">${name}</span><span class="faction-value ${cls}">${sign}${val}</span></div>`;
+  };
+  
+  facHTML += facDisplay('⚔️ Стража', state.factions.guard);
+  facHTML += facDisplay('🗡️ Синдикат', state.factions.syndicate);
+  
+  if (state.factions.cult !== null) {
+    facHTML += facDisplay('🌑 Культ Пустоты', state.factions.cult);
+  } else {
+    facHTML += '<div class="faction-hidden">??? — неизвестно</div>';
+  }
+  
+  facList.innerHTML = facHTML;
+}
+
+function formatNarrative(text) {
+  if (!text) return '';
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .split(/\n\n|\n/)
+    .filter(p => p.trim())
+    .map(p => `<p>${p.trim()}</p>`)
+    .join('');
+}
+
+function renderScene(data) {
+  const narrativeArea = document.getElementById('narrative-area');
+  const choicesArea = document.getElementById('choices-area');
+  
+  let html = '';
+  
+  html += `<div class="narrative-text">${formatNarrative(data.narrative)}</div>`;
+  
+  if (data.voices && data.voices.length > 0) {
+    data.voices.forEach((v, i) => {
+      const voiceClass = getVoiceClass(v.name);
+      if (v.name === 'Тень' && !state.flags.shadowUnlocked) return;
+      html += `<div class="voice-bubble ${voiceClass}" style="animation-delay:${i * 0.2}s">
+        <div class="voice-name">${v.icon || ''} ${v.name}</div>
+        <div class="voice-text">«${v.text}»</div>
+      </div>`;
+    });
+  }
+  
+  narrativeArea.innerHTML = html;
+  narrativeArea.scrollTop = narrativeArea.scrollHeight;
+  
+  if (data.choices && data.choices.length > 0) {
+    choicesArea.innerHTML = data.choices.map((c, i) => {
+      let skillTag = '';
+      if (c.skill_check) {
+        const names = { strength: 'Сила', charisma: 'Харизма', intelligence: 'Интеллект' };
+        skillTag = `<span class="choice-skill-tag">[${names[c.skill_check.stat]} DC${c.skill_check.dc}]</span>`;
+      }
+      return `<button class="choice-btn" onclick="makeChoice(${i})">${c.text}${skillTag}</button>`;
+    }).join('');
+    choicesArea.style.display = 'block';
+  } else {
+    choicesArea.style.display = 'none';
+  }
+  
+  if (data.state_changes) {
+    if (data.state_changes.sanity) state.sanity = clamp(state.sanity + data.state_changes.sanity, 0, 100);
+    if (data.state_changes.tension) state.tension = clamp(state.tension + data.state_changes.tension, 0, 100);
+  }
+}
+
+function getVoiceClass(name) {
+  if (name.includes('Инстинкт')) return 'voice-instinct';
+  if (name.includes('Логика')) return 'voice-logic';
+  if (name.includes('Эго')) return 'voice-ego';
+  if (name.includes('Тень')) return 'voice-shadow';
+  return 'voice-logic';
 }
 
 function applyConsequences(cons) {
@@ -513,53 +1178,11 @@ function applyConsequences(cons) {
   if (cons.sanity) state.sanity = clamp(state.sanity + cons.sanity, 0, 100);
   if (cons.tension) state.tension = clamp(state.tension + cons.tension, 0, 100);
   if (cons.add_item && !state.inventory.includes(cons.add_item)) state.inventory.push(cons.add_item);
-  if (cons.add_clue && !state.clues.includes(cons.add_clue) && state.clues.length < 3) state.clues.push(cons.add_clue);
   if (cons.add_title && !state.titles.includes(cons.add_title)) state.titles.push(cons.add_title);
+  if (cons.add_clue && !state.clues.includes(cons.add_clue) && state.clues.length < 3) state.clues.push(cons.add_clue);
   if (cons.faction_guard) state.factions.guard += cons.faction_guard;
   if (cons.faction_syndicate) state.factions.syndicate += cons.faction_syndicate;
   if (cons.unlock_shadow) state.flags.shadowUnlocked = true;
-}
-
-function renderScene(data) {
-  const narrativeDiv = document.getElementById('narrative-area');
-  const choicesDiv = document.getElementById('choices-area');
-  
-  let html = `<div class="narrative-text">${data.narrative.replace(/\n/g, '<br>')}</div>`;
-  
-  if (data.voices) {
-    for (const v of data.voices) {
-      if (v.name === 'Тень' && !state.flags.shadowUnlocked) continue;
-      let voiceClass = 'voice-logic';
-      if (v.name.includes('Инстинкт')) voiceClass = 'voice-instinct';
-      else if (v.name.includes('Логика')) voiceClass = 'voice-logic';
-      else if (v.name.includes('Эго')) voiceClass = 'voice-ego';
-      else if (v.name.includes('Тень')) voiceClass = 'voice-shadow';
-      html += `<div class="voice-bubble ${voiceClass}"><div class="voice-name">${v.name}</div><div class="voice-text">«${v.text}»</div></div>`;
-    }
-  }
-  
-  narrativeDiv.innerHTML = html;
-  narrativeDiv.scrollTop = narrativeDiv.scrollHeight;
-  
-  if (data.choices && data.choices.length > 0) {
-    choicesDiv.innerHTML = data.choices.map((c, i) => {
-      let skillTag = '';
-      if (c.skill_check) {
-        const statNames = { strength: '💪', charisma: '✨', intelligence: '🧠' };
-        skillTag = `<span class="choice-skill-tag">[${statNames[c.skill_check.stat]} DC${c.skill_check.dc}]</span>`;
-      }
-      return `<button class="choice-btn" onclick="makeChoice(${i})">${c.text}${skillTag}</button>`;
-    }).join('');
-  } else {
-    choicesDiv.innerHTML = '<button class="choice-btn" onclick="retryLastAction()">Продолжить</button>';
-  }
-  
-  if (data.state_changes) {
-    if (data.state_changes.sanity) state.sanity = clamp(state.sanity + data.state_changes.sanity, 0, 100);
-    if (data.state_changes.tension) state.tension = clamp(state.tension + data.state_changes.tension, 0, 100);
-  }
-  
-  updateUI();
 }
 
 function showLoading(show) {
@@ -568,14 +1191,45 @@ function showLoading(show) {
 }
 
 function showError(msg) {
-  const narrativeDiv = document.getElementById('narrative-area');
-  narrativeDiv.innerHTML += `<div class="api-error">⚠️ ${msg}<br><button onclick="retryLastAction()">Повторить</button></div>`;
-  narrativeDiv.scrollTop = narrativeDiv.scrollHeight;
+  const narrativeArea = document.getElementById('narrative-area');
+  narrativeArea.innerHTML += `<div class="api-error">
+    ⚠️ ${msg}<br>
+    <button onclick="retryLastAction()">Повторить</button>
+  </div>`;
+}
+
+// ====================================================================
+// ИГРОВОЙ ДВИЖОК
+// ====================================================================
+let currentSceneData = null;
+let lastAction = null;
+
+async function startGame(background) {
+  state.background = background;
+  
+  switch (background) {
+    case 'fist':
+      state.stats = { strength: 7, charisma: 4, intelligence: 5 };
+      state.sanity = 75;
+      break;
+    case 'tongue':
+      state.stats = { strength: 4, charisma: 7, intelligence: 5 };
+      state.sanity = 65;
+      state.factions.syndicate = 1;
+      break;
+    case 'brain':
+      state.stats = { strength: 4, charisma: 5, intelligence: 7 };
+      state.sanity = 60;
+      break;
+  }
+  
+  showScreen('game-screen');
+  updateAllUI();
+  
+  await requestScene('Начало игры. Акт 1. Виктор Хмарь просыпается на полу своей квартиры. Не помнит ничего. Магнитофон играет. Потолок с пятном. Записка "НЕ ВЕРЬ ТЕНИ" в кармане. Опиши пробуждение, квартиру и первые ощущения. Это ПЕРВАЯ сцена — задай тон всей игры.');
 }
 
 async function requestScene(action) {
-  if (isWaiting) return;
-  isWaiting = true;
   lastAction = action;
   showLoading(true);
   
@@ -584,55 +1238,97 @@ async function requestScene(action) {
     currentSceneData = data;
     state.sceneCount++;
     renderScene(data);
+    updateAllUI();
     checkGameOver();
     saveGame();
   } catch (err) {
-    showError('Ошибка: ' + err.message);
+    showError('Ошибка связи с реальностью: ' + err.message);
   } finally {
-    isWaiting = false;
     showLoading(false);
   }
 }
 
 async function makeChoice(index) {
   if (!currentSceneData || !currentSceneData.choices[index]) return;
+  
   const choice = currentSceneData.choices[index];
   
   document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
   
-  let actionDesc = `Игрок выбрал: "${choice.text}"`;
+  let actionDescription = `Игрок выбрал: "${choice.text}"`;
   
   if (choice.skill_check) {
     const stat = choice.skill_check.stat;
     const dc = choice.skill_check.dc;
     const roll = rollD20();
     const mod = getModifier(stat);
+    
     const result = await showDiceRoll(roll, mod, dc, stat);
     
-    if (result.critSuccess) actionDesc += ` | КРИТУСПЕХ! d20=${roll} vs DC ${dc}`;
-    else if (result.critFail) actionDesc += ` | КРИТПРОВАЛ! d20=${roll} vs DC ${dc}`;
-    else if (result.success) actionDesc += ` | Успех: d20=${roll} vs DC ${dc}`;
-    else actionDesc += ` | Провал: d20=${roll} vs DC ${dc}`;
+    if (result.critSuccess) {
+      actionDescription += ` | БРОСОК: КРИТИЧЕСКИЙ УСПЕХ (nat 20)! d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши НЕВЕРОЯТНЫЙ успех с неожиданным бонусом!`;
+    } else if (result.critFail) {
+      actionDescription += ` | БРОСОК: КРИТИЧЕСКИЙ ПРОВАЛ (nat 1)! d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши ЭПИЧЕСКИ СМЕШНОЙ провал! Дай забавный титул.`;
+    } else if (result.success) {
+      actionDescription += ` | БРОСОК: Успех. d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши успешный результат.`;
+    } else {
+      actionDescription += ` | БРОСОК: Провал. d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши СМЕШНОЙ провал. Дай титул если уместно.`;
+    }
   }
   
   applyConsequences(choice.consequences);
-  updateUI();
   
-  if (state.clues.length >= 3) showEnding('ПОБЕДА', 'Вы собрали все улики. Истина раскрыта.', '★ Финал: «Истина»');
-  else if (state.sanity <= 0) showEnding('Пустота', 'Рассудок shattered. Вы больше не отличаете голоса от реальности.', '🌑 Финал: «Черновик»');
-  else if (state.tension >= 100) showEnding('Кризис', 'Напряжение достигло предела. Враги нашли вас.', '⚡ Финал: «Перезапись»');
-  else await requestScene(actionDesc);
+  if (choice.consequences) {
+    if (choice.consequences.unlock_shadow) state.flags.shadowUnlocked = true;
+  }
+  
+  checkActTransition(actionDescription);
+  
+  updateAllUI();
+  
+  const hint = choice.consequences?.next_scene_hint || '';
+  if (hint) actionDescription += ` | Подсказка для следующей сцены: ${hint}`;
+  
+  await requestScene(actionDescription);
+}
+
+function checkActTransition(action) {
+  if (state.act === 1 && state.clues.length >= 2 && state.sceneCount >= 6) {
+    state.act = 2;
+  }
+  if (state.act === 2 && (state.clues.length >= 3 || state.sceneCount >= 16)) {
+    state.act = 3;
+    state.factions.cult = 0;
+    state.flags.cultRevealed = true;
+  }
 }
 
 function checkGameOver() {
-  if (state.sanity <= 0) showEnding('Пустота', 'Рассудок shattered.', '🌑 Финал: «Черновик»');
-  else if (state.tension >= 100) showEnding('Кризис', 'Напряжение достигло предела.', '⚡ Финал: «Перезапись»');
+  if (state.sanity <= 0) {
+    showEnding('Эхо',
+      'Ты садишься на мокрый асфальт. Голоса сливаются в один. Или это был один голос всё время — а ты разделил его на четыре, чтобы не так одиноко. Неон мигает. Дождь идёт. Ты улыбаешься. Как те трупы. Может, они тоже просто нашли покой.',
+      '🌑 Финал: «Черновик»');
+    return;
+  }
+  if (state.tension >= 100) {
+    showEnding('Затишье перед...',
+      'Напряжение достигло предела. Город сомкнулся вокруг тебя — Стража, Синдикат, тени в переулках. Ты знал слишком много, действовал слишком громко, доверял слишком легко. Последнее, что ты слышишь — скрежет кассеты. Не твоей.',
+      '⚡ Финал: «Перезапись»');
+    return;
+  }
 }
 
 function showEnding(title, text, subtitle) {
   document.getElementById('ending-title').textContent = title;
   document.getElementById('ending-text').innerHTML = text;
-  document.getElementById('ending-stats').innerHTML = `${subtitle}<br><br>Рассудок: ${state.sanity}% | Напряжение: ${state.tension}%<br>Улики: ${state.clues.length}/3<br>Сцен: ${state.sceneCount}`;
+  document.getElementById('ending-stats').innerHTML = `
+    ${subtitle}<br><br>
+    Рассудок: ${state.sanity}% | Напряжение: ${state.tension}%<br>
+    Улики: ${state.clues.length}/3<br>
+    Титулы: ${state.titles.length > 0 ? state.titles.map(t => '[' + t + ']').join(' ') : 'нет'}<br>
+    Сцен пройдено: ${state.sceneCount}<br>
+    Акт: ${state.act}
+  `;
   showScreen('ending-screen');
   localStorage.removeItem('darkscript_save');
 }
@@ -644,43 +1340,25 @@ async function retryLastAction() {
   }
 }
 
-async function startGame(background) {
-  switch (background) {
-    case 'fist': state.stats = { strength: 7, charisma: 4, intelligence: 5 }; state.sanity = 75; break;
-    case 'tongue': state.stats = { strength: 4, charisma: 7, intelligence: 5 }; state.sanity = 65; break;
-    case 'brain': state.stats = { strength: 4, charisma: 5, intelligence: 7 }; state.sanity = 60; break;
-  }
-  state.act = 1;
-  state.sceneCount = 0;
-  state.clues = [];
-  state.inventory = ['Записка: «НЕ ВЕРЬ ТЕНИ»'];
-  state.titles = [];
-  state.factions = { guard: 0, syndicate: 0, cult: null };
-  state.flags = { shadowUnlocked: false, cassettePlayed: false, metMarta: false, cultRevealed: false };
-  state.history = [];
-  state.tension = 5;
-  
-  showScreen('game-screen');
-  updateUI();
-  
-  await requestScene('НАЧАЛО ИГРЫ. Акт 1. Виктор Хмарь просыпается на полу своей квартиры. Не помнит ничего. В кармане записка "НЕ ВЕРЬ ТЕНИ". Опиши пробуждение, квартиру и задай тон.');
-}
-
 function saveGame() {
   try {
-    localStorage.setItem('darkscript_save', JSON.stringify({ state, history: state.history }));
-  } catch(e) {}
+    const saveData = JSON.stringify(state);
+    localStorage.setItem('darkscript_save', saveData);
+  } catch (e) {
+    console.warn('Ошибка сохранения:', e);
+  }
 }
 
 function tryLoadGame() {
-  const saved = localStorage.getItem('darkscript_save');
-  if (saved) {
-    const data = JSON.parse(saved);
-    state = data.state;
-    state.history = data.history || [];
+  try {
+    const saved = localStorage.getItem('darkscript_save');
+    if (!saved) return;
+    state = JSON.parse(saved);
     showScreen('game-screen');
-    updateUI();
-    requestScene('Игрок загрузил сохранение. Продолжи историю. Акт: ' + state.act);
+    updateAllUI();
+    requestScene('Игрок загрузил сохранение. Продолжи историю с того места, где остановились. Текущий акт: ' + state.act + '. Кратко напомни, что происходило, и дай новые выборы.');
+  } catch (e) {
+    console.warn('Ошибка загрузки:', e);
   }
 }
 
@@ -693,7 +1371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('click', (e) => {
   const sidebar = document.getElementById('sidebar');
   const btn = document.getElementById('mobile-menu-btn');
-  if (sidebar?.classList.contains('open') && !sidebar.contains(e.target) && !btn?.contains(e.target)) {
+  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !btn.contains(e.target)) {
     sidebar.classList.remove('open');
   }
 });
