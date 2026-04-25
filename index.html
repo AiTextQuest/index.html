@@ -2,1378 +2,918 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Dark Script: Город Эхо</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
+<title>Dark Script</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg-primary: #0f0f14;
-  --bg-secondary: #1a1a24;
-  --bg-card: #16161f;
-  --border: rgba(124,58,237,0.15);
-  --border-hover: rgba(124,58,237,0.5);
-  --accent: #7c3aed;
-  --accent-glow: rgba(124,58,237,0.3);
-  --text-primary: #e2e2e8;
-  --text-secondary: #8888a0;
-  --text-muted: #55556a;
-  --voice-instinct: #f59e0b;
-  --voice-logic: #3b82f6;
-  --voice-ego: #eab308;
-  --voice-shadow: #7c3aed;
-  --danger: #ef4444;
-  --success: #22c55e;
-  --sanity-ok: #3b82f6;
-  --sanity-low: #ef4444;
-  --font: 'Inter', sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font);
-  font-size: 15px;
-  line-height: 1.7;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-/* ===== ЭКРАНЫ ===== */
-.screen { display:none; min-height:100vh; }
-.screen.active { display:flex; }
-
-/* ===== ТИТУЛЬНЫЙ ЭКРАН ===== */
-#title-screen {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 24px;
-  text-align: center;
-}
-
-.title-logo {
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -1px;
-  color: var(--text-primary);
-}
-
-.title-logo span { color: var(--accent); }
-
-.title-sub {
-  color: var(--text-secondary);
-  font-size: 14px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-top: -16px;
-}
-
-.title-tagline {
-  color: var(--text-muted);
-  max-width: 420px;
-  font-size: 14px;
-  font-style: italic;
-  line-height: 1.8;
-}
-
-/* ===== КНОПКИ ===== */
-.btn {
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-  padding: 12px 32px;
-  font-family: var(--font);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
-}
-
-.btn:hover {
-  border-color: var(--border-hover);
-  box-shadow: 0 0 20px var(--accent-glow);
-}
-
-.btn:active { transform: scale(0.98); }
-
-.btn-accent {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn-accent:hover {
-  background: var(--accent);
-  color: #fff;
-}
-
-.btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* ===== СОЗДАНИЕ ПЕРСОНАЖА ===== */
-#char-screen {
-  flex-direction: column;
-  align-items: center;
-  padding: 48px 24px;
-  gap: 32px;
-}
-
-.char-title {
-  font-size: 18px;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
-.char-quote {
-  color: var(--text-muted);
-  font-style: italic;
-  text-align: center;
-  max-width: 500px;
-  font-size: 14px;
-}
-
-.char-options {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 560px;
-  width: 100%;
-}
-
-.char-card {
-  border: 1px solid var(--border);
-  padding: 20px 24px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.char-card:hover {
-  border-color: var(--border-hover);
-  box-shadow: 0 0 24px var(--accent-glow);
-}
-
-.char-card-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.char-card-stats {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
-
-.char-card-desc {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.char-card-bonus {
-  font-size: 12px;
-  color: var(--voice-ego);
-  margin-top: 8px;
-}
-
-/* ===== ИГРОВОЙ ЭКРАН ===== */
-#game-screen {
-  flex-direction: row;
-  height: 100vh;
-}
-
-#main-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  height: 100vh;
-}
-
-#top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  background: var(--bg-secondary);
-}
-
-.top-bar-title {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.top-bar-title span { color: var(--accent); }
-
-.top-bar-stats {
-  display: flex;
-  gap: 20px;
-  font-family: var(--mono);
-  font-size: 12px;
-}
-
-.top-stat {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.top-stat-label { color: var(--text-muted); }
-.top-stat-value { color: var(--text-primary); font-weight: 500; }
-.top-stat-value.danger { color: var(--danger); }
-.top-stat-value.warning { color: var(--voice-instinct); }
-
-#narrative-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 32px 24px;
-  max-width: 780px;
-}
-
-.narrative-text {
-  margin-bottom: 24px;
-  line-height: 1.85;
-  font-size: 15px;
-}
-
-.narrative-text p { margin-bottom: 14px; }
-.narrative-text strong { color: #fff; font-weight: 600; }
-.narrative-text em { color: var(--text-secondary); font-style: italic; }
-
-/* ===== ГОЛОСА ===== */
-.voice-bubble {
-  border-left: 2px solid;
-  padding: 10px 16px;
-  margin: 12px 0;
-  font-size: 14px;
-  opacity: 0;
-  animation: voiceFadeIn 0.4s ease forwards;
-}
-
-.voice-bubble .voice-name {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.voice-bubble .voice-text {
-  color: var(--text-secondary);
-  font-style: italic;
-  line-height: 1.7;
-}
-
-.voice-instinct { border-color: var(--voice-instinct); }
-.voice-instinct .voice-name { color: var(--voice-instinct); }
-.voice-logic { border-color: var(--voice-logic); }
-.voice-logic .voice-name { color: var(--voice-logic); }
-.voice-ego { border-color: var(--voice-ego); }
-.voice-ego .voice-name { color: var(--voice-ego); }
-.voice-shadow { border-color: var(--voice-shadow); }
-.voice-shadow .voice-name { color: var(--voice-shadow); }
-
-@keyframes voiceFadeIn {
-  from { opacity:0; transform:translateX(-8px); }
-  to { opacity:1; transform:translateX(0); }
-}
-
-/* ===== ВЫБОРЫ ===== */
-#choices-area {
-  padding: 16px 24px 24px;
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-  background: var(--bg-secondary);
-}
-
-.choice-btn {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-  padding: 12px 16px;
-  margin-bottom: 8px;
-  font-family: var(--font);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1.5;
-}
-
-.choice-btn:last-child { margin-bottom: 0; }
-.choice-btn:hover {
-  border-color: var(--border-hover);
-  padding-left: 20px;
-  box-shadow: 0 0 16px var(--accent-glow);
-}
-
-.choice-btn:disabled {
-  opacity: 0.25;
-  cursor: not-allowed;
-  box-shadow: none;
-  padding-left: 16px;
-}
-
-.choice-skill-tag {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--accent);
-  margin-left: 8px;
-}
-
-/* ===== БРОСОК КУБИКА ===== */
-#dice-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(15,15,20,0.85);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-}
-
-#dice-overlay.active { display: flex; }
-
-.dice-display {
-  font-family: var(--mono);
-  font-size: 64px;
-  font-weight: 700;
-  color: var(--accent);
-  animation: diceRoll 0.6s ease-out;
-}
-
-.dice-display.success { color: var(--success); }
-.dice-display.fail { color: var(--danger); }
-.dice-display.crit-success { color: var(--voice-ego); text-shadow: 0 0 30px var(--voice-ego); }
-.dice-display.crit-fail { color: var(--danger); text-shadow: 0 0 30px var(--danger); }
-
-.dice-info {
-  font-size: 14px;
-  color: var(--text-secondary);
-  text-align: center;
-  font-family: var(--mono);
-}
-
-.dice-result-text {
-  font-size: 16px;
-  color: var(--text-primary);
-  text-align: center;
-  margin-top: 8px;
-}
-
-@keyframes diceRoll {
-  0% { transform: scale(0.5) rotate(-180deg); opacity:0; }
-  60% { transform: scale(1.2) rotate(10deg); }
-  100% { transform: scale(1) rotate(0); opacity:1; }
-}
-
-/* ===== САЙДБАР ===== */
-#sidebar {
-  width: 280px;
-  border-left: 1px solid var(--border);
-  background: var(--bg-secondary);
-  overflow-y: auto;
-  padding: 20px;
-  flex-shrink: 0;
-  height: 100vh;
-}
-
-.sidebar-section {
-  margin-bottom: 28px;
-}
-
-.sidebar-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-/* Прогресс-бары */
-.stat-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.stat-name {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.stat-bar-wrap {
-  flex: 1;
-  height: 3px;
-  background: rgba(255,255,255,0.05);
-  margin: 0 10px;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.stat-bar {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.5s ease, background 0.5s ease;
-}
-
-.stat-value {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-primary);
-  min-width: 28px;
-  text-align: right;
-}
-
-/* Инвентарь, улики, титулы */
-.sidebar-item {
-  font-size: 13px;
-  color: var(--text-secondary);
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-  line-height: 1.5;
-}
-
-.sidebar-item:last-child { border-bottom: none; }
-
-.sidebar-item-icon { margin-right: 6px; }
-
-.sidebar-empty {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-.clue-item { color: var(--accent); }
-.title-item { color: var(--voice-ego); }
-
-.faction-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0;
-  font-size: 13px;
-}
-
-.faction-name { color: var(--text-secondary); }
-.faction-value {
-  font-family: var(--mono);
-  font-size: 12px;
-}
-
-.faction-value.positive { color: var(--success); }
-.faction-value.negative { color: var(--danger); }
-.faction-value.neutral { color: var(--text-muted); }
-.faction-hidden { color: var(--text-muted); font-style: italic; font-size: 12px; }
-
-/* ===== ЗАГРУЗКА ===== */
-#loading-indicator {
-  display: none;
-  padding: 32px 24px;
-  text-align: center;
-}
-
-#loading-indicator.active { display: block; }
-
-.loading-dots {
-  color: var(--accent);
-  font-size: 14px;
-}
-
-.loading-dots::after {
-  content: '';
-  animation: dots 1.5s steps(4) infinite;
-}
-
-@keyframes dots {
-  0% { content: ''; }
-  25% { content: '.'; }
-  50% { content: '..'; }
-  75% { content: '...'; }
-}
-
-/* ===== МОБИЛЬНАЯ КНОПКА ===== */
-#mobile-menu-btn {
-  display: none;
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 500;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-/* ===== ФИНАЛЬНЫЙ ЭКРАН ===== */
-#ending-screen {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 24px;
-  padding: 32px;
-}
-
-.ending-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.ending-text {
-  max-width: 520px;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  font-size: 15px;
-}
-
-.ending-stats {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 2;
-}
-
-/* ===== ОШИБКА API ===== */
-.api-error {
-  background: rgba(239,68,68,0.1);
-  border: 1px solid rgba(239,68,68,0.3);
-  color: var(--danger);
-  padding: 16px;
-  margin: 16px 0;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.api-error button {
-  margin-top: 8px;
-  background: transparent;
-  border: 1px solid var(--danger);
-  color: var(--danger);
-  padding: 6px 16px;
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 12px;
-}
-
-/* ===== АДАПТИВ ===== */
-@media (max-width: 840px) {
-  #game-screen { flex-direction: column; }
-  #sidebar {
-    position: fixed;
-    right: -300px;
-    top: 0;
-    height: 100vh;
-    z-index: 400;
-    transition: right 0.3s ease;
-    border-left: 1px solid var(--border);
-  }
-  #sidebar.open { right: 0; }
-  #mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
-  #main-panel { height: 100vh; width: 100%; }
-  #narrative-area { padding: 24px 16px; }
-  #choices-area { padding: 12px 16px 20px; }
-  .top-bar-stats { gap: 12px; }
-}
-
-@media (max-width: 480px) {
-  .top-bar-stats { display: none; }
-  .choice-btn { font-size: 13px; padding: 10px 14px; }
-}
-
-/* ===== GLITCH ===== */
-.glitch-text {
-  animation: glitch 0.3s ease;
-}
-
-@keyframes glitch {
-  0% { transform: translate(0); filter: none; }
-  20% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
-  40% { transform: translate(2px, -1px); filter: hue-rotate(180deg); }
-  60% { transform: translate(-1px, -1px); filter: hue-rotate(270deg); }
-  80% { transform: translate(1px, 1px); filter: hue-rotate(45deg); }
-  100% { transform: translate(0); filter: none; }
-}
-
-/* ===== Пульс рассудка ===== */
-.sanity-critical .stat-bar {
-  animation: sanityPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes sanityPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
+/* ═══════════════════════════════════════
+   ТЕМА — CSS-переменные, меняются при
+   выборе реальности через JS
+   ═══════════════════════════════════════ */
+:root{
+  --accent:#7c3aed;--accent-rgb:124,58,237;
+  --bg1:#0d0d12;--bg2:#15151e;--bg3:#1c1c28;
+  --border:rgba(var(--accent-rgb),.12);
+  --border-h:rgba(var(--accent-rgb),.45);
+  --glow:rgba(var(--accent-rgb),.25);
+  --text1:#e4e4ec;--text2:#8889a4;--text3:#4e4f68;
+  --v-inst:#f59e0b;--v-logic:#3b82f6;--v-ego:#eab308;--v-shadow:var(--accent);
+  --danger:#ef4444;--success:#22c55e;
+  --font:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --rad:6px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{height:100%}
+body{
+  background:var(--bg1);color:var(--text1);
+  font:400 15px/1.72 var(--font);
+  min-height:100%;overflow-x:hidden;
+  transition:background .8s ease;
+}
+
+/* скроллбар */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+/* ═══ ЧАСТИЦЫ (canvas) ═══ */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;transition:opacity 1s}
+
+/* ═══ ОВЕРЛЕЙ ПЕРЕХОДА ═══ */
+#transition{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg1);
+  opacity:0;pointer-events:none;
+  transition:opacity .45s ease;
+}
+#transition.active{opacity:1;pointer-events:all}
+
+/* ═══ ШУМОВАЯ ТЕКСТУРА ═══ */
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.03;mix-blend-mode:overlay;
+}
+
+/* ═══ ЭКРАНЫ ═══ */
+.scr{
+  display:none;position:relative;z-index:2;
+  min-height:100vh;
+  opacity:0;transition:opacity .5s ease;
+}
+.scr.on{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.scr.on.visible{opacity:1}
+
+/* ═══════════════════════════
+   ТИТУЛЬНЫЙ ЭКРАН
+   ═══════════════════════════ */
+#s-title{gap:28px;padding:24px;text-align:center}
+
+.logo{
+  font-size:clamp(2.6rem,7vw,4.2rem);
+  font-weight:700;letter-spacing:-2px;
+  color:var(--text1);line-height:1.1;
+}
+.logo b{
+  color:var(--accent);font-weight:700;
+  text-shadow:0 0 40px var(--glow);
+}
+.logo-sub{
+  font-size:11px;font-weight:500;
+  letter-spacing:6px;text-transform:uppercase;
+  color:var(--text3);margin-top:2px;
+}
+.tagline{
+  max-width:400px;font-size:13.5px;
+  color:var(--text3);font-style:italic;line-height:1.9;
+}
+.title-btns{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+
+/* ═══ КНОПКИ ═══ */
+.btn{
+  background:transparent;color:var(--text1);
+  border:1px solid var(--border);
+  padding:11px 28px;border-radius:var(--rad);
+  font:500 13px var(--font);letter-spacing:.3px;
+  cursor:pointer;transition:all .25s ease;
+  position:relative;overflow:hidden;
+}
+.btn:hover{border-color:var(--border-h);box-shadow:0 0 24px var(--glow)}
+.btn:active{transform:scale(.97)}
+.btn.primary{border-color:var(--accent);color:var(--accent)}
+.btn.primary:hover{background:var(--accent);color:#fff}
+.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
+
+/* ═══════════════════════════
+   ВЫБОР РЕАЛЬНОСТИ
+   ═══════════════════════════ */
+#s-reality{gap:32px;padding:32px 20px}
+.reality-head{text-align:center}
+.reality-head h2{font-size:18px;font-weight:400;color:var(--text2);letter-spacing:.5px}
+.reality-head p{font-size:12px;color:var(--text3);margin-top:6px;font-style:italic}
+
+.reality-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;max-width:580px;width:100%;
+}
+@media(max-width:560px){.reality-grid{grid-template-columns:1fr;max-width:360px}}
+
+.r-card{
+  border:1px solid var(--border);border-radius:var(--rad);
+  padding:22px 20px;cursor:pointer;
+  transition:all .3s ease;position:relative;
+  overflow:hidden;
+}
+.r-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 120%,var(--card-glow,transparent) 0%,transparent 70%);
+  opacity:0;transition:opacity .3s;
+}
+.r-card:hover{border-color:var(--card-accent,var(--border-h));transform:translateY(-2px)}
+.r-card:hover::before{opacity:1}
+
+.r-card .r-icon{font-size:28px;margin-bottom:10px;display:block}
+.r-card .r-name{font-size:15px;font-weight:600;margin-bottom:4px;position:relative}
+.r-card .r-sub{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;position:relative}
+.r-card .r-desc{font-size:12.5px;color:var(--text2);line-height:1.6;position:relative}
+
+/* индивидуальные свечения карточек */
+.r-card[data-r="neon"]{--card-accent:rgba(124,58,237,.5);--card-glow:rgba(124,58,237,.08)}
+.r-card[data-r="fantasy"]{--card-accent:rgba(16,185,129,.5);--card-glow:rgba(16,185,129,.08)}
+.r-card[data-r="ash"]{--card-accent:rgba(245,158,11,.5);--card-glow:rgba(245,158,11,.08)}
+.r-card[data-r="chrome"]{--card-accent:rgba(6,182,212,.5);--card-glow:rgba(6,182,212,.08)}
+
+/* ═══════════════════════════
+   ВЫБОР ПЕРСОНАЖА
+   ═══════════════════════════ */
+#s-char{gap:28px;padding:40px 20px}
+.char-head{text-align:center}
+.char-head h2{font-size:17px;font-weight:400;color:var(--text2)}
+.char-head p{font-size:13px;color:var(--text3);font-style:italic;margin-top:6px;max-width:460px}
+.char-opts{display:flex;flex-direction:column;gap:12px;max-width:520px;width:100%}
+.c-card{
+  border:1px solid var(--border);border-radius:var(--rad);
+  padding:18px 22px;cursor:pointer;transition:all .25s ease;
+}
+.c-card:hover{border-color:var(--border-h);box-shadow:0 0 20px var(--glow);transform:translateY(-1px)}
+.c-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.c-card .c-stats{font:500 12px var(--mono);color:var(--accent);margin-bottom:6px}
+.c-card .c-desc{font-size:13px;color:var(--text2);line-height:1.55}
+.c-card .c-bonus{font-size:11.5px;color:var(--v-ego);margin-top:6px}
+
+/* ═══════════════════════════
+   ИГРОВОЙ ЭКРАН
+   ═══════════════════════════ */
+#s-game{
+  flex-direction:row!important;align-items:stretch!important;
+  justify-content:stretch!important;min-height:100vh;
+}
+#main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
+
+/* Верхняя панель */
+#topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;border-bottom:1px solid var(--border);
+  flex-shrink:0;background:var(--bg2);
+  position:relative;z-index:3;
+}
+.tb-title{font-size:12px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--text3)}
+.tb-title b{color:var(--accent);font-weight:600}
+.tb-stats{display:flex;gap:16px;font:500 11px var(--mono)}
+.tb-s{display:flex;align-items:center;gap:5px}
+.tb-s .lb{color:var(--text3);font-size:10px}
+.tb-s .vl{color:var(--text1)}
+.tb-s .vl.warn{color:var(--v-inst)}
+.tb-s .vl.crit{color:var(--danger)}
+
+/* Область повествования */
+#narr{
+  flex:1;overflow-y:auto;padding:28px 24px;
+  max-width:760px;
+}
+.n-text{margin-bottom:20px;line-height:1.88;font-size:15px}
+.n-text p{margin-bottom:13px}
+.n-text strong{color:#fff;font-weight:600}
+.n-text em{color:var(--text2)}
+
+/* Голоса */
+.vb{
+  border-left:2px solid;padding:9px 14px;margin:10px 0;
+  font-size:13.5px;border-radius:0 var(--rad) var(--rad) 0;
+  opacity:0;animation:vIn .4s ease forwards;
+}
+.vb .vn{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:3px}
+.vb .vt{color:var(--text2);font-style:italic;line-height:1.65}
+.vb-inst{border-color:var(--v-inst)}.vb-inst .vn{color:var(--v-inst)}
+.vb-logic{border-color:var(--v-logic)}.vb-logic .vn{color:var(--v-logic)}
+.vb-ego{border-color:var(--v-ego)}.vb-ego .vn{color:var(--v-ego)}
+.vb-shadow{border-color:var(--v-shadow)}.vb-shadow .vn{color:var(--v-shadow)}
+@keyframes vIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+
+/* Область выборов */
+#choices{
+  padding:14px 20px 20px;border-top:1px solid var(--border);
+  flex-shrink:0;background:var(--bg2);
+}
+.ch{
+  display:block;width:100%;text-align:left;
+  background:transparent;color:var(--text1);
+  border:1px solid var(--border);border-radius:var(--rad);
+  padding:11px 15px;margin-bottom:7px;
+  font:400 13.5px/1.5 var(--font);
+  cursor:pointer;transition:all .2s ease;
+}
+.ch:last-child{margin-bottom:0}
+.ch:hover{border-color:var(--border-h);padding-left:19px;box-shadow:0 0 14px var(--glow)}
+.ch:disabled{opacity:.2;cursor:default;box-shadow:none;padding-left:15px}
+.ch .sk{font:500 10px var(--mono);color:var(--accent);margin-left:6px}
+
+/* Загрузка */
+#loader{display:none;padding:28px 20px;text-align:center}
+#loader.on{display:block}
+.ld-txt{color:var(--accent);font-size:13px}
+.ld-bar{width:120px;height:2px;background:var(--bg3);margin:12px auto 0;border-radius:1px;overflow:hidden}
+.ld-bar::after{content:'';display:block;width:40%;height:100%;background:var(--accent);border-radius:1px;animation:ldBar 1.2s ease-in-out infinite}
+@keyframes ldBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+
+/* ═══ САЙДБАР ═══ */
+#side{
+  width:260px;border-left:1px solid var(--border);
+  background:var(--bg2);overflow-y:auto;
+  padding:18px;flex-shrink:0;height:100vh;
+  transition:right .3s ease;
+}
+.sb-sec{margin-bottom:24px}
+.sb-lbl{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+.st-row{display:flex;align-items:center;margin-bottom:8px}
+.st-nm{font-size:11.5px;color:var(--text2);min-width:60px}
+.st-bw{flex:1;height:2px;background:rgba(255,255,255,.04);border-radius:1px;overflow:hidden;margin:0 8px}
+.st-bf{height:100%;border-radius:1px;transition:width .5s ease,background .5s}
+.st-vl{font:500 11px var(--mono);color:var(--text1);min-width:24px;text-align:right}
+.sb-item{font-size:12.5px;color:var(--text2);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.025);line-height:1.5}
+.sb-item:last-child{border-bottom:none}
+.sb-empty{font-size:11.5px;color:var(--text3);font-style:italic}
+.sb-clue{color:var(--accent)}.sb-title{color:var(--v-ego)}
+.fac-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12.5px}
+.fac-n{color:var(--text2)}.fac-v{font:500 11px var(--mono)}
+.fac-v.pos{color:var(--success)}.fac-v.neg{color:var(--danger)}.fac-v.neu{color:var(--text3)}
+.fac-h{color:var(--text3);font-style:italic;font-size:11px;padding:4px 0}
+
+/* Мобильная кнопка */
+#mob-btn{
+  display:none;position:fixed;top:10px;right:10px;z-index:100;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--rad);
+  color:var(--text2);width:36px;height:36px;font-size:16px;
+  cursor:pointer;align-items:center;justify-content:center;
+}
+
+/* ═══ БРОСОК КУБИКА ═══ */
+#dice{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(10,10,15,.88);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;flex-direction:column;gap:14px;
+}
+#dice.on{display:flex}
+.d-val{font:700 58px var(--mono);color:var(--accent);animation:dRoll .55s ease-out}
+.d-val.ok{color:var(--success)}.d-val.no{color:var(--danger)}
+.d-val.crit-ok{color:var(--v-ego);text-shadow:0 0 28px var(--v-ego)}
+.d-val.crit-no{color:var(--danger);text-shadow:0 0 28px var(--danger)}
+.d-info{font:400 13px var(--mono);color:var(--text2);text-align:center}
+.d-res{font-size:15px;text-align:center;margin-top:4px}
+@keyframes dRoll{0%{transform:scale(.4)rotate(-180deg);opacity:0}60%{transform:scale(1.15)rotate(8deg)}100%{transform:none;opacity:1}}
+
+/* ═══ ФИНАЛЬНЫЙ ЭКРАН ═══ */
+#s-end{gap:24px;padding:32px;text-align:center}
+.end-t{font-size:26px;font-weight:700;color:var(--accent)}
+.end-tx{max-width:500px;color:var(--text2);line-height:1.85;font-size:14.5px}
+.end-st{font:400 12px var(--mono);color:var(--text3);line-height:2.1}
+
+/* ═══ ОШИБКА ═══ */
+.err{
+  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--rad);
+  color:var(--danger);padding:14px;margin:14px 0;font-size:12.5px;line-height:1.6;
+}
+.err button{
+  margin-top:6px;background:transparent;border:1px solid var(--danger);border-radius:var(--rad);
+  color:var(--danger);padding:5px 14px;cursor:pointer;font:400 11px var(--font);
+}
+
+/* ═══ АДАПТИВ ═══ */
+@media(max-width:840px){
+  #s-game{flex-direction:column!important}
+  #side{position:fixed;right:-280px;top:0;width:270px;height:100vh;z-index:200;border-left:1px solid var(--border)}
+  #side.open{right:0}
+  #mob-btn{display:flex}
+  #main{height:100vh;width:100%}
+  #narr{padding:20px 16px}
+  #choices{padding:10px 16px 16px}
+}
+@media(max-width:480px){
+  .tb-stats{display:none}
+  .ch{font-size:13px;padding:10px 13px}
+  .reality-grid{gap:10px}
+  .r-card{padding:16px}
+}
+
+/* ═══ ПУЛЬС РАССУДКА ═══ */
+.san-crit .st-bf{animation:sPulse 1.4s ease-in-out infinite}
+@keyframes sPulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ═══ НИЗКИЙ РАССУДОК: искажение экрана ═══ */
+#main.insane-1{filter:saturate(.82)hue-rotate(3deg)}
+#main.insane-2{filter:saturate(.6)hue-rotate(8deg)contrast(1.05)}
+#main.insane-3{filter:saturate(.35)hue-rotate(15deg)contrast(1.1);animation:sanGlitch 8s ease-in-out infinite}
+@keyframes sanGlitch{
+  0%,92%,100%{transform:none}
+  93%{transform:translate(-1px,1px)}
+  95%{transform:translate(1px,-1px)}
+  97%{transform:translate(-1px,0)}
+}
+
+/* ═══ Плавное появление ═══ */
+.fade-in{animation:fadeIn .6s ease forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
-<!-- ======== ТИТУЛЬНЫЙ ЭКРАН ======== -->
-<div id="title-screen" class="screen active">
-  <div class="title-logo">Dark <span>Script</span></div>
-  <div class="title-sub">город эхо</div>
-  <div class="title-tagline">
-    «Ты не помнишь своего имени. Город не помнит солнца. Кассеты помнят всё — но молчат.»
-  </div>
-  <button class="btn btn-accent" onclick="showScreen('char-screen')">Начать</button>
-  <button class="btn" onclick="tryLoadGame()" id="continue-btn" style="display:none">Продолжить</button>
-</div>
+<canvas id="particles"></canvas>
+<div id="transition"></div>
 
-<!-- ======== ВЫБОР ПЕРСОНАЖА ======== -->
-<div id="char-screen" class="screen">
-  <div class="char-title">Что помнят твои руки?</div>
-  <div class="char-quote">«Ты не помнишь имени. Но тело помнит. Руки помнят. Язык помнит. Голова... голова старается.»</div>
-  <div class="char-options">
-    <div class="char-card" onclick="startGame('fist')">
-      <div class="char-card-title">🥊 Руки помнят удар</div>
-      <div class="char-card-stats">СИЛ 7 / ХАР 4 / ИНТ 5</div>
-      <div class="char-card-desc">Ты решал проблемы не словами. Слова — для тех, у кого есть время.</div>
-      <div class="char-card-bonus">Бонус: Рассудок +10% (тупые — счастливые)</div>
-    </div>
-    <div class="char-card" onclick="startGame('tongue')">
-      <div class="char-card-title">🗣️ Язык помнит ложь</div>
-      <div class="char-card-stats">СИЛ 4 / ХАР 7 / ИНТ 5</div>
-      <div class="char-card-desc">Ты мог убедить человека, что дождь идёт снизу вверх. Иногда — убеждал себя в том же.</div>
-      <div class="char-card-bonus">Бонус: Кеш начинает как нейтральный</div>
-    </div>
-    <div class="char-card" onclick="startGame('brain')">
-      <div class="char-card-title">🧠 Голова помнит почти всё</div>
-      <div class="char-card-stats">СИЛ 4 / ХАР 5 / ИНТ 7</div>
-      <div class="char-card-desc">Ты видел связи там, где другие видели хаос. Проблема: теперь видишь связи даже там, где их нет.</div>
-      <div class="char-card-bonus">Бонус: Логика даёт +1 подсказку к уликам</div>
-    </div>
+<!-- ════ ТИТУЛЬНЫЙ ЭКРАН ════ -->
+<div id="s-title" class="scr on visible">
+  <div class="logo">Dark<b>Script</b></div>
+  <div class="logo-sub">Текстовая RPG</div>
+  <div class="tagline">«Ты не помнишь своего имени. Мир не помнит солнца. И только голоса в голове помнят всё — но кому из них верить?»</div>
+  <div class="title-btns">
+    <button class="btn primary" onclick="goTo('s-reality')">Новая игра</button>
+    <button class="btn" id="btn-cont" style="display:none" onclick="tryLoad()">Продолжить</button>
   </div>
 </div>
 
-<!-- ======== ИГРОВОЙ ЭКРАН ======== -->
-<div id="game-screen" class="screen">
-  <div id="main-panel">
-    <div id="top-bar">
-      <div class="top-bar-title">Dark <span>Script</span></div>
-      <div class="top-bar-stats">
-        <div class="top-stat">
-          <span class="top-stat-label">🧠</span>
-          <span class="top-stat-value" id="top-sanity">65%</span>
-        </div>
-        <div class="top-stat">
-          <span class="top-stat-label">⚡</span>
-          <span class="top-stat-value" id="top-tension">5%</span>
-        </div>
-        <div class="top-stat">
-          <span class="top-stat-label">📎</span>
-          <span class="top-stat-value" id="top-clues">0/3</span>
-        </div>
-      </div>
-    </div>
-    <div id="narrative-area"></div>
-    <div id="loading-indicator">
-      <span class="loading-dots">Генерирую реальность</span>
-    </div>
-    <div id="choices-area"></div>
+<!-- ════ ВЫБОР РЕАЛЬНОСТИ ════ -->
+<div id="s-reality" class="scr">
+  <div class="reality-head">
+    <h2>Выбери реальность</h2>
+    <p>Каждый мир хранит свои тени. Механики одинаковы — атмосфера другая.</p>
   </div>
-
-  <div id="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Характеристики</div>
-      <div class="stat-row">
-        <span class="stat-name">Сила</span>
-        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-str" style="width:50%;background:var(--voice-instinct)"></div></div>
-        <span class="stat-value" id="val-str">5</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">Харизма</span>
-        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-cha" style="width:50%;background:var(--voice-shadow)"></div></div>
-        <span class="stat-value" id="val-cha">5</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">Интеллект</span>
-        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-int" style="width:50%;background:var(--voice-logic)"></div></div>
-        <span class="stat-value" id="val-int">5</span>
-      </div>
+  <div class="reality-grid">
+    <div class="r-card" data-r="neon" onclick="pickReality('neon')">
+      <span class="r-icon">🌃</span>
+      <div class="r-name">Неоновый Нуар</div>
+      <div class="r-sub">80-е • Магия • Синтвейв</div>
+      <div class="r-desc">Город, где неон горит ярче солнца, а магию заряжают в кассеты.</div>
     </div>
-    <div class="sidebar-section" id="sanity-section">
-      <div class="sidebar-label">Состояние</div>
-      <div class="stat-row">
-        <span class="stat-name">Рассудок</span>
-        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-sanity" style="width:65%;background:var(--sanity-ok)"></div></div>
-        <span class="stat-value" id="val-sanity">65%</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">Напряжение</span>
-        <div class="stat-bar-wrap"><div class="stat-bar" id="bar-tension" style="width:5%;background:var(--danger)"></div></div>
-        <span class="stat-value" id="val-tension">5%</span>
-      </div>
+    <div class="r-card" data-r="fantasy" onclick="pickReality('fantasy')">
+      <span class="r-icon">⚔️</span>
+      <div class="r-name">Тёмное Фэнтези</div>
+      <div class="r-sub">Мечи • Руны • Проклятия</div>
+      <div class="r-desc">Город-крепость на краю Пустоши. Тьма — не метафора, а вещество.</div>
     </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Улики (<span id="clue-count">0</span>/3)</div>
-      <div id="clues-list"><div class="sidebar-empty">Пусто...</div></div>
+    <div class="r-card" data-r="ash" onclick="pickReality('ash')">
+      <span class="r-icon">☢️</span>
+      <div class="r-name">Пепел и Ржавчина</div>
+      <div class="r-sub">Постапокалипсис • Руины • Аномалии</div>
+      <div class="r-desc">30 лет после Конца. Кто-то всё ещё расследует убийства.</div>
     </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Инвентарь</div>
-      <div id="inventory-list"><div class="sidebar-empty">Карманы пусты</div></div>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Титулы</div>
-      <div id="titles-list"><div class="sidebar-empty">Пока никто</div></div>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Фракции</div>
-      <div id="factions-list"></div>
-    </div>
-    <div class="sidebar-section" style="margin-top:32px;border-top:1px solid var(--border);padding-top:16px">
-      <button class="btn" style="width:100%;font-size:12px;padding:8px" onclick="saveGame()">💾 Сохранить</button>
+    <div class="r-card" data-r="chrome" onclick="pickReality('chrome')">
+      <span class="r-icon">🔮</span>
+      <div class="r-name">Хромированные Сны</div>
+      <div class="r-sub">Киберпанк • Импланты • Сбойная память</div>
+      <div class="r-desc">Мегаполис из стали. Твои воспоминания — файлы. Кто-то их удалил.</div>
     </div>
   </div>
-
-  <button id="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
 </div>
 
-<!-- ======== БРОСОК КУБИКА ======== -->
-<div id="dice-overlay">
-  <div class="dice-display" id="dice-value">20</div>
-  <div class="dice-info" id="dice-info"></div>
-  <div class="dice-result-text" id="dice-result"></div>
+<!-- ════ ВЫБОР ПЕРСОНАЖА ════ -->
+<div id="s-char" class="scr">
+  <div class="char-head">
+    <h2>Что помнит твоё тело?</h2>
+    <p>Имя стёрто. Но мышечная память — упрямая вещь.</p>
+  </div>
+  <div class="char-opts">
+    <div class="c-card" onclick="startGame('fist')">
+      <h3>🥊 Руки помнят удар</h3>
+      <div class="c-stats">СИЛ 7 · ХАР 4 · ИНТ 5</div>
+      <div class="c-desc">Ты решал проблемы не словами. Слова — для тех, у кого есть время.</div>
+      <div class="c-bonus">Бонус: Рассудок +10% — невежество блаженно</div>
+    </div>
+    <div class="c-card" onclick="startGame('tongue')">
+      <h3>🗣️ Язык помнит ложь</h3>
+      <div class="c-stats">СИЛ 4 · ХАР 7 · ИНТ 5</div>
+      <div class="c-desc">Ты мог убедить человека, что дождь идёт снизу вверх. Иногда убеждал себя в том же.</div>
+      <div class="c-bonus">Бонус: информатор начинает нейтральным</div>
+    </div>
+    <div class="c-card" onclick="startGame('brain')">
+      <h3>🧠 Голова помнит почти всё</h3>
+      <div class="c-stats">СИЛ 4 · ХАР 5 · ИНТ 7</div>
+      <div class="c-desc">Ты видел связи там, где другие видели хаос. Теперь видишь их даже там, где их нет.</div>
+      <div class="c-bonus">Бонус: Логика чаще даёт верные подсказки</div>
+    </div>
+  </div>
 </div>
 
-<!-- ======== ФИНАЛЬНЫЙ ЭКРАН ======== -->
-<div id="ending-screen" class="screen">
-  <div class="ending-title" id="ending-title">КОНЕЦ</div>
-  <div class="ending-text" id="ending-text"></div>
-  <div class="ending-stats" id="ending-stats"></div>
-  <button class="btn btn-accent" onclick="location.reload()">Начать заново</button>
+<!-- ════ ИГРОВОЙ ЭКРАН ════ -->
+<div id="s-game" class="scr">
+  <div id="main">
+    <div id="topbar">
+      <div class="tb-title">Dark<b>Script</b></div>
+      <div class="tb-stats">
+        <div class="tb-s"><span class="lb">🧠</span><span class="vl" id="t-san">65%</span></div>
+        <div class="tb-s"><span class="lb">⚡</span><span class="vl" id="t-ten">5%</span></div>
+        <div class="tb-s"><span class="lb">📎</span><span class="vl" id="t-clu">0/3</span></div>
+      </div>
+    </div>
+    <div id="narr"></div>
+    <div id="loader"><div class="ld-txt">Реальность формируется</div><div class="ld-bar"></div></div>
+    <div id="choices"></div>
+  </div>
+  <div id="side">
+    <div class="sb-sec">
+      <div class="sb-lbl">Характеристики</div>
+      <div class="st-row"><span class="st-nm">Сила</span><div class="st-bw"><div class="st-bf" id="b-str" style="width:50%;background:var(--v-inst)"></div></div><span class="st-vl" id="v-str">5</span></div>
+      <div class="st-row"><span class="st-nm">Харизма</span><div class="st-bw"><div class="st-bf" id="b-cha" style="width:50%;background:var(--v-shadow)"></div></div><span class="st-vl" id="v-cha">5</span></div>
+      <div class="st-row"><span class="st-nm">Интеллект</span><div class="st-bw"><div class="st-bf" id="b-int" style="width:50%;background:var(--v-logic)"></div></div><span class="st-vl" id="v-int">5</span></div>
+    </div>
+    <div class="sb-sec" id="san-sec">
+      <div class="sb-lbl">Состояние</div>
+      <div class="st-row"><span class="st-nm">Рассудок</span><div class="st-bw"><div class="st-bf" id="b-san" style="width:65%;background:var(--v-logic)"></div></div><span class="st-vl" id="v-san">65%</span></div>
+      <div class="st-row"><span class="st-nm">Напряжение</span><div class="st-bw"><div class="st-bf" id="b-ten" style="width:5%;background:var(--danger)"></div></div><span class="st-vl" id="v-ten">5%</span></div>
+    </div>
+    <div class="sb-sec"><div class="sb-lbl">Улики (<span id="sc-cl">0</span>/3)</div><div id="ls-cl"><div class="sb-empty">Пусто</div></div></div>
+    <div class="sb-sec"><div class="sb-lbl">Инвентарь</div><div id="ls-inv"><div class="sb-empty">Карманы пусты</div></div></div>
+    <div class="sb-sec"><div class="sb-lbl">Титулы</div><div id="ls-tit"><div class="sb-empty">Пока никто</div></div></div>
+    <div class="sb-sec"><div class="sb-lbl">Фракции</div><div id="ls-fac"></div></div>
+    <div class="sb-sec" style="margin-top:20px;padding-top:14px;border-top:1px solid var(--border)">
+      <button class="btn" style="width:100%;font-size:11px;padding:7px" onclick="saveGame()">💾 Сохранить</button>
+    </div>
+  </div>
+  <button id="mob-btn" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
+</div>
+
+<!-- ════ БРОСОК КУБИКА ════ -->
+<div id="dice">
+  <div class="d-val" id="dv">20</div>
+  <div class="d-info" id="di"></div>
+  <div class="d-res" id="dr"></div>
+</div>
+
+<!-- ════ ФИНАЛ ════ -->
+<div id="s-end" class="scr">
+  <div class="end-t" id="e-t">КОНЕЦ</div>
+  <div class="end-tx" id="e-tx"></div>
+  <div class="end-st" id="e-st"></div>
+  <button class="btn primary" onclick="location.reload()">Начать заново</button>
 </div>
 
 <script>
-// ====================================================================
-// КОНФИГУРАЦИЯ BOTHUB (исправлено)
-// ====================================================================
-const CONFIG = {
-  API_URL: 'https://openai.bothub.chat/v1/chat/completions',
-  API_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
-  MODEL: 'claude-sonnet-4.6',
-  MAX_TOKENS: 2000,
-  MAX_HISTORY: 20
+/* ═══════════════════════════════════════
+   РЕАЛЬНОСТИ: темы + промпты
+   ═══════════════════════════════════════ */
+const REALITIES = {
+  neon: {
+    name:'Неоновый Нуар',
+    accent:'124,58,237', bg1:'#0d0d12', bg2:'#15151e', bg3:'#1c1c28',
+    particleHue:270,
+    factions:['⚔️ Городская Стража','🗡️ Синдикат','🌑 Культ Пустоты'],
+    setting:`СЕТТИНГ: Альтернативные 80-е. Город Эхо — мегаполис, где магия просочилась через трещины реальности 3 года назад вместе с Пеленой, закрывшей небо. Неон, синтезаторы, кассетные магнитофоны. Магию заряжают в кассеты, нюхают, колют. Она пахнет озоном. Дневного света нет.
+NPC: прачечная "Чистая Совесть" (хозяин Грош), бар "Последний Аккорд" (бармен Кеш), Переулок Сирен (стражник Корс). Марта Железнова — бывшая напарница.
+Артефакты: кассеты, магнитофон, радиочастота 108.7, неон, синтвейв.`
+  },
+  fantasy: {
+    name:'Тёмное Фэнтези',
+    accent:'16,185,129', bg1:'#0a0e0d', bg2:'#121a17', bg3:'#182320',
+    particleHue:160,
+    factions:['⚔️ Городская Стража','🗡️ Гильдия Теней','🌑 Орден Пустоты'],
+    setting:`СЕТТИНГ: Тёмное средневековье. Город-крепость Эхо на краю Пустоши. Магия — как чума: заражает, убивает. Факелы горят фиолетовым пламенем. Вместо кассет — свитки-ловушки с записанными заклинаниями и воспоминаниями. Руны заменяют технологию. Тьма — вещество, сочащееся из трещин.
+NPC: красильня "Чистая Совесть" (хозяин Грош), таверна "Последний Аккорд" (кабатчик Кеш), Переулок Сирен (стражник Корс). Марта Железнова — бывшая напарница по Страже.
+Артефакты: свитки-ловушки, зеркало-ловушка, руна разомкнутого круга, Шпиль Пустоты.`
+  },
+  ash: {
+    name:'Пепел и Ржавчина',
+    accent:'245,158,11', bg1:'#110e08', bg2:'#1a1610', bg3:'#231e14',
+    particleHue:35,
+    factions:['⚔️ Ополчение','🗡️ Клан Ржавых','🌑 Дети Коллапса'],
+    setting:`СЕТТИНГ: 30 лет после Коллапса. Руины мегаполиса Эхо. Радиация мутировала реальность — в аномальных зонах время течёт иначе, мёртвые шепчут через статику. Технология ржавая, но работает. Вместо магии — аномалии. Вместо неона — костры и фосфоресценция мутантных грибов.
+NPC: мастерская "Чистая Совесть" (хозяин Грош), бар из жестянок "Последний Аккорд" (Кеш), Переулок Сирен (ополченец Корс). Марта Железнова — бывшая напарница.
+Артефакты: магнитные ленты старого мира, помехи на рации, частота 108.7, аномальная зона.`
+  },
+  chrome: {
+    name:'Хромированные Сны',
+    accent:'6,182,212', bg1:'#080d10', bg2:'#101920', bg3:'#152028',
+    particleHue:190,
+    factions:['⚔️ Корп-Безопасность','🗡️ Чёрный Рынок','🌑 Секта Обнуления'],
+    setting:`СЕТТИНГ: 2087 год. Мегаполис Эхо — вертикальный город из стали и голограмм. Нейроимпланты, цифровые воспоминания, ИИ-помощники. Память — файлы, и чьи-то файлы удалены. Вместо кассет — дата-чипы. Вместо магнитофона — нейроинтерфейс.
+NPC: серв-станция "Чистая Совесть" (техник Грош), синт-бар "Последний Аккорд" (бармен Кеш), Переулок Сирен (офицер Корс). Марта Железнова — бывшая напарница.
+Артефакты: дата-чипы, нейро-логи, частота 108.7 (скрытый сервер), голографические глитчи.`
+  }
 };
 
-// ====================================================================
-// СИСТЕМНЫЙ ПРОМПТ
-// ====================================================================
-const SYSTEM_PROMPT = `Ты — мастер текстовой RPG "Dark Script: Город Эхо". Генерируй КАЖДЫЙ ответ строго как JSON.
+/* ═══════════════════════════════════════
+   БАЗОВЫЙ СИСТЕМНЫЙ ПРОМПТ
+   (setting подставляется из реальности)
+   ═══════════════════════════════════════ */
+function buildSystemPrompt(settingText, factionNames){
+return `Ты — мастер текстовой RPG "Dark Script". Генерируй КАЖДЫЙ ответ строго как JSON.
 
-СЕТТИНГ: Альтернативные 80-е. Город Эхо — мегаполис, где магия просочилась через трещины реальности 3 года назад вместе с Пеленой, закрывшей небо. Неон, синтезаторы, кассетные магнитофоны. Магию заряжают в кассеты, нюхают, колют. Она пахнет озоном. Дневного света нет.
+${settingText}
 
-ПРОТАГОНИСТ: Виктор Хмарь. Бывший дознаватель Городской Стражи. Лучший ум отдела — пока 3 дня назад не стёрлась память. Теперь живёт над прачечной "Чистая Совесть", не помнит себя, слышит голоса.
+ПРОТАГОНИСТ: Бывший лучший дознаватель. Память стёрта 3 дня назад. Живёт над "Чистой Совестью", не помнит себя, слышит голоса.
 
-4 ГОЛОСА В ГОЛОВЕ (используй 2-3 за сцену, не все сразу):
-• Инстинкт (⚡) — параноидальный выживальщик. Оценивает выходы, угрозы, оружие. Хочет убежать или ударить. Всегда.
-• Логика (🧠) — педант-аналитик. При высоком интеллекте (≥6) даёт верные выводы. При низком (<6) несёт чушь, но УВЕРЕННО. При рассудке <30% ошибается чаще.
-• Эго (👑) — нарцисс-неудачник. Считает героя гением. Любой провал — "стратегическое отступление". Любой успех — "мы всегда это знали".
-• Тень (🌑) — НЕ часть героя. Голос Пустоты. Появляется ТОЛЬКО если unlocked. Шепчет странное, предлагает сомнительное. Знает то, чего герой не помнит. Записка "НЕ ВЕРЬ ТЕНИ" — предупреждение от прошлого себя.
+4 ГОЛОСА В ГОЛОВЕ (используй 2-3 за сцену):
+• Инстинкт (⚡) — параноидальный выживальщик.
+• Логика (🧠) — педант. Интеллект≥6 → верные выводы. <6 → уверенная чушь. Рассудок<30% → врёт.
+• Эго (👑) — нарцисс-неудачник. Провал = "стратегическое отступление".
+• Тень (🌑) — НЕ часть героя. Голос Пустоты. ТОЛЬКО если shadowUnlocked=true. Знает забытое.
 
-ТОН:
-- Чёрный юмор как в Disco Elysium — абсурд, цинизм, голоса спорят
-- Циничные диалоги как в Ведьмаке
-- ПРОВАЛЫ ДОЛЖНЫ БЫТЬ СМЕШНЫМИ — не наказание, а комедия. Провал = мини-сцена абсурда
-- Критический успех (nat 20) = невозможный подвиг с побочным эффектом
-- Критический провал (nat 1) = эпически смешная катастрофа
-- Мир серьёзный, герой усталый, юмор — от честности
+ТОН: Чёрный юмор как Disco Elysium + Ведьмак. ПРОВАЛЫ = СМЕШНЫЕ мини-сцены абсурда. Крит-успех (nat20) = невозможный подвиг + побочка. Крит-провал (nat1) = эпическая комедия + титул.
 
 ФРАКЦИИ:
-• Городская Стража — закон, бюрократия, честные намерения, плохое исполнение. Ключевые NPC: Марта Железнова (бывшая напарница, жёсткая, справедливая), Корс (молодой стражник, нервный)
-• Синдикат — преступность с деловым подходом. Ключевые NPC: Кеш (бармен-информатор, циник, обаятельный), Мотылёк (глава, невидимый)
-• Культ Пустоты — СКРЫТ. НЕ упоминай как реальную организацию до тех пор, пока act не станет 2 или 3. В Акте 1 — только намёки: символ разомкнутого круга, частота 108.7, странные ощущения
+• ${factionNames[0]} — закон, бюрократия, честные намерения.
+• ${factionNames[1]} — преступность с деловым подходом.
+• ${factionNames[2]} — СКРЫТА до Акта 2. В Акте 1 — только намёки.
 
 СЮЖЕТ:
-Акт 1 "Тень": Хмарь просыпается без памяти. Расследует серию убийств в Переулке Сирен (жертвы с чистыми кассетами в руках и улыбками). Локации: квартира, прачечная "Чистая Совесть" (хозяин Грош), бар "Последний Аккорд" (Кеш), Переулок Сирен (Корс). Финал: находит кассету со своим голосом — прошлый он предупреждает: "не слушай частоту 108.7", "жертвы не мертвы — они ПЕРЕПИСАНЫ", "найди Марту".
-Акт 2 "Откровение": Марта рассказывает часть правды. Рынок Шёпотов (Доктор Лин). Культ Пустоты раскрыт — у Хмаря связь с культом. Он был ВНУТРИ. Частота 108.7 — портал.
-Акт 3 "Выбор": Три пути к Радиовышке. Стража = уничтожить. Синдикат = контролировать. Культ = открыть. Секретный путь = обмануть всех.
+Акт 1 "Тень": Пробуждение без памяти → серия убийств (жертвы с улыбками и чистыми артефактами памяти) → кассета/свиток/чип с собственным голосом.
+Акт 2 "Откровение": Скрытая фракция раскрыта. У героя связь с ней. Он был ВНУТРИ. Частота 108.7 — портал.
+Акт 3 "Выбор": Три пути: уничтожить / контролировать / открыть + секретный "Шахматист".
 
-ПРАВИЛА ГЕНЕРАЦИИ:
-1. Описывай от 2-го лица ("Ты видишь...", "Ты говоришь...")
-2. Каждая сцена: 2-4 абзаца нарратива, 2-3 голоса, 2-4 выбора
-3. Минимум 1 выбор со skill_check за сцену
-4. При skill_check указывай stat (strength/charisma/intelligence) и dc (8=easy, 12=medium, 15=hard, 18=very hard)
-5. consequences: sanity и tension — числа от -15 до +15. add_item/add_title/add_clue — строки или null. faction_guard/faction_syndicate — числа -2...+2 или null. unlock_shadow — true когда Тень должна разблокироваться
-6. Делай сюжет непредсказуемым! Добавляй неожиданные детали, странных NPC, абсурдные ситуации
-7. Следи за напряжением — если оно >80%, намекай что опасность близка. Если рассудок <30%, голоса врут и реальность плывёт
-8. state_changes — общие изменения от самой сцены (помимо выбора)
-9. Не повторяй предыдущие сцены. Двигай сюжет вперёд
+ПРАВИЛА:
+1. 2-е лицо ("Ты видишь...")
+2. 2-4 абзаца + 2-3 голоса + 2-4 выбора
+3. ≥1 выбор с skill_check (stat: strength/charisma/intelligence, dc: 8/12/15/18)
+4. consequences: sanity/tension -15..+15, add_item/add_title/add_clue строка или null, faction_guard/faction_syndicate -2..+2 или null, unlock_shadow bool
+5. Непредсказуемый сюжет! Двигай вперёд, не повторяй
+6. Напряжение>80% → опасность близко. Рассудок<30% → голоса врут, реальность плывёт
 
-СТРОГО JSON (без markdown-обёртки, без \`\`\`json):
-{
-  "narrative": "Основной текст сцены. Поддерживает **жирный** и *курсив*. Разделяй абзацы через \\n\\n",
-  "voices": [
-    {"name": "Инстинкт", "icon": "⚡", "text": "реплика курсивом"},
-    {"name": "Логика", "icon": "🧠", "text": "реплика"},
-    {"name": "Эго", "icon": "👑", "text": "реплика"}
-  ],
-  "choices": [
-    {
-      "text": "Текст кнопки",
-      "skill_check": null,
-      "consequences": {"sanity": 0, "tension": 5, "add_item": null, "add_title": null, "add_clue": null, "faction_guard": null, "faction_syndicate": null, "unlock_shadow": false, "next_scene_hint": "краткое описание, что будет дальше"}
-    },
-    {
-      "text": "Проверить замок",
-      "skill_check": {"stat": "intelligence", "dc": 12},
-      "consequences": {"sanity": -3, "tension": 0, "add_item": "Старый ключ", "add_title": null, "add_clue": null, "faction_guard": null, "faction_syndicate": null, "unlock_shadow": false, "next_scene_hint": "нашёл что-то за замком"}
-    }
-  ],
-  "state_changes": {"sanity": 0, "tension": 0}
-}`;
+СТРОГО JSON без обёрток:
+{"narrative":"текст с **жирным** и *курсивом*, абзацы через \\n\\n","voices":[{"name":"Инстинкт","icon":"⚡","text":"реплика"}],"choices":[{"text":"кнопка","skill_check":null,"consequences":{"sanity":0,"tension":5,"add_item":null,"add_title":null,"add_clue":null,"faction_guard":null,"faction_syndicate":null,"unlock_shadow":false,"next_scene_hint":"что дальше"}}],"state_changes":{"sanity":0,"tension":0}}`;
+}
 
-// ====================================================================
-// СОСТОЯНИЕ ИГРЫ
-// ====================================================================
-let state = {
-  act: 1,
-  sceneCount: 0,
-  background: 'fist',
-  stats: { strength: 5, charisma: 5, intelligence: 5 },
-  sanity: 65,
-  tension: 5,
-  clues: [],
-  inventory: ['Записка: «НЕ ВЕРЬ ТЕНИ»'],
-  titles: [],
-  factions: { guard: 0, syndicate: 0, cult: null },
-  flags: {
-    shadowUnlocked: false,
-    cassettePlayed: false,
-    cassetteDestroyed: false,
-    metMarta: false,
-    metKesh: false,
-    cultRevealed: false
-  },
-  history: [],
-  visitedLocations: []
+/* ═══════════════════════════════════════
+   КОНФИГУРАЦИЯ API
+   ═══════════════════════════════════════ */
+const CFG={
+  URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',
+  KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
+  MODEL:'claude-sonnet-4-20250514',
+  MAX_T:2200, MAX_H:16
 };
 
-// ====================================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-// ====================================================================
-function clamp(val, min, max) { return Math.max(min, Math.min(max, val)); }
+/* ═══════════════════════════════════════
+   СОСТОЯНИЕ
+   ═══════════════════════════════════════ */
+let S={
+  reality:'neon', act:1, scene:0,
+  bg:'fist',
+  stats:{strength:5,charisma:5,intelligence:5},
+  san:65, ten:5,
+  clues:[], inv:[], titles:[],
+  fac:{guard:0,syndicate:0,cult:null},
+  flags:{shadowUnlocked:false},
+  hist:[], visited:[]
+};
+let curScene=null, lastAct=null;
 
-function getModifier(stat) {
-  const val = state.stats[stat] || 5;
-  return Math.floor(val / 2) - 2;
+/* ═══════════════════════════════════════
+   ЧАСТИЦЫ (canvas)
+   ═══════════════════════════════════════ */
+const cvs=document.getElementById('particles');
+const ctx=cvs.getContext('2d');
+let parts=[], partHue=270;
+
+function initParticles(){
+  cvs.width=innerWidth; cvs.height=innerHeight;
+  parts=[];
+  for(let i=0;i<60;i++) parts.push(mkP());
 }
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-}
-
-// ====================================================================
-// СИСТЕМА БРОСКОВ d20
-// ====================================================================
-function rollD20() { return Math.floor(Math.random() * 20) + 1; }
-
-function showDiceRoll(roll, mod, dc, stat) {
-  return new Promise(resolve => {
-    const overlay = document.getElementById('dice-overlay');
-    const diceVal = document.getElementById('dice-value');
-    const diceInfo = document.getElementById('dice-info');
-    const diceRes = document.getElementById('dice-result');
-    
-    const total = roll + mod;
-    const success = total >= dc;
-    const critSuccess = roll === 20;
-    const critFail = roll === 1;
-
-    const statNames = { strength: 'Сила', charisma: 'Харизма', intelligence: 'Интеллект' };
-    
-    overlay.classList.add('active');
-    diceVal.textContent = roll;
-    diceVal.className = 'dice-display';
-    
-    if (critSuccess) diceVal.classList.add('crit-success');
-    else if (critFail) diceVal.classList.add('crit-fail');
-    else if (success) diceVal.classList.add('success');
-    else diceVal.classList.add('fail');
-
-    const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
-    diceInfo.textContent = `d20(${roll}) ${modStr} [${statNames[stat]}] = ${total} vs DC ${dc}`;
-    
-    if (critSuccess) diceRes.textContent = '✦ КРИТИЧЕСКИЙ УСПЕХ ✦';
-    else if (critFail) diceRes.textContent = '✗ КРИТИЧЕСКИЙ ПРОВАЛ ✗';
-    else if (success) diceRes.textContent = '✓ Успех';
-    else diceRes.textContent = '✗ Провал';
-
-    diceVal.style.animation = 'none';
-    diceVal.offsetHeight;
-    diceVal.style.animation = '';
-
-    setTimeout(() => {
-      overlay.classList.remove('active');
-      resolve({ roll, mod, total, dc, success, critSuccess, critFail });
-    }, 1800);
-  });
-}
-
-// ====================================================================
-// API КОНТРОЛЛЕР (исправлено для Bothub)
-// ====================================================================
-async function callAI(userMessage) {
-  const messages = [];
-  
-  messages.push({ role: 'system', content: SYSTEM_PROMPT });
-  
-  const recentHistory = state.history.slice(-CONFIG.MAX_HISTORY);
-  for (const h of recentHistory) {
-    messages.push({ role: h.role, content: h.content });
-  }
-  
-  const stateContext = `
-[ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ]
-Акт: ${state.act} | Сцена #${state.sceneCount}
-Рассудок: ${state.sanity}% | Напряжение: ${state.tension}%
-Сила: ${state.stats.strength} | Харизма: ${state.stats.charisma} | Интеллект: ${state.stats.intelligence}
-Улики: ${state.clues.length}/3 ${state.clues.length > 0 ? '(' + state.clues.join('; ') + ')' : ''}
-Инвентарь: ${state.inventory.join(', ') || 'пусто'}
-Титулы: ${state.titles.join(', ') || 'нет'}
-Фракции: Стража ${state.factions.guard} / Синдикат ${state.factions.syndicate}${state.factions.cult !== null ? ' / Культ ' + state.factions.cult : ''}
-Тень разблокирована: ${state.flags.shadowUnlocked ? 'ДА' : 'НЕТ'}
-Посещённые локации: ${state.visitedLocations.join(', ') || 'нет'}
-Флаги: ${JSON.stringify(state.flags)}
-
-[ДЕЙСТВИЕ ИГРОКА]
-${userMessage}`;
-  
-  messages.push({ role: 'user', content: stateContext });
-
-  try {
-    const response = await fetch(CONFIG.API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${CONFIG.API_KEY}`
-      },
-      body: JSON.stringify({
-        model: CONFIG.MODEL,
-        max_tokens: CONFIG.MAX_TOKENS,
-        temperature: 0.9,
-        messages: messages
-      })
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`API ${response.status}: ${errText}`);
-    }
-
-    const data = await response.json();
-    const content = data.choices[0]?.message?.content || '';
-    
-    if (!content) {
-      throw new Error('Пустой ответ от API');
-    }
-    
-    state.history.push({ role: 'user', content: stateContext });
-    state.history.push({ role: 'assistant', content: content });
-    
-    return parseAIResponse(content);
-    
-  } catch (err) {
-    console.error('API Error:', err);
-    throw err;
-  }
-}
-
-function parseAIResponse(text) {
-  let clean = text.trim();
-  if (clean.startsWith('```json')) clean = clean.slice(7);
-  if (clean.startsWith('```')) clean = clean.slice(3);
-  if (clean.endsWith('```')) clean = clean.slice(0, -3);
-  clean = clean.trim();
-
-  try {
-    return JSON.parse(clean);
-  } catch (e) {
-    const match = clean.match(/\{[\s\S]*\}/);
-    if (match) {
-      try {
-        return JSON.parse(match[0]);
-      } catch (e2) {
-        throw new Error('Не удалось разобрать ответ ИИ');
-      }
-    }
-    throw new Error('Ответ ИИ не содержит JSON');
-  }
-}
-
-// ====================================================================
-// UI РЕНДЕРИНГ
-// ====================================================================
-function updateAllUI() {
-  const topSanity = document.getElementById('top-sanity');
-  const topTension = document.getElementById('top-tension');
-  topSanity.textContent = state.sanity + '%';
-  topTension.textContent = state.tension + '%';
-  document.getElementById('top-clues').textContent = state.clues.length + '/3';
-
-  topSanity.className = 'top-stat-value' + (state.sanity < 30 ? ' danger' : state.sanity < 50 ? ' warning' : '');
-  topTension.className = 'top-stat-value' + (state.tension > 70 ? ' danger' : state.tension > 50 ? ' warning' : '');
-
-  ['strength', 'charisma', 'intelligence'].forEach(s => {
-    const short = s === 'strength' ? 'str' : s === 'charisma' ? 'cha' : 'int';
-    const val = state.stats[s];
-    document.getElementById('bar-' + short).style.width = (val * 10) + '%';
-    document.getElementById('val-' + short).textContent = val;
-  });
-
-  const sanBar = document.getElementById('bar-sanity');
-  sanBar.style.width = state.sanity + '%';
-  sanBar.style.background = state.sanity < 30 ? 'var(--danger)' : 'var(--sanity-ok)';
-  document.getElementById('val-sanity').textContent = state.sanity + '%';
-
-  const sanSection = document.getElementById('sanity-section');
-  sanSection.classList.toggle('sanity-critical', state.sanity < 25);
-
-  document.getElementById('bar-tension').style.width = state.tension + '%';
-  document.getElementById('val-tension').textContent = state.tension + '%';
-
-  document.getElementById('clue-count').textContent = state.clues.length;
-  const cluesList = document.getElementById('clues-list');
-  if (state.clues.length === 0) {
-    cluesList.innerHTML = '<div class="sidebar-empty">Пусто...</div>';
-  } else {
-    cluesList.innerHTML = state.clues.map(c =>
-      `<div class="sidebar-item clue-item"><span class="sidebar-item-icon">📎</span>${c}</div>`
-    ).join('');
-  }
-
-  const invList = document.getElementById('inventory-list');
-  if (state.inventory.length === 0) {
-    invList.innerHTML = '<div class="sidebar-empty">Карманы пусты</div>';
-  } else {
-    invList.innerHTML = state.inventory.map(i =>
-      `<div class="sidebar-item"><span class="sidebar-item-icon">•</span>${i}</div>`
-    ).join('');
-  }
-
-  const titList = document.getElementById('titles-list');
-  if (state.titles.length === 0) {
-    titList.innerHTML = '<div class="sidebar-empty">Пока никто</div>';
-  } else {
-    titList.innerHTML = state.titles.map(t =>
-      `<div class="sidebar-item title-item">[${t}]</div>`
-    ).join('');
-  }
-
-  const facList = document.getElementById('factions-list');
-  let facHTML = '';
-  
-  const facDisplay = (name, val) => {
-    const cls = val > 0 ? 'positive' : val < 0 ? 'negative' : 'neutral';
-    const sign = val > 0 ? '+' : '';
-    return `<div class="faction-row"><span class="faction-name">${name}</span><span class="faction-value ${cls}">${sign}${val}</span></div>`;
+function mkP(){
+  return{
+    x:Math.random()*cvs.width, y:Math.random()*cvs.height,
+    r:Math.random()*1.5+.3, vy:-(Math.random()*.3+.1),
+    vx:(Math.random()-.5)*.15, a:Math.random()*.5+.1,
+    life:Math.random()*600+200
   };
-  
-  facHTML += facDisplay('⚔️ Стража', state.factions.guard);
-  facHTML += facDisplay('🗡️ Синдикат', state.factions.syndicate);
-  
-  if (state.factions.cult !== null) {
-    facHTML += facDisplay('🌑 Культ Пустоты', state.factions.cult);
-  } else {
-    facHTML += '<div class="faction-hidden">??? — неизвестно</div>';
+}
+function drawParticles(){
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  for(let p of parts){
+    p.x+=p.vx; p.y+=p.vy; p.life--;
+    if(p.life<60) p.a*=.97;
+    if(p.life<=0||p.y<-10){Object.assign(p,mkP());p.y=cvs.height+10}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`hsla(${partHue},60%,65%,${p.a})`;
+    ctx.fill();
   }
-  
-  facList.innerHTML = facHTML;
+  requestAnimationFrame(drawParticles);
+}
+addEventListener('resize',()=>{cvs.width=innerWidth;cvs.height=innerHeight});
+initParticles(); drawParticles();
+
+/* ═══════════════════════════════════════
+   ПЕРЕХОДЫ ЭКРАНОВ
+   ═══════════════════════════════════════ */
+function goTo(id){
+  const tr=document.getElementById('transition');
+  tr.classList.add('active');
+  setTimeout(()=>{
+    document.querySelectorAll('.scr').forEach(s=>{s.classList.remove('on','visible')});
+    const next=document.getElementById(id);
+    next.classList.add('on');
+    setTimeout(()=>{
+      tr.classList.remove('active');
+      setTimeout(()=>next.classList.add('visible'),50);
+    },100);
+  },450);
 }
 
-function formatNarrative(text) {
-  if (!text) return '';
-  return text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .split(/\n\n|\n/)
-    .filter(p => p.trim())
-    .map(p => `<p>${p.trim()}</p>`)
-    .join('');
+/* ═══════════════════════════════════════
+   ВЫБОР РЕАЛЬНОСТИ
+   ═══════════════════════════════════════ */
+function pickReality(key){
+  S.reality=key;
+  const r=REALITIES[key];
+  // Применяем тему
+  const root=document.documentElement;
+  root.style.setProperty('--accent-rgb',r.accent);
+  root.style.setProperty('--accent',`rgb(${r.accent})`);
+  root.style.setProperty('--glow',`rgba(${r.accent},.25)`);
+  root.style.setProperty('--border',`rgba(${r.accent},.12)`);
+  root.style.setProperty('--border-h',`rgba(${r.accent},.45)`);
+  root.style.setProperty('--v-shadow',`rgb(${r.accent})`);
+  root.style.setProperty('--bg1',r.bg1);
+  root.style.setProperty('--bg2',r.bg2);
+  root.style.setProperty('--bg3',r.bg3);
+  document.body.style.background=r.bg1;
+  partHue=r.particleHue;
+  goTo('s-char');
 }
 
-function renderScene(data) {
-  const narrativeArea = document.getElementById('narrative-area');
-  const choicesArea = document.getElementById('choices-area');
-  
-  let html = '';
-  
-  html += `<div class="narrative-text">${formatNarrative(data.narrative)}</div>`;
-  
-  if (data.voices && data.voices.length > 0) {
-    data.voices.forEach((v, i) => {
-      const voiceClass = getVoiceClass(v.name);
-      if (v.name === 'Тень' && !state.flags.shadowUnlocked) return;
-      html += `<div class="voice-bubble ${voiceClass}" style="animation-delay:${i * 0.2}s">
-        <div class="voice-name">${v.icon || ''} ${v.name}</div>
-        <div class="voice-text">«${v.text}»</div>
-      </div>`;
-    });
+/* ═══════════════════════════════════════
+   СТАРТ ИГРЫ
+   ═══════════════════════════════════════ */
+function startGame(bg){
+  S.bg=bg;
+  switch(bg){
+    case'fist':S.stats={strength:7,charisma:4,intelligence:5};S.san=75;break;
+    case'tongue':S.stats={strength:4,charisma:7,intelligence:5};S.san=65;S.fac.syndicate=1;break;
+    case'brain':S.stats={strength:4,charisma:5,intelligence:7};S.san=60;break;
   }
-  
-  narrativeArea.innerHTML = html;
-  narrativeArea.scrollTop = narrativeArea.scrollHeight;
-  
-  if (data.choices && data.choices.length > 0) {
-    choicesArea.innerHTML = data.choices.map((c, i) => {
-      let skillTag = '';
-      if (c.skill_check) {
-        const names = { strength: 'Сила', charisma: 'Харизма', intelligence: 'Интеллект' };
-        skillTag = `<span class="choice-skill-tag">[${names[c.skill_check.stat]} DC${c.skill_check.dc}]</span>`;
+  S.inv=['Записка: «НЕ ВЕРЬ ТЕНИ»'];
+  goTo('s-game');
+  setTimeout(()=>{updateUI();requestScene(
+    'Начало игры. Акт 1. Герой просыпается на полу. Не помнит ничего. В кармане записка «НЕ ВЕРЬ ТЕНИ». Опиши пробуждение и первые ощущения в этой реальности. Задай тон.'
+  )},600);
+}
+
+/* ═══════════════════════════════════════
+   УТИЛИТЫ
+   ═══════════════════════════════════════ */
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const getMod=s=>Math.floor((S.stats[s]||5)/2)-2;
+
+/* ═══════════════════════════════════════
+   d20
+   ═══════════════════════════════════════ */
+function rollD20(){return Math.floor(Math.random()*20)+1}
+function showDice(roll,mod,dc,stat){
+  return new Promise(res=>{
+    const o=document.getElementById('dice'), dv=document.getElementById('dv'),
+          di=document.getElementById('di'), dr=document.getElementById('dr');
+    const tot=roll+mod, ok=tot>=dc, c20=roll===20, c1=roll===1;
+    const sn={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
+    o.classList.add('on');
+    dv.textContent=roll;
+    dv.className='d-val'+(c20?' crit-ok':c1?' crit-no':ok?' ok':' no');
+    di.textContent=`d20(${roll}) ${mod>=0?'+':''}${mod} [${sn[stat]}] = ${tot}  vs DC${dc}`;
+    dr.textContent=c20?'✦ КРИТИЧЕСКИЙ УСПЕХ ✦':c1?'✗ КРИТИЧЕСКИЙ ПРОВАЛ ✗':ok?'✓ Успех':'✗ Провал';
+    dr.style.color=c20||ok?'var(--success)':'var(--danger)';
+    dv.style.animation='none';dv.offsetHeight;dv.style.animation='';
+    setTimeout(()=>{o.classList.remove('on');res({roll,mod,total:tot,dc,ok,c20,c1})},1700);
+  });
+}
+
+/* ═══════════════════════════════════════
+   API
+   ═══════════════════════════════════════ */
+async function callAI(msg){
+  const r=REALITIES[S.reality];
+  const sysP=buildSystemPrompt(r.setting, r.factions);
+  const msgs=[{role:'system',content:sysP}];
+  S.hist.slice(-CFG.MAX_H).forEach(h=>msgs.push({role:h.r,content:h.c}));
+  const ctx=`[СОСТОЯНИЕ] Акт:${S.act} Сцена#${S.scene} Рассудок:${S.san}% Напряжение:${S.ten}% СИЛ:${S.stats.strength} ХАР:${S.stats.charisma} ИНТ:${S.stats.intelligence} Улики:${S.clues.length}/3${S.clues.length?' ('+S.clues.join('; ')+')':''} Инвентарь:${S.inv.join(', ')||'—'} Титулы:${S.titles.join(', ')||'—'} Фракции:Стр${S.fac.guard}/Синд${S.fac.syndicate}${S.fac.cult!==null?'/Культ'+S.fac.cult:''} Тень:${S.flags.shadowUnlocked?'ДА':'НЕТ'} Реальность:${r.name}\n[ДЕЙСТВИЕ] ${msg}`;
+  msgs.push({role:'user',content:ctx});
+  const resp=await fetch(CFG.URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},
+    body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:.88,messages:msgs})
+  });
+  if(!resp.ok)throw new Error('API '+resp.status+': '+(await resp.text()).slice(0,200));
+  const d=await resp.json();
+  const txt=d.choices?.[0]?.message?.content||'';
+  if(!txt)throw new Error('Пустой ответ');
+  S.hist.push({r:'user',c:ctx},{r:'assistant',c:txt});
+  return parseJSON(txt);
+}
+function parseJSON(t){
+  let c=t.trim();
+  if(c.startsWith('```'))c=c.replace(/^```(?:json)?\n?/,'').replace(/\n?```$/,'');
+  c=c.trim();
+  try{return JSON.parse(c)}catch(e){
+    const m=c.match(/\{[\s\S]*\}/);
+    if(m)try{return JSON.parse(m[0])}catch(e2){}
+    throw new Error('JSON parse error');
+  }
+}
+
+/* ═══════════════════════════════════════
+   РЕНДЕРИНГ
+   ═══════════════════════════════════════ */
+function fmtNarr(t){
+  if(!t)return'';
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g,'<em>$1</em>')
+    .split(/\n\n|\n/).filter(p=>p.trim())
+    .map(p=>`<p>${p.trim()}</p>`).join('');
+}
+function voiceCls(n){
+  if(n.includes('Инстинкт'))return'vb-inst';
+  if(n.includes('Логика'))return'vb-logic';
+  if(n.includes('Эго'))return'vb-ego';
+  return'vb-shadow';
+}
+function renderScene(d){
+  const nr=document.getElementById('narr'),ch=document.getElementById('choices');
+  let h=`<div class="n-text fade-in">${fmtNarr(d.narrative)}</div>`;
+  if(d.voices)d.voices.forEach((v,i)=>{
+    if(v.name.includes('Тень')&&!S.flags.shadowUnlocked)return;
+    h+=`<div class="vb ${voiceCls(v.name)}" style="animation-delay:${i*.18}s"><div class="vn">${v.icon||''} ${v.name}</div><div class="vt">«${v.text}»</div></div>`;
+  });
+  nr.innerHTML=h;
+  setTimeout(()=>nr.scrollTop=nr.scrollHeight,50);
+  if(d.choices?.length){
+    ch.innerHTML=d.choices.map((c,i)=>{
+      let sk='';
+      if(c.skill_check){
+        const nm={strength:'Сила',charisma:'Харизма',intelligence:'Интеллект'};
+        sk=`<span class="sk">[${nm[c.skill_check.stat]} DC${c.skill_check.dc}]</span>`;
       }
-      return `<button class="choice-btn" onclick="makeChoice(${i})">${c.text}${skillTag}</button>`;
+      return`<button class="ch" onclick="makeChoice(${i})">${c.text}${sk}</button>`;
     }).join('');
-    choicesArea.style.display = 'block';
-  } else {
-    choicesArea.style.display = 'none';
-  }
-  
-  if (data.state_changes) {
-    if (data.state_changes.sanity) state.sanity = clamp(state.sanity + data.state_changes.sanity, 0, 100);
-    if (data.state_changes.tension) state.tension = clamp(state.tension + data.state_changes.tension, 0, 100);
+    ch.style.display='block';
+  }else ch.style.display='none';
+  if(d.state_changes){
+    if(d.state_changes.sanity)S.san=clamp(S.san+d.state_changes.sanity,0,100);
+    if(d.state_changes.tension)S.ten=clamp(S.ten+d.state_changes.tension,0,100);
   }
 }
-
-function getVoiceClass(name) {
-  if (name.includes('Инстинкт')) return 'voice-instinct';
-  if (name.includes('Логика')) return 'voice-logic';
-  if (name.includes('Эго')) return 'voice-ego';
-  if (name.includes('Тень')) return 'voice-shadow';
-  return 'voice-logic';
+function applyCons(c){
+  if(!c)return;
+  if(c.sanity)S.san=clamp(S.san+c.sanity,0,100);
+  if(c.tension)S.ten=clamp(S.ten+c.tension,0,100);
+  if(c.add_item&&!S.inv.includes(c.add_item))S.inv.push(c.add_item);
+  if(c.add_title&&!S.titles.includes(c.add_title))S.titles.push(c.add_title);
+  if(c.add_clue&&!S.clues.includes(c.add_clue)&&S.clues.length<3)S.clues.push(c.add_clue);
+  if(c.faction_guard)S.fac.guard+=c.faction_guard;
+  if(c.faction_syndicate)S.fac.syndicate+=c.faction_syndicate;
+  if(c.unlock_shadow)S.flags.shadowUnlocked=true;
 }
 
-function applyConsequences(cons) {
-  if (!cons) return;
-  if (cons.sanity) state.sanity = clamp(state.sanity + cons.sanity, 0, 100);
-  if (cons.tension) state.tension = clamp(state.tension + cons.tension, 0, 100);
-  if (cons.add_item && !state.inventory.includes(cons.add_item)) state.inventory.push(cons.add_item);
-  if (cons.add_title && !state.titles.includes(cons.add_title)) state.titles.push(cons.add_title);
-  if (cons.add_clue && !state.clues.includes(cons.add_clue) && state.clues.length < 3) state.clues.push(cons.add_clue);
-  if (cons.faction_guard) state.factions.guard += cons.faction_guard;
-  if (cons.faction_syndicate) state.factions.syndicate += cons.faction_syndicate;
-  if (cons.unlock_shadow) state.flags.shadowUnlocked = true;
+/* ═══════════════════════════════════════
+   ОБНОВЛЕНИЕ UI
+   ═══════════════════════════════════════ */
+function updateUI(){
+  // top bar
+  const ts=document.getElementById('t-san'),tt=document.getElementById('t-ten');
+  ts.textContent=S.san+'%';tt.textContent=S.ten+'%';
+  document.getElementById('t-clu').textContent=S.clues.length+'/3';
+  ts.className='vl'+(S.san<30?' crit':S.san<50?' warn':'');
+  tt.className='vl'+(S.ten>70?' crit':S.ten>50?' warn':'');
+  // stats
+  [['strength','str'],['charisma','cha'],['intelligence','int']].forEach(([s,k])=>{
+    document.getElementById('b-'+k).style.width=(S.stats[s]*10)+'%';
+    document.getElementById('v-'+k).textContent=S.stats[s];
+  });
+  // sanity/tension bars
+  const bs=document.getElementById('b-san');
+  bs.style.width=S.san+'%';bs.style.background=S.san<30?'var(--danger)':'var(--v-logic)';
+  document.getElementById('v-san').textContent=S.san+'%';
+  document.getElementById('b-ten').style.width=S.ten+'%';
+  document.getElementById('v-ten').textContent=S.ten+'%';
+  document.getElementById('san-sec').classList.toggle('san-crit',S.san<25);
+  // sanity visual fx
+  const m=document.getElementById('main');
+  m.classList.remove('insane-1','insane-2','insane-3');
+  if(S.san<20)m.classList.add('insane-3');
+  else if(S.san<35)m.classList.add('insane-2');
+  else if(S.san<50)m.classList.add('insane-1');
+  // clues
+  document.getElementById('sc-cl').textContent=S.clues.length;
+  const cl=document.getElementById('ls-cl');
+  cl.innerHTML=S.clues.length?S.clues.map(c=>`<div class="sb-item sb-clue">📎 ${c}</div>`).join(''):'<div class="sb-empty">Пусто</div>';
+  // inventory
+  const il=document.getElementById('ls-inv');
+  il.innerHTML=S.inv.length?S.inv.map(i=>`<div class="sb-item">• ${i}</div>`).join(''):'<div class="sb-empty">Карманы пусты</div>';
+  // titles
+  const tl=document.getElementById('ls-tit');
+  tl.innerHTML=S.titles.length?S.titles.map(t=>`<div class="sb-item sb-title">[${t}]</div>`).join(''):'<div class="sb-empty">Пока никто</div>';
+  // factions
+  const fl=document.getElementById('ls-fac');
+  const r=REALITIES[S.reality];
+  const fd=(n,v)=>{const c=v>0?'pos':v<0?'neg':'neu';return`<div class="fac-row"><span class="fac-n">${n}</span><span class="fac-v ${c}">${v>0?'+':''}${v}</span></div>`};
+  let fh=fd(r.factions[0],S.fac.guard)+fd(r.factions[1],S.fac.syndicate);
+  fh+=S.fac.cult!==null?fd(r.factions[2],S.fac.cult):'<div class="fac-h">??? — неизвестно</div>';
+  fl.innerHTML=fh;
 }
 
-function showLoading(show) {
-  document.getElementById('loading-indicator').classList.toggle('active', show);
-  document.getElementById('choices-area').style.display = show ? 'none' : 'block';
+/* ═══════════════════════════════════════
+   ИГРОВОЙ ДВИЖОК
+   ═══════════════════════════════════════ */
+function showLoad(v){document.getElementById('loader').classList.toggle('on',v);document.getElementById('choices').style.display=v?'none':'block'}
+
+async function requestScene(action){
+  lastAct=action;showLoad(true);
+  try{
+    const d=await callAI(action);
+    curScene=d;S.scene++;
+    renderScene(d);updateUI();checkEnd();saveGame();
+  }catch(e){
+    document.getElementById('narr').innerHTML+=`<div class="err">⚠️ ${e.message}<br><button onclick="retry()">Повторить</button></div>`;
+  }finally{showLoad(false)}
+}
+async function retry(){document.querySelectorAll('.err').forEach(e=>e.remove());if(lastAct)await requestScene(lastAct)}
+
+async function makeChoice(i){
+  if(!curScene?.choices?.[i])return;
+  const c=curScene.choices[i];
+  document.querySelectorAll('.ch').forEach(b=>b.disabled=true);
+  let desc=`Игрок выбрал: "${c.text}"`;
+  if(c.skill_check){
+    const{stat,dc}=c.skill_check;
+    const roll=rollD20(),mod=getMod(stat);
+    const r=await showDice(roll,mod,dc,stat);
+    if(r.c20)desc+=` | КРИТ-УСПЕХ nat20! d20=${roll}${mod>=0?'+':''}${mod}=${r.total} vs DC${dc}. Опиши НЕВЕРОЯТНЫЙ успех!`;
+    else if(r.c1)desc+=` | КРИТ-ПРОВАЛ nat1! Опиши ЭПИЧЕСКИ СМЕШНОЙ провал! Дай титул.`;
+    else if(r.ok)desc+=` | Успех. d20=${roll}${mod>=0?'+':''}${mod}=${r.total} vs DC${dc}.`;
+    else desc+=` | Провал. d20=${roll}${mod>=0?'+':''}${mod}=${r.total} vs DC${dc}. Опиши СМЕШНОЙ провал.`;
+  }
+  applyCons(c.consequences);
+  // act transitions
+  if(S.act===1&&S.clues.length>=2&&S.scene>=5){S.act=2;desc+=' | ***АКТ 2. Скрытая фракция проявляется. Сюжет углубляется.***'}
+  if(S.act===2&&(S.clues.length>=3||S.scene>=15)){S.act=3;S.fac.cult=0;S.flags.cultRevealed=true;desc+=' | ***АКТ 3. Финал близко. Три пути к развязке.***'}
+  updateUI();
+  const hint=c.consequences?.next_scene_hint;
+  if(hint)desc+=` | Далее: ${hint}`;
+  await requestScene(desc);
+}
+function checkEnd(){
+  if(S.san<=0)return showEnd('Эхо','Голоса слились в один. Или это всегда был один голос — а ты делил его на части, чтобы не так пусто. Ты улыбаешься. Как те трупы.','🌑 Финал: «Черновик»');
+  if(S.ten>=100)return showEnd('Перезапись','Город сомкнулся. Ты знал слишком много. Последнее, что слышишь — скрежет. Не твой.','⚡ Финал: «Стёртая плёнка»');
+}
+function showEnd(t,tx,sub){
+  document.getElementById('e-t').textContent=t;
+  document.getElementById('e-tx').innerHTML=tx;
+  document.getElementById('e-st').innerHTML=`${sub}<br><br>Рассудок: ${S.san}% · Напряжение: ${S.ten}%<br>Улики: ${S.clues.length}/3 · Титулы: ${S.titles.length}<br>Сцен: ${S.scene} · Акт: ${S.act}<br>Реальность: ${REALITIES[S.reality].name}`;
+  goTo('s-end');
+  localStorage.removeItem('ds_save');
 }
 
-function showError(msg) {
-  const narrativeArea = document.getElementById('narrative-area');
-  narrativeArea.innerHTML += `<div class="api-error">
-    ⚠️ ${msg}<br>
-    <button onclick="retryLastAction()">Повторить</button>
-  </div>`;
+/* ═══════════════════════════════════════
+   СОХРАНЕНИЕ
+   ═══════════════════════════════════════ */
+function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S))}catch(e){}}
+function tryLoad(){
+  try{
+    const d=localStorage.getItem('ds_save');if(!d)return;
+    S=JSON.parse(d);
+    const r=REALITIES[S.reality];
+    // restore theme
+    const root=document.documentElement;
+    root.style.setProperty('--accent-rgb',r.accent);
+    root.style.setProperty('--accent',`rgb(${r.accent})`);
+    root.style.setProperty('--glow',`rgba(${r.accent},.25)`);
+    root.style.setProperty('--border',`rgba(${r.accent},.12)`);
+    root.style.setProperty('--border-h',`rgba(${r.accent},.45)`);
+    root.style.setProperty('--v-shadow',`rgb(${r.accent})`);
+    root.style.setProperty('--bg1',r.bg1);root.style.setProperty('--bg2',r.bg2);root.style.setProperty('--bg3',r.bg3);
+    document.body.style.background=r.bg1;
+    partHue=r.particleHue;
+    goTo('s-game');
+    setTimeout(()=>{updateUI();requestScene('Загрузка сохранения. Акт '+S.act+'. Продолжи историю. Кратко напомни контекст, дай выборы.')},600);
+  }catch(e){console.warn(e)}
 }
 
-// ====================================================================
-// ИГРОВОЙ ДВИЖОК
-// ====================================================================
-let currentSceneData = null;
-let lastAction = null;
-
-async function startGame(background) {
-  state.background = background;
-  
-  switch (background) {
-    case 'fist':
-      state.stats = { strength: 7, charisma: 4, intelligence: 5 };
-      state.sanity = 75;
-      break;
-    case 'tongue':
-      state.stats = { strength: 4, charisma: 7, intelligence: 5 };
-      state.sanity = 65;
-      state.factions.syndicate = 1;
-      break;
-    case 'brain':
-      state.stats = { strength: 4, charisma: 5, intelligence: 7 };
-      state.sanity = 60;
-      break;
-  }
-  
-  showScreen('game-screen');
-  updateAllUI();
-  
-  await requestScene('Начало игры. Акт 1. Виктор Хмарь просыпается на полу своей квартиры. Не помнит ничего. Магнитофон играет. Потолок с пятном. Записка "НЕ ВЕРЬ ТЕНИ" в кармане. Опиши пробуждение, квартиру и первые ощущения. Это ПЕРВАЯ сцена — задай тон всей игры.');
-}
-
-async function requestScene(action) {
-  lastAction = action;
-  showLoading(true);
-  
-  try {
-    const data = await callAI(action);
-    currentSceneData = data;
-    state.sceneCount++;
-    renderScene(data);
-    updateAllUI();
-    checkGameOver();
-    saveGame();
-  } catch (err) {
-    showError('Ошибка связи с реальностью: ' + err.message);
-  } finally {
-    showLoading(false);
-  }
-}
-
-async function makeChoice(index) {
-  if (!currentSceneData || !currentSceneData.choices[index]) return;
-  
-  const choice = currentSceneData.choices[index];
-  
-  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
-  
-  let actionDescription = `Игрок выбрал: "${choice.text}"`;
-  
-  if (choice.skill_check) {
-    const stat = choice.skill_check.stat;
-    const dc = choice.skill_check.dc;
-    const roll = rollD20();
-    const mod = getModifier(stat);
-    
-    const result = await showDiceRoll(roll, mod, dc, stat);
-    
-    if (result.critSuccess) {
-      actionDescription += ` | БРОСОК: КРИТИЧЕСКИЙ УСПЕХ (nat 20)! d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши НЕВЕРОЯТНЫЙ успех с неожиданным бонусом!`;
-    } else if (result.critFail) {
-      actionDescription += ` | БРОСОК: КРИТИЧЕСКИЙ ПРОВАЛ (nat 1)! d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши ЭПИЧЕСКИ СМЕШНОЙ провал! Дай забавный титул.`;
-    } else if (result.success) {
-      actionDescription += ` | БРОСОК: Успех. d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши успешный результат.`;
-    } else {
-      actionDescription += ` | БРОСОК: Провал. d20=${roll} +${mod} = ${result.total} vs DC${dc}. Опиши СМЕШНОЙ провал. Дай титул если уместно.`;
-    }
-  }
-  
-  applyConsequences(choice.consequences);
-  
-  if (choice.consequences) {
-    if (choice.consequences.unlock_shadow) state.flags.shadowUnlocked = true;
-  }
-  
-  checkActTransition(actionDescription);
-  
-  updateAllUI();
-  
-  const hint = choice.consequences?.next_scene_hint || '';
-  if (hint) actionDescription += ` | Подсказка для следующей сцены: ${hint}`;
-  
-  await requestScene(actionDescription);
-}
-
-function checkActTransition(action) {
-  if (state.act === 1 && state.clues.length >= 2 && state.sceneCount >= 6) {
-    state.act = 2;
-  }
-  if (state.act === 2 && (state.clues.length >= 3 || state.sceneCount >= 16)) {
-    state.act = 3;
-    state.factions.cult = 0;
-    state.flags.cultRevealed = true;
-  }
-}
-
-function checkGameOver() {
-  if (state.sanity <= 0) {
-    showEnding('Эхо',
-      'Ты садишься на мокрый асфальт. Голоса сливаются в один. Или это был один голос всё время — а ты разделил его на четыре, чтобы не так одиноко. Неон мигает. Дождь идёт. Ты улыбаешься. Как те трупы. Может, они тоже просто нашли покой.',
-      '🌑 Финал: «Черновик»');
-    return;
-  }
-  if (state.tension >= 100) {
-    showEnding('Затишье перед...',
-      'Напряжение достигло предела. Город сомкнулся вокруг тебя — Стража, Синдикат, тени в переулках. Ты знал слишком много, действовал слишком громко, доверял слишком легко. Последнее, что ты слышишь — скрежет кассеты. Не твоей.',
-      '⚡ Финал: «Перезапись»');
-    return;
-  }
-}
-
-function showEnding(title, text, subtitle) {
-  document.getElementById('ending-title').textContent = title;
-  document.getElementById('ending-text').innerHTML = text;
-  document.getElementById('ending-stats').innerHTML = `
-    ${subtitle}<br><br>
-    Рассудок: ${state.sanity}% | Напряжение: ${state.tension}%<br>
-    Улики: ${state.clues.length}/3<br>
-    Титулы: ${state.titles.length > 0 ? state.titles.map(t => '[' + t + ']').join(' ') : 'нет'}<br>
-    Сцен пройдено: ${state.sceneCount}<br>
-    Акт: ${state.act}
-  `;
-  showScreen('ending-screen');
-  localStorage.removeItem('darkscript_save');
-}
-
-async function retryLastAction() {
-  if (lastAction) {
-    document.querySelectorAll('.api-error').forEach(e => e.remove());
-    await requestScene(lastAction);
-  }
-}
-
-function saveGame() {
-  try {
-    const saveData = JSON.stringify(state);
-    localStorage.setItem('darkscript_save', saveData);
-  } catch (e) {
-    console.warn('Ошибка сохранения:', e);
-  }
-}
-
-function tryLoadGame() {
-  try {
-    const saved = localStorage.getItem('darkscript_save');
-    if (!saved) return;
-    state = JSON.parse(saved);
-    showScreen('game-screen');
-    updateAllUI();
-    requestScene('Игрок загрузил сохранение. Продолжи историю с того места, где остановились. Текущий акт: ' + state.act + '. Кратко напомни, что происходило, и дай новые выборы.');
-  } catch (e) {
-    console.warn('Ошибка загрузки:', e);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('darkscript_save')) {
-    document.getElementById('continue-btn').style.display = 'inline-block';
-  }
-});
-
-document.addEventListener('click', (e) => {
-  const sidebar = document.getElementById('sidebar');
-  const btn = document.getElementById('mobile-menu-btn');
-  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !btn.contains(e.target)) {
-    sidebar.classList.remove('open');
-  }
+/* ═══ ИНИТ ═══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  if(localStorage.getItem('ds_save'))document.getElementById('btn-cont').style.display='';
+  // close sidebar on outside click
+  document.addEventListener('click',e=>{
+    const s=document.getElementById('side'),b=document.getElementById('mob-btn');
+    if(s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open');
+  });
 });
 </script>
 </body>
