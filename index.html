@@ -4,905 +4,448 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes">
 <title>Dark Script</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ac:#b08968;--ac-rgb:176,137,104;--bg1:#0e0d0a;--bg2:#17150f;--bg3:#1e1b14;--brd:rgba(var(--ac-rgb),.18);--brd-h:rgba(var(--ac-rgb),.55);--glow:rgba(var(--ac-rgb),.25);--t1:#e8e3d6;--t2:#9a927e;--t3:#5a5447;--red:#ef4444;--grn:#22c55e;--warn:#f59e0b;--f:'Inter',system-ui,sans-serif;--m:'JetBrains Mono',monospace;--r:6px}
-*{margin:0;padding:0;box-sizing:border-box}html{height:100%}
-body{background:var(--bg1);color:var(--t1);font:400 15px/1.72 var(--f);min-height:100%;overflow-x:hidden;transition:background .6s,color .6s}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}
-#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.3}
-#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .4s}#transition.active{opacity:1;pointer-events:all}
-body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.scr{display:none;position:relative;z-index:2;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .5s}.scr.on{display:flex}.scr.on.vis{opacity:1}
-.btn{background:transparent;color:var(--t1);border:1px solid var(--brd);padding:10px 24px;border-radius:var(--r);font:500 13px var(--f);cursor:pointer;transition:all .25s}
-.btn:hover{border-color:var(--brd-h);box-shadow:0 0 20px var(--glow)}.btn:active{transform:scale(.97)}
-.btn.pri{border-color:var(--ac);color:var(--ac)}.btn.pri:hover{background:var(--ac);color:var(--bg1)}
-.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
-.inp{background:var(--bg1);border:1px solid var(--brd);color:var(--t1);padding:10px 13px;font:400 13px var(--f);border-radius:var(--r);transition:border .2s;width:100%}
-.inp:focus{outline:none;border-color:var(--brd-h)}.inp::placeholder{color:var(--t3)}
-textarea.inp{resize:vertical;min-height:44px;max-height:120px;line-height:1.5}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--ac:#c4a26e;--ac-rgb:196,162,110;--bg1:#09080b;--bg2:#111015;--bg3:#19181f;--bg4:#201f28;--brd:rgba(255,255,255,.06);--brd-h:rgba(var(--ac-rgb),.5);--glow:rgba(var(--ac-rgb),.2);--t1:#ece8e0;--t2:#8e8a80;--t3:#504e48;--red:#f04848;--grn:#3dcf6e;--warn:#f0a030;--f:'Inter',system-ui,-apple-system,sans-serif;--m:'JetBrains Mono',monospace;--r:10px;--r2:14px;--glass:rgba(255,255,255,.03)}
+html{height:100%}body{background:var(--bg1);color:var(--t1);font:400 15px/1.75 var(--f);min-height:100%;overflow-x:hidden;transition:background .5s}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(var(--ac-rgb),.3);border-radius:3px}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.22}
+/* Gradient overlay */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(var(--ac-rgb),.06) 0%,transparent 60%)}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .35s}#transition.active{opacity:1;pointer-events:all}
+.scr{display:none;position:relative;z-index:2;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .45s}.scr.on{display:flex}.scr.on.vis{opacity:1}
 
-/* TITLE */
-#s-title{gap:18px;padding:24px;text-align:center}
-.logo{font-size:clamp(2.4rem,7vw,4rem);font-weight:700;letter-spacing:-1.5px}.logo b{color:var(--ac);text-shadow:0 0 40px var(--glow)}
-.logo-sub{font-size:11px;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--t3);margin-top:2px}
-.tagline{max-width:480px;font-size:14px;color:var(--t2);font-style:italic;line-height:1.8}
+/* ── Buttons ── */
+.btn{background:var(--glass);color:var(--t1);border:1px solid var(--brd);padding:11px 28px;border-radius:var(--r);font:500 13px var(--f);cursor:pointer;transition:all .25s;backdrop-filter:blur(8px)}
+.btn:hover{border-color:var(--brd-h);box-shadow:0 4px 24px var(--glow);transform:translateY(-1px)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.pri{background:linear-gradient(135deg,rgba(var(--ac-rgb),.15),rgba(var(--ac-rgb),.05));border-color:rgba(var(--ac-rgb),.4);color:var(--ac)}
+.btn.pri:hover{background:linear-gradient(135deg,rgba(var(--ac-rgb),.9),rgba(var(--ac-rgb),.7));color:var(--bg1);border-color:var(--ac);box-shadow:0 4px 30px rgba(var(--ac-rgb),.35)}
+.btn:disabled{opacity:.2;cursor:default;transform:none;box-shadow:none}
+.btn.big{padding:14px 52px;font-size:15px;font-weight:600;border-radius:var(--r2);letter-spacing:.3px}
+/* Finale proceed button */
+.btn.finale-go{padding:16px 56px;font-size:16px;font-weight:700;background:linear-gradient(135deg,rgba(var(--ac-rgb),.2),rgba(var(--ac-rgb),.08));border:2px solid rgba(var(--ac-rgb),.6);color:var(--ac);border-radius:var(--r2);animation:finPulse 2s ease-in-out infinite;margin-top:20px}
+.btn.finale-go:hover{background:linear-gradient(135deg,rgba(var(--ac-rgb),.9),rgba(var(--ac-rgb),.7));color:var(--bg1);animation:none}
+@keyframes finPulse{0%,100%{box-shadow:0 0 20px rgba(var(--ac-rgb),.15)}50%{box-shadow:0 0 40px rgba(var(--ac-rgb),.35)}}
+
+.inp{background:rgba(255,255,255,.03);border:1px solid var(--brd);color:var(--t1);padding:11px 14px;font:400 13px var(--f);border-radius:var(--r);transition:all .2s;width:100%;backdrop-filter:blur(4px)}
+.inp:focus{outline:none;border-color:rgba(var(--ac-rgb),.4);box-shadow:0 0 16px rgba(var(--ac-rgb),.1)}.inp::placeholder{color:var(--t3)}
+textarea.inp{resize:vertical;min-height:48px;max-height:130px;line-height:1.5}
+
+/* ── Title ── */
+#s-title{gap:20px;padding:28px;text-align:center}
+.logo{font-size:clamp(2.8rem,8vw,4.5rem);font-weight:800;letter-spacing:-2px;line-height:1}.logo b{color:var(--ac);text-shadow:0 0 60px rgba(var(--ac-rgb),.3)}
+.logo-sub{font-size:10px;font-weight:600;letter-spacing:6px;text-transform:uppercase;color:var(--t3);margin-top:4px}
+.tagline{max-width:460px;font-size:14px;color:var(--t2);font-style:italic;line-height:1.85;opacity:.8}
 .t-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px}
-/* Accordion */
-.acc{max-width:560px;width:calc(100% - 40px);margin-top:10px;border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;text-align:left}
-.acc-h{padding:12px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);display:flex;align-items:center;justify-content:space-between;user-select:none;transition:.2s}
-.acc-h:hover{color:var(--ac)}
-.acc-h .ai{width:20px;height:20px;border:1px solid var(--ac);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:italic 700 11px serif;color:var(--ac);margin-right:10px}
-.acc-h .ar{transition:transform .3s;color:var(--t3);font-size:10px}
-.acc.open .ar{transform:rotate(180deg)}
+.acc{max-width:520px;width:calc(100% - 48px);margin-top:12px;border:1px solid var(--brd);border-radius:var(--r2);overflow:hidden;text-align:left;background:var(--glass);backdrop-filter:blur(12px)}
+.acc-h{padding:14px 18px;cursor:pointer;font:500 13px var(--f);color:var(--t2);display:flex;align-items:center;justify-content:space-between;user-select:none;transition:.2s}
+.acc-h:hover{color:var(--ac)}.acc-h .ai{width:22px;height:22px;border:1.5px solid var(--ac);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font:italic 700 11px serif;color:var(--ac);margin-right:10px}
+.acc-h .ar{transition:transform .3s;color:var(--t3);font-size:9px}.acc.open .ar{transform:rotate(180deg)}
 .acc-b{max-height:0;overflow:hidden;transition:max-height .4s;font-size:13px;line-height:1.75;color:var(--t2)}
-.acc.open .acc-b{max-height:700px}
-.acc-in{padding:4px 16px 16px}
-.acc-in h4{color:var(--ac);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin:12px 0 4px}
-.acc-in ul{padding-left:18px;margin:4px 0}.acc-in li{margin-bottom:3px}
+.acc.open .acc-b{max-height:700px}.acc-in{padding:6px 18px 18px}
+.acc-in h4{color:var(--ac);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 5px}
+.acc-in ul{padding-left:18px;margin:4px 0}.acc-in li{margin-bottom:2px}
 
-/* GENRE SELECT */
-#s-genre{gap:24px;padding:24px 20px;text-align:center}
-.genre-title{font-size:22px;font-weight:600;color:var(--t1);letter-spacing:-.5px}
+/* ── Genre Select ── */
+#s-genre{gap:24px;padding:28px 20px;text-align:center}
+.genre-title{font-size:26px;font-weight:700;letter-spacing:-.5px}
 .genre-sub{font-size:13px;color:var(--t3);margin-top:2px}
-.genre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:680px;width:100%;margin-top:8px}
-.genre-card{border:1px solid var(--brd);border-radius:var(--r);padding:20px 18px;cursor:pointer;transition:all .3s;text-align:left;position:relative;overflow:hidden}
-.genre-card:hover{border-color:var(--brd-h);box-shadow:0 0 24px var(--glow);transform:translateY(-2px)}
-.genre-card.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.08)}
-.genre-card .gc-icon{font-size:28px;margin-bottom:8px}
-.genre-card h3{font-size:15px;margin-bottom:4px}
+.genre-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:720px;width:100%;margin-top:10px}
+.genre-card{border:1px solid var(--brd);border-radius:var(--r2);padding:22px 18px;cursor:pointer;transition:all .3s;text-align:left;position:relative;overflow:hidden;background:var(--glass);backdrop-filter:blur(12px)}
+.genre-card::before{content:'';position:absolute;inset:0;border-radius:var(--r2);opacity:0;transition:opacity .3s;background:radial-gradient(circle at 30% 100%,rgba(var(--ac-rgb),.12),transparent 70%)}
+.genre-card:hover{border-color:rgba(var(--ac-rgb),.3);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.genre-card:hover::before,.genre-card.on::before{opacity:1}
+.genre-card.on{border-color:rgba(var(--ac-rgb),.5);background:rgba(var(--ac-rgb),.05)}
+.genre-card .gc-icon{font-size:32px;margin-bottom:10px;display:block}
+.genre-card h3{font-size:16px;font-weight:700;margin-bottom:6px}
 .genre-card .gc-desc{font-size:12px;color:var(--t2);line-height:1.55}
-.genre-card .gc-tag{font:500 10px var(--m);color:var(--ac);letter-spacing:.5px;margin-top:6px}
-.genre-card::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;background:radial-gradient(circle at 50% 120%,rgba(var(--ac-rgb),.12),transparent 70%)}
-.genre-card:hover::after,.genre-card.on::after{opacity:1}
+.genre-card .gc-tag{font:600 9px var(--m);color:var(--ac);letter-spacing:.8px;text-transform:uppercase;margin-top:10px;opacity:.8}
 
-/* SETUP */
+/* ── Setup ── */
 #s-setup{gap:0;padding:24px 20px;overflow-y:auto}
-.setup-wrap{max-width:580px;width:100%;display:flex;flex-direction:column;gap:18px;padding:10px 0 40px}
-.setup-section h3{font-size:13px;font-weight:500;color:var(--t2);margin-bottom:8px}
-.setup-section h3 span{color:var(--t3);font-weight:400;font-size:11px}
-.name-row{display:flex;gap:8px}.name-row .inp{flex:1}.name-row .btn{flex-shrink:0;padding:9px 14px;font-size:16px}
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.tag{padding:6px 14px;border:1px solid var(--brd);border-radius:20px;font-size:12px;color:var(--t2);cursor:pointer;transition:all .2s;user-select:none}
-.tag:hover{border-color:var(--brd-h);color:var(--t1)}.tag.on{border-color:var(--ac);color:var(--ac);background:rgba(var(--ac-rgb),.1)}
-.diff-row{display:flex;gap:8px}
-.diff-card{flex:1;border:1px solid var(--brd);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .2s;text-align:center}
-.diff-card:hover{border-color:var(--brd-h)}.diff-card.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
-.diff-card h4{font-size:13px;margin-bottom:2px}.diff-card .dc-d{font-size:11px;color:var(--t3);line-height:1.4}
-.mode-row{display:flex;gap:8px}
-.mode-opt{flex:1;border:1px solid var(--brd);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:all .2s;position:relative}
-.mode-opt:hover{border-color:var(--brd-h)}.mode-opt.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
-.mode-opt.disabled{opacity:.35;cursor:not-allowed}
-.mode-opt h4{font-size:13px;margin-bottom:3px}.mode-opt .mo-d{font-size:11px;color:var(--t3);line-height:1.4}
-.mode-opt .mo-on{position:absolute;top:8px;right:10px;font-size:10px;color:var(--ac);opacity:0;transition:.2s}.mode-opt.on .mo-on{opacity:1}
-.scen-grid{display:flex;flex-direction:column;gap:8px}
-.scen{border:1px solid var(--brd);border-radius:var(--r);padding:12px 16px;cursor:pointer;transition:.25s}
-.scen:hover{border-color:var(--brd-h)}.scen.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
-.scen h4{font-size:13px;margin-bottom:2px}.scen .s-desc{font-size:11px;color:var(--t2);line-height:1.5}
-.start-row{display:flex;justify-content:center;padding-top:6px}
-.net-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:var(--warn);padding:10px 12px;border-radius:var(--r);font-size:12px;line-height:1.55;margin-top:8px}
+.setup-wrap{max-width:560px;width:100%;display:flex;flex-direction:column;gap:20px;padding:12px 0 44px}
+.setup-section h3{font-size:13px;font-weight:600;color:var(--t2);margin-bottom:10px}.setup-section h3 span{color:var(--t3);font-weight:400;font-size:11px}
+.name-row{display:flex;gap:8px}.name-row .inp{flex:1}.name-row .btn{flex-shrink:0;padding:10px 15px;font-size:17px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.tag{padding:7px 16px;border:1px solid var(--brd);border-radius:24px;font-size:12px;color:var(--t2);cursor:pointer;transition:all .2s;user-select:none;background:var(--glass);backdrop-filter:blur(6px)}
+.tag:hover{border-color:rgba(var(--ac-rgb),.3);color:var(--t1)}.tag.on{border-color:rgba(var(--ac-rgb),.6);color:var(--ac);background:rgba(var(--ac-rgb),.1)}
+.diff-row{display:flex;gap:10px}
+.diff-card{flex:1;border:1px solid var(--brd);border-radius:var(--r2);padding:14px 12px;cursor:pointer;transition:all .25s;text-align:center;background:var(--glass);backdrop-filter:blur(8px)}
+.diff-card:hover{border-color:rgba(var(--ac-rgb),.3);transform:translateY(-1px)}.diff-card.on{border-color:rgba(var(--ac-rgb),.6);background:rgba(var(--ac-rgb),.06)}
+.diff-card h4{font-size:14px;margin-bottom:3px}.diff-card .dc-d{font-size:11px;color:var(--t3);line-height:1.45}
+.mode-row{display:flex;gap:10px}
+.mode-opt{flex:1;border:1px solid var(--brd);border-radius:var(--r2);padding:14px;cursor:pointer;transition:all .25s;background:var(--glass);backdrop-filter:blur(8px)}
+.mode-opt:hover{border-color:rgba(var(--ac-rgb),.3)}.mode-opt.on{border-color:rgba(var(--ac-rgb),.5);background:rgba(var(--ac-rgb),.06)}
+.mode-opt.disabled{opacity:.3;cursor:not-allowed}
+.mode-opt h4{font-size:13px;margin-bottom:2px}.mode-opt .mo-d{font-size:11px;color:var(--t3);line-height:1.4}
+.mode-opt .mo-on{position:absolute;top:9px;right:11px;font-size:9px;color:var(--ac);opacity:0;transition:.2s}.mode-opt.on .mo-on{opacity:1}
+.mode-opt{position:relative}
+.scen{border:1px solid var(--brd);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:.25s;background:var(--glass)}
+.scen:hover{border-color:rgba(var(--ac-rgb),.3)}.scen.on{border-color:rgba(var(--ac-rgb),.5);background:rgba(var(--ac-rgb),.06)}
+.scen h4{font-size:13px;margin-bottom:3px}.scen .s-desc{font-size:11px;color:var(--t2);line-height:1.5}
+.start-row{display:flex;justify-content:center;padding-top:8px}
+.net-warn{background:rgba(240,160,48,.07);border:1px solid rgba(240,160,48,.25);color:var(--warn);padding:10px 14px;border-radius:var(--r);font-size:12px;margin-top:8px}
 .steps-row{display:flex;gap:8px;align-items:center}.steps-row input{max-width:80px;text-align:center;font-family:var(--m)}.steps-row span{font-size:12px;color:var(--t3)}
 
-/* GAME */
+/* ── Game ── */
 #s-game{flex-direction:row!important;align-items:stretch!important;justify-content:stretch!important;min-height:100vh}
 #main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
-#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--brd);flex-shrink:0;background:var(--bg2);z-index:3;gap:10px;position:relative}
-.tb-t{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);white-space:nowrap}.tb-t b{color:var(--ac)}
-.tb-step{flex:1;display:flex;align-items:center;gap:6px;font:500 12px var(--m);color:var(--t2);justify-content:center}
-.tbs-l{color:var(--t3);text-transform:uppercase;font-size:9px;letter-spacing:1.5px}
-.tbs-n{color:var(--ac);font-weight:600;font-size:14px}
-.tbs-bar{flex:1;max-width:140px;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}.tbs-f{height:100%;background:var(--ac);transition:width .5s}
-.tb-btns{display:flex;gap:5px;flex-shrink:0}
-.tb-icon{width:30px;height:30px;border:1px solid var(--brd);background:transparent;color:var(--t2);border-radius:var(--r);cursor:pointer;font-size:13px;transition:.2s;display:inline-flex;align-items:center;justify-content:center}
-.tb-icon:hover{border-color:var(--ac);color:var(--ac)}
-#task-bar{padding:8px 22px;background:var(--bg2);border-bottom:1px solid var(--brd);font-size:13px;display:flex;align-items:center;gap:8px;flex-shrink:0}
-.task-label{font:500 9px var(--m);color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0}
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;border-bottom:1px solid var(--brd);flex-shrink:0;background:rgba(var(--ac-rgb),.02);backdrop-filter:blur(16px);z-index:3;gap:12px}
+.tb-t{font:700 11px var(--f);letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);white-space:nowrap}.tb-t b{color:var(--ac)}
+.tb-step{flex:1;display:flex;align-items:center;gap:8px;font:500 12px var(--m);color:var(--t2);justify-content:center}
+.tbs-l{color:var(--t3);text-transform:uppercase;font-size:9px;letter-spacing:2px;font-weight:600}
+.tbs-n{color:var(--ac);font-weight:700;font-size:15px}
+.tbs-bar{flex:1;max-width:160px;height:3px;background:rgba(255,255,255,.04);border-radius:2px;overflow:hidden}
+.tbs-f{height:100%;background:linear-gradient(90deg,var(--ac),rgba(var(--ac-rgb),.5));border-radius:2px;transition:width .5s}
+.tb-btns{display:flex;gap:6px;flex-shrink:0}
+.tb-icon{width:32px;height:32px;border:1px solid var(--brd);background:var(--glass);color:var(--t2);border-radius:var(--r);cursor:pointer;font-size:13px;transition:.2s;display:inline-flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.tb-icon:hover{border-color:rgba(var(--ac-rgb),.4);color:var(--ac);box-shadow:0 2px 12px rgba(var(--ac-rgb),.15)}
+#task-bar{padding:10px 24px;background:rgba(var(--ac-rgb),.02);border-bottom:1px solid var(--brd);font-size:13px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.task-label{font:700 9px var(--m);color:var(--ac);text-transform:uppercase;letter-spacing:2px;flex-shrink:0;opacity:.8}
 .task-text{color:var(--t1);font-weight:500}
-#narr{flex:1;overflow-y:auto;padding:22px;max-width:760px;margin:0 auto;width:100%}
-.nt{margin-bottom:16px;line-height:1.88;font-size:15px}.nt p{margin-bottom:10px}.nt strong{color:#fff;font-weight:600}.nt em{color:var(--t2)}
-.lead-ann{border-left:2px solid var(--ac);padding:8px 14px;margin:10px 0;font-size:13px;background:rgba(var(--ac-rgb),.06);border-radius:0 var(--r) var(--r) 0;animation:slI .4s ease forwards}
-.la-l{font:600 10px var(--m);color:var(--ac);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}.la-t{color:var(--t1);line-height:1.55}
-@keyframes slI{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
-/* Consequence banner */
-.cons-banner{border-left:2px solid var(--warn);padding:8px 14px;margin:8px 0;font-size:12px;background:rgba(245,158,11,.06);border-radius:0 var(--r) var(--r) 0;animation:slI .4s ease forwards;color:var(--warn)}
-.cons-banner.positive{border-color:var(--grn);background:rgba(34,197,94,.06);color:var(--grn)}
-.cons-banner.negative{border-color:var(--red);background:rgba(239,68,68,.06);color:var(--red)}
-/* Critical choice glow */
-.ch.critical{border-color:var(--warn);box-shadow:0 0 12px rgba(245,158,11,.2);position:relative}
-.ch.critical::before{content:'⚡';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:14px}
-/* Stream cursor */
-.stream-cursor{display:inline-block;width:2px;height:1em;background:var(--ac);margin-left:2px;animation:blink .7s step-end infinite;vertical-align:text-bottom}
+#narr{flex:1;overflow-y:auto;padding:28px 28px;max-width:780px;margin:0 auto;width:100%}
+.nt{margin-bottom:20px;line-height:1.9;font-size:15.5px}.nt p{margin-bottom:12px}.nt strong{color:#fff;font-weight:600}.nt em{color:var(--t2)}
+.lead-ann{border-left:2.5px solid var(--ac);padding:10px 16px;margin:14px 0;font-size:13px;background:rgba(var(--ac-rgb),.04);border-radius:0 var(--r) var(--r) 0;animation:slI .4s ease forwards;backdrop-filter:blur(6px)}
+.la-l{font:700 9px var(--m);color:var(--ac);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;opacity:.9}.la-t{color:var(--t1);line-height:1.6}
+@keyframes slI{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.cons-banner{border-left:2.5px solid var(--warn);padding:10px 16px;margin:10px 0;font-size:13px;background:rgba(240,160,48,.04);border-radius:0 var(--r) var(--r) 0;animation:slI .4s ease forwards}
+.cons-banner.positive{border-color:var(--grn);background:rgba(61,207,110,.04);color:var(--grn)}
+.cons-banner.negative{border-color:var(--red);background:rgba(240,72,72,.04);color:var(--red)}
+.cons-banner.neutral{color:var(--warn)}
+.stream-cursor{display:inline-block;width:2px;height:1.1em;background:var(--ac);margin-left:2px;animation:blink .65s step-end infinite;vertical-align:text-bottom}
 @keyframes blink{50%{opacity:0}}
-/* Mood effects */
-.mood-tense #main{filter:contrast(1.05)saturate(.85)}
-.mood-terrifying #main{filter:brightness(.92)contrast(1.1)saturate(.7)}
-.mood-romantic #main{filter:saturate(1.1)hue-rotate(-5deg)}
-.mood-hopeful #main{filter:brightness(1.05)saturate(1.05)}
-/* Screen pulse for critical moments */
-@keyframes pulse{0%,100%{box-shadow:inset 0 0 0 rgba(var(--ac-rgb),0)}50%{box-shadow:inset 0 0 60px rgba(var(--ac-rgb),.1)}}
-.pulse-effect{animation:pulse .8s ease}
+.mood-tense #main{filter:contrast(1.04)saturate(.88)}.mood-terrifying #main{filter:brightness(.9)contrast(1.08)saturate(.7)}.mood-romantic #main{filter:saturate(1.08)hue-rotate(-4deg)}.mood-hopeful #main{filter:brightness(1.04)}
+@keyframes pulse{0%,100%{box-shadow:inset 0 0 0 transparent}50%{box-shadow:inset 0 0 80px rgba(var(--ac-rgb),.08)}}
+.pulse-effect{animation:pulse .7s ease}
 
-#bottom-area{flex-shrink:0;background:var(--bg2);border-top:1px solid var(--brd)}
-#choices{padding:10px 20px 4px}
-.ch{display:block;width:100%;text-align:left;background:transparent;color:var(--t1);border:1px solid var(--brd);border-radius:var(--r);padding:11px 14px;margin-bottom:6px;font:400 13px/1.5 var(--f);cursor:pointer;transition:all .2s}
-.ch:hover{border-color:var(--brd-h);padding-left:18px;box-shadow:0 0 12px var(--glow)}
-.ch:disabled{opacity:.25;cursor:default;box-shadow:none;padding-left:14px}
-.ch .ch-i{font:500 10px var(--m);color:var(--ac);margin-right:8px;opacity:.7}
-#free-input{display:flex;gap:8px;padding:6px 20px 14px}
-#inp-free{flex:1;padding:10px 12px;font-size:13px}
-#btn-free{background:transparent;border:1px solid var(--brd);color:var(--ac);padding:9px 16px;border-radius:var(--r);cursor:pointer;font-size:15px;transition:.2s;flex-shrink:0}
-#btn-free:hover{background:var(--ac);color:var(--bg1)}#btn-free:disabled{opacity:.2;cursor:default}
-#loader{display:none;padding:24px 20px;text-align:center}#loader.on{display:block}
-.ld-t{color:var(--ac);font-size:13px}.ld-b{width:100px;height:2px;background:var(--bg3);margin:10px auto 0;border-radius:1px;overflow:hidden}
-.ld-b::after{content:'';display:block;width:40%;height:100%;background:var(--ac);animation:ldB 1.2s ease-in-out infinite}
+#bottom-area{flex-shrink:0;background:rgba(var(--ac-rgb),.02);border-top:1px solid var(--brd);backdrop-filter:blur(12px)}
+#choices{padding:12px 24px 6px}
+.ch{display:block;width:100%;text-align:left;background:var(--glass);color:var(--t1);border:1px solid var(--brd);border-radius:var(--r);padding:12px 16px;margin-bottom:7px;font:400 13.5px/1.55 var(--f);cursor:pointer;transition:all .2s;backdrop-filter:blur(8px)}
+.ch:hover{border-color:rgba(var(--ac-rgb),.4);padding-left:20px;box-shadow:0 4px 20px rgba(var(--ac-rgb),.12);background:rgba(var(--ac-rgb),.04)}
+.ch:disabled{opacity:.2;cursor:default;box-shadow:none;padding-left:16px;background:var(--glass)}
+.ch .ch-i{color:var(--ac);margin-right:8px;opacity:.6;font-size:11px}
+.ch.critical{border-color:rgba(240,160,48,.4);box-shadow:0 0 16px rgba(240,160,48,.12)}
+.ch.critical:hover{border-color:rgba(240,160,48,.7);box-shadow:0 0 28px rgba(240,160,48,.2)}
+.ch.critical::after{content:'⚡ важно';position:absolute;right:12px;top:50%;transform:translateY(-50%);font:600 9px var(--m);color:var(--warn);letter-spacing:.5px;text-transform:uppercase}
+.ch.critical{position:relative;padding-right:80px}
+#free-input{display:flex;gap:8px;padding:8px 24px 16px}
+#inp-free{flex:1;padding:11px 14px;font-size:13px}
+#btn-free{background:var(--glass);border:1px solid var(--brd);color:var(--ac);padding:10px 18px;border-radius:var(--r);cursor:pointer;font-size:16px;transition:all .2s;flex-shrink:0;backdrop-filter:blur(6px)}
+#btn-free:hover{background:rgba(var(--ac-rgb),.85);color:var(--bg1);border-color:var(--ac)}#btn-free:disabled{opacity:.15;cursor:default}
+#loader{display:none;padding:28px;text-align:center}#loader.on{display:block}
+.ld-t{color:var(--ac);font:500 13px var(--m);letter-spacing:.5px;opacity:.8}.ld-b{width:120px;height:2px;background:var(--bg3);margin:12px auto 0;border-radius:2px;overflow:hidden}
+.ld-b::after{content:'';display:block;width:40%;height:100%;background:linear-gradient(90deg,var(--ac),rgba(var(--ac-rgb),.3));border-radius:2px;animation:ldB 1.2s ease-in-out infinite}
 @keyframes ldB{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
 
-/* SIDEBAR */
-#side{width:270px;border-left:1px solid var(--brd);background:var(--bg2);overflow-y:auto;padding:16px;flex-shrink:0;height:100vh;transition:right .3s}
-.ss{margin-bottom:18px}.sl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:6px;display:flex;justify-content:space-between}
-.sl .sl-c{color:var(--ac);font-family:var(--m);font-size:10px;letter-spacing:0}
-.case-title{font-size:13px;font-weight:600;color:var(--ac);margin-bottom:4px;line-height:1.3}
-.case-brief{font-size:11px;color:var(--t2);line-height:1.5}
-.lead-item{font-size:11px;color:var(--t2);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);line-height:1.45;display:flex;gap:5px}
-.lead-item:last-child{border-bottom:none}
-.lead-item .li-n{color:var(--t3);font:500 9px var(--m);flex-shrink:0;min-width:20px}
-.lead-item .li-t{flex:1}
-.susp-item{font-size:11px;color:var(--t1);padding:4px 0;line-height:1.4}
-.susp-item .sn{font-weight:500}.susp-item .sd{color:var(--t3);font-size:10px;margin-top:1px}
-.cons-item{font-size:11px;padding:4px 0;line-height:1.4;border-bottom:1px solid rgba(255,255,255,.03)}
-.cons-item.positive{color:var(--grn)}.cons-item.negative{color:var(--red)}.cons-item.neutral{color:var(--t2)}
+/* ── Sidebar ── */
+#side{width:280px;border-left:1px solid var(--brd);background:rgba(var(--ac-rgb),.015);backdrop-filter:blur(16px);overflow-y:auto;padding:18px;flex-shrink:0;height:100vh;transition:right .3s}
+.ss{margin-bottom:20px}.sl{font:700 9px var(--m);letter-spacing:2.5px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;display:flex;justify-content:space-between}
+.sl .sl-c{color:var(--ac);letter-spacing:0}
+.case-title{font-size:14px;font-weight:700;color:var(--ac);margin-bottom:5px;line-height:1.3}
+.case-brief{font-size:11px;color:var(--t2);line-height:1.55}
+.lead-item{font-size:11px;color:var(--t2);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.025);line-height:1.5;display:flex;gap:6px}.lead-item:last-child{border-bottom:none}
+.lead-item .li-n{color:var(--t3);font:600 9px var(--m);flex-shrink:0;min-width:20px}.lead-item .li-t{flex:1}
+.susp-item{font-size:11px;color:var(--t1);padding:5px 0;line-height:1.4}.susp-item .sn{font-weight:600}.susp-item .sd{color:var(--t3);font-size:10px;margin-top:1px}
+.cons-item{font-size:11px;padding:5px 0;line-height:1.4;border-bottom:1px solid rgba(255,255,255,.025)}.cons-item.positive{color:var(--grn)}.cons-item.negative{color:var(--red)}.cons-item.neutral{color:var(--t2)}
 .empty-note{font-size:11px;color:var(--t3);font-style:italic;padding:4px 0}
-#mob-btn{display:none;position:fixed;top:10px;right:10px;z-index:100;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);color:var(--t2);width:36px;height:36px;font-size:16px;cursor:pointer;align-items:center;justify-content:center}
+#mob-btn{display:none;position:fixed;top:10px;right:10px;z-index:100;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);color:var(--t2);width:40px;height:40px;font-size:17px;cursor:pointer;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
 
-/* RULES MODAL */
-#rules-modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,.88);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
+/* ── Finale + End ── */
+#s-finale{gap:22px;padding:36px 24px;text-align:center}
+.fin-title{font-size:28px;font-weight:800;color:var(--ac);letter-spacing:-1px;text-shadow:0 0 40px rgba(var(--ac-rgb),.2)}
+.fin-text{max-width:600px;color:var(--t2);line-height:1.85;font-size:14px;text-align:left}.fin-text p{margin-bottom:10px}.fin-text ul{padding-left:18px;margin:4px 0}
+.fin-susp{display:flex;flex-direction:column;gap:9px;max-width:440px;width:100%;margin-top:10px}
+.fin-hint{font-size:12px;color:var(--t3);font-style:italic;margin-top:8px}
+#s-end{gap:24px;padding:40px 24px;text-align:center}
+.et{font-size:34px;font-weight:800;letter-spacing:-1px}.et.win{color:var(--grn);text-shadow:0 0 40px rgba(61,207,110,.2)}.et.lose{color:var(--red);text-shadow:0 0 40px rgba(240,72,72,.2)}
+.ex{max-width:560px;color:var(--t1);line-height:1.85;font-size:14.5px;text-align:left}.ex p{margin-bottom:10px}
+.es{font:400 11px var(--m);color:var(--t3);line-height:2.2}
+
+/* ── Rules Modal ── */
+#rules-modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(5,5,8,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
 #rules-modal.on{display:flex}
-.rules-box{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);max-width:520px;width:100%;max-height:85vh;overflow-y:auto;padding:24px 22px;position:relative}
-.rules-box h2{color:var(--ac);font-size:18px;margin-bottom:12px}
-.rules-box h4{color:var(--ac);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin:12px 0 4px}
-.rules-box p,.rules-box li{color:var(--t2);font-size:13px;line-height:1.72}
+.rules-box{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r2);max-width:500px;width:100%;max-height:80vh;overflow-y:auto;padding:28px 24px;position:relative;backdrop-filter:blur(12px)}
+.rules-box h2{color:var(--ac);font-size:20px;margin-bottom:14px;font-weight:700}
+.rules-box p,.rules-box li{color:var(--t2);font-size:13px;line-height:1.75}
 .rules-box ul{padding-left:18px;margin:4px 0}
-.rules-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--t3);font-size:22px;cursor:pointer}.rules-close:hover{color:var(--ac)}
+.rules-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--t3);font-size:24px;cursor:pointer}.rules-close:hover{color:var(--ac)}
 
-/* FINALE + END */
-#s-finale{gap:20px;padding:32px 20px;text-align:center}
-.fin-title{font-size:24px;font-weight:700;color:var(--ac)}
-.fin-text{max-width:580px;color:var(--t2);line-height:1.85;font-size:14px;text-align:left}.fin-text p{margin-bottom:10px}
-.fin-susp{display:flex;flex-direction:column;gap:8px;max-width:420px;width:100%;margin-top:8px}
-.fin-hint{font-size:12px;color:var(--t3);font-style:italic;margin-top:6px}
-#s-end{gap:20px;padding:32px 20px;text-align:center}
-.et{font-size:28px;font-weight:700}.et.win{color:var(--grn)}.et.lose{color:var(--red)}
-.ex{max-width:560px;color:var(--t1);line-height:1.85;font-size:14px;text-align:left}.ex p{margin-bottom:10px}
-.es{font:400 11px var(--m);color:var(--t3);line-height:2}
-.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--r);color:var(--red);padding:12px;margin:12px 0;font-size:12px}
-.err button{margin-top:5px;background:none;border:1px solid var(--red);border-radius:var(--r);color:var(--red);padding:4px 12px;cursor:pointer;font:400 11px var(--f)}
-.fi{animation:fI .6s ease forwards}@keyframes fI{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media(max-width:860px){#s-game{flex-direction:column!important}#side{position:fixed;right:-300px;top:0;width:290px;height:100vh;z-index:200;border-left:1px solid var(--brd)}#side.open{right:0}#mob-btn{display:flex}#main{height:100vh;width:100%}#narr{padding:16px}#choices{padding:8px 16px 2px}#free-input{padding:4px 16px 12px}.tbs-bar{display:none}}
-@media(max-width:560px){.genre-grid{grid-template-columns:1fr 1fr}.diff-row{flex-direction:column}.mode-row{flex-direction:column}}
-#crash{position:fixed;inset:0;z-index:99999;background:#0d0d12;color:#ef4444;font:14px/1.8 monospace;padding:40px;display:none;overflow:auto}
+.err{background:rgba(240,72,72,.06);border:1px solid rgba(240,72,72,.2);border-radius:var(--r);color:var(--red);padding:12px;margin:12px 0;font-size:12px}
+.err button{margin-top:5px;background:none;border:1px solid var(--red);border-radius:var(--r);color:var(--red);padding:5px 14px;cursor:pointer;font:400 11px var(--f)}
+.fi{animation:fI .5s ease forwards}@keyframes fI{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:860px){#s-game{flex-direction:column!important}#side{position:fixed;right:-300px;top:0;width:290px;height:100vh;z-index:200;border-left:1px solid var(--brd);background:var(--bg2)}#side.open{right:0}#mob-btn{display:flex}#main{height:100vh;width:100%}#narr{padding:18px 16px}#choices{padding:8px 16px 4px}#free-input{padding:6px 16px 14px}.tbs-bar{display:none}.genre-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.genre-grid{grid-template-columns:1fr}.diff-row,.mode-row{flex-direction:column}}
+#crash{position:fixed;inset:0;z-index:99999;background:#09080b;color:var(--red);font:14px/1.8 monospace;padding:40px;display:none;overflow:auto}
 </style>
 </head>
 <body>
-<canvas id="particles"></canvas>
-<div id="transition"></div>
-<div id="crash"></div>
-
-<!-- TITLE -->
+<canvas id="particles"></canvas><div id="transition"></div><div id="crash"></div>
 <div id="s-title" class="scr on vis">
-  <div class="logo">Dark<b>Script</b></div>
-  <div class="logo-sub" id="logo-sub">Интерактивные истории</div>
-  <div class="tagline" id="tagline">&laquo;Каждый выбор &mdash; нить. Одни ведут к свету, другие &mdash; в бездну. Все &mdash; твои.&raquo;</div>
-  <div class="t-btns">
-    <button class="btn pri" id="btn-new">&#9654; Новая игра</button>
-    <button class="btn" id="btn-cont" style="display:none">Продолжить</button>
-  </div>
-  <div class="acc" id="acc-rules">
-    <div class="acc-h" id="acc-toggle"><span><span class="ai">i</span>Что это за игра?</span><span class="ar">&#9662;</span></div>
-    <div class="acc-b"><div class="acc-in">
-      <h4>Суть</h4><p>Интерактивная история с ограниченным числом ходов. Ваши решения формируют сюжет и ведут к одному из финалов.</p>
-      <h4>Жанры</h4><ul><li><b>Детектив</b> &mdash; раскрой дело, назови виновного.</li><li><b>Приключение</b> &mdash; пройди квест, выживи, достигни цели.</li><li><b>Роман</b> &mdash; проживи историю отношений.</li><li><b>Хоррор</b> &mdash; выживи и сбеги.</li></ul>
-      <h4>Как играть</h4><ul><li>Выбирай из 2&ndash;4 вариантов или пиши свой ход.</li><li>Каждый ход тратит один шаг. Шаги ограничены.</li><li>Мир помнит твои решения &mdash; последствия копятся.</li><li>В финале &mdash; ключевой выбор, определяющий исход.</li></ul>
-      <h4>Сложность</h4><ul><li><b>Легко</b> &mdash; больше шагов, подсказки, прощающий мир.</li><li><b>Нормально</b> &mdash; баланс.</li><li><b>Сложно</b> &mdash; меньше шагов, ловушки, обманчивые зацепки.</li></ul>
-    </div></div>
-  </div>
+  <div class="logo">Dark<b>Script</b></div><div class="logo-sub">Interactive Stories</div>
+  <div class="tagline">&laquo;Каждый выбор — нить. Они ведут к свету или в бездну. Все — твои.&raquo;</div>
+  <div class="t-btns"><button class="btn pri big" id="btn-new">Новая игра</button><button class="btn" id="btn-cont" style="display:none">Продолжить</button></div>
+  <div class="acc" id="acc-rules"><div class="acc-h" id="acc-toggle"><span><span class="ai">i</span>Что это за игра?</span><span class="ar">▾</span></div>
+  <div class="acc-b"><div class="acc-in"><h4>Суть</h4><p>Интерактивная история с лимитом ходов. Решения формируют сюжет и определяют финал.</p><h4>Жанры</h4><ul><li><b>Детектив</b> — раскрой дело, назови виновного</li><li><b>Приключение</b> — пройди квест, достигни цели</li><li><b>Роман</b> — проживи историю отношений</li><li><b>Хоррор</b> — выживи и сбеги</li></ul><h4>Сложность</h4><ul><li><b>Легко</b> — больше ходов, подсказки</li><li><b>Нормально</b> — баланс</li><li><b>Сложно</b> — меньше ходов, ловушки</li></ul></div></div></div>
 </div>
-
-<!-- GENRE SELECT -->
-<div id="s-genre" class="scr">
-  <div class="genre-title">Выбери жанр</div>
-  <div class="genre-sub">Дизайн, механика и цель меняются целиком</div>
-  <div class="genre-grid" id="genre-grid"></div>
-  <div style="margin-top:14px"><button class="btn pri" id="btn-genre-next" style="padding:12px 40px">Далее &#8594;</button></div>
-</div>
-
-<!-- SETUP -->
-<div id="s-setup" class="scr">
-<div class="setup-wrap">
-  <div class="setup-section"><h3>Имя персонажа</h3><div class="name-row"><input class="inp" id="inp-name" placeholder="Введи имя..." maxlength="40"><button class="btn" id="btn-rnd">&#127922;</button></div></div>
-  <div class="setup-section"><h3>Сложность</h3>
-    <div class="diff-row" id="diff-row"></div>
-  </div>
-  <div class="setup-section"><h3>Режим</h3>
-    <div class="mode-row"><div class="mode-opt on" id="mode-ai" data-m="ai"><div class="mo-on">&#9679;</div><h4>&#129504; С ИИ</h4><div class="mo-d">Уникальная история.</div></div><div class="mode-opt" id="mode-off" data-m="off"><div class="mo-on">&#9679;</div><h4>&#128214; Оффлайн</h4><div class="mo-d">Готовый сценарий.</div></div></div>
-    <div class="net-warn" id="net-warn" style="display:none">&#9888; Нет сети. Только оффлайн.</div>
-  </div>
-  <div id="ai-setup">
-    <div class="setup-section"><h3>Сеттинг</h3><div class="tags" id="set-tags"></div><input class="inp" id="inp-setting" placeholder="Опиши свой мир..." style="display:none"></div>
-    <div class="setup-section"><h3>Затравка <span>&mdash; необязательно</span></h3><textarea class="inp" id="inp-seed" placeholder="Деталь, образ, фраза..."></textarea></div>
-    <div class="setup-section"><h3>Шагов</h3><div class="steps-row"><input class="inp" type="number" id="inp-steps" value="14" min="6" max="30"><span>рекомендуется <span id="rec-steps">14</span></span></div></div>
-  </div>
+<div id="s-genre" class="scr"><div class="genre-title">Выбери жанр</div><div class="genre-sub">Дизайн, механика и цель меняются целиком</div><div class="genre-grid" id="genre-grid"></div><div style="margin-top:16px"><button class="btn pri big" id="btn-genre-next">Далее →</button></div></div>
+<div id="s-setup" class="scr"><div class="setup-wrap">
+  <div class="setup-section"><h3>Имя персонажа</h3><div class="name-row"><input class="inp" id="inp-name" placeholder="Введи имя..." maxlength="40"><button class="btn" id="btn-rnd">🎲</button></div></div>
+  <div class="setup-section"><h3>Сложность</h3><div class="diff-row" id="diff-row"></div></div>
+  <div class="setup-section"><h3>Режим</h3><div class="mode-row"><div class="mode-opt on" id="mode-ai"><div class="mo-on">●</div><h4>🧠 С ИИ</h4><div class="mo-d">Уникальная история</div></div><div class="mode-opt" id="mode-off"><div class="mo-on">●</div><h4>📖 Оффлайн</h4><div class="mo-d">Готовый сценарий</div></div></div><div class="net-warn" id="net-warn" style="display:none">⚠ Нет сети. Только оффлайн.</div></div>
+  <div id="ai-setup"><div class="setup-section"><h3>Сеттинг</h3><div class="tags" id="set-tags"></div><input class="inp" id="inp-setting" placeholder="Свой мир..." style="display:none"></div><div class="setup-section"><h3>Затравка <span>— необязательно</span></h3><textarea class="inp" id="inp-seed" placeholder="Деталь, образ, фраза..."></textarea></div><div class="setup-section"><h3>Шагов</h3><div class="steps-row"><input class="inp" type="number" id="inp-steps" value="14" min="6" max="30"><span>рекомендуется <span id="rec-steps">14</span></span></div></div></div>
   <div id="off-setup" style="display:none"><div class="setup-section"><h3>Сценарий</h3><div class="scen-grid" id="scen-grid"></div></div></div>
-  <div class="start-row"><button class="btn pri" id="btn-start" style="padding:12px 48px;font-size:14px">&#9654; Начать</button></div>
+  <div class="start-row"><button class="btn pri big" id="btn-start">Начать</button></div>
 </div></div>
-
-<!-- GAME -->
 <div id="s-game" class="scr">
   <div id="main">
-    <div id="topbar">
-      <div class="tb-t">Dark<b>Script</b></div>
-      <div class="tb-step"><span class="tbs-l" id="step-label">Шаг</span><span class="tbs-n" id="tbs-cur">1</span><span style="color:var(--t3)">/</span><span class="tbs-n" id="tbs-max" style="color:var(--t2)">14</span><div class="tbs-bar"><div class="tbs-f" id="tbs-fill"></div></div></div>
-      <div class="tb-btns"><button class="tb-icon" id="btn-rules-g" title="Правила"><em style="font-family:serif">i</em></button><button class="tb-icon" id="btn-save-g" title="Сохранить">&#128190;</button></div>
-    </div>
-    <div id="task-bar"><span class="task-label">Задача</span><span class="task-text" id="task-text">&mdash;</span></div>
+    <div id="topbar"><div class="tb-t">Dark<b>Script</b></div><div class="tb-step"><span class="tbs-l" id="step-label">Шаг</span><span class="tbs-n" id="tbs-cur">1</span><span style="color:var(--t3);margin:0 2px">/</span><span class="tbs-n" id="tbs-max" style="color:var(--t2)">14</span><div class="tbs-bar"><div class="tbs-f" id="tbs-fill"></div></div></div><div class="tb-btns"><button class="tb-icon" id="btn-rules-g" title="Правила"><em style="font-family:serif;font-weight:700">i</em></button><button class="tb-icon" id="btn-save-g" title="Сохранить">💾</button></div></div>
+    <div id="task-bar"><span class="task-label">Задача</span><span class="task-text" id="task-text">—</span></div>
     <div id="narr"></div>
-    <div id="loader"><div class="ld-t">История формируется</div><div class="ld-b"></div></div>
-    <div id="bottom-area"><div id="choices"></div><div id="free-input"><input class="inp" id="inp-free" placeholder="Или опиши свой ход..." maxlength="300"><button id="btn-free">&#8594;</button></div></div>
+    <div id="loader"><div class="ld-t">Формируется</div><div class="ld-b"></div></div>
+    <div id="bottom-area"><div id="choices"></div><div id="free-input"><input class="inp" id="inp-free" placeholder="Или опиши свой ход..." maxlength="300"><button id="btn-free">→</button></div></div>
   </div>
   <div id="side">
-    <div class="ss"><div class="sl">История</div><div class="case-title" id="case-title">&mdash;</div><div class="case-brief" id="case-brief"></div></div>
-    <div class="ss"><div class="sl">Задача</div><div id="side-task" style="font-size:12px;color:var(--t1);line-height:1.4">&mdash;</div></div>
-    <div class="ss" id="ss-leads"><div class="sl">Журнал <span class="sl-c" id="leads-n">0</span></div><div id="leads-list"><div class="empty-note">Пусто</div></div></div>
-    <div class="ss" id="ss-chars"><div class="sl" id="chars-label">Персонажи</div><div id="susp-list"><div class="empty-note">Ещё нет</div></div></div>
-    <div class="ss" id="ss-cons"><div class="sl">Последствия <span class="sl-c" id="cons-n">0</span></div><div id="cons-list"><div class="empty-note">Мир ещё чист</div></div></div>
-    <div class="ss" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--brd)"><button class="btn" style="width:100%;font-size:11px;padding:7px" id="btn-abandon">&#10226; Выйти</button></div>
+    <div class="ss"><div class="sl">История</div><div class="case-title" id="case-title">—</div><div class="case-brief" id="case-brief"></div></div>
+    <div class="ss"><div class="sl">Задача</div><div id="side-task" style="font-size:12px;color:var(--t1);line-height:1.4">—</div></div>
+    <div class="ss"><div class="sl"><span id="leads-label">Журнал</span> <span class="sl-c" id="leads-n">0</span></div><div id="leads-list"><div class="empty-note">Пусто</div></div></div>
+    <div class="ss"><div class="sl" id="chars-label">Персонажи</div><div id="susp-list"><div class="empty-note">Нет</div></div></div>
+    <div class="ss"><div class="sl">Последствия <span class="sl-c" id="cons-n">0</span></div><div id="cons-list"><div class="empty-note">Мир чист</div></div></div>
+    <div class="ss" style="margin-top:auto;padding-top:12px;border-top:1px solid var(--brd)"><button class="btn" style="width:100%;font-size:11px;padding:8px" id="btn-abandon">↩ Выйти</button></div>
   </div>
-  <button id="mob-btn">&#9776;</button>
+  <button id="mob-btn">☰</button>
 </div>
-
-<!-- FINALE -->
-<div id="s-finale" class="scr">
-  <div class="fin-title" id="fin-title">&#128269; Момент истины</div>
-  <div class="fin-text" id="fin-text"></div>
-  <div class="fin-susp" id="fin-susp"></div>
-  <div class="fin-hint" id="fin-hint">Один выбор. Один шанс.</div>
-</div>
-
-<!-- END -->
-<div id="s-end" class="scr"><div class="et" id="e-t">ФИНАЛ</div><div class="ex" id="e-tx"></div><div class="es" id="e-st"></div><button class="btn pri" id="btn-reload">Новая игра</button></div>
-
-<!-- RULES -->
-<div id="rules-modal"><div class="rules-box"><button class="rules-close" id="rules-close">&times;</button><h2>Правила</h2><p id="rules-body"></p></div></div>
+<div id="s-finale" class="scr"><div class="fin-title" id="fin-title">Момент истины</div><div class="fin-text" id="fin-text"></div><div class="fin-susp" id="fin-susp"></div><div class="fin-hint" id="fin-hint"></div></div>
+<div id="s-end" class="scr"><div class="et" id="e-t">ФИНАЛ</div><div class="ex" id="e-tx"></div><div class="es" id="e-st"></div><button class="btn pri big" id="btn-reload">Новая игра</button></div>
+<div id="rules-modal"><div class="rules-box"><button class="rules-close" id="rules-close">×</button><h2>Правила</h2><div id="rules-body"></div></div></div>
 
 <script>
 try{
-/* ═══════════════════════════════════════
-   ЖАНРЫ, ТЕМЫ, СЛОЖНОСТЬ
-   ═══════════════════════════════════════ */
-var GENRES={
-detective:{id:'detective',name:'Детектив',icon:'🔍',
-  desc:'Раскрой дело за ограниченные дни. Собери улики, допроси свидетелей, назови виновного.',
-  tag:'Улики · Допросы · Обвинение',
-  ac:'176,137,104',bg1:'#0e0d0a',bg2:'#17150f',bg3:'#1e1b14',partHue:30,
-  stepLabel:'День',leadsLabel:'Зацепки',charsLabel:'Подозреваемые',
-  finaleTitle:'🔍 Момент истины',finaleHint:'Назовите виновного. Один шанс.',
-  defaultSteps:14,
-  settings:[
-    {v:'victorian',t:'🎩 Викторианская Англия'},{v:'noir',t:'🚬 Нуар 40-х'},
-    {v:'modern',t:'🏙️ Современность'},{v:'cyber',t:'🔮 Киберпанк'},{v:'custom',t:'✏️ Свой'}
-  ]
-},
-adventure:{id:'adventure',name:'Приключение',icon:'⚔️',
-  desc:'Пройди опасный путь, преодолей препятствия, достигни цели — или погибни в попытке.',
-  tag:'Квест · Выживание · Экшен',
-  ac:'76,175,80',bg1:'#080e08',bg2:'#0f170f',bg3:'#162016',partHue:120,
-  stepLabel:'Этап',leadsLabel:'Находки',charsLabel:'Спутники',
-  finaleTitle:'⚔️ Последнее испытание',finaleHint:'Один путь ведёт к цели. Остальные — в никуда.',
-  defaultSteps:16,
-  settings:[
-    {v:'fantasy',t:'⚔️ Фэнтези'},{v:'jungle',t:'🌴 Затерянный мир'},
-    {v:'space',t:'🚀 Космос'},{v:'pirate',t:'🏴‍☠️ Пиратское море'},{v:'custom',t:'✏️ Свой'}
-  ]
-},
-romance:{id:'romance',name:'Роман',icon:'💔',
-  desc:'Проживи историю отношений. Каждое слово и жест меняют чувства — твои и чужие.',
-  tag:'Отношения · Драма · Выбор сердца',
-  ac:'219,112,147',bg1:'#120a0d',bg2:'#1a0f14',bg3:'#22141b',partHue:340,
-  stepLabel:'Глава',leadsLabel:'Воспоминания',charsLabel:'Персонажи',
-  finaleTitle:'💔 Развязка',finaleHint:'За кем останется последнее слово?',
-  defaultSteps:12,
-  settings:[
-    {v:'modern',t:'🏙️ Современный город'},{v:'period',t:'👗 Эпоха Регентства'},
-    {v:'campus',t:'🎓 Университет'},{v:'showbiz',t:'🎬 Мир кино'},{v:'custom',t:'✏️ Свой'}
-  ]
-},
-horror:{id:'horror',name:'Хоррор',icon:'🕯️',
-  desc:'Выживи. Не доверяй тишине, не верь теням. Каждый шаг может стать последним.',
-  tag:'Ужас · Выживание · Безумие',
-  ac:'180,50,50',bg1:'#0a0808',bg2:'#140e0e',bg3:'#1c1414',partHue:0,
-  stepLabel:'Ночь',leadsLabel:'Находки',charsLabel:'Кто рядом',
-  finaleTitle:'🕯️ Рассвет или тьма',finaleHint:'Один выход. Или ни одного.',
-  defaultSteps:10,
-  settings:[
-    {v:'mansion',t:'🏚️ Заброшенный особняк'},{v:'asylum',t:'🏥 Лечебница'},
-    {v:'forest',t:'🌲 Ночной лес'},{v:'ship',t:'🚢 Корабль-призрак'},{v:'custom',t:'✏️ Свой'}
-  ]
-}};
+var GENRES={detective:{id:'detective',name:'Детектив',icon:'🔍',desc:'Раскрой дело. Собери улики, допроси свидетелей, назови виновного.',tag:'УЛИКИ · ДОПРОСЫ · ОБВИНЕНИЕ',ac:'196,162,110',bg1:'#09080b',bg2:'#111015',bg3:'#19181f',partHue:35,stepLabel:'День',leadsLabel:'Зацепки',charsLabel:'Подозреваемые',finTitle:'🔍 Момент истины',finHint:'Назовите виновного. Один шанс.',defSteps:14,sets:[{v:'victorian',t:'🎩 Викторианская Англия'},{v:'noir',t:'🚬 Нуар 40-х'},{v:'modern',t:'🏙️ Современность'},{v:'custom',t:'✏️ Свой'}]},
+adventure:{id:'adventure',name:'Приключение',icon:'⚔️',desc:'Пройди квест, преодолей опасности, достигни цели — или погибни.',tag:'КВЕСТ · ВЫЖИВАНИЕ · ЭКШЕН',ac:'80,190,95',bg1:'#070b07',bg2:'#0e150e',bg3:'#152015',partHue:130,stepLabel:'Этап',leadsLabel:'Находки',charsLabel:'Спутники',finTitle:'⚔️ Последнее испытание',finHint:'Один путь ведёт к цели.',defSteps:16,sets:[{v:'fantasy',t:'⚔️ Фэнтези'},{v:'jungle',t:'🌴 Затерянный мир'},{v:'space',t:'🚀 Космос'},{v:'custom',t:'✏️ Свой'}]},
+romance:{id:'romance',name:'Роман',icon:'💔',desc:'История отношений. Каждое слово и жест меняют чувства.',tag:'ОТНОШЕНИЯ · ДРАМА · ВЫБОР СЕРДЦА',ac:'210,115,150',bg1:'#0b080a',bg2:'#150e12',bg3:'#1e141a',partHue:340,stepLabel:'Глава',leadsLabel:'Воспоминания',charsLabel:'Персонажи',finTitle:'💔 Развязка',finHint:'За кем последнее слово?',defSteps:12,sets:[{v:'modern',t:'🏙️ Город'},{v:'period',t:'👗 Эпоха Регентства'},{v:'campus',t:'🎓 Университет'},{v:'custom',t:'✏️ Свой'}]},
+horror:{id:'horror',name:'Хоррор',icon:'🕯️',desc:'Выживи. Не верь тишине, не доверяй теням.',tag:'УЖАС · ВЫЖИВАНИЕ · БЕЗУМИЕ',ac:'190,55,55',bg1:'#0a0707',bg2:'#140d0d',bg3:'#1d1313',partHue:0,stepLabel:'Ночь',leadsLabel:'Находки',charsLabel:'Кто рядом',finTitle:'🕯️ Рассвет или тьма',finHint:'Один выход. Или ни одного.',defSteps:10,sets:[{v:'mansion',t:'🏚️ Особняк'},{v:'asylum',t:'🏥 Лечебница'},{v:'forest',t:'🌲 Ночной лес'},{v:'custom',t:'✏️ Свой'}]}};
+var DIFFS={easy:{id:'easy',name:'Легко',icon:'🟢',desc:'Больше шагов, подсказки',bonus:5,pr:'Лёгкий уровень: давай чёткие подсказки, будь снисходителен.'},normal:{id:'normal',name:'Нормально',icon:'🟡',desc:'Баланс',bonus:0,pr:'Средний уровень: баланс.'},hard:{id:'hard',name:'Сложно',icon:'🔴',desc:'Меньше шагов, ловушки',bonus:-3,pr:'СЛОЖНО: обманчивые зацепки, ловушки, ненадёжные свидетели. Не подсказывай.'}};
+var SETT={victorian:'Лондон 1890-х.',noir:'Америка 1947. Неон, дождь.',modern:'Наши дни.',fantasy:'Средневековое фэнтези.',jungle:'Затерянный мир, джунгли.',space:'Космос, станции.',period:'Англия Регентства.',campus:'Университет.',mansion:'Заброшенный особняк.',asylum:'Старая лечебница.',forest:'Ночной лес.',custom:''};
+var CFG={URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',MODEL:'claude-sonnet-4.6',MXT:2600,MXH:10};
+var NAMES={detective:['Корвин','Марлоу','Блейк','Грей','Холт','Пирс'],adventure:['Кай','Эйра','Торн','Рейна','Бран','Дакс'],romance:['Алекс','Мира','Итан','Софи','Лео','Клара'],horror:['Морган','Эш','Рейн','Нова','Хантер','Линн']};
 
-var DIFFICULTIES={
-easy:{id:'easy',name:'Легко',icon:'🟢',desc:'Больше шагов, подсказки, прощающий мир.',stepsBonus:5,promptExtra:'Играй на лёгком уровне: давай игроку чёткие подсказки, не обманывай, будь снисходителен к ошибкам. Зацепки должны быть очевидными.'},
-normal:{id:'normal',name:'Нормально',icon:'🟡',desc:'Баланс. Стандартная игра.',stepsBonus:0,promptExtra:'Играй на среднем уровне: баланс между подсказками и загадками. Иногда усложняй, но не жестоко.'},
-hard:{id:'hard',name:'Сложно',icon:'🔴',desc:'Меньше шагов, ловушки, обманчивые зацепки.',stepsBonus:-3,promptExtra:'Играй на СЛОЖНОМ уровне: обманчивые зацепки, ненадёжные свидетели, ловушки среди вариантов. Некоторые выборы ведут в тупик. Не подсказывай. Последствия жёстче. Игрок должен думать.'}
-};
+var SCENARIOS={mansion:{id:'mansion',genre:'detective',title:'Убийство в особняке',short:'10 дней',desc:'Секретарь убит. 5 подозреваемых.',brief:'Секретарь Брент — нож в спине, недописанное письмо.',firstTask:'Осмотреть библиотеку',suspects:[{name:'Лорд Эшкрофт',desc:'Хозяин'},{name:'Леди Вивиан',desc:'Жена'},{name:'Доктор Виттер',desc:'Врач'},{name:'Садовник Брен',desc:'Груб'},{name:'Горничная Мэй',desc:'Скрытна'}],culprit:'Доктор Виттер',solution:'Виттер подделал документы 15 лет назад. Брент раскопал. Виттер убил.',steps:[
+{task:'Осмотреть библиотеку',narrative:'**Брент** на столе, нож в спине. Письмо: *«...правду о докторе В.»*. В камине — клочки.',choices:[{text:'Прочитать письмо',lead:'Письмо попечителю; обвинял «доктора В.»'},{text:'Клочки в камине',lead:'Подпись «А.Виттер», медтермин'},{text:'Осмотреть нож',lead:'Нож из кабинета лорда'}]},
+{task:'Поговорить с лордом',narrative:'Руки дрожат. *«Виттер — друг.»*',choices:[{text:'Кто брал нож?',lead:'Последним — Виттер'},{text:'Почему дрожь?',lead:'Снотворное от Виттера, доза росла'},{text:'Проверить сад',lead:'Срезы на розах есть'}]},
+{task:'Леди Вивиан',narrative:'*«Брент копал в старых бумагах.»*',choices:[{text:'Что искал?',lead:'Дело кузины Эдит, умершей 15 лет назад'},{text:'Про Виттера',lead:'Лечил Эдит; леди не доверяет ему'},{text:'Реакция на мужа',lead:'Отчуждение в браке'}]},
+{task:'Доктор Виттер',narrative:'Улыбчив. Пятно на манжете прикрывает.',choices:[{text:'Саквояж',lead:'Настойка опия, надорванный бланк'},{text:'Про Эдит',lead:'Напрягся, ответ слишком быстрый'},{text:'Пятно',lead:'Буро-красное, похоже на кровь'}]},
+{task:'Садовник Брен',narrative:'*«Брент — гнида.»*',choices:[{text:'Про ночь',lead:'Шаги около трёх — лёгкие'},{text:'Сарай',lead:'Дорогая сигара — не садовника'},{text:'Про уголь',lead:'Брент молчал за шиллинг'}]},
+{task:'Горничная Мэй',narrative:'19 лет, глаза красные.',choices:[{text:'Что скрывает?',lead:'Виттер просил оставить стакан с каплями'},{text:'Что пил Брент?',lead:'Стакан у двери был пуст в час ночи'},{text:'Кого видела?',lead:'Виттер шёл к библиотеке в два'}]},
+{task:'Архив',narrative:'Папка «Эдит». Свидетельство подписано Виттером. Возраст **исправлен**.',choices:[{text:'Сравнить подпись',lead:'Совпадает с клочком'},{text:'Завещание Эдит',lead:'Деньги ушли Эшкрофтам — заверено Виттером'},{text:'Письма Брента',lead:'Черновик: «смерть не естественная»'}]},
+{task:'Комната Виттера',narrative:'Под подушкой — платок с кровью. Странный ключ.',choices:[{text:'Платок',lead:'Монограмма «АВ», кровь'},{text:'Ключ',lead:'Шкатулка: «отравление дигиталисом»'},{text:'Саквояж',lead:'Дигиталис в порошке'}]},
+{task:'Сопоставить',narrative:'Брент нашёл подлог. Виттер узнал. Ночью зашёл в библиотеку...',choices:[{text:'Мотив через леди',lead:'Обмолвилась при Виттере'},{text:'Алиби Виттера',lead:'Мэй: шёл к библиотеке и обратно'},{text:'Нож повторно',lead:'Лаванда на рукояти'}]},
+{task:'Назвать убийцу',narrative:'День десятый. Все в гостиной. Вы встаёте.',choices:[{text:'Назвать имя',lead:'Пора.'}]}
+]}};
 
-var SETTING_DESC={
-victorian:'Лондон 1890-х. Газовые фонари, кэбы, трущобы.',noir:'Америка 1947. Неон, дождь, джаз.',modern:'Наши дни. Камеры, соцсети.',cyber:'2079. Корпорации, импланты.',
-fantasy:'Средневековое фэнтези. Мечи, магия, драконы.',jungle:'Затерянный мир. Джунгли, руины, хищники.',space:'Открытый космос. Станции, планеты, аномалии.',pirate:'Карибское море XVII века. Паруса, пушки, сокровища.',
-period:'Англия эпохи Регентства. Балы, поместья, этикет.',campus:'Современный университет. Лекции, вечеринки, секреты.',showbiz:'Голливуд. Премьеры, интриги, слава.',
-mansion:'Заброшенный особняк. Скрипы, тени, запертые комнаты.',asylum:'Старая лечебница. Коридоры, записи, шёпот.',forest:'Ночной лес. Тропы, туман, нечто среди деревьев.',ship:'Дрейфующий корабль. Ржавчина, волны, пустые каюты.',
-custom:''};
+var S={genre:'detective',difficulty:'normal',mode:'ai',name:'',settingKey:'',settingDesc:'',seed:'',scenarioId:null,step:1,maxSteps:14,caseTitle:'—',caseBrief:'',task:'—',leads:[],suspects:[],consequences:[],culprit:null,solution:'',finished:false,hist:[],mood:null,_fc:null};
+var curScene=null,lastAct=null,isLoading=false,partHue=35;
 
-var CFG={URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',MODEL:'claude-sonnet-4.6',MAX_T:2600,MAX_H:10,RET:3,RMS:[1200,2600,4500]};
+/* ═══ PROMPT ═══ */
+function buildPrompt(){var G=GENRES[S.genre]||GENRES.detective,D=DIFFS[S.difficulty]||DIFFS.normal,sd=S.settingKey==='custom'&&S.settingDesc?S.settingDesc:(SETT[S.settingKey]||''),st=S.seed?' ЗАТРАВКА:"'+S.seed+'".':'',left=S.maxSteps-S.step+1,kn=S.leads.length?S.leads.slice(-6).map(function(l){return l.day+':'+l.text}).join('|'):'нет',cn=S.consequences.length?S.consequences.slice(-4).map(function(c){return c.text}).join(';'):'нет';
+var gr={detective:'ДЕТЕКТИВ: раскрой дело, назови виновного. Тайно выбери виновного на шаге 1. Каждый шаг=1 lead. Обновляй suspects(3-5). ФИНАЛ(последний шаг): isFinale:true, suspects, culpritIndex(0-based), motive. choices=[]. Не подтверждай угадывание.',
+adventure:'ПРИКЛЮЧЕНИЕ: квест с целью. Шаг 1=задай цель и опасность. lead=находки. suspects=NPC. Чередуй: бой/загадка/отдых. ФИНАЛ: isFinale:true, finaleChoices:[{text,correct:bool}](2-4,1 верный), motive=верный путь.',
+romance:'РОМАН: история отношений. Шаг 1=представь 2-3 персонажа. lead=моменты. suspects=персонажи+отношение(тепло/холодно). Фокус на диалогах. ФИНАЛ: isFinale:true, finaleChoices:[{text,character:"имя"}], motive.',
+horror:'ХОРРОР: выживание. Нагнетай постепенно. lead=угрозы/предметы. Обманывай: ложная безопасность. ФИНАЛ: isFinale:true, finaleChoices:[{text,correct:bool}](1 спасает), motive.'}[S.genre]||'';
+return'Ты мастер "Dark Script" ('+G.name+'). ТОЛЬКО JSON.\nСЕТТИНГ:'+sd+'\nПЕРСОНАЖ:'+S.name+'.'+st+'\nЛИМИТ:'+S.maxSteps+' шагов. Сейчас '+S.step+'. Осталось '+left+'.\n'+D.pr+'\n\n'+gr+'\n\nПОГРУЖЕНИЕ: consequence={text,impact:positive/negative/neutral}. Ссылайся на прошлые решения. critical:true для ключевых решений(1-2 за игру). mood:tense/calm/romantic/terrifying/hopeful/desperate.\nКАЖДЫЙ выбор ДОЛЖЕН менять что-то.\n\nИЗВЕСТНО:'+kn+'\nПОСЛЕДСТВИЯ:'+cn+'\n\nJSON:{"narrative":"2-4 абзаца","task":"до 80зн","lead":"или null","suspects":[{"name":"","desc":""}],"choices":[{"text":"","critical":false}],"consequence":{"text":"","impact":""}|null,"mood":""|null,"isFinale":false,"culpritIndex":null,"motive":null,"finaleChoices":null}'}
 
-var NAMES={detective:['Корвин','Марлоу','Блейк','Грей','Холт','Пирс','Стерн','Эшби'],adventure:['Кай','Эйра','Торн','Рейна','Бран','Лира','Дакс','Фрейя'],romance:['Алекс','Мира','Итан','Софи','Лео','Виктория','Макс','Клара'],horror:['Морган','Эш','Рейн','Нова','Хантер','Айви','Кросс','Линн']};
-var SCENARIOS={
-mansion:{id:'mansion',genre:'detective',title:'Убийство в особняке Эшкрофт',short:'Классика · 10 дней',desc:'Секретарь убит ножом в спине. 5 подозреваемых, 10 дней.',
-brief:'Октябрь 1891. Особняк Эшкрофт. Секретарь Томас Брент — нож для бумаг в спине, недописанное письмо.',
-firstTask:'Осмотреть библиотеку',
-suspects:[{name:'Лорд Эшкрофт',desc:'Хозяин. Холоден.'},{name:'Леди Вивиан',desc:'Жена.'},{name:'Доктор Виттер',desc:'Семейный врач.'},{name:'Садовник Брен',desc:'Ненавидел секретаря.'},{name:'Горничная Мэй',desc:'Что-то скрывает.'}],
-culprit:'Доктор Виттер',solution:'Виттер подделал свидетельство о смерти кузины Эдит ради наследства. Брент раскопал это. Виттер убил его ножом.',
-steps:[
-{task:'Осмотреть библиотеку',narrative:'Библиотека пахнет воском. **Брент** лежит на столе. Нож с гербом Эшкрофтов в спине. Недописанное письмо: *«...вы должны узнать правду о докторе В.»*. В камине — обгоревшие клочки.',
-choices:[{text:'Прочитать письмо',lead:'Письмо попечителю фонда; Брент обвинял «доктора В.»'},{text:'Изучить клочки в камине',lead:'Подпись «А.Виттер», фрагмент медтермина'},{text:'Осмотреть нож',lead:'Нож из кабинета лорда; обычно не в библиотеке'}]},
-{task:'Поговорить с лордом',narrative:'Лорд в оружейной, руки дрожат. *«Виттер — друг, не трогайте его.»*',
-choices:[{text:'Кто пользовался ножом?',lead:'Последним брал Виттер — «что-то подписывал»'},{text:'Почему дрожат руки?',lead:'Не спал 2 ночи; снотворное от Виттера, вчера доза сильнее'},{text:'Проверить алиби в саду',lead:'Свежие срезы на розах; алиби не опровергается'}]},
-{task:'Расспросить леди Вивиан',narrative:'Леди в трауре. *«Томас копал в старых бумагах — я просила его.»*',
-choices:[{text:'Что искал Брент?',lead:'«Дело кузины Эдит», умершей 15 лет назад'},{text:'Про Виттера?',lead:'Виттер лечил Эдит; леди: «Генри доверяет слепо, я — нет»'},{text:'Реакция на имя мужа',lead:'Морщится — отчуждение'}]},
-{task:'Поговорить с Виттером',narrative:'Улыбчив, саквояж. На манжете тёмное пятно, прикрывает рукавом.',
-choices:[{text:'Показать саквояж',lead:'Настойка опия, надорванный рецептурный бланк'},{text:'Спросить о кузине Эдит',lead:'Виттер напрягся: «Давняя история». Слишком быстрый ответ'},{text:'Пятно на манжете',lead:'Буро-красное, похоже на кровь. «Чернила» — врёт'}]},
-{task:'Поговорить с садовником',narrative:'Брен: *«Брент — гнида, доносил на меня.»*',
-choices:[{text:'Про ночь убийства',lead:'Слышал шаги около трёх — «лёгкие, не лордовы»'},{text:'Осмотреть сарай',lead:'Дорогая сигара под верстаком — не садовника'},{text:'Про уголь',lead:'Брент молчал за шиллинг в неделю'}]},
-{task:'Расспросить горничную Мэй',narrative:'Мэй — 19, красные глаза, теребит передник.',
-choices:[{text:'Что не договаривает?',lead:'Виттер просил оставить стакан с каплями у библиотеки'},{text:'Что пил Брент?',lead:'Чай в 9; в час ночи стакан у двери пуст'},{text:'Кого видела ночью?',lead:'Виттер шёл к библиотеке в два ночи — «с платком»'}]},
-{task:'Заглянуть в архив',narrative:'Папка «Эдит Эшкрофт, 1876». Свидетельство подписано Виттером. Цифра возраста **исправлена**.',
-choices:[{text:'Сравнить подпись',lead:'Совпадает с обгоревшим клочком'},{text:'Найти завещание Эдит',lead:'Состояние ушло Эшкрофтам «по ошибке»; заверено Виттером'},{text:'Письма Брента',lead:'Черновик: «смерть Эдит не была естественной»'}]},
-{task:'Проверить комнату Виттера',narrative:'Лаванда. Под подушкой — платок с бурыми пятнами. Странный ключ.',
-choices:[{text:'Платок',lead:'Кровь; монограмма «АВ»'},{text:'Замок к ключу',lead:'Шкатулка в архиве: подлинное свидетельство — «отравление дигиталисом»'},{text:'Саквояж повторно',lead:'Дигиталис в порошке'}]},
-{task:'Сопоставить',narrative:'Брент нашёл подлог. Виттер узнал от леди Вивиан. Ночью зашёл в библиотеку...',
-choices:[{text:'Мотив через леди',lead:'Обмолвилась при Виттере, что Брент «почти нашёл правду»'},{text:'Алиби Виттера',lead:'Мэй: шёл к библиотеке, обратно с пустым стаканом'},{text:'Нож повторно',lead:'Лаванда на рукояти — запах из комнаты Виттера'}]},
-{task:'Назвать убийцу',narrative:'Десятый день. Все в гостиной. Пора.',
-choices:[{text:'Готов назвать',lead:'Вы встаёте.'}]}
-]}
-};
+/* ═══ PARTICLES ═══ */
+var cvs=document.getElementById('particles'),ctx=cvs?cvs.getContext('2d'):null,pts=[];
+function iP(){if(!cvs)return;cvs.width=innerWidth;cvs.height=innerHeight;pts=[];for(var i=0;i<30;i++)pts.push(mP())}
+function mP(){return{x:Math.random()*(cvs?cvs.width:800),y:Math.random()*(cvs?cvs.height:600),r:Math.random()*1.2+.3,vy:-(Math.random()*.18+.04),vx:(Math.random()-.5)*.08,a:Math.random()*.3+.08,l:Math.random()*500+200}}
+function dP(){if(!ctx)return;ctx.clearRect(0,0,cvs.width,cvs.height);for(var i=0;i<pts.length;i++){var p=pts[i];p.x+=p.vx;p.y+=p.vy;p.l--;if(p.l<60)p.a*=.97;if(p.l<=0||p.y<-10){pts[i]=mP();pts[i].y=cvs.height+10}ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='hsla('+partHue+',45%,60%,'+p.a+')';ctx.fill()}requestAnimationFrame(dP)}
+addEventListener('resize',function(){if(cvs){cvs.width=innerWidth;cvs.height=innerHeight}});iP();dP();
 
-/* ═══════════════════════════════════════
-   СОСТОЯНИЕ
-   ═══════════════════════════════════════ */
-var S={genre:'detective',difficulty:'normal',mode:'ai',name:'',settingKey:'victorian',settingDesc:'',seed:'',scenarioId:null,step:1,maxSteps:14,caseTitle:'—',caseBrief:'',task:'—',leads:[],suspects:[],consequences:[],culprit:null,solution:'',finished:false,hist:[],mood:null};
-var curScene=null,lastAct=null,isLoading=false,partHue=30;
-
-/* ═══════════════════════════════════════
-   СИСТЕМНЫЕ ПРОМПТЫ ПО ЖАНРАМ
-   ═══════════════════════════════════════ */
-function buildPrompt(){
-  var G=GENRES[S.genre]||GENRES.detective;
-  var D=DIFFICULTIES[S.difficulty]||DIFFICULTIES.normal;
-  var stD=S.settingKey==='custom'&&S.settingDesc?S.settingDesc:(SETTING_DESC[S.settingKey]||'');
-  var sT=S.seed?' ЗАТРАВКА: "'+S.seed+'".':'';
-  var left=S.maxSteps-S.step+1;
-  var kn=S.leads.length?S.leads.slice(-6).map(function(l){return l.day+': '+l.text}).join(' | '):'нет';
-  var cn=S.consequences.length?S.consequences.slice(-5).map(function(c){return c.text}).join('; '):'нет';
-
-  var base='Ты — мастер интерактивной истории "Dark Script" в жанре '+G.name+'. ОТВЕЧАЙ ТОЛЬКО ВАЛИДНЫМ JSON.\n'+
-    'СЕТТИНГ: '+stD+'\nПЕРСОНАЖ: '+S.name+'.'+sT+'\n'+
-    'ЛИМИТ: '+S.maxSteps+' шагов ('+G.stepLabel+'). Сейчас '+G.stepLabel+' '+S.step+'. Осталось '+left+'.\n'+
-    D.promptExtra+'\n\n';
-
-  var genre_rules='';
-  if(S.genre==='detective'){
-    genre_rules='ЖАНР ДЕТЕКТИВ:\n'+
-      '- Цель игрока — РАСКРЫТЬ ДЕЛО и НАЗВАТЬ ВИНОВНОГО в финале.\n'+
-      '- На 1-м шаге ВЫБЕРИ виновного тайно и ДЕРЖИ до конца. Подкладывай зацепки.\n'+
-      '- Каждый шаг: 1 lead (зацепка/свидетельство). Обновляй suspects (3-5 подозреваемых).\n'+
-      '- ФИНАЛ (последний шаг): isFinale:true, suspects, culpritIndex (0-based), motive. choices пустой.\n'+
-      '- НЕ подтверждай угадывание раньше времени.\n';
-  }else if(S.genre==='adventure'){
-    genre_rules='ЖАНР ПРИКЛЮЧЕНИЕ:\n'+
-      '- Цель — пройти квест, преодолеть препятствия, достигнуть цели.\n'+
-      '- На 1-м шаге задай ЦЕЛЬ квеста и главную опасность.\n'+
-      '- lead = находки (предметы, знания, союзники). suspects = спутники/NPC с описанием.\n'+
-      '- Чередуй: исследование → бой/ловушка → загадка → отдых → кульминация.\n'+
-      '- ФИНАЛ: isFinale:true, finaleChoices: [{text,correct:true/false}] (2-4 варианта, 1 верный). motive = описание верного пути.\n'+
-      '- consequences влияют: союзник помогает если ему помогали, враг мстит.\n';
-  }else if(S.genre==='romance'){
-    genre_rules='ЖАНР РОМАН:\n'+
-      '- Цель — прожить историю отношений, сделать выбор сердца.\n'+
-      '- На 1-м шаге представь 2-3 ключевых персонажа с характерами.\n'+
-      '- lead = ключевые моменты отношений. suspects = персонажи + их отношение к игроку (тепло/холодно/страстно/обижено).\n'+
-      '- Фокус на ДИАЛОГАХ и ЭМОЦИЯХ. Меньше описаний мест, больше — лиц, жестов, слов.\n'+
-      '- ФИНАЛ: isFinale:true, finaleChoices: [{text,character:"имя"}] — игрок выбирает, с кем остаться (или остаться одному). motive = описание каждого выбора.\n'+
-      '- consequences формируют чувства: обида, доверие, ревность, любовь.\n';
-  }else if(S.genre==='horror'){
-    genre_rules='ЖАНР ХОРРОР:\n'+
-      '- Цель — ВЫЖИТЬ и СБЕЖАТЬ (или раскрыть тайну).\n'+
-      '- Нагнетай УЖАС постепенно. Первые шаги — тревога, средние — ужас, финал — кошмар.\n'+
-      '- lead = обнаруженные угрозы, предметы спасения, куски истории. suspects = кто/что рядом.\n'+
-      '- Иногда ОБМАНЫВАЙ: тишина перед ужасом, ложная безопасность.\n'+
-      '- На СЛОЖНОМ уровне: ненадёжный рассказчик, галлюцинации персонажа.\n'+
-      '- ФИНАЛ: isFinale:true, finaleChoices: [{text,correct:true/false}] (2-4, 1 ведёт к спасению). motive = что было правильным.\n'+
-      '- consequences: если не взял фонарь — темнота; если оскорбил призрака — хуже.\n';
-  }
-
-  var immersion='ПОГРУЖЕНИЕ И ПОСЛЕДСТВИЯ:\n'+
-    '- МИР ПОМНИТ РЕШЕНИЯ. В поле consequence — краткое описание последствия выбора (если есть). impact: positive/negative/neutral.\n'+
-    '- Ссылайся на прошлые решения игрока: "тот выбор в [шаг X] теперь аукнулся".\n'+
-    '- Поле critical:true в choices для КЛЮЧЕВЫХ решений (1-2 за игру), влияющих на финал.\n'+
-    '- Поле mood: tense/calm/romantic/terrifying/hopeful/desperate (влияет на атмосферу UI).\n'+
-    '- УРОВЕНЬ ВЛИЯНИЯ: каждый выбор ДОЛЖЕН менять что-то. Не бывает проходных ходов.\n\n';
-
-  var known='ИЗВЕСТНО ИГРОКУ: '+kn+'\nПОСЛЕДСТВИЯ: '+cn+'\n\n';
-
-  var json='JSON (строго):\n'+
-    '{"narrative":"текст 2-4 абзаца","task":"задача до 80 зн","lead":"зацепка/находка или null",'+
-    '"suspects":[{"name":"","desc":""}],"choices":[{"text":"","critical":false}],'+
-    '"consequence":{"text":"описание","impact":"positive/negative/neutral"} или null,'+
-    '"mood":"tense/calm/romantic/terrifying/hopeful/desperate или null",'+
-    '"isFinale":false,"culpritIndex":null,"motive":null,"finaleChoices":null}';
-
-  return base+genre_rules+immersion+known+json;
-}
-
-/* ═══════════════════════════════════════
-   ЧАСТИЦЫ
-   ═══════════════════════════════════════ */
-var cvs=document.getElementById('particles'),ctx2d=cvs?cvs.getContext('2d'):null,parts=[];
-function initP(){if(!cvs)return;cvs.width=innerWidth;cvs.height=innerHeight;parts=[];for(var i=0;i<35;i++)parts.push(mkP())}
-function mkP(){return{x:Math.random()*(cvs?cvs.width:800),y:Math.random()*(cvs?cvs.height:600),r:Math.random()*1.3+.3,vy:-(Math.random()*.2+.05),vx:(Math.random()-.5)*.1,a:Math.random()*.35+.08,life:Math.random()*500+200}}
-function drawP(){if(!ctx2d)return;ctx2d.clearRect(0,0,cvs.width,cvs.height);for(var i=0;i<parts.length;i++){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.life--;if(p.life<60)p.a*=.97;if(p.life<=0||p.y<-10){parts[i]=mkP();parts[i].y=cvs.height+10}ctx2d.beginPath();ctx2d.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2d.fillStyle='hsla('+partHue+',50%,60%,'+p.a+')';ctx2d.fill()}requestAnimationFrame(drawP)}
-addEventListener('resize',function(){if(cvs){cvs.width=innerWidth;cvs.height=innerHeight}});initP();drawP();
-
-/* ═══════════════════════════════════════
-   НАВИГАЦИЯ И ТЕМЫ
-   ═══════════════════════════════════════ */
-function goTo(id){var tr=document.getElementById('transition');tr.classList.add('active');setTimeout(function(){document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on','vis')});var n=document.getElementById(id);if(n){n.classList.add('on');setTimeout(function(){tr.classList.remove('active');setTimeout(function(){n.classList.add('vis')},50)},100)}},420)}
-
-function applyGenreTheme(gid){
-  var G=GENRES[gid]||GENRES.detective;var r=document.documentElement;
-  r.style.setProperty('--ac-rgb',G.ac);r.style.setProperty('--ac','rgb('+G.ac+')');
-  r.style.setProperty('--glow','rgba('+G.ac+',.25)');r.style.setProperty('--brd','rgba('+G.ac+',.18)');
-  r.style.setProperty('--brd-h','rgba('+G.ac+',.55)');
-  r.style.setProperty('--bg1',G.bg1);r.style.setProperty('--bg2',G.bg2);r.style.setProperty('--bg3',G.bg3);
-  document.body.style.background=G.bg1;partHue=G.partHue;
-}
-
+/* ═══ NAV + THEME ═══ */
+function goTo(id){var tr=document.getElementById('transition');tr.classList.add('active');setTimeout(function(){document.querySelectorAll('.scr').forEach(function(s){s.classList.remove('on','vis')});var n=document.getElementById(id);if(n){n.classList.add('on');setTimeout(function(){tr.classList.remove('active');setTimeout(function(){n.classList.add('vis')},50)},100)}},380)}
+function applyTheme(g){var G=GENRES[g]||GENRES.detective,r=document.documentElement;r.style.setProperty('--ac-rgb',G.ac);r.style.setProperty('--ac','rgb('+G.ac+')');r.style.setProperty('--glow','rgba('+G.ac+',.2)');r.style.setProperty('--brd-h','rgba('+G.ac+',.5)');r.style.setProperty('--bg1',G.bg1);r.style.setProperty('--bg2',G.bg2);r.style.setProperty('--bg3',G.bg3);document.body.style.background=G.bg1;partHue=G.partHue}
 function applyMood(m){document.body.className='';if(m)document.body.classList.add('mood-'+m)}
 
-/* ═══════════════════════════════════════
-   JSON PARSER
-   ═══════════════════════════════════════ */
-function repairJSON(s){s=s.trim();var inS=false,esc=false,br=0,bk=0;for(var i=0;i<s.length;i++){var c=s[i];if(esc){esc=false;continue}if(c==='\\'){esc=true;continue}if(c==='"'){inS=!inS;continue}if(inS)continue;if(c==='{')br++;if(c==='}')br--;if(c==='[')bk++;if(c===']')bk--}if(inS)s+='"';s=s.replace(/,\s*$/,'');while(bk>0){s+=']';bk--}while(br>0){s+='}';br--}return s}
+/* ═══ JSON ═══ */
+function rJ(s){s=s.trim();var i2=false,esc=false,br=0,bk=0;for(var i=0;i<s.length;i++){var c=s[i];if(esc){esc=false;continue}if(c==='\\'){esc=true;continue}if(c==='"'){i2=!i2;continue}if(i2)continue;if(c==='{')br++;if(c==='}')br--;if(c==='[')bk++;if(c===']')bk--}if(i2)s+='"';s=s.replace(/,\s*$/,'');while(bk>0){s+=']';bk--}while(br>0){s+='}';br--}return s}
+function vS(o){if(!o||typeof o!=='object')throw 1;return{narrative:o.narrative||'...',task:(o.task||'').slice(0,140),lead:typeof o.lead==='string'?o.lead.trim()||null:null,suspects:Array.isArray(o.suspects)?o.suspects.slice(0,6).map(function(s){return{name:(s&&s.name)||'?',desc:(s&&s.desc)||''}}):[],choices:Array.isArray(o.choices)&&o.choices.length?o.choices.slice(0,4).map(function(c){return{text:(c&&c.text)||'Далее',critical:!!(c&&c.critical)}}):[{text:'Далее',critical:false}],consequence:o.consequence&&o.consequence.text?{text:o.consequence.text,impact:o.consequence.impact||'neutral'}:null,mood:o.mood||null,isFinale:!!o.isFinale,culpritIndex:typeof o.culpritIndex==='number'?o.culpritIndex:null,motive:o.motive||'',finaleChoices:Array.isArray(o.finaleChoices)?o.finaleChoices:null}}
+function pJ(raw){if(!raw)throw 1;var t=raw.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return vS(JSON.parse(t))}catch(e){}var m=t.match(/\{[\s\S]*\}/);if(m){try{return vS(JSON.parse(m[0]))}catch(e){}try{return vS(JSON.parse(rJ(m[0])))}catch(e){}}try{return vS(JSON.parse(rJ(t)))}catch(e){}throw 1}
 
-function valScene(o){
-  if(!o||typeof o!=='object')throw 1;
-  var ch=Array.isArray(o.choices)?o.choices.slice(0,4).map(function(c){return{text:(c&&c.text)||'Продолжить',critical:!!(c&&c.critical)}}):[{text:'Продолжить',critical:false}];
-  return{narrative:o.narrative||'Тишина.',task:(o.task||'').slice(0,140),lead:typeof o.lead==='string'?o.lead.trim()||null:null,
-    suspects:Array.isArray(o.suspects)?o.suspects.slice(0,6).map(function(s){return{name:(s&&s.name)||'?',desc:(s&&s.desc)||''}}):[],
-    choices:ch,consequence:o.consequence&&o.consequence.text?{text:o.consequence.text,impact:o.consequence.impact||'neutral'}:null,
-    mood:o.mood||null,isFinale:!!o.isFinale,
-    culpritIndex:typeof o.culpritIndex==='number'?o.culpritIndex:null,motive:o.motive||'',
-    finaleChoices:Array.isArray(o.finaleChoices)?o.finaleChoices:null}
-}
-
-function parseJSON(raw){if(!raw)throw new Error('empty');var t=raw.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return valScene(JSON.parse(t))}catch(e){}var m=t.match(/\{[\s\S]*\}/);if(m){try{return valScene(JSON.parse(m[0]))}catch(e){}try{return valScene(JSON.parse(repairJSON(m[0])))}catch(e){}}try{return valScene(JSON.parse(repairJSON(t)))}catch(e){}throw new Error('parse fail')}
-
-/* ═══════════════════════════════════════
-   СТРИМИНГ ИИ
-   ═══════════════════════════════════════ */
-function requestAIScene(action){
-  if(isLoading)return;isLoading=true;lastAct=action;
-  setFreeEnabled(false);
+/* ═══ STREAMING AI ═══ */
+function reqAI(action){
+  if(isLoading)return;isLoading=true;lastAct=action;setFE(false);
   var ch=document.getElementById('choices');ch.innerHTML='';ch.style.display='none';
   var nr=document.getElementById('narr');
-  nr.innerHTML='<div class="nt" id="stream-box"><span id="stream-text"></span><span class="stream-cursor"></span></div>';
-
-  var sysP=buildPrompt();
-  var msgs=[{role:'system',content:sysP}];
-  var rec=S.hist.slice(-CFG.MAX_H);
-  for(var i=0;i<rec.length;i++)msgs.push({role:rec[i].r,content:rec[i].c});
-  var G=GENRES[S.genre]||GENRES.detective;
-  var ctx='['+G.stepLabel+' '+S.step+'/'+S.maxSteps+'] '+action;
-  msgs.push({role:'user',content:ctx});
-
-  var fullText='';
-  var streamEl=document.getElementById('stream-text');
-
-  function extractNarr(raw){
-    var m=raw.match(/"narrative"\s*:\s*"((?:[^"\\]|\\.)*)(")?/);
-    if(m){var t=m[1];try{t=JSON.parse('"'+t+'"')}catch(e){t=t.replace(/\\n/g,'\n').replace(/\\"/g,'"').replace(/\\\\/g,'\\')}return t}return null;
-  }
-  function renderPartial(text){
-    if(!text||!streamEl)return;
-    streamEl.innerHTML=fN(text);nr.scrollTop=nr.scrollHeight;
-  }
-
-  fetch(CFG.URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},
-    body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:.88,stream:true,messages:msgs})
-  }).then(function(resp){
+  nr.innerHTML='<div class="nt" id="sb"><span id="st"></span><span class="stream-cursor"></span></div>';
+  var sys=buildPrompt(),msgs=[{role:'system',content:sys}],G=GENRES[S.genre]||GENRES.detective;
+  S.hist.slice(-CFG.MXH).forEach(function(h){msgs.push({role:h.r,content:h.c})});
+  var uctx='['+G.stepLabel+' '+S.step+'/'+S.maxSteps+'] '+action;
+  msgs.push({role:'user',content:uctx});
+  var full='',se=document.getElementById('st');
+  function exN(r){var m=r.match(/"narrative"\s*:\s*"((?:[^"\\]|\\.)*)(")?/);if(m){var t=m[1];try{t=JSON.parse('"'+t+'"')}catch(e){t=t.replace(/\\n/g,'\n').replace(/\\"/g,'"')}return t}return null}
+  function rP(t){if(!t||!se)return;se.innerHTML=fN(t);nr.scrollTop=nr.scrollHeight}
+  fetch(CFG.URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MXT,temperature:.88,stream:true,messages:msgs})}).then(function(resp){
     if(!resp.ok)throw new Error('HTTP '+resp.status);
-    var reader=resp.body.getReader(),decoder=new TextDecoder(),buffer='';
-
-    function read(){
-      reader.read().then(function(result){
-        if(result.done){finish();return}
-        buffer+=decoder.decode(result.value,{stream:true});
-        var lines=buffer.split('\n');buffer=lines.pop()||'';
-        for(var i=0;i<lines.length;i++){
-          var line=lines[i].trim();
-          if(!line||line==='data: [DONE]')continue;
-          if(line.indexOf('data: ')===0){try{var jj=JSON.parse(line.slice(6));var delta=jj.choices&&jj.choices[0]&&jj.choices[0].delta;if(delta&&delta.content){fullText+=delta.content;renderPartial(extractNarr(fullText))}}catch(e){}}
-        }
-        read();
-      }).catch(function(){finish()});
-    }
-
-    function finish(){
-      var cursor=document.querySelector('.stream-cursor');if(cursor)cursor.remove();
-      S.hist.push({r:'user',c:ctx},{r:'assistant',c:fullText});
-      if(S.hist.length>CFG.MAX_H*2)S.hist=S.hist.slice(-CFG.MAX_H);
-      try{
-        var d=parseJSON(fullText);
-        curScene=d;
+    var rd=resp.body.getReader(),dec=new TextDecoder(),buf='';
+    function read(){rd.read().then(function(r){if(r.done){fin();return}buf+=dec.decode(r.value,{stream:true});var ls=buf.split('\n');buf=ls.pop()||'';ls.forEach(function(l){l=l.trim();if(!l||l==='data: [DONE]')return;if(l.indexOf('data: ')===0){try{var j=JSON.parse(l.slice(6)),d=j.choices&&j.choices[0]&&j.choices[0].delta;if(d&&d.content){full+=d.content;rP(exN(full))}}catch(e){}}});read()}).catch(fin)}
+    function fin(){
+      var cur=document.querySelector('.stream-cursor');if(cur)cur.remove();
+      S.hist.push({r:'user',c:uctx},{r:'assistant',c:full});if(S.hist.length>CFG.MXH*2)S.hist=S.hist.slice(-CFG.MXH);
+      try{var d=pJ(full);curScene=d;
         if(d.task)S.task=d.task;
-        if(d.lead){S.leads.push({day:G.stepLabel+' '+S.step,text:d.lead});flashLead(d.lead)}
-        if(d.consequence){S.consequences.push(d.consequence);flashConsequence(d.consequence)}
+        if(d.lead){S.leads.push({day:G.stepLabel+' '+S.step,text:d.lead});fL(d.lead)}
+        if(d.consequence){S.consequences.push(d.consequence);fC(d.consequence)}
         if(d.mood){S.mood=d.mood;applyMood(d.mood)}
-        if(d.suspects&&d.suspects.length){
-          var map={};S.suspects.forEach(function(s){map[s.name]=s});
-          d.suspects.forEach(function(s){if(s.name)map[s.name]={name:s.name,desc:s.desc||(map[s.name]?map[s.name].desc:'')}});
-          S.suspects=Object.keys(map).map(function(k){return map[k]});
-        }
-        if(S.step===1){var m2=(d.narrative||'').match(/(?:ДЕЛО|КВЕСТ|ИСТОРИЯ|КОШМАР):\s*([^\n.]{3,80})/i);S.caseTitle=m2?m2[1].trim():G.name;S.caseBrief=((d.narrative||'').split(/\n/)[0]||'').slice(0,200)}
-
+        if(d.suspects&&d.suspects.length){var mp={};S.suspects.forEach(function(s){mp[s.name]=s});d.suspects.forEach(function(s){if(s.name)mp[s.name]={name:s.name,desc:s.desc||(mp[s.name]?mp[s.name].desc:'')}});S.suspects=Object.keys(mp).map(function(k){return mp[k]})}
+        if(S.step===1){var m2=(d.narrative||'').match(/(?:ДЕЛО|КВЕСТ|ИСТОРИЯ|КОШМАР):\s*([^\n.]{3,80})/i);S.caseTitle=m2?m2[1].trim():G.name;S.caseBrief=((d.narrative||'').split('\n')[0]||'').slice(0,200)}
+        /* ═══ КЛЮЧЕВОЙ ФИКС: финал НЕ переходит автоматически ═══ */
         if(d.isFinale){
           if(S.genre==='detective'&&typeof d.culpritIndex==='number'&&S.suspects[d.culpritIndex]){S.culprit=S.suspects[d.culpritIndex].name;S.solution=d.motive||''}
-          if((S.genre==='adventure'||S.genre==='horror')&&d.finaleChoices){S.culprit='__finale__';S.solution=d.motive||'';S._finaleChoices=d.finaleChoices}
-          if(S.genre==='romance'&&d.finaleChoices){S.culprit='__finale__';S.solution=d.motive||'';S._finaleChoices=d.finaleChoices}
-          setTimeout(showFinale,1000);
+          if(d.finaleChoices){S.culprit='__fc__';S.solution=d.motive||'';S._fc=d.finaleChoices}
+          // Показываем кнопку «Перейти к развязке» — игрок читает в своём темпе
+          renderFinaleButton();
         }else{
-          renderChoicesOnly(d.choices);
-          S.step++;
-          if(S.step>S.maxSteps&&!d.isFinale)setTimeout(function(){requestAIScene('Шаги кончились! ОБЯЗАТЕЛЬНО isFinale:true. Дай финальные варианты.')},500);
+          renderCh(d.choices);S.step++;
+          if(S.step>S.maxSteps&&!d.isFinale)setTimeout(function(){reqAI('Шаги кончились! isFinale:true обязательно.')},500);
         }
         updateUI();saveGame();
-      }catch(err){
-        console.error(err);
-        nr.insertAdjacentHTML('afterbegin','<div class="err">Ошибка разбора. <button onclick="this.parentElement.remove();retryScene()">Повторить</button></div>');
-        renderChoicesOnly([{text:'Повторить',critical:false}]);
-      }
-      isLoading=false;setFreeEnabled(true);
+      }catch(e){console.error(e);nr.insertAdjacentHTML('afterbegin','<div class="err">Ошибка. <button onclick="this.parentElement.remove();retry()">↻</button></div>');renderCh([{text:'Повторить',critical:false}])}
+      isLoading=false;setFE(true);
     }
     read();
-  }).catch(function(err){
-    console.error(err);
-    var cursor=document.querySelector('.stream-cursor');if(cursor)cursor.remove();
-    nr.innerHTML='<div class="nt"><p><em>Связь прервана.</em></p></div>';
-    nr.insertAdjacentHTML('afterbegin','<div class="err">Нет связи. <button onclick="this.parentElement.remove();retryScene()">Повторить</button></div>');
-    renderChoicesOnly([{text:'Повторить',critical:false}]);
-    isLoading=false;setFreeEnabled(true);
-  });
-}
-function retryScene(){if(lastAct&&!isLoading){S.step=Math.max(1,S.step);requestAIScene(lastAct)}}
+  }).catch(function(e){console.error(e);var cur=document.querySelector('.stream-cursor');if(cur)cur.remove();nr.innerHTML='<div class="nt"><p><em>Связь прервана.</em></p></div>';nr.insertAdjacentHTML('afterbegin','<div class="err">Нет связи. <button onclick="this.parentElement.remove();retry()">↻</button></div>');renderCh([{text:'Повторить',critical:false}]);isLoading=false;setFE(true)})}
+function retry(){if(lastAct&&!isLoading)reqAI(lastAct)}
 
-/* ═══════════════════════════════════════
-   РЕНДЕРИНГ
-   ═══════════════════════════════════════ */
+/* ═══ КНОПКА «ПЕРЕЙТИ К РАЗВЯЗКЕ» ═══ */
+function renderFinaleButton(){
+  var ch=document.getElementById('choices');
+  ch.innerHTML='<button class="btn finale-go" id="btn-go-finale">Перейти к развязке →</button>';
+  ch.style.display='block';
+  document.getElementById('btn-go-finale').addEventListener('click',function(){showFinale()});
+  // Также в свободный ввод — блокируем
+  setFE(false);
+}
+
+/* ═══ RENDER ═══ */
 function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function fN(t){if(!t)return'';return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').split(/\n\n|\n/).filter(function(p){return p.trim()}).map(function(p){return'<p>'+p.trim()+'</p>'}).join('')}
-
-function renderScene(d){
-  document.getElementById('narr').innerHTML='<div class="nt fi">'+fN(d.narrative)+'</div>';
-  renderChoicesOnly(d.choices);
-}
-
-function renderChoicesOnly(choices){
+function renderScene(d){document.getElementById('narr').innerHTML='<div class="nt fi">'+fN(d.narrative)+'</div>';renderCh(d.choices)}
+function renderCh(choices){
   var ch=document.getElementById('choices');
-  if(choices&&choices.length){
-    ch.innerHTML=choices.map(function(c,j){
-      return'<button class="ch'+(c.critical?' critical':'')+'" data-idx="'+j+'"><span class="ch-i">\u25b8</span>'+escH(c.text)+'</button>';
-    }).join('');
-    ch.style.display='block';
-    ch.querySelectorAll('.ch').forEach(function(btn){
-      btn.addEventListener('click',function(){
-        var idx=+this.dataset.idx;
-        if(S.mode==='off')pickOfflineChoice(idx);else makeAIChoice(idx);
-      });
-    });
-  }else{ch.innerHTML='';ch.style.display='none'}
-}
+  if(choices&&choices.length){ch.innerHTML=choices.map(function(c,j){return'<button class="ch'+(c.critical?' critical':'')+'" data-i="'+j+'"><span class="ch-i">▸</span>'+escH(c.text)+'</button>'}).join('');ch.style.display='block';
+  ch.querySelectorAll('.ch').forEach(function(b){b.addEventListener('click',function(){var i=+this.dataset.i;S.mode==='off'?pickOff(i):makeAI(i)})})
+  }else{ch.innerHTML='';ch.style.display='none'}}
+function fL(t){var G=GENRES[S.genre]||GENRES.detective,nr=document.getElementById('narr'),b=document.createElement('div');b.className='lead-ann';b.innerHTML='<div class="la-l">🔍 '+G.leadsLabel+' · '+G.stepLabel+' '+S.step+'</div><div class="la-t">'+escH(t)+'</div>';nr.appendChild(b);setTimeout(function(){nr.scrollTop=nr.scrollHeight},100)}
+function fC(c){var nr=document.getElementById('narr'),b=document.createElement('div');b.className='cons-banner '+(c.impact||'neutral');b.innerHTML='⚡ '+escH(c.text);nr.appendChild(b);document.getElementById('main').classList.add('pulse-effect');setTimeout(function(){document.getElementById('main').classList.remove('pulse-effect')},700)}
+function disC(){document.querySelectorAll('.ch').forEach(function(b){b.disabled=true})}
+function setFE(v){var i=document.getElementById('inp-free'),b=document.getElementById('btn-free');if(i)i.disabled=!v;if(b)b.disabled=!v}
 
-function flashLead(text){
-  var G=GENRES[S.genre]||GENRES.detective;
-  var nr=document.getElementById('narr'),box=document.createElement('div');
-  box.className='lead-ann';
-  box.innerHTML='<div class="la-l">\uD83D\uDD0D '+G.leadsLabel+' \u00b7 '+G.stepLabel+' '+S.step+'</div><div class="la-t">'+escH(text)+'</div>';
-  nr.appendChild(box);setTimeout(function(){nr.scrollTop=nr.scrollHeight},100);
-}
+/* ═══ OFFLINE ═══ */
+function renderOff(){var sc=SCENARIOS[S.scenarioId];if(!sc)return;var step=sc.steps[S.step-1];
+  if(!step){renderFinaleButton();return} // ФИКС: последний шаг показывает кнопку
+  S.task=step.task;curScene={narrative:step.narrative,choices:step.choices.map(function(c){return{text:c.text,critical:false}})};renderScene(curScene);updateUI();saveGame()}
+function pickOff(i){if(isLoading)return;var sc=SCENARIOS[S.scenarioId],step=sc.steps[S.step-1];if(!step||!step.choices[i])return;
+  if(step.choices[i].lead){S.leads.push({day:'День '+S.step,text:step.choices[i].lead});fL(step.choices[i].lead)}
+  disC();S.step++;
+  setTimeout(function(){
+    if(S.step>S.maxSteps){
+      // ФИКС: Не переходим сразу, показываем кнопку
+      renderFinaleButton();
+    }else{renderOff()}
+  },700)}
 
-function flashConsequence(c){
-  var nr=document.getElementById('narr'),box=document.createElement('div');
-  box.className='cons-banner '+(c.impact||'neutral');
-  box.innerHTML='\u26a1 '+escH(c.text);
-  nr.appendChild(box);
-  // Pulse effect
-  document.getElementById('main').classList.add('pulse-effect');
-  setTimeout(function(){document.getElementById('main').classList.remove('pulse-effect')},800);
-}
+/* ═══ AI CHOICE + FREE ═══ */
+function makeAI(i){if(isLoading||!curScene||!curScene.choices[i])return;var c=curScene.choices[i];disC();setFE(false);
+  var left=S.maxSteps-S.step,h=left===1?' (СЛЕДУЮЩИЙ — ФИНАЛ! isFinale:true.)':left===2?' (Предпоследний.)':'',cr=c.critical?' [КРИТИЧЕСКИЙ — покажи последствия]':'';
+  reqAI('Выбрал: "'+c.text+'"'+cr+'.'+h)}
+function sendFree(){var inp=document.getElementById('inp-free'),t=inp.value.trim();if(!t||isLoading)return;inp.value='';setFE(false);disC();
+  if(S.mode==='off'){document.getElementById('narr').insertAdjacentHTML('afterbegin','<div class="nt fi" style="border-left:2px solid var(--warn);padding-left:12px;margin-bottom:14px"><p style="color:var(--t3)">В оффлайне — из кнопок.</p></div>');setFE(true);document.querySelectorAll('.ch').forEach(function(b){b.disabled=false});return}
+  var left=S.maxSteps-S.step,h=left===1?' (ФИНАЛ! isFinale:true.)':'';
+  reqAI(S.name+' делает: "'+t+'". Реагируй. Шаг тратится.'+h)}
 
-function disableChoices(){document.querySelectorAll('.ch').forEach(function(b){b.disabled=true})}
-function setFreeEnabled(v){var i=document.getElementById('inp-free'),b=document.getElementById('btn-free');if(i)i.disabled=!v;if(b)b.disabled=!v}
-
-/* ═══════════════════════════════════════
-   ОФФЛАЙН-ДВИЖОК
-   ═══════════════════════════════════════ */
-function renderOfflineStep(){
-  var sc=SCENARIOS[S.scenarioId];if(!sc)return;
-  var step=sc.steps[S.step-1];
-  if(!step){showFinale();return}
-  S.task=step.task;curScene={narrative:step.narrative,choices:step.choices.map(function(c){return{text:c.text,critical:false}})};
-  renderScene(curScene);updateUI();saveGame();
-}
-function pickOfflineChoice(i){
-  if(isLoading)return;
-  var sc=SCENARIOS[S.scenarioId];if(!sc)return;
-  var step=sc.steps[S.step-1];if(!step||!step.choices[i])return;
-  if(step.choices[i].lead){S.leads.push({day:'День '+S.step,text:step.choices[i].lead});flashLead(step.choices[i].lead)}
-  disableChoices();S.step++;
-  setTimeout(function(){if(S.step>S.maxSteps)showFinale();else renderOfflineStep()},800);
-}
-
-/* ═══════════════════════════════════════
-   AI CHOICE + FREE INPUT
-   ═══════════════════════════════════════ */
-function makeAIChoice(i){
-  if(isLoading||!curScene||!curScene.choices[i])return;
-  var c=curScene.choices[i];disableChoices();setFreeEnabled(false);
-  var remain=S.maxSteps-S.step;
-  var hint=remain===1?' (СЛЕДУЮЩИЙ — ФИНАЛ! isFinale:true обязательно.)':remain===2?' (Предпоследний шаг.)':'';
-  var critical=c.critical?' [КРИТИЧЕСКИЙ ВЫБОР — покажи ощутимые последствия]':'';
-  requestAIScene('Игрок выбрал: "'+c.text+'"'+critical+'.'+hint);
-}
-
-function sendFree(){
-  var inp=document.getElementById('inp-free'),text=inp.value.trim();
-  if(!text||isLoading)return;inp.value='';setFreeEnabled(false);disableChoices();
-  if(S.mode==='off'){
-    document.getElementById('narr').insertAdjacentHTML('afterbegin','<div class="nt fi" style="border-left:2px solid var(--warn);padding-left:12px;margin-bottom:14px"><p><em>\u00ab'+escH(text)+'\u00bb</em></p><p style="color:var(--t3)">В оффлайне выберите из кнопок.</p></div>');
-    setFreeEnabled(true);document.querySelectorAll('.ch').forEach(function(b){b.disabled=false});return;
-  }
-  var remain=S.maxSteps-S.step;
-  var hint=remain===1?' (ФИНАЛ! isFinale:true.)':'';
-  requestAIScene(S.name+' делает: "'+text+'". Реагируй. Шаг тратится. Дай lead и consequence.'+hint);
-}
-
-/* ═══════════════════════════════════════
-   UI UPDATE
-   ═══════════════════════════════════════ */
-function updateUI(){try{
-  var G=GENRES[S.genre]||GENRES.detective;
-  var cur=Math.min(S.step,S.maxSteps);
+/* ═══ UI ═══ */
+function updateUI(){try{var G=GENRES[S.genre]||GENRES.detective,cur=Math.min(S.step,S.maxSteps);
   document.getElementById('step-label').textContent=G.stepLabel;
-  document.getElementById('tbs-cur').textContent=cur;
-  document.getElementById('tbs-max').textContent=S.maxSteps;
+  document.getElementById('tbs-cur').textContent=cur;document.getElementById('tbs-max').textContent=S.maxSteps;
   document.getElementById('tbs-fill').style.width=(cur/S.maxSteps*100)+'%';
-  document.getElementById('task-text').textContent=S.task||'\u2014';
-  document.getElementById('case-title').textContent=S.caseTitle||'\u2014';
+  document.getElementById('task-text').textContent=S.task||'—';
+  document.getElementById('case-title').textContent=S.caseTitle||'—';
   document.getElementById('case-brief').textContent=S.caseBrief||'';
-  document.getElementById('side-task').textContent=S.task||'\u2014';
+  document.getElementById('side-task').textContent=S.task||'—';
   document.getElementById('chars-label').textContent=G.charsLabel;
-
+  document.getElementById('leads-label').textContent=G.leadsLabel;
   document.getElementById('leads-n').textContent=S.leads.length;
-  var ll=document.getElementById('leads-list');
-  ll.innerHTML=S.leads.length?S.leads.slice().reverse().map(function(l){return'<div class="lead-item"><span class="li-n">'+escH(l.day)+'</span><span class="li-t">'+escH(l.text)+'</span></div>'}).join(''):'<div class="empty-note">Пусто</div>';
-
-  var sl=document.getElementById('susp-list');
-  sl.innerHTML=S.suspects.length?S.suspects.map(function(s){return'<div class="susp-item"><div class="sn">'+escH(s.name)+'</div><div class="sd">'+escH(s.desc)+'</div></div>'}).join(''):'<div class="empty-note">Ещё нет</div>';
-
+  document.getElementById('leads-list').innerHTML=S.leads.length?S.leads.slice().reverse().map(function(l){return'<div class="lead-item"><span class="li-n">'+escH(l.day)+'</span><span class="li-t">'+escH(l.text)+'</span></div>'}).join(''):'<div class="empty-note">Пусто</div>';
+  document.getElementById('susp-list').innerHTML=S.suspects.length?S.suspects.map(function(s){return'<div class="susp-item"><div class="sn">'+escH(s.name)+'</div><div class="sd">'+escH(s.desc)+'</div></div>'}).join(''):'<div class="empty-note">Нет</div>';
   document.getElementById('cons-n').textContent=S.consequences.length;
-  var cl=document.getElementById('cons-list');
-  cl.innerHTML=S.consequences.length?S.consequences.slice().reverse().map(function(c){return'<div class="cons-item '+escH(c.impact)+'">'+escH(c.text)+'</div>'}).join(''):'<div class="empty-note">Мир ещё чист</div>';
-}catch(e){console.warn('ui',e)}}
+  document.getElementById('cons-list').innerHTML=S.consequences.length?S.consequences.slice().reverse().map(function(c){return'<div class="cons-item '+escH(c.impact)+'">'+escH(c.text)+'</div>'}).join(''):'<div class="empty-note">Мир чист</div>'
+}catch(e){}}
 
-/* ═══════════════════════════════════════
-   ФИНАЛ
-   ═══════════════════════════════════════ */
-function showFinale(){
-  S.finished=true;
-  var G=GENRES[S.genre]||GENRES.detective;
-  document.getElementById('fin-title').textContent=G.finaleTitle;
-  document.getElementById('fin-hint').textContent=G.finaleHint;
-
-  var txt='<p><strong>Шаги исчерпаны.</strong> Пора принять решение.</p>';
-  if(S.leads.length){txt+='<p><em>Ключевое:</em></p><ul>';S.leads.slice(-6).forEach(function(l){txt+='<li>'+escH(l.day)+': '+escH(l.text)+'</li>'});txt+='</ul>'}
-  if(S.consequences.length){txt+='<p><em>Последствия ваших решений:</em></p><ul>';S.consequences.slice(-4).forEach(function(c){txt+='<li style="color:var(--'+(c.impact==='positive'?'grn':c.impact==='negative'?'red':'t2')+')">'+escH(c.text)+'</li>'});txt+='</ul>'}
+/* ═══ ФИНАЛ ═══ */
+function showFinale(){S.finished=true;var G=GENRES[S.genre]||GENRES.detective;
+  document.getElementById('fin-title').textContent=G.finTitle;document.getElementById('fin-hint').textContent=G.finHint;
+  var txt='<p><strong>Время решений.</strong></p>';
+  if(S.leads.length){txt+='<p><em>Ключевое:</em></p><ul>';S.leads.slice(-6).forEach(function(l){txt+='<li>'+escH(l.text)+'</li>'});txt+='</ul>'}
+  if(S.consequences.length){txt+='<p><em>Последствия:</em></p><ul>';S.consequences.slice(-4).forEach(function(c){txt+='<li class="cons-item '+c.impact+'">'+escH(c.text)+'</li>'});txt+='</ul>'}
   document.getElementById('fin-text').innerHTML=txt;
-
   var fs=document.getElementById('fin-susp'),h='';
+  if(S.genre==='detective'){S.suspects.forEach(function(s,i){h+='<button class="ch" data-fi="'+i+'">⚖ '+escH(s.name)+'</button>'})}
+  else if(S._fc&&S._fc.length){S._fc.forEach(function(f,i){h+='<button class="ch" data-fi="'+i+'">▸ '+escH(f.text||f.character||'#'+(i+1))+'</button>'})}
+  else{S.suspects.forEach(function(s,i){h+='<button class="ch" data-fi="'+i+'">▸ '+escH(s.name)+'</button>'})}
+  fs.innerHTML=h;fs.querySelectorAll('.ch').forEach(function(b){b.addEventListener('click',function(){accuse(+this.dataset.fi)})});goTo('s-finale')}
 
-  if(S.genre==='detective'){
-    var sl=S.suspects.length?S.suspects:[{name:'?',desc:''}];
-    sl.forEach(function(s,i){h+='<button class="ch" data-fi="'+i+'">\u2696 '+escH(s.name)+(s.desc?' <span style="color:var(--t3);font-size:11px">\u2014 '+escH(s.desc)+'</span>':'')+'</button>'});
-  }else if(S._finaleChoices&&S._finaleChoices.length){
-    S._finaleChoices.forEach(function(fc,i){h+='<button class="ch" data-fi="'+i+'">\u25b8 '+escH(fc.text||fc.character||'Вариант '+(i+1))+'</button>'});
-  }else{
-    S.suspects.forEach(function(s,i){h+='<button class="ch" data-fi="'+i+'">\u25b8 '+escH(s.name)+'</button>'});
-  }
-  fs.innerHTML=h;
-  fs.querySelectorAll('.ch').forEach(function(btn){btn.addEventListener('click',function(){accuse(+this.dataset.fi)})});
-  goTo('s-finale');
-}
+function accuse(i){var G=GENRES[S.genre],ok=false,pk='',ex='';
+  if(S.genre==='detective'){var s=S.suspects[i];if(!s)return;pk=s.name;ok=S.culprit&&pk.toLowerCase().indexOf(S.culprit.toLowerCase())>=0;ex=S.solution}
+  else if(S._fc&&S._fc[i]){pk=S._fc[i].text||S._fc[i].character||'';ok=!!S._fc[i].correct;ex=S.solution}
+  else if(S.suspects[i]){pk=S.suspects[i].name}
+  var et=document.getElementById('e-t'),etx=document.getElementById('e-tx'),es=document.getElementById('e-st');
+  et.textContent=ok?{detective:'ДЕЛО РАСКРЫТО',adventure:'КВЕСТ ЗАВЕРШЁН',romance:'HAPPY END',horror:'ВЫ ВЫЖИЛИ'}[S.genre]||'ПОБЕДА':{detective:'ПРОВАЛ',adventure:'ПОРАЖЕНИЕ',romance:'РАЗБИТОЕ СЕРДЦЕ',horror:'КОНЕЦ'}[S.genre]||'ПРОВАЛ';
+  et.className='et '+(ok?'win':'lose');
+  etx.innerHTML='<p><strong>Выбор: '+escH(pk)+'</strong></p>'+(ok?'<p>Верно.</p>':'<p>Неверно.</p>')+(ex?'<p>'+escH(ex)+'</p>':'');
+  es.innerHTML=[escH(S.caseTitle),G.name+' · '+escH(S.name),(DIFFS[S.difficulty]||{}).name,S.leads.length+' зацепок · '+S.consequences.length+' последствий'].join('<br>');
+  goTo('s-end');try{localStorage.removeItem('ds_save')}catch(e){}}
 
-function accuse(i){
-  var G=GENRES[S.genre]||GENRES.detective;
-  var correct=false,picked='',explanation='';
-
-  if(S.genre==='detective'){
-    var s=S.suspects[i];if(!s)return;picked=s.name;
-    correct=S.culprit&&picked.toLowerCase().indexOf(S.culprit.toLowerCase())>=0;
-    explanation=S.solution;
-  }else if(S._finaleChoices&&S._finaleChoices[i]){
-    var fc=S._finaleChoices[i];
-    picked=fc.text||fc.character||'';
-    correct=!!fc.correct;
-    explanation=S.solution;
-  }else if(S.suspects[i]){
-    picked=S.suspects[i].name;correct=false;explanation='';
-  }
-
-  var et=document.getElementById('e-t'),ex=document.getElementById('e-tx'),es=document.getElementById('e-st');
-  if(correct){
-    et.textContent={detective:'ДЕЛО РАСКРЫТО',adventure:'КВЕСТ ЗАВЕРШЁН',romance:'HAPPY END',horror:'ВЫ ВЫЖИЛИ'}[S.genre]||'ПОБЕДА';
-    et.className='et win';
-    ex.innerHTML='<p><strong>Вы выбрали: '+escH(picked)+'.</strong></p><p>Верно!</p>'+(explanation?'<p>'+escH(explanation)+'</p>':'');
-  }else{
-    et.textContent={detective:'ПРОВАЛ',adventure:'ПОРАЖЕНИЕ',romance:'РАЗБИТОЕ СЕРДЦЕ',horror:'КОНЕЦ'}[S.genre]||'ПРОВАЛ';
-    et.className='et lose';
-    ex.innerHTML='<p><strong>Вы выбрали: '+escH(picked)+'.</strong></p><p>Не тот путь.</p>'+(explanation?'<p>'+escH(explanation)+'</p>':'')+'<p style="color:var(--t3);font-style:italic">В следующий раз — внимательнее.</p>';
-  }
-  es.innerHTML=escH(S.caseTitle)+'<br>'+G.name+' \u00b7 '+escH(S.name)+'<br>'+G.leadsLabel+': '+S.leads.length+' \u00b7 Последствий: '+S.consequences.length+' \u00b7 Шагов: '+Math.min(S.step,S.maxSteps)+'/'+S.maxSteps+'<br>Сложность: '+(DIFFICULTIES[S.difficulty]||{}).name;
-  goTo('s-end');try{localStorage.removeItem('ds_save')}catch(e){}
-}
-
-/* ═══════════════════════════════════════
-   SAVE / LOAD
-   ═══════════════════════════════════════ */
+/* ═══ SAVE/LOAD ═══ */
 function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S))}catch(e){}}
-function tryLoad(){try{var d=localStorage.getItem('ds_save');if(!d)return;S=JSON.parse(d);applyGenreTheme(S.genre);goTo('s-game');setTimeout(function(){updateUI();if(S.mode==='off'){if(S.step>S.maxSteps)showFinale();else renderOfflineStep()}else{requestAIScene('Возобновление. Напомни обстановку, дай варианты.')}},700)}catch(e){console.warn(e)}}
+function tryLoad(){try{var d=localStorage.getItem('ds_save');if(!d)return;S=JSON.parse(d);applyTheme(S.genre);goTo('s-game');setTimeout(function(){updateUI();S.mode==='off'?(S.step>S.maxSteps?renderFinaleButton():renderOff()):reqAI('Возобновление. Напомни обстановку, дай варианты.')},700)}catch(e){}}
 
-/* ═══════════════════════════════════════
-   SETUP + GENRE SELECT
-   ═══════════════════════════════════════ */
-function randomName(){
-  var arr=NAMES[S.genre]||NAMES.detective;
-  document.getElementById('inp-name').value=arr[Math.floor(Math.random()*arr.length)];
-}
+/* ═══ SETUP ═══ */
+function rndN(){var a=NAMES[S.genre]||NAMES.detective;document.getElementById('inp-name').value=a[Math.floor(Math.random()*a.length)]}
 function pickMode(m){if(m==='ai'&&!navigator.onLine)return;S.mode=m;document.getElementById('mode-ai').classList.toggle('on',m==='ai');document.getElementById('mode-off').classList.toggle('on',m==='off');document.getElementById('ai-setup').style.display=m==='ai'?'':'none';document.getElementById('off-setup').style.display=m==='off'?'':'none'}
-function checkOnline(){if(!navigator.onLine){document.getElementById('net-warn').style.display='';document.getElementById('mode-ai').classList.add('disabled');pickMode('off')}else{document.getElementById('net-warn').style.display='none';document.getElementById('mode-ai').classList.remove('disabled')}}
+function chkNet(){if(!navigator.onLine){document.getElementById('net-warn').style.display='';document.getElementById('mode-ai').classList.add('disabled');pickMode('off')}else{document.getElementById('net-warn').style.display='none';document.getElementById('mode-ai').classList.remove('disabled')}}
 
-// Render genre cards
-(function(){
-  var g=document.getElementById('genre-grid'),h='',first=true;
-  for(var k in GENRES){var G=GENRES[k];
-    h+='<div class="genre-card'+(first?' on':'')+'" data-g="'+k+'"><div class="gc-icon">'+G.icon+'</div><h3>'+G.name+'</h3><div class="gc-desc">'+G.desc+'</div><div class="gc-tag">'+G.tag+'</div></div>';
-    first=false;
-  }
-  g.innerHTML=h;
-  g.addEventListener('click',function(e){
-    var c=e.target.closest('.genre-card');if(!c)return;
-    g.querySelectorAll('.genre-card').forEach(function(x){x.classList.remove('on')});
-    c.classList.add('on');
-    // Preview theme
-    applyGenreTheme(c.dataset.g);
-  });
-})();
+(function(){var g=document.getElementById('genre-grid'),h='',f=true;for(var k in GENRES){var G=GENRES[k];h+='<div class="genre-card'+(f?' on':'')+'" data-g="'+k+'"><span class="gc-icon">'+G.icon+'</span><h3>'+G.name+'</h3><div class="gc-desc">'+G.desc+'</div><div class="gc-tag">'+G.tag+'</div></div>';f=false}g.innerHTML=h;g.addEventListener('click',function(e){var c=e.target.closest('.genre-card');if(!c)return;g.querySelectorAll('.genre-card').forEach(function(x){x.classList.remove('on')});c.classList.add('on');applyTheme(c.dataset.g)})})();
+(function(){var d=document.getElementById('diff-row'),h='';for(var k in DIFFS){var D=DIFFS[k];h+='<div class="diff-card'+(k==='normal'?' on':'')+'" data-d="'+k+'"><h4>'+D.icon+' '+D.name+'</h4><div class="dc-d">'+D.desc+'</div></div>'}d.innerHTML=h;d.addEventListener('click',function(e){var c=e.target.closest('.diff-card');if(!c)return;d.querySelectorAll('.diff-card').forEach(function(x){x.classList.remove('on')});c.classList.add('on')})})();
 
-// Render difficulty cards
-(function(){
-  var d=document.getElementById('diff-row'),h='';
-  for(var k in DIFFICULTIES){var D=DIFFICULTIES[k];
-    h+='<div class="diff-card'+(k==='normal'?' on':'')+'" data-d="'+k+'"><h4>'+D.icon+' '+D.name+'</h4><div class="dc-d">'+D.desc+'</div></div>';
-  }
-  d.innerHTML=h;
-  d.addEventListener('click',function(e){var c=e.target.closest('.diff-card');if(!c)return;d.querySelectorAll('.diff-card').forEach(function(x){x.classList.remove('on')});c.classList.add('on')});
-})();
-
-function setupForGenre(gid){
-  var G=GENRES[gid]||GENRES.detective;
-  // Settings tags
-  var st=document.getElementById('set-tags'),h='';
-  (G.settings||[]).forEach(function(s,i){h+='<span class="tag'+(i===0?' on':'')+'" data-v="'+s.v+'">'+s.t+'</span>'});
-  st.innerHTML=h;
-  // Steps
-  document.getElementById('inp-steps').value=G.defaultSteps;
-  document.getElementById('rec-steps').textContent=G.defaultSteps;
-  // Offline scenarios
-  var sg=document.getElementById('scen-grid'),sh='',hasSc=false;
-  for(var k in SCENARIOS){if(SCENARIOS[k].genre===gid){
-    sh+='<div class="scen on" data-sc="'+k+'"><h4>'+SCENARIOS[k].title+'</h4><div class="s-desc">'+SCENARIOS[k].desc+'</div></div>';hasSc=true;
-  }}
-  if(!hasSc)sh='<div class="empty-note">Для этого жанра доступен только ИИ-режим.</div>';
-  sg.innerHTML=sh;
+function setupGenre(gid){var G=GENRES[gid];
+  document.getElementById('set-tags').innerHTML=(G.sets||[]).map(function(s,i){return'<span class="tag'+(i===0?' on':'')+'" data-v="'+s.v+'">'+s.t+'</span>'}).join('');
+  document.getElementById('inp-steps').value=G.defSteps;document.getElementById('rec-steps').textContent=G.defSteps;
+  var sg=document.getElementById('scen-grid'),sh='',has=false;for(var k in SCENARIOS){if(SCENARIOS[k].genre===gid){sh+='<div class="scen on" data-sc="'+k+'"><h4>'+SCENARIOS[k].title+'</h4><div class="s-desc">'+SCENARIOS[k].desc+'</div></div>';has=true}}
+  if(!has)sh='<div class="empty-note">Только ИИ-режим для этого жанра.</div>';sg.innerHTML=sh;
   sg.querySelectorAll('.scen').forEach(function(el){el.addEventListener('click',function(){sg.querySelectorAll('.scen').forEach(function(x){x.classList.remove('on')});this.classList.add('on')})});
-  // If no offline scenarios, force AI
-  if(!hasSc&&S.mode==='off')pickMode('ai');
-  // Rules
-  document.getElementById('rules-body').innerHTML={
-    detective:'Раскрой дело за ограниченные дни. Собери зацепки, сопоставь показания, назови виновного. Мир помнит твои решения — последствия влияют на финал.',
-    adventure:'Пройди квест. Каждый этап — препятствие или выбор. Находки и союзники помогут в финальном испытании. Неверный выбор — поражение.',
-    romance:'Проживи историю. Каждая глава — сцена с ключевыми персонажами. Слова и поступки формируют чувства. В финале — выбор сердца.',
-    horror:'Выживи. Каждая ночь опаснее предыдущей. Находки спасают, ошибки убивают. В финале — один путь к спасению.'
-  }[gid]||'';
-}
+  if(!has&&S.mode==='off')pickMode('ai');
+  document.getElementById('rules-body').innerHTML={detective:'Раскрой дело, собери зацепки, назови виновного.',adventure:'Пройди квест, преодолей испытания, достигни цели.',romance:'Проживи историю отношений, сделай выбор сердца.',horror:'Выживи. Каждая ночь опаснее. Найди выход.'}[gid]||''}
 
-/* ═══════════════════════════════════════
-   НАЧАЛО ИГРЫ
-   ═══════════════════════════════════════ */
-function beginGame(){
-  var genreEl=document.querySelector('.genre-card.on');
-  var gid=genreEl?genreEl.dataset.g:'detective';
-  var G=GENRES[gid];
-  var diffEl=document.querySelector('.diff-card.on');
-  var did=diffEl?diffEl.dataset.d:'normal';
-  var D=DIFFICULTIES[did];
-  var name=document.getElementById('inp-name').value.trim()||(NAMES[gid]||NAMES.detective)[Math.floor(Math.random()*8)];
+function beginGame(){var ge=document.querySelector('.genre-card.on'),gid=ge?ge.dataset.g:'detective',G=GENRES[gid],de=document.querySelector('.diff-card.on'),did=de?de.dataset.d:'normal',D=DIFFS[did],nm=document.getElementById('inp-name').value.trim()||(NAMES[gid]||NAMES.detective)[0];
+  S={genre:gid,difficulty:did,mode:S.mode,name:nm,settingKey:'',settingDesc:'',seed:'',scenarioId:null,step:1,maxSteps:14,caseTitle:'—',caseBrief:'',task:'Начать',leads:[],suspects:[],consequences:[],culprit:null,solution:'',finished:false,hist:[],mood:null,_fc:null};
+  if(S.mode==='off'){var sc=document.querySelector('.scen.on'),sid=sc?sc.dataset.sc:null;if(!sid||!SCENARIOS[sid]){alert('Нет сценария');return}var s=SCENARIOS[sid];S.scenarioId=sid;S.maxSteps=s.steps.length;S.caseTitle=s.title;S.caseBrief=s.brief;S.task=s.firstTask;S.suspects=s.suspects?s.suspects.slice():[];S.culprit=s.culprit;S.solution=s.solution;applyTheme(gid);goTo('s-game');setTimeout(renderOff,700)}
+  else{var st=document.querySelector('#set-tags .tag.on');S.settingKey=st?st.dataset.v:'';S.settingDesc=document.getElementById('inp-setting').value.trim();S.seed=document.getElementById('inp-seed').value.trim();S.maxSteps=Math.max(6,Math.min(30,(parseInt(document.getElementById('inp-steps').value)||G.defSteps)+D.bonus));applyTheme(gid);goTo('s-game');var fm={detective:'День 1. Открой ДЕЛО: ..., место, тон, 2-3 подозреваемых. Тайно выбери виновного.',adventure:'Этап 1. Задай КВЕСТ: ..., цель, опасность, первое препятствие.',romance:'Глава 1. Начни ИСТОРИЮ: ..., 2-3 персонажа с характерами.',horror:'Ночь 1. Начни КОШМАР: ..., атмосфера, первые странности. Тревога, не ужас — пока.'}[gid]||'Начни.';setTimeout(function(){updateUI();reqAI(fm)},700)}}
 
-  S={genre:gid,difficulty:did,mode:S.mode,name:name,settingKey:'',settingDesc:'',seed:'',scenarioId:null,step:1,maxSteps:14,caseTitle:'\u2014',caseBrief:'',task:'Осмотреться',leads:[],suspects:[],consequences:[],culprit:null,solution:'',finished:false,hist:[],mood:null,_finaleChoices:null};
-
-  if(S.mode==='off'){
-    var scEl=document.querySelector('.scen.on');
-    var scId=scEl?scEl.dataset.sc:null;
-    if(!scId||!SCENARIOS[scId]){alert('Нет оффлайн-сценария для этого жанра. Включите ИИ-режим.');return}
-    var sc=SCENARIOS[scId];
-    S.scenarioId=scId;S.maxSteps=sc.steps.length;S.caseTitle=sc.title;S.caseBrief=sc.brief;S.task=sc.firstTask;
-    S.suspects=sc.suspects?sc.suspects.slice():[];S.culprit=sc.culprit;S.solution=sc.solution;
-    applyGenreTheme(gid);goTo('s-game');setTimeout(renderOfflineStep,700);
-  }else{
-    var stTag=document.querySelector('#set-tags .tag.on');
-    S.settingKey=stTag?stTag.dataset.v:'';
-    S.settingDesc=document.getElementById('inp-setting').value.trim();
-    S.seed=document.getElementById('inp-seed').value.trim();
-    var steps=parseInt(document.getElementById('inp-steps').value,10)||G.defaultSteps;
-    S.maxSteps=Math.max(6,Math.min(30,steps+D.stepsBonus));
-    applyGenreTheme(gid);goTo('s-game');
-    var firstMsg={
-      detective:'Первый день. Открой ДЕЛО: название (ДЕЛО: ...), место, тон, 2-3 подозреваемых. Тайно выбери виновного.',
-      adventure:'Первый этап. Задай КВЕСТ: цель (КВЕСТ: ...), мир, начальная ситуация, первое препятствие. 2-4 варианта.',
-      romance:'Первая глава. Начни ИСТОРИЮ: название (ИСТОРИЯ: ...), представь 2-3 ключевых персонажа с характерами. Первая сцена-знакомство.',
-      horror:'Первая ночь. Начни КОШМАР: название (КОШМАР: ...), атмосфера, первые странности. Нагнетай тревогу, не ужас — пока.'
-    }[gid]||'Начни историю.';
-    setTimeout(function(){updateUI();requestAIScene(firstMsg)},700);
-  }
-}
-
-/* ═══════════════════════════════════════
-   ВСЕ ОБРАБОТЧИКИ СОБЫТИЙ
-   ═══════════════════════════════════════ */
+/* ═══ EVENTS ═══ */
 document.getElementById('btn-new').addEventListener('click',function(){goTo('s-genre')});
 document.getElementById('btn-cont').addEventListener('click',tryLoad);
 document.getElementById('btn-reload').addEventListener('click',function(){location.reload()});
 document.getElementById('acc-toggle').addEventListener('click',function(){document.getElementById('acc-rules').classList.toggle('open')});
-document.getElementById('btn-genre-next').addEventListener('click',function(){
-  var g=document.querySelector('.genre-card.on');
-  S.genre=g?g.dataset.g:'detective';
-  setupForGenre(S.genre);
-  randomName();
-  goTo('s-setup');
-});
-document.getElementById('btn-rnd').addEventListener('click',randomName);
+document.getElementById('btn-genre-next').addEventListener('click',function(){var g=document.querySelector('.genre-card.on');S.genre=g?g.dataset.g:'detective';setupGenre(S.genre);rndN();goTo('s-setup')});
+document.getElementById('btn-rnd').addEventListener('click',rndN);
 document.getElementById('btn-start').addEventListener('click',beginGame);
 document.getElementById('btn-free').addEventListener('click',sendFree);
 document.getElementById('btn-rules-g').addEventListener('click',function(){document.getElementById('rules-modal').classList.add('on')});
 document.getElementById('rules-close').addEventListener('click',function(){document.getElementById('rules-modal').classList.remove('on')});
 document.getElementById('rules-modal').addEventListener('click',function(e){if(e.target.id==='rules-modal')this.classList.remove('on')});
-document.getElementById('btn-save-g').addEventListener('click',function(){saveGame();var b=this;b.textContent='\u2713';setTimeout(function(){b.textContent='\uD83D\uDCBE'},1200)});
+document.getElementById('btn-save-g').addEventListener('click',function(){saveGame();var b=this;b.textContent='✓';setTimeout(function(){b.textContent='💾'},1200)});
 document.getElementById('btn-abandon').addEventListener('click',function(){if(confirm('Выйти?')){try{localStorage.removeItem('ds_save')}catch(e){}location.reload()}});
 document.getElementById('mob-btn').addEventListener('click',function(){document.getElementById('side').classList.toggle('open')});
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='inp-free'){e.preventDefault();sendFree()}});
@@ -910,14 +453,12 @@ document.addEventListener('click',function(e){var s=document.getElementById('sid
 document.getElementById('mode-ai').addEventListener('click',function(){pickMode('ai')});
 document.getElementById('mode-off').addEventListener('click',function(){pickMode('off')});
 document.getElementById('set-tags').addEventListener('click',function(e){var t=e.target.closest('.tag');if(!t)return;this.querySelectorAll('.tag').forEach(function(x){x.classList.remove('on')});t.classList.add('on');document.getElementById('inp-setting').style.display=t.dataset.v==='custom'?'block':'none'});
+window.addEventListener('online',chkNet);window.addEventListener('offline',chkNet);
 
 /* ═══ INIT ═══ */
 if(localStorage.getItem('ds_save'))document.getElementById('btn-cont').style.display='';
-checkOnline();
-window.addEventListener('online',checkOnline);
-window.addEventListener('offline',checkOnline);
-
-}catch(FATAL){var cr=document.getElementById('crash');if(cr){cr.style.display='block';cr.innerHTML='<h2 style="color:#ef4444;margin-bottom:20px">\u26a0 Ошибка</h2><p>'+FATAL.message+'</p><pre style="margin-top:12px;color:#888;font-size:12px">'+(FATAL.stack||'')+'</pre><br><button onclick="location.reload()" style="color:var(--ac);border:1px solid var(--ac);background:none;padding:8px 20px;cursor:pointer">Перезагрузить</button>'}}
+chkNet();
+}catch(F){var cr=document.getElementById('crash');if(cr){cr.style.display='block';cr.innerHTML='<h2 style="color:var(--red)">⚠ Ошибка</h2><p>'+F.message+'</p><pre style="color:#666;font-size:12px;margin-top:12px">'+(F.stack||'')+'</pre><br><button onclick="location.reload()" style="color:var(--ac);border:1px solid var(--ac);background:none;padding:8px 20px;cursor:pointer;border-radius:8px">Перезагрузить</button>'}}
 </script>
 </body>
 </html>
