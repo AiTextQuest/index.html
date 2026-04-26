@@ -10,91 +10,91 @@
 :root{--ac:#b08968;--ac-rgb:176,137,104;--bg1:#0e0d0a;--bg2:#17150f;--bg3:#1e1b14;--brd:rgba(var(--ac-rgb),.18);--brd-h:rgba(var(--ac-rgb),.55);--glow:rgba(var(--ac-rgb),.25);--t1:#e8e3d6;--t2:#9a927e;--t3:#5a5447;--red:#ef4444;--grn:#22c55e;--warn:#f59e0b;--f:'Inter',system-ui,sans-serif;--m:'JetBrains Mono',monospace;--r:6px}
 *{margin:0;padding:0;box-sizing:border-box}html{height:100%}
 body{background:var(--bg1);color:var(--t1);font:400 15px/1.72 var(--f);min-height:100%;overflow-x:hidden}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}::-webkit-scrollbar-track{background:transparent}
-#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35}
-#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .45s}#transition.active{opacity:1;pointer-events:all}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.3}
+#transition{position:fixed;inset:0;z-index:9999;background:var(--bg1);opacity:0;pointer-events:none;transition:opacity .4s}#transition.active{opacity:1;pointer-events:all}
 body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;mix-blend-mode:overlay}
 .scr{display:none;position:relative;z-index:2;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .5s}.scr.on{display:flex}.scr.on.vis{opacity:1}
 .btn{background:transparent;color:var(--t1);border:1px solid var(--brd);padding:10px 24px;border-radius:var(--r);font:500 13px var(--f);cursor:pointer;transition:all .25s}
-.btn:hover{border-color:var(--brd-h);box-shadow:0 0 20px var(--glow)}
-.btn:active{transform:scale(.97)}.btn.pri{border-color:var(--ac);color:var(--ac)}.btn.pri:hover{background:var(--ac);color:#1a1710}.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
+.btn:hover{border-color:var(--brd-h);box-shadow:0 0 20px var(--glow)}.btn:active{transform:scale(.97)}
+.btn.pri{border-color:var(--ac);color:var(--ac)}.btn.pri:hover{background:var(--ac);color:#1a1710}
+.btn:disabled{opacity:.25;cursor:default;box-shadow:none}
 .inp{background:var(--bg1);border:1px solid var(--brd);color:var(--t1);padding:10px 13px;font:400 13px var(--f);border-radius:var(--r);transition:border .2s;width:100%}
 .inp:focus{outline:none;border-color:var(--brd-h)}.inp::placeholder{color:var(--t3)}
 textarea.inp{resize:vertical;min-height:44px;max-height:120px;line-height:1.5}
 
-/* ═══ TITLE ═══ */
+/* TITLE */
 #s-title{gap:22px;padding:24px;text-align:center}
 .logo{font-size:clamp(2.4rem,7vw,4rem);font-weight:700;letter-spacing:-1.5px;line-height:1.1}.logo b{color:var(--ac);text-shadow:0 0 40px var(--glow)}
 .logo-sub{font-size:11px;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--t3);margin-top:2px}
 .tagline{max-width:480px;font-size:14px;color:var(--t2);font-style:italic;line-height:1.8}
 .t-btns{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;justify-content:center}
-/* Аккордеон */
 .acc{max-width:560px;width:calc(100% - 40px);margin-top:14px;border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;text-align:left}
 .acc-h{padding:12px 16px;cursor:pointer;font-size:13px;font-weight:500;color:var(--t2);display:flex;align-items:center;justify-content:space-between;user-select:none;transition:all .2s}
 .acc-h:hover{color:var(--ac);background:rgba(var(--ac-rgb),.04)}
-.acc-h .ai{width:20px;height:20px;border:1px solid var(--ac);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ac);margin-right:10px;font-style:italic}
-.acc-h .ar{transition:transform .25s;color:var(--t3);font-size:10px}
+.acc-h .ai{width:20px;height:20px;border:1px solid var(--ac);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ac);margin-right:10px;font-style:italic;font-family:serif}
+.acc-h .ar{transition:transform .3s;color:var(--t3);font-size:10px}
 .acc.open .ar{transform:rotate(180deg)}
-.acc-b{max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:13px;line-height:1.75;color:var(--t2)}
-.acc.open .acc-b{max-height:720px}
-.acc-b .acc-in{padding:4px 16px 16px}
-.acc-b h4{color:var(--ac);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin:10px 0 4px}
-.acc-b ul{padding-left:18px;margin:4px 0}
-.acc-b li{margin-bottom:3px}
-.acc-b em{color:var(--t1);font-style:normal;font-weight:500}
+.acc-b{max-height:0;overflow:hidden;transition:max-height .4s ease;font-size:13px;line-height:1.75;color:var(--t2)}
+.acc.open .acc-b{max-height:800px}
+.acc-in{padding:4px 16px 16px}
+.acc-in h4{color:var(--ac);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin:12px 0 4px}
+.acc-in ul{padding-left:18px;margin:4px 0}.acc-in li{margin-bottom:3px}
 
-/* ═══ SETUP ═══ */
+/* SETUP */
 #s-setup{gap:0;padding:24px 20px;overflow-y:auto}
 .setup-wrap{max-width:580px;width:100%;display:flex;flex-direction:column;gap:20px;padding:10px 0 40px}
-.setup-section h3{font-size:13px;font-weight:500;color:var(--t2);margin-bottom:8px}.setup-section h3 span{color:var(--t3);font-weight:400;font-size:11px}
+.setup-section h3{font-size:13px;font-weight:500;color:var(--t2);margin-bottom:8px}
+.setup-section h3 span{color:var(--t3);font-weight:400;font-size:11px}
 .name-row{display:flex;gap:8px}.name-row .inp{flex:1}.name-row .btn{flex-shrink:0;padding:9px 14px;font-size:16px}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .tag{padding:6px 14px;border:1px solid var(--brd);border-radius:20px;font-size:12px;color:var(--t2);cursor:pointer;transition:all .2s;user-select:none;background:transparent}
 .tag:hover{border-color:var(--brd-h);color:var(--t1)}.tag.on{border-color:var(--ac);color:var(--ac);background:rgba(var(--ac-rgb),.1)}
 .mode-row{display:flex;gap:8px}
 .mode-opt{flex:1;border:1px solid var(--brd);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:all .2s;position:relative}
-.mode-opt:hover{border-color:var(--brd-h)}
-.mode-opt.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
+.mode-opt:hover{border-color:var(--brd-h)}.mode-opt.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
 .mode-opt.disabled{opacity:.35;cursor:not-allowed}
-.mode-opt h4{font-size:13px;margin-bottom:3px}
-.mode-opt .mo-d{font-size:11px;color:var(--t3);line-height:1.5}
+.mode-opt h4{font-size:13px;margin-bottom:3px}.mode-opt .mo-d{font-size:11px;color:var(--t3);line-height:1.5}
 .mode-opt .mo-on{position:absolute;top:8px;right:10px;font-size:10px;color:var(--ac);opacity:0;transition:.2s}
 .mode-opt.on .mo-on{opacity:1}
 .scen-grid{display:flex;flex-direction:column;gap:10px}
 .scen{border:1px solid var(--brd);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all .25s}
-.scen:hover{border-color:var(--brd-h);box-shadow:0 0 14px var(--glow)}
-.scen.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
+.scen:hover{border-color:var(--brd-h);box-shadow:0 0 14px var(--glow)}.scen.on{border-color:var(--ac);background:rgba(var(--ac-rgb),.07)}
 .scen h4{font-size:14px;margin-bottom:3px}
 .scen .s-meta{font:500 10px var(--m);color:var(--ac);margin-bottom:5px;letter-spacing:.5px}
 .scen .s-desc{font-size:12px;color:var(--t2);line-height:1.55}
 .start-row{display:flex;justify-content:center;padding-top:6px}
-.net-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:var(--warn);padding:10px 12px;border-radius:var(--r);font-size:12px;line-height:1.55}
+.net-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);color:var(--warn);padding:10px 12px;border-radius:var(--r);font-size:12px;line-height:1.55;margin-top:10px}
 .steps-row{display:flex;gap:8px;align-items:center}
 .steps-row input{max-width:80px;text-align:center;font-family:var(--m)}
 .steps-row span{font-size:12px;color:var(--t3)}
 
-/* ═══ GAME ═══ */
+/* GAME */
 #s-game{flex-direction:row!important;align-items:stretch!important;justify-content:stretch!important;min-height:100vh}
 #main{flex:1;display:flex;flex-direction:column;min-width:0;height:100vh}
-#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--brd);flex-shrink:0;background:var(--bg2);z-index:3;gap:12px}
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--brd);flex-shrink:0;background:var(--bg2);z-index:3;gap:12px;position:relative}
 .tb-t{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);white-space:nowrap}.tb-t b{color:var(--ac)}
-.tb-step{flex:1;display:flex;align-items:center;gap:10px;font:500 12px var(--m);color:var(--t2);justify-content:center}
-.tb-step .tbs-l{color:var(--t3);text-transform:uppercase;font-size:10px;letter-spacing:1.5px}
-.tb-step .tbs-n{color:var(--ac);font-weight:600;font-size:14px}
-.tb-step .tbs-bar{flex:1;max-width:180px;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin:0 4px}
-.tb-step .tbs-f{height:100%;background:var(--ac);transition:width .5s}
+.tb-step{flex:1;display:flex;align-items:center;gap:8px;font:500 12px var(--m);color:var(--t2);justify-content:center}
+.tbs-l{color:var(--t3);text-transform:uppercase;font-size:10px;letter-spacing:1.5px}
+.tbs-n{color:var(--ac);font-weight:600;font-size:14px}
+.tbs-bar{flex:1;max-width:160px;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+.tbs-f{height:100%;background:var(--ac);transition:width .5s}
 .tb-btns{display:flex;gap:6px;flex-shrink:0}
-.tb-icon{width:32px;height:32px;border:1px solid var(--brd);background:transparent;color:var(--t2);border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:600;font-style:italic;transition:.2s;display:inline-flex;align-items:center;justify-content:center}
+.tb-icon{width:32px;height:32px;border:1px solid var(--brd);background:transparent;color:var(--t2);border-radius:var(--r);cursor:pointer;font-size:14px;transition:.2s;display:inline-flex;align-items:center;justify-content:center}
 .tb-icon:hover{border-color:var(--ac);color:var(--ac)}
-#task-bar{padding:10px 22px;background:var(--bg2);border-bottom:1px solid var(--brd);font-size:13px;color:var(--t1);display:flex;align-items:center;gap:8px;flex-shrink:0}
-#task-bar .tb-label{font:500 10px var(--m);color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0}
-#task-bar .tb-text{color:var(--t1);font-weight:500}
+.tb-prog{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:rgba(var(--ac-rgb),.08)}.tb-prog-f{height:100%;background:var(--ac);transition:width .5s}
+#task-bar{padding:10px 22px;background:var(--bg2);border-bottom:1px solid var(--brd);font-size:13px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.task-label{font:500 10px var(--m);color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;flex-shrink:0}
+.task-text{color:var(--t1);font-weight:500}
 #narr{flex:1;overflow-y:auto;padding:24px 22px;max-width:760px;margin:0 auto;width:100%}
 .nt{margin-bottom:18px;line-height:1.88;font-size:15px}.nt p{margin-bottom:12px}.nt strong{color:#fff;font-weight:600}.nt em{color:var(--t2)}
 .lead-ann{border-left:2px solid var(--ac);padding:8px 14px;margin:10px 0;font-size:13px;background:rgba(var(--ac-rgb),.06);border-radius:0 var(--r) var(--r) 0;animation:slI .4s ease forwards}
-.lead-ann .la-l{font:600 10px var(--m);color:var(--ac);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
-.lead-ann .la-t{color:var(--t1);line-height:1.55}
+.la-l{font:600 10px var(--m);color:var(--ac);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+.la-t{color:var(--t1);line-height:1.55}
 @keyframes slI{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+/* Стриминг-курсор */
+.stream-cursor{display:inline-block;width:2px;height:1em;background:var(--ac);margin-left:2px;animation:blink .8s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{50%{opacity:0}}
 #bottom-area{flex-shrink:0;background:var(--bg2);border-top:1px solid var(--brd)}
 #choices{padding:10px 20px 4px}
 .ch{display:block;width:100%;text-align:left;background:transparent;color:var(--t1);border:1px solid var(--brd);border-radius:var(--r);padding:11px 14px;margin-bottom:6px;font:400 13px/1.5 var(--f);cursor:pointer;transition:all .2s}
@@ -110,74 +110,51 @@ textarea.inp{resize:vertical;min-height:44px;max-height:120px;line-height:1.5}
 .ld-b::after{content:'';display:block;width:40%;height:100%;background:var(--ac);animation:ldB 1.2s ease-in-out infinite}
 @keyframes ldB{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
 
-/* ═══ SIDEBAR ═══ */
+/* SIDEBAR */
 #side{width:280px;border-left:1px solid var(--brd);background:var(--bg2);overflow-y:auto;padding:18px;flex-shrink:0;height:100vh;transition:right .3s}
 .ss{margin-bottom:20px}
-.sl{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline}
+.sl{font-size:9.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:8px;display:flex;justify-content:space-between}
 .sl .sl-c{color:var(--ac);font-family:var(--m);font-size:10px;letter-spacing:0}
 .case-title{font-size:14px;font-weight:600;color:var(--ac);margin-bottom:6px;line-height:1.3}
-.case-brief{font-size:12px;color:var(--t2);line-height:1.55;max-height:86px;overflow:hidden;position:relative;cursor:pointer;transition:max-height .3s}
-.case-brief.exp{max-height:600px}
-.case-brief::after{content:'▾ развернуть';display:block;font-size:10px;color:var(--t3);margin-top:4px;font-style:italic}
-.case-brief.exp::after{content:'▴ свернуть'}
+.case-brief{font-size:12px;color:var(--t2);line-height:1.55}
 .lead-item{font-size:12px;color:var(--t2);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);line-height:1.5;display:flex;gap:6px}
 .lead-item:last-child{border-bottom:none}
 .lead-item .li-n{color:var(--t3);font:500 10px var(--m);flex-shrink:0;min-width:22px}
 .lead-item .li-t{flex:1}
 .susp-item{font-size:12px;color:var(--t1);padding:5px 0;line-height:1.45}
-.susp-item .sn{font-weight:500}
-.susp-item .sd{color:var(--t3);font-size:11px;margin-top:1px}
+.susp-item .sn{font-weight:500}.susp-item .sd{color:var(--t3);font-size:11px;margin-top:1px}
 .empty-note{font-size:11px;color:var(--t3);font-style:italic;padding:4px 0}
-
 #mob-btn{display:none;position:fixed;top:10px;right:10px;z-index:100;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);color:var(--t2);width:36px;height:36px;font-size:16px;cursor:pointer;align-items:center;justify-content:center}
 
-/* ═══ RULES MODAL ═══ */
-#rules{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,.88);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
-#rules.on{display:flex}
+/* RULES MODAL */
+#rules-modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(10,10,15,.88);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
+#rules-modal.on{display:flex}
 .rules-box{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);max-width:520px;width:100%;max-height:85vh;overflow-y:auto;padding:24px 22px;position:relative}
 .rules-box h2{color:var(--ac);font-size:18px;margin-bottom:14px}
 .rules-box h4{color:var(--ac);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin:14px 0 4px}
 .rules-box p,.rules-box li{color:var(--t2);font-size:13px;line-height:1.72}
 .rules-box ul{padding-left:18px;margin:4px 0}
-.rules-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;line-height:1}
+.rules-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--t3);font-size:22px;cursor:pointer;line-height:1}
 .rules-close:hover{color:var(--ac)}
 
-/* ═══ FINALE ═══ */
+/* FINALE */
 #s-finale{gap:22px;padding:32px 20px;text-align:center}
-.fin-title{font-size:24px;font-weight:700;color:var(--ac);letter-spacing:-.5px}
+.fin-title{font-size:24px;font-weight:700;color:var(--ac)}
 .fin-text{max-width:580px;color:var(--t2);line-height:1.85;font-size:14px;text-align:left}
 .fin-text p{margin-bottom:10px}
 .fin-susp{display:flex;flex-direction:column;gap:8px;max-width:420px;width:100%;margin-top:10px}
-.fin-susp .ch{margin-bottom:0}
 .fin-hint{font-size:12px;color:var(--t3);font-style:italic;margin-top:6px}
 
-/* ═══ END ═══ */
+/* END */
 #s-end{gap:22px;padding:32px 20px;text-align:center}
-.et{font-size:28px;font-weight:700;letter-spacing:-.5px}
-.et.win{color:var(--grn)}
-.et.lose{color:var(--red)}
-.ex{max-width:560px;color:var(--t1);line-height:1.85;font-size:14.5px;text-align:left}
-.ex p{margin-bottom:10px}
+.et{font-size:28px;font-weight:700}.et.win{color:var(--grn)}.et.lose{color:var(--red)}
+.ex{max-width:560px;color:var(--t1);line-height:1.85;font-size:14.5px;text-align:left}.ex p{margin-bottom:10px}
 .es{font:400 12px var(--m);color:var(--t3);line-height:2}
-
 .err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:var(--r);color:var(--red);padding:12px;margin:12px 0;font-size:12px;line-height:1.6}
 .err button{margin-top:5px;background:none;border:1px solid var(--red);border-radius:var(--r);color:var(--red);padding:4px 12px;cursor:pointer;font:400 11px var(--f)}
-
-@media(max-width:860px){
-  #s-game{flex-direction:column!important}
-  #side{position:fixed;right:-300px;top:0;width:290px;height:100vh;z-index:200;border-left:1px solid var(--brd)}
-  #side.open{right:0}
-  #mob-btn{display:flex}
-  #main{height:100vh;width:100%}
-  #narr{padding:18px 16px}#choices{padding:8px 16px 2px}#free-input{padding:4px 16px 12px}
-  .tb-step .tbs-bar{display:none}
-}
-@media(max-width:560px){
-  #topbar{padding:8px 12px}
-  .tb-t{font-size:10px;letter-spacing:1px}
-  .mode-row{flex-direction:column}
-}
 .fi{animation:fI .6s ease forwards}@keyframes fI{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(max-width:860px){#s-game{flex-direction:column!important}#side{position:fixed;right:-300px;top:0;width:290px;height:100vh;z-index:200;border-left:1px solid var(--brd)}#side.open{right:0}#mob-btn{display:flex}#main{height:100vh;width:100%}#narr{padding:18px 16px}#choices{padding:8px 16px 2px}#free-input{padding:4px 16px 12px}.tbs-bar{display:none}}
+@media(max-width:560px){#topbar{padding:8px 12px}.tb-t{font-size:10px;letter-spacing:1px}.mode-row{flex-direction:column}}
 #crash{position:fixed;inset:0;z-index:99999;background:#0d0d12;color:#ef4444;font:14px/1.8 monospace;padding:40px;display:none;overflow:auto}
 </style>
 </head>
@@ -186,136 +163,89 @@ textarea.inp{resize:vertical;min-height:44px;max-height:120px;line-height:1.5}
 <div id="transition"></div>
 <div id="crash"></div>
 
-<!-- ═══════════ TITLE ═══════════ -->
+<!-- ═══ TITLE ═══ -->
 <div id="s-title" class="scr on vis">
   <div class="logo">Dark<b>Script</b></div>
   <div class="logo-sub">Интерактивный детектив</div>
-  <div class="tagline">«Преступление уже случилось. У тебя — считанные дни. Каждая зацепка уводит дальше, каждый выбор сужает круг.»</div>
+  <div class="tagline">&laquo;Преступление уже случилось. У тебя &mdash; считанные дни. Каждая зацепка сужает круг.&raquo;</div>
   <div class="t-btns">
-    <button class="btn pri" onclick="goTo('s-setup')">▸ Новое расследование</button>
-    <button class="btn" id="btn-cont" style="display:none" onclick="tryLoad()">Продолжить</button>
+    <button class="btn pri" id="btn-new">&#9654; Новое расследование</button>
+    <button class="btn" id="btn-cont" style="display:none">Продолжить</button>
   </div>
-
   <div class="acc" id="acc-rules">
-    <div class="acc-h" onclick="toggleAcc()">
-      <span><span class="ai">i</span>Что это за игра? Правила</span>
-      <span class="ar">▾</span>
-    </div>
+    <div class="acc-h" id="acc-toggle"><span><span class="ai">i</span>Что это за игра? Правила</span><span class="ar">&#9662;</span></div>
     <div class="acc-b"><div class="acc-in">
-      <h4>Цель</h4>
-      <p>Раскрыть одно дело (убийство, пропажа, заговор) за ограниченное число <em>«дней расследования»</em>. В финале — назвать виновного из списка подозреваемых. Ошибка — провал.</p>
-
-      <h4>Как это устроено</h4>
-      <ul>
-        <li>Каждый <em>день</em> — одна сцена: описание, 2–4 варианта действия, журнал зацепок.</li>
-        <li>Можно выбрать кнопку <em>или</em> написать свой ход в поле ввода.</li>
-        <li>Каждое действие обычно приносит зацепку, свидетельство или поворот.</li>
-        <li>Число дней ограничено (14 в AI-режиме, от 8 в оффлайне). Расходуй время с умом.</li>
-      </ul>
-
-      <h4>Что можно делать</h4>
-      <ul>
-        <li>Идти на места — комнаты, улицы, архивы.</li>
-        <li>Говорить со свидетелями и подозреваемыми, задавать вопросы.</li>
-        <li>Осматривать улики, сравнивать показания, ставить ловушки.</li>
-        <li>Рисковать — вскрыть замок, соврать, подслушать.</li>
-      </ul>
-
+      <h4>Цель</h4><p>Раскрыть одно дело за ограниченное число дней расследования и назвать виновного в финале.</p>
+      <h4>Как играть</h4>
+      <ul><li>Каждый день &mdash; сцена с описанием и 2&ndash;4 вариантами действия.</li>
+      <li>Можно выбрать кнопку или написать свой ход.</li>
+      <li>Зацепки копятся в журнале справа.</li>
+      <li>Когда дни кончаются &mdash; нужно назвать преступника.</li></ul>
       <h4>Два режима</h4>
-      <ul>
-        <li><em>С ИИ (онлайн):</em> уникальное дело по твоей теме, каждый раз новое.</li>
-        <li><em>Оффлайн-сценарий:</em> готовое дело, играется без интернета.</li>
-      </ul>
+      <ul><li><b>ИИ (онлайн):</b> уникальное дело по вашей теме. Текст появляется по мере генерации.</li>
+      <li><b>Оффлайн:</b> 3 готовых дела без интернета.</li></ul>
     </div></div>
   </div>
 </div>
 
-<!-- ═══════════ SETUP ═══════════ -->
+<!-- ═══ SETUP ═══ -->
 <div id="s-setup" class="scr">
 <div class="setup-wrap">
-
   <div class="setup-section">
-    <h3>Имя детектива <span>— или прозвище</span></h3>
+    <h3>Имя детектива <span>&mdash; или прозвище</span></h3>
     <div class="name-row">
       <input class="inp" id="inp-name" placeholder="Введи имя..." maxlength="40">
-      <button class="btn" onclick="randomName()" title="Случайное">🎲</button>
+      <button class="btn" id="btn-rnd" title="Случайное">&#127922;</button>
     </div>
   </div>
-
   <div class="setup-section">
     <h3>Режим игры</h3>
     <div class="mode-row">
-      <div class="mode-opt on" id="mode-ai" onclick="pickMode('ai')">
-        <div class="mo-on">●</div>
-        <h4>🧠 С ИИ (онлайн)</h4>
-        <div class="mo-d">Уникальное дело по вашей теме. Требует интернет.</div>
-      </div>
-      <div class="mode-opt" id="mode-off" onclick="pickMode('off')">
-        <div class="mo-on">●</div>
-        <h4>📖 Оффлайн-сценарий</h4>
-        <div class="mo-d">Готовое дело, без интернета. Для демо и запасной вариант.</div>
-      </div>
+      <div class="mode-opt on" id="mode-ai" data-m="ai"><div class="mo-on">&#9679;</div><h4>&#129504; С ИИ (онлайн)</h4><div class="mo-d">Уникальное дело. Требует интернет.</div></div>
+      <div class="mode-opt" id="mode-off" data-m="off"><div class="mo-on">&#9679;</div><h4>&#128214; Оффлайн</h4><div class="mo-d">Готовое дело, без интернета.</div></div>
     </div>
-    <div class="net-warn" id="net-warn" style="display:none;margin-top:10px">⚠ Нет подключения. Доступен только оффлайн-режим.</div>
+    <div class="net-warn" id="net-warn" style="display:none">&#9888; Нет сети. Доступен только оффлайн.</div>
   </div>
-
-  <!-- AI SETUP -->
   <div id="ai-setup">
     <div class="setup-section">
-      <h3>Тип дела <span>— тема расследования</span></h3>
+      <h3>Тип дела</h3>
       <div class="tags" id="theme-tags">
-        <span class="tag on" data-t="murder">🔪 Убийство</span>
-        <span class="tag" data-t="missing">🕳️ Пропажа</span>
-        <span class="tag" data-t="theft">💎 Кража</span>
-        <span class="tag" data-t="conspiracy">🕶️ Заговор</span>
-        <span class="tag" data-t="occult">🕯️ Оккультное</span>
-        <span class="tag" data-t="custom">✏️ Свой</span>
+        <span class="tag on" data-v="murder">&#128298; Убийство</span>
+        <span class="tag" data-v="missing">&#128065; Пропажа</span>
+        <span class="tag" data-v="theft">&#128142; Кража</span>
+        <span class="tag" data-v="conspiracy">&#128373; Заговор</span>
+        <span class="tag" data-v="custom">&#9997; Своё</span>
       </div>
-      <input class="inp" id="inp-theme" placeholder="Опиши тему в 1-2 фразы..." style="display:none">
+      <input class="inp" id="inp-theme" placeholder="Опиши тему..." style="display:none">
     </div>
-
     <div class="setup-section">
-      <h3>Сеттинг <span>— когда и где</span></h3>
-      <div class="tags" id="setting-tags">
-        <span class="tag on" data-s="victorian">🎩 Викторианская Англия</span>
-        <span class="tag" data-s="noir">🚬 Нуар 40-х</span>
-        <span class="tag" data-s="soviet">📕 Поздний СССР</span>
-        <span class="tag" data-s="cyber">🌐 Кибер-мегаполис</span>
-        <span class="tag" data-s="fantasy">⚔️ Тёмное фэнтези</span>
-        <span class="tag" data-s="custom">✏️ Свой</span>
+      <h3>Сеттинг</h3>
+      <div class="tags" id="set-tags">
+        <span class="tag on" data-v="victorian">&#127913; Викторианская Англия</span>
+        <span class="tag" data-v="noir">&#128684; Нуар 40-х</span>
+        <span class="tag" data-v="modern">&#127961; Современность</span>
+        <span class="tag" data-v="cyber">&#128302; Киберпанк</span>
+        <span class="tag" data-v="custom">&#9997; Свой</span>
       </div>
-      <input class="inp" id="inp-setting" placeholder="Опиши мир расследования..." style="display:none">
+      <input class="inp" id="inp-setting" placeholder="Опиши сеттинг..." style="display:none">
     </div>
-
     <div class="setup-section">
-      <h3>Зацепка-затравка <span>— или оставь пусто</span></h3>
-      <textarea class="inp" id="inp-seed" placeholder="Любая деталь: «найден кулон со старой фотографией», «свидетель повторяет одно имя во сне»..."></textarea>
+      <h3>Зацепка-затравка <span>&mdash; необязательно</span></h3>
+      <textarea class="inp" id="inp-seed" placeholder="Любая деталь: «найден кулон со старой фотографией»..."></textarea>
     </div>
-
     <div class="setup-section">
       <h3>Дней расследования</h3>
-      <div class="steps-row">
-        <input class="inp" type="number" id="inp-steps" value="14" min="8" max="25">
-        <span>от 8 до 25. Рекомендуется 14.</span>
-      </div>
+      <div class="steps-row"><input class="inp" type="number" id="inp-steps" value="14" min="8" max="25"><span>8&ndash;25, рекомендуется 14</span></div>
     </div>
   </div>
-
-  <!-- OFFLINE SETUP -->
   <div id="off-setup" style="display:none">
-    <div class="setup-section">
-      <h3>Выбери дело</h3>
-      <div class="scen-grid" id="scen-grid"></div>
-    </div>
+    <div class="setup-section"><h3>Выбери дело</h3><div class="scen-grid" id="scen-grid"></div></div>
   </div>
-
-  <div class="start-row">
-    <button class="btn pri" id="btn-start" onclick="beginGame()" style="padding:12px 48px;font-size:14px">▸ Начать расследование</button>
-  </div>
+  <div class="start-row"><button class="btn pri" id="btn-start" style="padding:12px 48px;font-size:14px">&#9654; Начать расследование</button></div>
 </div>
 </div>
 
-<!-- ═══════════ GAME ═══════════ -->
+<!-- ═══ GAME ═══ -->
 <div id="s-game" class="scr">
   <div id="main">
     <div id="topbar">
@@ -328,835 +258,532 @@ textarea.inp{resize:vertical;min-height:44px;max-height:120px;line-height:1.5}
         <div class="tbs-bar"><div class="tbs-f" id="tbs-fill"></div></div>
       </div>
       <div class="tb-btns">
-        <button class="tb-icon" onclick="openRules()" title="Правила"><em>i</em></button>
-        <button class="tb-icon" onclick="saveGame();flashSave(this)" title="Сохранить">💾</button>
+        <button class="tb-icon" id="btn-rules-g" title="Правила"><em style="font-family:serif">i</em></button>
+        <button class="tb-icon" id="btn-save-g" title="Сохранить">&#128190;</button>
       </div>
+      <div class="tb-prog"><div class="tb-prog-f" id="tb-prog-f"></div></div>
     </div>
-    <div id="task-bar">
-      <span class="tb-label">Задача</span>
-      <span class="tb-text" id="task-text">—</span>
-    </div>
+    <div id="task-bar"><span class="task-label">Задача</span><span class="task-text" id="task-text">&mdash;</span></div>
     <div id="narr"></div>
     <div id="loader"><div class="ld-t">Следы формируются</div><div class="ld-b"></div></div>
     <div id="bottom-area">
       <div id="choices"></div>
       <div id="free-input">
         <input class="inp" id="inp-free" placeholder="Или опиши свой ход..." maxlength="300">
-        <button id="btn-free" onclick="sendFree()">→</button>
+        <button id="btn-free">&#8594;</button>
       </div>
     </div>
   </div>
   <div id="side">
-    <div class="ss">
-      <div class="sl">Дело</div>
-      <div class="case-title" id="case-title">—</div>
-      <div class="case-brief" id="case-brief" onclick="this.classList.toggle('exp')">—</div>
-    </div>
-    <div class="ss">
-      <div class="sl">Текущая задача</div>
-      <div id="side-task" style="font-size:13px;color:var(--t1);line-height:1.5">—</div>
-    </div>
-    <div class="ss">
-      <div class="sl">Журнал зацепок <span class="sl-c" id="leads-n">0</span></div>
-      <div id="leads-list"><div class="empty-note">Пока ничего</div></div>
-    </div>
-    <div class="ss">
-      <div class="sl">Подозреваемые</div>
-      <div id="susp-list"><div class="empty-note">Ещё не выявлены</div></div>
-    </div>
-    <div class="ss" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--brd)">
-      <button class="btn" style="width:100%;font-size:11px;padding:7px" onclick="abandonCase()">⟲ Бросить дело</button>
-    </div>
+    <div class="ss"><div class="sl">Дело</div><div class="case-title" id="case-title">&mdash;</div><div class="case-brief" id="case-brief">&mdash;</div></div>
+    <div class="ss"><div class="sl">Текущая задача</div><div id="side-task" style="font-size:13px;color:var(--t1);line-height:1.5">&mdash;</div></div>
+    <div class="ss"><div class="sl">Журнал зацепок <span class="sl-c" id="leads-n">0</span></div><div id="leads-list"><div class="empty-note">Пока ничего</div></div></div>
+    <div class="ss"><div class="sl">Подозреваемые</div><div id="susp-list"><div class="empty-note">Ещё не выявлены</div></div></div>
+    <div class="ss" style="margin-top:16px;padding-top:12px;border-top:1px solid var(--brd)"><button class="btn" style="width:100%;font-size:11px;padding:7px" id="btn-abandon">&#10226; Бросить дело</button></div>
   </div>
-  <button id="mob-btn" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
+  <button id="mob-btn">&#9776;</button>
 </div>
 
-<!-- ═══════════ FINALE (accusation) ═══════════ -->
+<!-- ═══ FINALE ═══ -->
 <div id="s-finale" class="scr">
-  <div class="fin-title">🔍 Момент истины</div>
+  <div class="fin-title">&#128269; Момент истины</div>
   <div class="fin-text" id="fin-text"></div>
   <div class="fin-susp" id="fin-susp"></div>
-  <div class="fin-hint">Подумай, сопоставь зацепки. Назвать можно только один раз.</div>
+  <div class="fin-hint">Подумай, сопоставь зацепки. Назвать можно один раз.</div>
 </div>
 
-<!-- ═══════════ END ═══════════ -->
+<!-- ═══ END ═══ -->
 <div id="s-end" class="scr">
   <div class="et" id="e-t">ФИНАЛ</div>
   <div class="ex" id="e-tx"></div>
   <div class="es" id="e-st"></div>
-  <button class="btn pri" onclick="location.reload()">Новое дело</button>
+  <button class="btn pri" id="btn-reload">Новое дело</button>
 </div>
 
 <!-- RULES MODAL -->
-<div id="rules" onclick="if(event.target.id==='rules')closeRules()">
+<div id="rules-modal">
   <div class="rules-box">
-    <button class="rules-close" onclick="closeRules()">×</button>
-    <h2>Dark Script — Правила</h2>
-    <h4>Цель</h4>
-    <p>Раскрыть одно дело за ограниченное число дней расследования и назвать виновного в финале.</p>
-    <h4>Ход игры</h4>
-    <ul>
-      <li>Каждый <em>день</em> — одна сцена с описанием, 2–4 вариантами и свободным вводом.</li>
-      <li>Зацепки копятся в журнале справа. Подозреваемые появляются по мере расследования.</li>
-      <li>Когда дни кончаются — игра выводит вас в «Момент истины»: нужно назвать преступника.</li>
-    </ul>
-    <h4>Совет</h4>
-    <p>Сопоставляйте зацепки, а не гадайте. В AI-режиме подсказки могут быть уводящими — перечитывайте журнал.</p>
+    <button class="rules-close" id="rules-close">&times;</button>
+    <h2>Правила</h2>
+    <h4>Цель</h4><p>Раскрыть дело за N дней и назвать виновного.</p>
+    <h4>Ход</h4><ul><li>Каждый день &mdash; одна сцена, 2&ndash;4 варианта + свободный ввод.</li><li>Зацепки копятся в журнале.</li><li>Последний день &mdash; обвинение.</li></ul>
+    <h4>Совет</h4><p>Сопоставляйте зацепки, перечитывайте журнал.</p>
   </div>
 </div>
 
 <script>
 try{
 
-/* ═══════════════════════════════════════
-   КОНФИГ
-   ═══════════════════════════════════════ */
-var NAMES=['Корвин','Марлоу','Сэвидж','Вольф','Райз','Хартли','Блейк','Грей','Верн','Эшби','Диас','Холт','Пирс','Кейн','Ноланд','Стерн','Мирра','Веласко','Дюк','Ирвинг'];
-
+/* ═══ КОНФИГ ═══ */
+var NAMES=['Корвин','Марлоу','Сэвидж','Вольф','Блейк','Грей','Верн','Холт','Пирс','Кейн','Стерн','Мирра','Дюк','Эшби','Диас'];
 var SETTINGS={
-  victorian:{name:'Викторианская Англия',desc:'Лондон 1890-х. Газовые фонари, конные экипажи, клубы для джентльменов, трущобы Ист-Энда. Телеграф и револьверы.',ac:'176,137,104'},
-  noir:{name:'Нуар 40-х',desc:'Американский мегаполис 1947-го. Неон баров, дождь, джаз, коррумпированная полиция и синдикаты.',ac:'138,120,168'},
-  soviet:{name:'Поздний СССР',desc:'1978 год, областной центр. НИИ, партком, хрущёвки, дефицит. Слежка КГБ как фон.',ac:'194,104,84'},
-  cyber:{name:'Кибер-мегаполис',desc:'2079. Вертикальный город, корпорации как государства, нейроимпланты, чёрный рынок воспоминаний.',ac:'80,170,200'},
-  fantasy:{name:'Тёмное фэнтези',desc:'Портовый город Керн, осаждённый зимой. Алхимики, ордена, контрабандисты, магия-табу.',ac:'120,180,130'},
-  custom:{name:'Свой мир',desc:'',ac:'176,137,104'}
+  victorian:{name:'Викторианская Англия',desc:'Лондон 1890-х. Газовые фонари, кэбы, клубы, трущобы.',ac:'176,137,104'},
+  noir:{name:'Нуар 40-х',desc:'Америка 1947. Неон, дождь, джаз, коррупция.',ac:'138,120,168'},
+  modern:{name:'Современность',desc:'Наши дни. Камеры, соцсети, ДНК.',ac:'130,150,170'},
+  cyber:{name:'Киберпанк',desc:'2079. Корпорации, импланты, данные.',ac:'80,170,200'},
+  custom:{name:'Свой',desc:'',ac:'176,137,104'}
 };
-
-var THEMES={
-  murder:'убийство (найти, кто убил и почему)',
-  missing:'пропажа человека (найти живым или узнать судьбу)',
-  theft:'кража ценной вещи (найти предмет и вора)',
-  conspiracy:'заговор (раскрыть сеть и её цель)',
-  occult:'оккультное преступление (убийство или пропажа со следами ритуала)',
-  custom:''
-};
-
+var THEMES={murder:'убийство',missing:'пропажа человека',theft:'кража ценности',conspiracy:'заговор',custom:''};
 var CFG={
   URL:'https://bothub.chat/api/v2/openai/v1/chat/completions',
   KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc2NTNlMTFmLTZiMjktNDJmZS05MTVhLTM1ODQ4N2M4ZGM2NyIsImlzRGV2ZWxvcGVyIjp0cnVlLCJpYXQiOjE3NzcxMTQzMDcsImV4cCI6MjA5MjY5MDMwNywianRpIjoiLThKNmZCc1QxZUxuc2FnbiJ9.1EkpfGrZ8sWZtOdnDxXovUS-ZgkdThk6WA5ihbgm_Bo',
-  MODEL:'claude-sonnet-4.6',
-  MAX_T:2600,MAX_H:10,RET:3,RMS:[1200,2600,4500]
+  MODEL:'claude-sonnet-4.6',MAX_T:2600,MAX_H:10,RET:3,RMS:[1200,2600,4500]
 };
 
 /* ═══ ОФФЛАЙН-СЦЕНАРИИ ═══ */
 var SCENARIOS={
+mansion:{id:'mansion',title:'Убийство в особняке Эшкрофт',short:'Классический детектив \u00b7 10 дней',tag:'\ud83c\udfa9 Викторианская драма',desc:'Гроза отрезала особняк. В библиотеке \u2014 труп секретаря с ножом в спине. 10 дней.',settingKey:'victorian',
+brief:'Конец октября 1891-го. Особняк Эшкрофт. Секретарь Томас Брент найден мёртвым в библиотеке \u2014 нож для бумаг в спине, на столе недописанное письмо. В доме пять человек.',
+firstTask:'Осмотреть библиотеку и тело',
+suspects:[{name:'Лорд Эшкрофт',desc:'Хозяин. Холоден.'},{name:'Леди Вивиан',desc:'Жена. Якобы спала.'},{name:'Доктор Виттер',desc:'Семейный врач. Нервничает.'},{name:'Садовник Брен',desc:'Ненавидел секретаря.'},{name:'Горничная Мэй',desc:'Что-то скрывает.'}],
+culprit:'Доктор Виттер',
+solution:'Виттер подделал свидетельство о смерти кузины Эдит 15 лет назад ради наследства. Брент раскопал это и писал попечителю. Виттер убил его ножом для бумаг.',
+steps:[
+{task:'Осмотреть библиотеку',narrative:'Библиотека пахнет воском и железом. **Томас Брент** лежит лицом на столе. В спине \u2014 нож для бумаг с гербом Эшкрофтов. На столе недописанное письмо: *\u00ab...уважаемый попечитель, вы должны узнать правду о докторе В.\u00bb*. В камине \u2014 обгоревшие клочки бумаги.',
+choices:[{text:'Прочитать письмо внимательно',lead:'Письмо попечителю фонда Эшкрофтов; Брент собирался обвинить \u00abdоктора В.\u00bb, но не назвал в чём'},{text:'Изучить обгоревшие бумаги в камине',lead:'Среди углей \u2014 клочок с подписью \u00abА.Виттер\u00bb и фрагментом медицинского термина'},{text:'Осмотреть нож',lead:'Нож из настольного набора лорда; обычно хранится в кабинете, не в библиотеке'}]},
+{task:'Поговорить с лордом Эшкрофтом',narrative:'Лорд принимает вас в оружейной. *\u00abБрент был порядочный человек. Доктор Виттер \u2014 мой друг, не трогайте его.\u00bb* Руки лорда еле заметно дрожат.',
+choices:[{text:'Спросить, кто пользовался ножом',lead:'Последним нож брал Виттер \u2014 \u00abчто-то подписывал позавчера\u00bb'},{text:'Надавить насчёт нервной дрожи',lead:'Лорд не спал две ночи; принимал снотворное от Виттера, вчера доза была сильнее'},{text:'Проверить алиби в саду',lead:'На розах свежие срезы, но земля сухая \u2014 под навесом; алиби не опровергается'}]},
+{task:'Расспросить леди Вивиан',narrative:'Леди в трауре. *\u00abТомас копал в наших старых бумагах \u2014 фонд, наследство. Я сама просила его.\u00bb*',
+choices:[{text:'Что именно Брент искал?',lead:'Леди дала Бренту доступ к архиву: её тревожило \u00abстарое дело кузины Эдит\u00bb, умершей 15 лет назад'},{text:'Спросить про доктора Виттера',lead:'Виттер \u2014 врач ещё с той поры, лечил кузину Эдит; леди: \u00abГенри доверяет слепо, я \u2014 нет\u00bb'},{text:'Наблюдать реакцию на имя мужа',lead:'При имени лорда леди морщится \u2014 отчуждение в браке'}]},
+{task:'Поговорить с доктором Виттером',narrative:'Виттер улыбчив, саквояж у ноги. *\u00abУжасная трагедия. Брент \u2014 странный был.\u00bb* На манжете \u2014 тёмное пятно, прикрывает рукавом.',
+choices:[{text:'Попросить показать саквояж',lead:'Пузырёк настойки опия и пачка рецептурных бланков; один надорван'},{text:'Спросить о \u00abделе кузины Эдит\u00bb',lead:'Виттер напрягся: \u00abДавняя история, сердечная слабость\u00bb. Ответ слишком быстрый'},{text:'Обратить внимание на пятно на манжете',lead:'Пятно буро-красное, похоже на кровь. Виттер: \u00abЧернила\u00bb'}]},
+{task:'Поговорить с садовником',narrative:'Брен в пристройке. *\u00abБрент \u2014 гнида. Доносил лорду, что я ворую уголь. Придушил бы, да руки жалко.\u00bb*',
+choices:[{text:'Спросить про ночь убийства',lead:'Слышал, как \u00abкто-то из господ\u00bb выходил из дома около трёх ночи \u2014 шаги лёгкие'},{text:'Осмотреть сарай',lead:'Под верстаком \u2014 бутылка рома и дорогая сигара (не садовника)'},{text:'Уточнить про уголь',lead:'Брен брал уголь, Брент знал и молчал за шиллинг в неделю'}]},
+{task:'Расспросить горничную Мэй',narrative:'Мэй \u2014 19 лет, красные глаза. *\u00abГосподин Брент писал, я принесла чай. Всё.\u00bb* Руки теребят передник.',
+choices:[{text:'Мягко спросить, что не договаривает',lead:'Мэй: Виттер около полуночи просил \u00abоставить стакан воды с каплями у библиотеки\u00bb'},{text:'Что пил Брент?',lead:'Мэй приносила чай в девять; в час стакан воды у двери был пуст'},{text:'Кого ещё видела ночью?',lead:'Видела доктора, шедшего к библиотеке около двух ночи \u2014 \u00abс платком в руке\u00bb'}]},
+{task:'Заглянуть в архив Эшкрофтов',narrative:'Папка \u00abЭдит Эшкрофт, 1876\u00bb раскрыта. Свидетельство о смерти, подпись *А.Виттер*. Причина: \u00absердечная недостаточность\u00bb. Цифра возраста **исправлена**: 24 переправлено в 42.',
+choices:[{text:'Сравнить подпись с обгоревшим клочком',lead:'Подписи совпадают. В камине сжигали бумаги из архива'},{text:'Найти завещание Эдит',lead:'Состояние Эдит \u00abпо ошибке нотариуса\u00bb ушло Эшкрофтам; заверено Виттером'},{text:'Поискать письма Брента',lead:'Черновик Брента: \u00abсмерть Эдит не была естественной, подпись Виттера подделана\u00bb'}]},
+{task:'Проверить комнату Виттера',narrative:'Пахнет лавандой. Под подушкой \u2014 платок с бурыми пятнами. В жилетном кармане \u2014 странный ключ.',
+choices:[{text:'Рассмотреть платок',lead:'Кровь давности раны Брента; монограмма \u00abАВ\u00bb'},{text:'Найти замок к ключу',lead:'Ключ к шкатулке в архиве: там подлинное свидетельство Эдит \u2014 \u00abотравление дигиталисом\u00bb'},{text:'Проверить саквояж повторно',lead:'Во втором отделении \u2014 дигиталис в порошке; совпадает с причиной смерти Эдит'}]},
+{task:'Сопоставить показания',narrative:'Картина складывается: Брент нашёл подлог Виттера. Виттер узнал \u2014 вероятно, от леди Вивиан, обмолвившейся при нём. Ночью зашёл в библиотеку...',
+choices:[{text:'Подтвердить мотив у леди Вивиан',lead:'Леди: обмолвилась при Виттере, что Брент \u00abпочти нашёл правду\u00bb. Не думала, что доктор убьёт'},{text:'Проверить алиби Виттера на 2\u20133 ночи',lead:'Мэй подтверждает: шёл к библиотеке, обратно \u2014 с пустым стаканом'},{text:'Осмотреть нож повторно',lead:'На рукояти \u2014 слабый след лаванды; тот же запах в комнате Виттера'}]},
+{task:'Собрать всех и назвать убийцу',narrative:'Десятый день. Гроза стихает. Все ждут в гостиной. Пора.',
+choices:[{text:'Готов назвать имя',lead:'Вы встаёте и произносите имя.'}]}
+]},
 
-/* ── 1. УБИЙСТВО В ОСОБНЯКЕ ── */
-mansion:{
-  id:'mansion',
-  title:'Убийство в особняке Эшкрофт',
-  short:'Классический детектив · 10 дней',
-  tag:'🎩 Викторианская драма',
-  desc:'Гроза отрезала особняк от города. В библиотеке найден секретарь лорда с ножом в спине. Найдите убийцу за 10 дней.',
-  settingKey:'victorian',
-  brief:'Конец октября 1891-го. Вас вызвали в Эшкрофт-Холл — поместье под Дорчестером, куда из-за ливня не добраться даже полиции. Утром в библиотеке нашли тело секретаря Томаса Брента с ножом для бумаг в спине. На столе — недописанное письмо. В доме пять человек, и один из них — убийца.',
-  firstTask:'Осмотреть библиотеку и тело Брента',
-  suspects:[
-    {name:'Лорд Генри Эшкрофт',desc:'Хозяин. Холоден, утром был в саду.'},
-    {name:'Леди Вивиан Эшкрофт',desc:'Жена. Спала, по её словам.'},
-    {name:'Доктор Арчер Виттер',desc:'Семейный врач. Гостил третью ночь.'},
-    {name:'Садовник Брен',desc:'Груб, ненавидел секретаря за доносы.'},
-    {name:'Горничная Мэй',desc:'Молода, напугана, что-то скрывает.'}
-  ],
-  culprit:'Доктор Арчер Виттер',
-  solution:'Доктор Виттер много лет назад подделал свидетельство о смерти родственницы Эшкрофтов ради наследства. Брент раскопал это и писал доклад попечителю. Виттер вошёл в библиотеку под предлогом снотворного для лорда и вонзил нож для бумаг в спину секретаря, когда тот отвернулся к камину.',
-  steps:[
-    {task:'Осмотреть библиотеку и тело Брента',
-     narrative:'Библиотека пахнет воском и железом. **Томас Брент** лежит лицом на столе, чернила кляксой расползлись вокруг правой руки. В спине — изящный нож для бумаг с гербом Эшкрофтов. На столе недописанное письмо: *«...уважаемый попечитель, вы должны узнать правду о докторе В.»*. Камин ещё тёплый. В углу — обгоревшие клочки бумаги.',
-     choices:[
-      {text:'Прочитать недописанное письмо внимательно',lead:'Письмо адресовано попечителю фонда Эшкрофтов; Брент собирался обвинить некоего «доктора В.», но не назвал в чём'},
-      {text:'Изучить обгоревшие бумаги в камине',lead:'Среди углей — клочок с подписью «А. Виттер» и фрагментом латинского медицинского термина'},
-      {text:'Осмотреть нож',lead:'Нож — часть настольного набора лорда Эшкрофта; обычно хранится в его кабинете, не в библиотеке'}
-     ]},
-    {task:'Поговорить с лордом Эшкрофтом',
-     narrative:'Лорд Генри принимает вас в оружейной, не поднимая глаз от чистки ружья. На вопрос о прошлой ночи отвечает сухо: *«Работал в саду на рассвете — обрезал розы. Брент был порядочный человек. Доктор Виттер — мой старый друг, гость, не трогайте его».* Руки у лорда дрожат — еле заметно, но дрожат.',
-     choices:[
-      {text:'Спросить, кто обычно пользовался ножом для бумаг',lead:'Лорд неохотно признал: нож лежал на его столе; последним брал Виттер — «что-то подписывал позавчера»'},
-      {text:'Надавить насчёт нервной дрожи',lead:'Лорд не спал две ночи — принимал снотворное, прописанное Виттером; вчера доза была сильнее обычной'},
-      {text:'Обойти сад, проверить алиби',lead:'На розах свежие срезы, но земля у куста сухая — под навесом; факт ранней прогулки не опровергается, но и не подтверждается'}
-     ]},
-    {task:'Расспросить леди Вивиан',
-     narrative:'Леди Эшкрофт встречает вас в гостиной, её траурное платье выбрано как-то поспешно. *«Томас был полезен семье. Он копал в наших старых бумагах — фонд, наследство. Я сама просила его»*. Она смотрит вам в глаза ровно столько, чтобы не выглядеть лгуньей.',
-     choices:[
-      {text:'Спросить, что именно Брент искал',lead:'Леди дала Бренту доступ к архиву: её тревожило «старое дело кузины Эдит», умершей 15 лет назад при странных обстоятельствах'},
-      {text:'Уточнить про доктора Виттера',lead:'Виттер — личный врач ещё с той поры, лечил кузину Эдит перед смертью; леди добавила: «Генри ему доверяет слепо, я — нет»'},
-      {text:'Наблюдать, как она реагирует на имя мужа',lead:'При имени лорда леди еле заметно морщится — возможно, отчуждение в браке'}
-     ]},
-    {task:'Поговорить с доктором Виттером',
-     narrative:'Доктор Виттер — опрятный, улыбчивый, с саквояжем у ноги. *«Ужасная трагедия. Я спал крепко, снотворное, знаете ли, сам иногда принимаю. Что касается Брента — странный был молодой человек. Совал нос куда не просят»*. На левом манжете — едва заметное тёмное пятно, которое он машинально прикрывает рукавом халата.',
-     choices:[
-      {text:'Попросить показать содержимое саквояжа',lead:'В саквояже — пузырёк с настойкой опия и пачка рецептурных бланков; один бланк надорван, будто с него что-то вырвали'},
-      {text:'Спросить об «деле кузины Эдит»',lead:'Виттер напрягся: «Давняя история, сердечная слабость, ничего интересного». Ответ слишком быстрый'},
-      {text:'Обратить внимание на пятно на манжете',lead:'Виттер засмеялся: «Чернила, работал с бумагами». Но пятно — буро-красное, похоже на кровь'}
-     ]},
-    {task:'Поговорить с садовником Бреном',
-     narrative:'Садовник пьёт чай в пристройке, не встаёт при вашем появлении. *«Брент-секретарь был гнида. Доносил лорду, что я ворую уголь. Я бы его придушил, да руки пачкать жалко»*. Улыбается чёрным зубом. За окном — грядки и сарай с инструментами.',
-     choices:[
-      {text:'Спросить про ночь убийства',lead:'Садовник спал в пристройке; слышал, как «кто-то из господ» выходил из дома около трёх ночи — «шаги лёгкие, не лордовы»'},
-      {text:'Осмотреть сарай с инструментами',lead:'В сарае всё на месте; под верстаком — пустая бутылка рома и недокуренная сигара дорогой марки (не садовника)'},
-      {text:'Уточнить про угольную кражу',lead:'Брен признал: брал уголь «понемногу», Брент это знал и молчал за взятку — шиллинг в неделю'}
-     ]},
-    {task:'Расспросить горничную Мэй',
-     narrative:'Мэй — лет девятнадцать, глаза красные. Вас она боится больше, чем убийцы. *«Я прибиралась в библиотеке вечером. Господин Брент писал, я не мешала. Попросил крепкого чаю, я принесла. Всё».* Руки теребят передник так, что рвётся шов.',
-     choices:[
-      {text:'Мягко спросить, что Мэй не договаривает',lead:'Мэй призналась: доктор Виттер около полуночи просил «оставить на столике у библиотеки стакан воды с каплями» — она оставила'},
-      {text:'Спросить, что пил Брент',lead:'Мэй приносила чай в девять; в час ночи заметила, что стакан воды у двери библиотеки пуст, хотя она его ставила полным'},
-      {text:'Узнать, кого ещё она видела ночью',lead:'Мэй видела, как доктор шёл по коридору к библиотеке около двух ночи — «с платком в руке»'}
-     ]},
-    {task:'Заглянуть в архив Эшкрофтов',
-     narrative:'Архив — пыльная комната рядом с библиотекой. На столе — папка «Эдит Эшкрофт, 1876», оставленная раскрытой. Внутри — свидетельство о смерти, подписанное *А. Виттером*. Причина: «сердечная недостаточность». Почерк на цифре возраста — **исправлен**: 24 переправлено в 42.',
-     choices:[
-      {text:'Сравнить подпись Виттера с обгоревшим клочком',lead:'Подписи идентичны. В камине сжигали именно бумаги из архива — кто-то подчищал следы'},
-      {text:'Найти завещание Эдит',lead:'Завещание существует: Эдит оставила состояние поп
-      {text:'Найти завещание Эдит',lead:'Завещание существует: Эдит оставила состояние попечительскому фонду, но по факту деньги ушли Эшкрофтам — «по ошибке нотариуса», заверенной доктором Виттером'},
-      {text:'Поискать письма Брента',lead:'В ящике — черновик Брента попечителю: «смерть Эдит не была естественной, подпись Виттера подделана под старые чернила»'}
-     ]},
-    {task:'Проверить комнату Виттера, пока тот на завтраке',
-     narrative:'Комната доктора пахнет лавандой и чем-то кислым. Чемодан под кроватью. Под подушкой — платок с тёмно-бурыми пятнами, аккуратно свёрнутый. В жилетном кармане — ключ, не подходящий ни к одной двери этажа.',
-     choices:[
-      {text:'Рассмотреть платок',lead:'Платок пропитан кровью той же давности, что и рана Брента; в уголке — вышитая монограмма «АВ»'},
-      {text:'Найти замок к ключу',lead:'Ключ подходит к шкатулке в архиве, где лежит подлинное свидетельство о смерти Эдит — с другой причиной: «отравление дигиталисом»'},
-      {text:'Проверить саквояж повторно',lead:'Во втором отделении саквояжа — дигиталис в порошке; совпадает с тем, что упомянуто в подлинном свидетельстве Эдит'}
-     ]},
-    {task:'Сопоставить показания',
-     narrative:'Вы садитесь в своей комнате, раскладываете записи. Картина складывается: Брент нашёл подлог Виттера с делом Эдит и писал донос попечителю. Виттер узнал — вероятнее всего, от леди Вивиан, которая сама вела Брента по этому следу. Ночью доктор зашёл в библиотеку... Но прежде чем обвинять, надо закрыть последний пробел.',
-     choices:[
-      {text:'Подтвердить мотив у леди Вивиан',lead:'Леди призналась: обмолвилась при Виттере, что Брент «почти нашёл правду». Она не думала, что доктор убьёт — лишь надеялась, что тот сознается'},
-      {text:'Проверить, нет ли у Виттера алиби на 2–3 ночи',lead:'Никто, кроме Мэй, не видел доктора в коридоре. Мэй подтверждает: шёл к библиотеке, обратно — с пустым стаканом'},
-      {text:'Осмотреть нож повторно под лупой',lead:'На рукояти — слабый след лаванды; тот же запах — в комнате Виттера'}
-     ]},
-    {task:'Собрать всех в гостиной и предъявить убийцу',
-     narrative:'Десятый день. Гроза стихает, дороги подсыхают — к полудню приедет полиция. У вас есть одна попытка назвать убийцу при всех собравшихся. Лорд, леди, доктор, садовник, горничная — ждут в гостиной.',
-     choices:[
-      {text:'Готов назвать имя',lead:'Вы встаёте и произносите имя убийцы.'}
-     ]}
-  ]
-},
+painting:{id:'painting',title:'Пропажа \u00abЧёрной Мадонны\u00bb',short:'Кража \u00b7 8 дней',tag:'\ud83d\udead Нуар 1948',desc:'Из галереи исчезла картина в полмиллиона. Замки целы, камеры молчали. 8 дней.',settingKey:'noir',
+brief:'Сан-Кармел, июль 1948. Из галереи Соренсена пропала \u00abЧёрная Мадонна\u00bb XVI века. Замки не взломаны, камеры \u2014 \u00abтехсбой\u00bb с 23:40 до 4:15.',
+firstTask:'Осмотреть галерею',
+suspects:[{name:'Соренсен',desc:'Владелец. На грани банкротства.'},{name:'Лина Вега',desc:'Куратор. Знает коллекцию лучше хозяина.'},{name:'Кросс',desc:'Страховой оценщик. Слишком спокоен.'},{name:'Моретти',desc:'Ночной сторож. Долги.'},{name:'Финч',desc:'Коллекционер-соперник.'}],
+culprit:'Соренсен',
+solution:'Соренсен инсценировал кражу: подлинник он продал через Финча в Аргентину год назад, заменив копией. Моретти за долю \u00abне заметил\u00bb. Кросс фальсифицировал оценку. Цель \u2014 страховка.',
+steps:[
+{task:'Осмотреть галерею',narrative:'Рамка на стене, гвоздь. Пыль вокруг рамки **не потревожена**. Камеры \u00abсбоили\u00bb с 23:40 до 4:15.',
+choices:[{text:'Изучить рамку и пыль',lead:'Пыль нетронута \u2014 картину снимали аккуратно или давно'},{text:'Проверить журнал камер',lead:'Камеры \u00abсбоили\u00bb только в ночь кражи; другие ночи \u2014 в норме'},{text:'Осмотреть замки',lead:'Замки целы; служебная дверь открывалась изнутри'}]},
+{task:'Поговорить с Соренсеном',narrative:'Соренсен слишком много говорит о репутации и ни слова о самой картине.',
+choices:[{text:'Спросить о финансах галереи',lead:'Два месяца не платит зарплату; страховка \u00abвсё спасёт\u00bb'},{text:'Когда оценивали картину?',lead:'Полтора года назад \u2014 Кросс. С тех пор картину \u00abне снимали из суеверия\u00bb'},{text:'Попросить опись',lead:'В описи два лишних предмета, которых нет в зале'}]},
+{task:'Поговорить с куратором Линой',narrative:'Лина курит на заднем дворе. *\u00abСпросите конкретнее \u2014 я не хочу говорить лишнего.\u00bb*',
+choices:[{text:'Про Мадонну напрямую',lead:'Лина: \u00abЛак казался новее. Говорила Эдварду \u2014 просил не лезть\u00bb'},{text:'Про две картины из описи',lead:'\u00abПроданы осенью. Деньги ушли в Аргентину\u00bb'},{text:'Кто знал картину?',lead:'Кросс и Финч проявляли \u00abнеобычный интерес\u00bb последние два года'}]},
+{task:'Допросить сторожа Моретти',narrative:'Моретти \u2014 шкаф с перебитым носом, пахнет виски. *\u00abНикого не видел.\u00bb* Врёт.',
+choices:[{text:'Надавить на долги',lead:'Долг в 3 тысячи букмекеру вдруг закрыли \u2014 \u00abсчастливый случай\u00bb'},{text:'Спросить, не просили ли \u00abотойти\u00bb',lead:'Соренсен лично сказал \u00abотдохнуть лишний час\u00bb в ночь кражи'},{text:'Проверить каморку',lead:'Пустая коробка от фотоаппарата и прайс ломбарда'}]},
+{task:'Встретиться с оценщиком Кроссом',narrative:'Кросс аккуратен: *\u00abОценивал полтора года назад. Подлинник. Страховка будет выплачена, если нет инсценировки.\u00bb*',
+choices:[{text:'Попросить экспертный отчёт',lead:'Фото из отчёта: трещины холста не совпадают с архивными фото галереи'},{text:'Видел ли картину позже?',lead:'Говорит \u00abнет\u00bb, но в блокноте секретарши: \u00abСоренсен, осмотр, март\u00bb'},{text:'Связи Кросса с Финчем?',lead:'Один клуб коллекционеров; Финч платил Кроссу \u00abконсультационные\u00bb'}]},
+{task:'Навестить Финча',narrative:'Особняк на холме, халат, попугай: *\u00abБуэнос-Айрес!\u00bb*. *\u00abЯ предлагал честную цену. Он отказал.\u00bb*',
+choices:[{text:'Про Буэнос-Айрес',lead:'Бирки авиакомпании на аргентинские рейсы прошлой осенью'},{text:'Осмотреть коллекцию',lead:'Каталог \u00abЧастный клиент, Аргентина, 1947\u00bb с фото, похожим на Мадонну'},{text:'Связь с Соренсеном',lead:'Финч: \u00abПомог найти покупателя на пару работ\u00bb. Какие \u2014 не говорит'}]},
+{task:'Сопоставить рамку, отчёт и архивные фото',narrative:'Трещины на фото Кросса **не совпадают** с архивными. На рамке \u2014 следы другого клея.',
+choices:[{text:'Картину подменяли до оценки',lead:'Подделка была в галерее минимум 1.5 года; \u00abкража\u00bb \u2014 списание копии'},{text:'Сверить даты продаж',lead:'Осень 1947 \u2014 Соренсен погасил долг в 200 тысяч'},{text:'Сложить схему',lead:'Соренсен \u2192 Финч (продажа подлинника) \u2192 Аргентина. Кросс \u2014 ложная оценка, Моретти \u2014 прикрытие'}]},
+{task:'Обвинить виновного',narrative:'Восьмой день. Вы кладёте на стол все улики. Пора.',
+choices:[{text:'Готов назвать виновного',lead:'Вы произносите имя.'}]}
+]},
 
-/* ── 2. ПРОПАЖА КАРТИНЫ ── */
-painting:{
-  id:'painting',
-  title:'«Чёрная Мадонна»: пропажа',
-  short:'Расследование кражи · 8 дней',
-  tag:'🚬 Нуар, 1948',
-  desc:'Из галереи Соренсена исчезла картина стоимостью в годовой бюджет города. Никто не видел, как — но видели, что и зачем. У вас 8 дней.',
-  settingKey:'noir',
-  brief:'Сан-Кармел, июль 1948-го. Из частной галереи Соренсена пропала «Чёрная Мадонна» — полотно XVI века, оценённое в полмиллиона долларов. Замки не взломаны, сигнализация молчала. Страховщики привели вас: найдёте картину за 8 дней — получите процент. Не найдёте — останетесь должны дорогу.',
-  firstTask:'Осмотреть галерею и место кражи',
-  suspects:[
-    {name:'Эдвард Соренсен',desc:'Владелец галереи. На грани банкротства.'},
-    {name:'Лина Вега',desc:'Куратор. Знает коллекцию лучше владельца.'},
-    {name:'Ричард Кросс',desc:'Страховой агент, оценщик. Слишком спокоен.'},
-    {name:'Винс Моретти',desc:'Ночной сторож. Бывший боксёр, долги.'},
-    {name:'Леопольд Финч',desc:'Коллекционер-соперник. Хотел купить картину за половину цены.'}
-  ],
-  culprit:'Эдвард Соренсен',
-  solution:'Соренсен инсценировал кражу, чтобы получить страховку и скрыть, что «Чёрная Мадонна» давно заменена искусной копией — подлинник он продал частному покупателю в Аргентине год назад через Финча. Моретти за долю «не заметил» подмену и отключил камеры. Лина Вега начала догадываться, и Соренсен давил на неё.',
-  steps:[
-    {task:'Осмотреть галерею и место кражи',
-     narrative:'Галерея закрыта, полицейская лента уже снята. На месте «Чёрной Мадонны» — пустая рамка на стене, гвоздь, чуть ржавый круг на обоях. Пыль вокруг рамки **не потревожена**. Сигнализация цела. Камеры на ночь 13-го числа — пусты: *«технический сбой»*.',
-     choices:[
-      {text:'Изучить рамку и след на стене',lead:'Пыль вокруг рамки нетронута — картину снимали крайне аккуратно, будто знали, как. Или снимали давно'},
-      {text:'Проверить журнал камер',lead:'Камеры «сбоили» именно в ночь с 13-го на 14-е, с 23:40 до 04:15; другие ночи — в норме'},
-      {text:'Осмотреть заднюю дверь и замки',lead:'Замки не тронуты; служебная дверь открывалась изнутри — без следов взлома'}
-     ]},
-    {task:'Поговорить с владельцем — Эдвардом Соренсеном',
-     narrative:'Соренсен в дорогом костюме, но воротник уже дважды перевязан. *«Катастрофа, детектив. Картина — моё лицо. Страховка покроет, но репутация...»* Он слишком много говорит о репутации и ни слова — о самой «Мадонне».',
-     choices:[
-      {text:'Спросить о финансовом положении галереи',lead:'По городским слухам, Соренсен два месяца не платит зарплату; он признал «временные трудности», но уверил, что страховка «всё спасёт»'},
-      {text:'Уточнить, когда картину оценивали последний раз',lead:'Последняя экспертиза — полтора года назад, Ричард Кросс. С тех пор картину не снимали со стены «из суеверия»'},
-      {text:'Попросить опись коллекции',lead:'Соренсен медлит и выдаёт опись только после напоминания о страховой. В описи — две мелкие картины, которых нет в экспозиции'}
-     ]},
-    {task:'Поговорить с куратором Линой Вега',
-     narrative:'Лина курит на заднем дворе. Тёмные круги под глазами. *«Я знаю каждую трещину на каждой раме в этой галерее. И знаю, что было и что есть. Спросите меня конкретнее, детектив — я не хочу говорить лишнего без нужды»*.',
-     choices:[
-      {text:'Спросить про «Чёрную Мадонну» напрямую',lead:'Лина: «Последние месяцы я подозревала, что верхний слой лака — новее, чем должен быть. Я говорила Эдварду. Он просил «не лезть не в своё дело»»'},
-      {text:'Узнать про две картины, отсутствующие в описи',lead:'Лина горько смеётся: «Проданы прошлой осенью. Эдвард сказал — «временная мера». Деньги ушли в Аргентину, кому — не знаю»'},
-      {text:'Спросить, кто ещё знал картину «изнутри»',lead:'Лина называет Кросса (оценщика) и Финча (коллекционера); оба последние два года проявляли к «Мадонне» необычный интерес'}
-     ]},
-    {task:'Допросить сторожа Винса Моретти',
-     narrative:'Моретти — шкаф с перебитым носом, пахнет дешёвым виски. *«Обходил каждые два часа, как по уставу. Камеры — не моя забота, я за замки отвечаю. В ту ночь никого не видел, клянусь».* Он врёт плохо — глаза уходят влево.',
-     choices:[
-      {text:'Надавить на долги',lead:'Моретти должен 3 тысячи букмекеру; месяц назад долг вдруг закрыли — «счастливый случай», не смог объяснить каким'},
-      {text:'Спросить, не просил ли кто «отойти» ночью',lead:'После третьего подхода Моретти признаёт: Соренсен лично сказал ему 13-го «отдохнуть лишний час в каморке»; он это сделал'},
-      {text:'Проверить каморку сторожа',lead:'В каморке — пустая коробка из-под фотоаппарата и прайс-лист ломбарда; Моретти что-то закладывал'}
-     ]},
-    {task:'Встретиться с оценщиком Ричардом Кроссом',
-     narrative:'Кросс принимает в своём кабинете страховой компании. Чист, аккуратен, улыбка из рекламы. *«Оценивал «Мадонну» полтора года назад. Подлинник, безусловно. Трагедия, что утрачена. Страховка будет выплачена, если расследование подтвердит отсутствие инсценировки»*.',
-     choices:[
-      {text:'Попросить его экспертный отчёт',lead:'В отчёте — фотографии картины с подписанной метрикой холста и трещинами; сравнение с архивными фото галереи покажет отличия'},
-      {text:'Спросить, видел ли картину позже',lead:'Кросс утверждает: «Нет, только на оценке». Но в блокноте его секретарши — запись «Соренсен, осмотр, март» (четыре месяца назад)'},
-      {text:'Проверить связи Кросса с Финчем',lead:'Кросс и Финч состоят в одном клубе коллекционеров; Финч платил Кроссу «консультационные» в марте и мае'}
-     ]},
-    {task:'Навестить коллекционера Леопольда Финча',
-     narrative:'Финч живёт в особняке на холме. Встречает в халате, с попугаем на плече. *«Мадонна? Прекрасное полотно. Я предлагал Соренсену честную цену — он отказал. Его право, моя досада».* Попугай хрипло добавляет: *«Буэнос-Айрес! Буэнос-Айрес!»*.',
-     choices:[
-      {text:'Спросить про Буэнос-Айрес',lead:'Финч смеётся: «Попугай оттуда». Но в прихожей — бирки авиакомпании с датами прошлой осенью на аргентинское направление'},
-      {text:'Осмотреть его коллекцию',lead:'В кабинете — каталог с маркировкой «Частный клиент, Аргентина, 1947»; на одной странице — фото, очень похожее на «Чёрную Мадонну», но без рамы'},
-      {text:'Надавить на связь с Соренсеном',lead:'Финч признаёт: «Помог Эдварду найти покупателя на пару второстепенных работ». Отказывается назвать, какие именно'}
-     ]},
-    {task:'Сопоставить рамку, отчёт Кросса и архивные фото',
-     narrative:'Вы сводите три источника: фото из отчёта Кросса полуторалетней давности, архивное фото галереи трёхлетней давности и пустую рамку. Трещины на холсте, видимые на старых фото, **не совпадают** с теми, что на фото Кросса. На рамке — микроскопические следы другого клея.',
-     choices:[
-      {text:'Вывод: картину на отчёте Кросса уже подменяли',lead:'Подделка была в галерее как минимум с момента оценки Кросса; значит, «кража» — лишь списание копии'},
-      {text:'Сверить даты: когда Соренсен продавал «второстепенные работы»',lead:'По словам Лины и бирке Финча — осень 1947-го. Именно тогда, по слухам, Соренсен резко расплатился с одним долгом в 200 тысяч'},
-      {text:'Сложить схему: кто кому платил',lead:'Цепочка: Соренсен → Финч (продажа подлинника) → аргентинский покупатель. Кросс — фальсифицировал оценку, Моретти — прикрыл «кражу копии»'}
-     ]},
-    {task:'Обвинить виновного',
-     narrative:'Восьмой день. В кабинете Соренсена вы кладёте на стол: фото-сравнение, опись, бирку Финча, квитанцию Моретти. Соренсен бледен. Кросс и Финч вызваны «на уточнение» в приёмной. Пора назвать того, кто организовал всё.',
-     choices:[
-      {text:'Готов назвать виновного',lead:'Вы произносите имя.'}
-     ]}
-  ]
-},
-
-/* ── 3. ШПИОНСКИЙ СИГНАЛ ── */
-embassy:{
-  id:'embassy',
-  title:'Сигнал из посольства',
-  short:'Шпионский заговор · 12 дней',
-  tag:'📕 СССР, 1978',
-  desc:'Из западного посольства в областном центре утекают секретные данные. Контрразведка дала вам 12 дней. Ошибка — международный скандал.',
-  settingKey:'soviet',
-  brief:'Октябрь 1978-го. Областной центр. Через резидента 5-го управления КГБ стало известно: из НИИ «Прогресс» последние полгода утекают чертежи в западное посольство. Все сотрудники на подозрении. Вам дали оперативное прикрытие и 12 дней. Найдёте агента — получите звезду. Не найдёте — получите Магадан.',
-  firstTask:'Изучить материалы дела у куратора',
-  suspects:[
-    {name:'Александр Шпаков',desc:'Главный инженер НИИ. Недавно разведён.'},
-    {name:'Нина Горева',desc:'Секретарь спецчасти. Имеет доступ ко всему.'},
-    {name:'Пётр Вишневский',desc:'Физик-теоретик. Часто выезжает «на конференции».'},
-    {name:'Ирина Ларина',desc:'Переводчица из интуриста, бывает в НИИ по программам.'},
-    {name:'Валерий Куприн',desc:'Парторг НИИ. Слишком образцовый.'}
-  ],
-  culprit:'Валерий Куприн',
-  solution:'Парторг Куприн ещё в 1971 году был завербован через компромат (роман с иностранкой в Праге, 1968). Он использовал свой статус «идеального коммуниста» как прикрытие, копировал чертежи через доверенных секретарей (Горева — невольно, под предлогом партпроверок) и передавал их через Ирину Ларину, которая не знала, что именно она переносит. Шпаков и Вишневский — отвлекающие манёвры, их личные огрехи он же и подбрасывал контрразведке.',
-  steps:[
-    {task:'Изучить материалы у куратора КГБ',
-     narrative:'Капитан Зотов кладёт перед вами три папки. *«По нашим данным — утечка чертежей изделия «Плотина-3». Западник — резидент под прикрытием культурного атташе. Каналы передачи: не знаем. Подозреваемые — пять человек. Действуйте тихо: НИИ — флагман, скандала обком не простит»*.',
-     choices:[
-      {text:'Запросить график посещений посольства за полгода',lead:'За 6 месяцев посольство посещала Ирина Ларина (переводчица) — 17 раз по программам культобмена; Вишневский — дважды, Шпаков — ни разу, остальные — ни разу официально'},
-      {text:'Запросить, когда были «инциденты» с чертежами',lead:'Утечки фиксируются с апреля; первая — через неделю после партсобрания, на котором Куприн выступал с докладом «Бдительность»'},
-      {text:'Попросить список имеющих доступ к сейфу',lead:'Доступ имеют: Шпаков, Вишневский, Горева и Куприн (по особому распоряжению обкома)'}
-     ]},
-    {task:'Под видом ревизора войти в НИИ',
-     narrative:'Вас оформляют как инспектора из министерства. В первый же день НИИ — как пчелиный улей: планёрка у Шпакова, Горева носит папки, Вишневский курит у окна, Куприн произносит речь у стенгазеты, Ларина оказывается здесь на «семинаре с иностранной делегацией».',
-     choices:[
-      {text:'Наблюдать, кто с кем общается неформально',lead:'Куприн трижды за день подходил к Горевой «по партлинии»; Ларина подошла к Куприну один раз — «уточнить расписание»; Шпаков и Вишневский держатся в стороне от обоих'},
-      {text:'Попроситься в спецчасть «проверить делопроизводство»',lead:'В журнале выдачи чертежей много подписей Горевой «по распоряжению парткома — Куприн В.»; Шпаков и Вишневский расписываются сами'},
-      {text:'Заглянуть в партком под предлогом проверки',lead:'У Куприна в кабинете — идеальный порядок; в рабочем столе найден билет на поезд в Ленинград двухнедельной давности — одновременно с одной из утечек'}
-     ]},
-    {task:'Аккуратно проверить главного инженера Шпакова',
-     narrative:'Шпаков пьёт коньяк в служебной машине после работы. Разведён год назад, платит алименты. В гараже — чертёжные кальки, вынесенные «домой поработать» — формально с нарушением, но это не секрет.',
-     choices:[
-      {text:'Спросить напрямую про вынос документов',lead:'Шпаков признаёт: выносит рабочие наброски, не секретные. Журнал спецчасти это подтверждает — «Плотину-3» он на дом не брал никогда'},
-      {text:'Проверить его алиби на дни утечек',lead:'В три из пяти дней утечек Шпаков был в командировке в Свердловске — документально подтверждено'},
-      {text:'Узнать, кто организовал слухи о его «ненадёжности»',lead:'Источник слухов в парткоме — сам Куприн, якобы «по долгу партии»'}
-     ]},
-    {task:'Поговорить с физиком Вишневским',
-     narrative:'Вишневский — умный, нервный, постоянно поправляет очки. *«Да, я выезжал. Конференции — а что ещё? Западные коллеги нам не чета в теоретической части, надо учиться. Допуск у меня третьей формы, ничего секретного я им рассказать не могу».*',
-     choices:[
-      {text:'Проверить тематику его конференций',lead:'Темы — чисто теоретические, не связанные с «Плотиной-3»; западные коллеги приглашали его как автора монографии'},
-      {text:'Спросить о контактах на конференциях',lead:'Вишневский рассказывает добровольно — нет попыток скрыть; фиксированные контакты совпадают с тем, что уже в деле у КГБ'},
-      {text:'Проверить его переписку',lead:'Переписка идёт через 1-й отдел, просматривается; ничего подозрительного'}
-     ]},
-    {task:'Завести знакомство с переводчицей Лариной',
-     narrative:'Ирина Ларина — умная, обаятельная, тридцати лет, носит модные туфли. Берёт вас за рукав в фойе гостиницы *«Октябрь»*: *«Товарищ инспектор, если вам что-то нужно перевести — я всегда готова»*. В номере у неё — стопка каталогов культобмена.',
-     choices:[
-      {text:'Как бы невзначай спросить про НИИ',lead:'Ларина признаётся: носит в посольство «приглашения на культвстречи от парткома НИИ»; передаёт их лично атташе; считает это безобидной формальностью'},
-      {text:'Посмотреть, кто ей эти «приглашения» вручает',lead:'По её словам — всегда лично парторг Куприн, «чтобы не затерялось, вы же понимаете, как с бумагами в СССР»'},
-      {text:'Проверить, читает ли она то, что передаёт',lead:'Нет — конверты запечатаны сургучом. «Моё дело — доставить и перевести устные поздравления»'}
-     ]},
-    {task:'Негласно просмотреть сейф спецчасти',
-     narrative:'Ночью, с санкции Зотова, вы вскрываете сейф. Все листы «Плотины-3» на месте, но **два чертежа — повторно отсняты**: края кальки чуть загнуты, на обороте — слабые следы типографской краски (признак фотокопирования). Копировальной техникой в НИИ пользуются только спецчасть и партком.',
-     choices:[
-      {text:'Сверить даты «пересъёмки» с графиком Горевой',lead:'В дни, когда Горева работала сверхурочно «по распоряжению парткома», были сняты именно те два чертежа'},
-      {text:'Проверить ключи от копировальной парткома',lead:'Ключ есть только у Куприна и секретаря обкома; Горева — по разовым распоряжениям, под роспись, все по указанию Куприна'},
-      {text:'Снять отпечатки с аппарата',lead:'Отпечатки: Куприна и Горевой. Куприна — свежее всех, Горевой — двухнедельной давности'}
-     ]},
-    {task:'Поговорить с Горевой без свидетелей',
-     narrative:'Горева — сорокалетняя, усталая, замужем за мичманом. В подсобке за чаем она говорит тихо: *«Я делаю, что велит партком. Валерий Петрович сказал — «бдительность, сними копии для архива обкома», я сняла. Я не вникаю, мне доверяют, я не подведу»*.',
-     choices:[
-      {text:'Показать ей чертёж «Плотины-3»',lead:'Горева признаёт: «Да, этот лист копировала дважды в мае и в сентябре. По указанию Куприна. Он сказал — для обкома»'},
-      {text:'Спросить, видела ли она бумаги в обкоме',lead:'Нет, не видела: «Валерий Петрович сам забирал, говорил — отвезёт на совещание»'},
-      {text:'Проверить, фиксировались ли эти копии в обкоме',lead:'Запрос в обком: **ни одной такой копии в архивах обкома не значится**. Куприн забирал их — и они исчезали'}
-     ]},
-    {task:'Поднять личное дело Куприна',
-     narrative:'В архиве кадров — папка Куприна, толстая, образцовая. Вы роетесь глубже: командировка в Прагу, август 1968-го, продолжительность «на усмотрение товарища». В памятке — краткая запись: *«Установлены контакты с гражданкой ЧССР Я. Главовой, вопрос закрыт на уровне резидентуры»*.',
-     choices:[
-      {text:'Запросить подробности «контакта» в Праге',lead:'В оперативных архивах: Главова — агент чешской разведки, работала на западных кураторов; Куприн был ею скомпрометирован (фото, запись), с 1971-го — «под наблюдением», но «без активных признаков»'},
-      {text:'Проверить, кто вёл Куприна с 1971-го',lead:'Куратора сняли с наблюдения в 1975-м «за отсутствием оперативного интереса». С этого года утечек в области не было — до апреля 1978-го'},
-      {text:'Сверить даты поездок Куприна в Ленинград',lead:'Три из пяти поездок Куприна в Ленинград совпадают с визитами туда того самого западного атташе'}
-     ]},
-    {task:'Установить канал передачи',
-     narrative:'Картина складывается: Куприн получает приказ через связь в Ленинграде, заставляет Гореву делать копии под видом партработы, запечатывает в «пригласительные конверты» и передаёт Лариной, которая несёт их в посольство как безобидную культформальность. Но нужен последний штрих — проверка конверта.',
-     choices:[
-      {text:'Организовать подмену конверта через Ларину',lead:'Оперативники КГБ подменили очередной конверт на контрольный; в оригинале — микрофотокопии третьего листа «Плотины-3»'},
-      {text:'Проследить, кто в посольстве конверт принимает',lead:'Принимает лично культурный атташе — резидент, известный КГБ; получает от Лариной без вопросов'},
-      {text:'Взять почерковедческую экспертизу на сургуч',lead:'Оттиск печати на сургуче — самодельный штамп из парткома НИИ, найден при обыске кабинета Куприна'}
-     ]},
-    {task:'Сопоставить прошлое Куприна с поведением остальных',
-     narrative:'Куприн — идеальный коммунист, докладчик по бдительности, источник слухов против Шпакова и Вишневского. Его «идеальность» оказалась инструментом: чем громче он обвинял других, тем меньше подозрений было на него самого. Но: Горева — невольный инструмент, Ларина — слепой курьер, а подлинный агент — тот, кто отдавал команды.',
-     choices:[
-      {text:'Проверить, не использовал ли Куприн Горевой «для копирования себя»',lead:'Куприн прикрывался партпроцедурой, чтобы никто не задавал вопросов о копиях — даже 1-й отдел не дёргал'},
-      {text:'Уточнить, кто подбрасывал материалы на Шпакова и Вишневского',lead:'Анонимки на обоих приходили из одного источника, почерк сверен — совпадает с почерком Куприна на партдокументах'},
-      {text:'Снять все обвинения с подставных',lead:'Шпаков и Вишневский — чисты. Ларина — использована втёмную. Горева — нарушила инструкцию, но без умысла'}
-     ]},
-    {task:'Доложить Зотову и идти брать Куприна',
-     narrative:'Двенадцатый день. Зотов слушает, кивает. *«Если ошибёшься — это дискредитация парткома, меня снимут, тебя тоже. Только одно имя. Произноси чётко»*. На столе — папки всех пятерых. Пора.',
-     choices:[
-      {text:'Готов назвать агента',lead:'Вы называете имя. Оперативная группа поднимается.'}
-     ]}
-  ]
-}
-
-}; /* конец SCENARIOS */
-
-
-/* ═══════════════════════════════════════
-   СОСТОЯНИЕ
-   ═══════════════════════════════════════ */
-var S={
-  mode:'ai',            // 'ai' | 'off'
-  name:'',
-  theme:'murder',
-  themeDesc:'',
-  settingKey:'victorian',
-  settingDesc:'',
-  seed:'',
-  scenarioId:null,
-  step:1, maxSteps:14,
-  caseTitle:'—', caseBrief:'—',
-  task:'—',
-  leads:[],             // [{day, text}]
-  suspects:[],          // [{name, desc}]
-  culprit:null,         // ставится только в AI-режиме после финала от ИИ
-  solution:'',
-  finished:false,
-  hist:[]               // история для AI
+embassy:{id:'embassy',title:'Сигнал из посольства',short:'Шпионаж \u00b7 10 дней',tag:'\ud83d\udcd5 СССР, 1978',desc:'Из НИИ утекают секреты в западное посольство. 10 дней. Найдёте крота \u2014 звезда. Нет \u2014 Магадан.',settingKey:'modern',
+brief:'Октябрь 1978. Областной центр. Из НИИ \u00abПрогресс\u00bb утекают чертежи в западное посольство. Пять подозреваемых. 10 дней.',
+firstTask:'Изучить материалы у куратора КГБ',
+suspects:[{name:'Шпаков',desc:'Главный инженер. Разведён.'},{name:'Горева',desc:'Секретарь спецчасти.'},{name:'Вишневский',desc:'Физик. Часто выезжает.'},{name:'Ларина',desc:'Переводчица из интуриста.'},{name:'Куприн',desc:'Парторг. Слишком образцовый.'}],
+culprit:'Куприн',
+solution:'Парторг Куприн завербован в 1971 через компромат (роман с чешкой в Праге). Копировал чертежи руками Горевой \u00abпо партлинии\u00bb, передавал через Ларину в \u00abкультурных конвертах\u00bb. Шпаков и Вишневский \u2014 ложные цели, слухи против них подбрасывал сам Куприн.',
+steps:[
+{task:'Изучить материалы у куратора',narrative:'Капитан Зотов: *\u00abУтечка чертежей изделия \u00abПлотина-3\u00bb. Канал не знаем. Пять подозреваемых. Действуйте тихо.\u00bb*',
+choices:[{text:'График посещений посольства',lead:'Ларина \u2014 17 визитов по культобмену; Вишневский \u2014 2; остальные \u2014 0'},{text:'Даты утечек',lead:'Утечки с апреля; первая \u2014 через неделю после партсобрания Куприна'},{text:'Список допущенных к сейфу',lead:'Шпаков, Вишневский, Горева и Куприн (по распоряжению обкома)'}]},
+{task:'Войти в НИИ под прикрытием',narrative:'Вас оформляют инспектором. НИИ: планёрка у Шпакова, Горева носит папки, Вишневский курит, Куприн у стенгазеты, Ларина \u2014 на семинаре.',
+choices:[{text:'Наблюдать неформальные контакты',lead:'Куприн трижды подходил к Горевой; Ларина \u2014 к Куприну один раз'},{text:'Проверить спецчасть',lead:'В журнале много подписей Горевой \u00abпо распоряжению парткома \u2014 Куприн\u00bb'},{text:'Заглянуть в партком',lead:'У Куприна \u2014 билет в Ленинград; дата совпадает с одной из утечек'}]},
+{task:'Проверить Шпакова',narrative:'Шпаков пьёт коньяк в машине. Разведён, алименты. Выносит рабочие кальки \u2014 не секретные.',
+choices:[{text:'Спросить про вынос документов',lead:'\u00abПлотину-3\u00bb на дом не брал никогда \u2014 журнал подтверждает'},{text:'Алиби на дни утечек',lead:'В три из пяти дней был в командировке в Свердловске'},{text:'Кто распространял слухи о нём?',lead:'Источник слухов в парткоме \u2014 сам Куприн'}]},
+{task:'Поговорить с Вишневским',narrative:'Вишневский \u2014 умный, нервный. *\u00abВыезжал на конференции. Допуск 3-й формы, секретов рассказать не могу.\u00bb*',
+choices:[{text:'Тематика конференций',lead:'Чисто теоретические, не связаны с \u00abПлотиной-3\u00bb'},{text:'Контакты на конференциях',lead:'Рассказывает добровольно; всё совпадает с данными КГБ'},{text:'Переписка',lead:'Идёт через 1-й отдел, ничего подозрительного'}]},
+{task:'Проверить Ларину',narrative:'Ларина \u2014 обаятельна, модные туфли. *\u00abЕсли нужно перевести \u2014 готова помочь.\u00bb*',
+choices:[{text:'Спросить про НИИ',lead:'Носит в посольство \u00abприглашения на культвстречи от парткома НИИ\u00bb; считает это формальностью'},{text:'Кто вручает \u00abприглашения\u00bb?',lead:'Всегда лично Куприн: \u00abчтобы не затерялись\u00bb'},{text:'Читает ли содержимое?',lead:'Нет \u2014 конверты запечатаны сургучом'}]},
+{task:'Вскрыть сейф спецчасти ночью',narrative:'Все листы на месте, но **два чертежа пересъёмлены**: следы фотокопирования. Копировальная техника \u2014 в спецчасти и парткоме.',
+choices:[{text:'Сверить даты с графиком Горевой',lead:'В дни сверхурочных Горевой \u00abпо распоряжению парткома\u00bb снимали именно те листы'},{text:'Проверить ключи от копировальной',lead:'Ключ только у Куприна и секретаря обкома; Горева \u2014 по разовым распоряжениям Куприна'},{text:'Отпечатки на аппарате',lead:'Куприна и Горевой; Куприна \u2014 свежее'}]},
+{task:'Поговорить с Горевой',narrative:'*\u00abДелаю, что велит партком. Валерий Петрович сказал \u2014 сними копии для обкома.\u00bb*',
+choices:[{text:'Показать чертёж \u00abПлотины-3\u00bb',lead:'Горева: \u00abДа, копировала дважды. По указанию Куприна. Для обкома.\u00bb'},{text:'Бумаги дошли до обкома?',lead:'Нет: ни одной копии в архивах обкома не значится'},{text:'Видела ли бумаги потом?',lead:'\u00abВалерий Петрович сам забирал \u2014 говорил, отвезёт.\u00bb'}]},
+{task:'Поднять личное дело Куприна',narrative:'Командировка в Прагу, 1968. Контакт с гражданкой ЧССР Главовой.',
+choices:[{text:'Подробности \u00abконтакта\u00bb',lead:'Главова \u2014 агент чешской разведки; Куприн скомпрометирован; с 1971 \u2014 \u00abпод наблюдением\u00bb, снятым в 1975'},{text:'Поездки в Ленинград',lead:'Три из пяти совпадают с визитами западного атташе'},{text:'Кто подбрасывал анонимки на Шпакова и Вишневского?',lead:'Почерк совпадает с почерком Куприна'}]},
+{task:'Доложить и назвать крота',narrative:'Двенадцатый день. Зотов: *\u00abОдно имя. Произноси чётко.\u00bb*',
+choices:[{text:'Готов назвать агента',lead:'Оперативная группа поднимается.'}]}
+]},
 };
+
+/* ═══ СОСТОЯНИЕ ═══ */
+var S={mode:'ai',name:'',theme:'murder',themeDesc:'',settingKey:'victorian',settingDesc:'',seed:'',scenarioId:null,step:1,maxSteps:14,caseTitle:'—',caseBrief:'',task:'—',leads:[],suspects:[],culprit:null,solution:'',finished:false,hist:[]};
 var curScene=null,lastAct=null,isLoading=false;
 
 /* ═══ СИСТЕМНЫЙ ПРОМПТ ═══ */
 function buildPrompt(){
   var stg=SETTINGS[S.settingKey]||SETTINGS.victorian;
-  var setText=S.settingKey==='custom'&&S.settingDesc?S.settingDesc:stg.desc;
-  var themeText=S.theme==='custom'&&S.themeDesc?S.themeDesc:(THEMES[S.theme]||THEMES.murder);
-  var seedText=S.seed?' ЗАЦЕПКА-ЗАТРАВКА (вплети с первой сцены): "'+S.seed+'".':'';
-  var stepsLeft=S.maxSteps-S.step+1;
-  var finaleStep=S.maxSteps;
-  var knownLeads=S.leads.length?S.leads.slice(-6).map(function(l){return'Д'+l.day+': '+l.text}).join(' | '):'нет';
-
-  return 'Ты — мастер интерактивного детектива "Dark Script". ОТВЕЧАЙ ТОЛЬКО ВАЛИДНЫМ JSON без пояснений и markdown-обёрток.\n\n'+
-  'ДЕЛО: '+themeText+'\n'+
-  'СЕТТИНГ: '+setText+'\n'+
-  'ДЕТЕКТИВ: '+S.name+'.'+seedText+'\n\n'+
-  'ЖЁСТКИЙ ЛИМИТ: '+S.maxSteps+' «дней расследования». Сейчас идёт день '+S.step+'. Осталось '+stepsLeft+' дней (включая текущий).\n'+
-  'НА ДНЕ '+finaleStep+' (последнем) — финальная сцена: ты ДОЛЖЕН выставить "isFinale":true, дать в "suspects" список от 3 до 5 подозреваемых, и ТАЙНО зафиксировать виновного в "culpritIndex" (0-based) и кратко мотив в "motive". После этого игра переходит в режим обвинения, сам не заканчивай сцену выбором.\n\n'+
-  'КАНОН ДЕЛА (ОДИН РАЗ И НАВСЕГДА): На первом шаге ты ВЫБИРАЕШЬ конкретного виновного из своего воображения и держишь его неизменным до финала. Не меняй решение в угоду игроку. Подкладывай зацепки так, чтобы к 12–14 дню внимательный игрок мог вычислить.\n\n'+
-  'ПРАВИЛА ПОВЕСТВОВАНИЯ:\n'+
-  '- 2-е лицо, 2–4 абзаца. Атмосфера сеттинга, чёткие детали.\n'+
-  '- В конце каждой сцены 2–4 варианта действия ("choices"). Варианты — конкретные действия ("допросить X", "осмотреть Y", "пойти в Z"), а не абстракции.\n'+
-  '- Каждый день приноси ровно 1 новую зацепку или поворот ("lead" — строка 1-2 предложения). Иногда зацепка — это отсутствие улики или ложь свидетеля.\n'+
-  '- На "task" клади краткую задачу-цель текущего дня (до 80 знаков).\n'+
-  '- ОБНОВЛЯЙ "suspects" — список выявленных подозреваемых (имя + 1-фраза). Не больше 5. Не меняй уже данные имена.\n'+
-  '- Обрабатывай и свободный ввод игрока (произвольный текст): если он делает что-то необычное — мир реагирует, но день всё равно расходуется.\n'+
-  '- НЕ ломай канон: если игрок «угадывает» раньше — не подтверждай, пусть копает.\n\n'+
-  'УЖЕ ИЗВЕСТНО ИГРОКУ: '+knownLeads+'\n\n'+
-  'СХЕМА JSON (строго):\n'+
-  '{"narrative":"текст сцены","task":"задача дня","lead":"новая зацепка или null","suspects":[{"name":"Имя","desc":"1 фраза"}],"choices":[{"text":"вариант"},{"text":"вариант"}],"isFinale":false,"culpritIndex":null,"motive":null}\n\n'+
-  'На финале: choices — пустой массив [], isFinale:true, заполнены suspects/culpritIndex/motive. lead — последняя итоговая ремарка (можно null).';
+  var stD=S.settingKey==='custom'&&S.settingDesc?S.settingDesc:stg.desc;
+  var thD=S.theme==='custom'&&S.themeDesc?S.themeDesc:(THEMES[S.theme]||'убийство');
+  var sT=S.seed?' ЗАТРАВКА: "'+S.seed+'".':'';
+  var left=S.maxSteps-S.step+1;
+  var kn=S.leads.length?S.leads.slice(-6).map(function(l){return'Д'+l.day+': '+l.text}).join(' | '):'нет';
+  return 'Ты — мастер детектива "Dark Script". ОТВЕЧАЙ ТОЛЬКО ВАЛИДНЫМ JSON.\n\n'+
+  'ДЕЛО: '+thD+'\nСЕТТИНГ: '+stD+'\nДЕТЕКТИВ: '+S.name+'.'+sT+'\n\n'+
+  'ЛИМИТ: '+S.maxSteps+' дней. Сейчас день '+S.step+'. Осталось '+left+'.\n'+
+  'НА ПОСЛЕДНЕМ ДНЕ — isFinale:true, suspects 3-5, culpritIndex (0-based), motive. choices пустой.\n\n'+
+  'На первом шаге ВЫБЕРИ виновного и ДЕРЖИ до финала. Подкладывай зацепки, чтобы внимательный игрок мог вычислить.\n\n'+
+  'ПРАВИЛА:\n- 2-е лицо, 2-4 абзаца, атмосфера сеттинга.\n- 2-4 choices (конкретные: «допросить X», «осмотреть Y»).\n- Каждый день — 1 lead (зацепка, 1-2 предложения) или null.\n- task — задача дня (до 80 знаков).\n- Обновляй suspects.\n- НЕ подтверждай угадывание раньше времени.\n'+
+  'ИЗВЕСТНО: '+kn+'\n\n'+
+  'JSON:\n{"narrative":"текст","task":"задача","lead":"зацепка или null","suspects":[{"name":"","desc":""}],"choices":[{"text":""}],"isFinale":false,"culpritIndex":null,"motive":null}';
 }
 
-/* ═══ ЧАСТИЦЫ (лёгкие, как пыль в архиве) ═══ */
+/* ═══ ЧАСТИЦЫ ═══ */
 var cvs=document.getElementById('particles'),ctx2d=cvs?cvs.getContext('2d'):null,parts=[];
-function initP(){if(!cvs)return;cvs.width=innerWidth;cvs.height=innerHeight;parts=[];for(var i=0;i<40;i++)parts.push(mkP())}
-function mkP(){return{x:Math.random()*(cvs?cvs.width:800),y:Math.random()*(cvs?cvs.height:600),r:Math.random()*1.4+.3,vy:-(Math.random()*.25+.05),vx:(Math.random()-.5)*.12,a:Math.random()*.4+.1,life:Math.random()*600+200}}
+function initP(){if(!cvs)return;cvs.width=innerWidth;cvs.height=innerHeight;parts=[];for(var i=0;i<35;i++)parts.push(mkP())}
+function mkP(){return{x:Math.random()*(cvs?cvs.width:800),y:Math.random()*(cvs?cvs.height:600),r:Math.random()*1.3+.3,vy:-(Math.random()*.2+.05),vx:(Math.random()-.5)*.1,a:Math.random()*.35+.08,life:Math.random()*500+200}}
 function drawP(){if(!ctx2d)return;ctx2d.clearRect(0,0,cvs.width,cvs.height);for(var i=0;i<parts.length;i++){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.life--;if(p.life<60)p.a*=.97;if(p.life<=0||p.y<-10){parts[i]=mkP();parts[i].y=cvs.height+10}ctx2d.beginPath();ctx2d.arc(p.x,p.y,p.r,0,Math.PI*2);ctx2d.fillStyle='rgba(200,180,140,'+p.a+')';ctx2d.fill()}requestAnimationFrame(drawP)}
 addEventListener('resize',function(){if(cvs){cvs.width=innerWidth;cvs.height=innerHeight}});initP();drawP();
 
 /* ═══ НАВИГАЦИЯ ═══ */
-function goTo(id){var tr=document.getElementById('transition');tr.classList.add('active');setTimeout(function(){var a=document.querySelectorAll('.scr');for(var i=0;i<a.length;i++){a[i].classList.remove('on');a[i].classList.remove('vis')}var n=document.getElementById(id);if(n){n.classList.add('on');setTimeout(function(){tr.classList.remove('active');setTimeout(function(){n.classList.add('vis')},60)},120)}},420)}
+function goTo(id){
+  var tr=document.getElementById('transition');
+  tr.classList.add('active');
+  setTimeout(function(){
+    var all=document.querySelectorAll('.scr');
+    for(var i=0;i<all.length;i++){all[i].classList.remove('on','vis')}
+    var n=document.getElementById(id);
+    if(n){
+      n.classList.add('on');
+      setTimeout(function(){
+        tr.classList.remove('active');
+        setTimeout(function(){n.classList.add('vis')},50);
+      },100);
+    }
+  },420);
+}
 
-function applyTheme(key){var s=SETTINGS[key]||SETTINGS.victorian;var r=document.documentElement;r.style.setProperty('--ac-rgb',s.ac);r.style.setProperty('--ac','rgb('+s.ac+')');r.style.setProperty('--glow','rgba('+s.ac+',.25)');r.style.setProperty('--brd','rgba('+s.ac+',.18)');r.style.setProperty('--brd-h','rgba('+s.ac+',.55)')}
+/* ═══ ПРИВЯЗКА СОБЫТИЙ (все через addEventListener) ═══ */
+document.getElementById('btn-new').addEventListener('click',function(){goTo('s-setup')});
+document.getElementById('btn-cont').addEventListener('click',function(){tryLoad()});
+document.getElementById('btn-reload').addEventListener('click',function(){location.reload()});
+document.getElementById('acc-toggle').addEventListener('click',function(){
+  document.getElementById('acc-rules').classList.toggle('open');
+});
+document.getElementById('btn-rnd').addEventListener('click',function(){randomName()});
+document.getElementById('btn-start').addEventListener('click',function(){beginGame()});
+document.getElementById('btn-free').addEventListener('click',function(){sendFree()});
+document.getElementById('btn-rules-g').addEventListener('click',function(){document.getElementById('rules-modal').classList.add('on')});
+document.getElementById('rules-close').addEventListener('click',function(){document.getElementById('rules-modal').classList.remove('on')});
+document.getElementById('rules-modal').addEventListener('click',function(e){if(e.target.id==='rules-modal')this.classList.remove('on')});
+document.getElementById('btn-save-g').addEventListener('click',function(){saveGame();this.textContent='\u2713';var b=this;setTimeout(function(){b.textContent='\ud83d\udcbe'},1200)});
+document.getElementById('btn-abandon').addEventListener('click',function(){if(confirm('Бросить дело?')){try{localStorage.removeItem('ds_save')}catch(e){}location.reload()}});
+document.getElementById('mob-btn').addEventListener('click',function(){document.getElementById('side').classList.toggle('open')});
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='inp-free'){e.preventDefault();sendFree()}});
+document.addEventListener('click',function(e){var s=document.getElementById('side'),b=document.getElementById('mob-btn');if(s&&b&&s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open')});
 
-/* ═══ АККОРДЕОН ═══ */
-function toggleAcc(){document.getElementById('acc-rules').classList.toggle('open')}
-function openRules(){document.getElementById('rules').classList.add('on')}
-function closeRules(){document.getElementById('rules').classList.remove('on')}
+// Mode pick
+document.getElementById('mode-ai').addEventListener('click',function(){pickMode('ai')});
+document.getElementById('mode-off').addEventListener('click',function(){pickMode('off')});
+
+// Tag handlers
+function bindTags(containerId,inputId){
+  document.getElementById(containerId).addEventListener('click',function(e){
+    var t=e.target.closest('.tag');if(!t)return;
+    var all=this.querySelectorAll('.tag');for(var i=0;i<all.length;i++)all[i].classList.remove('on');
+    t.classList.add('on');
+    if(inputId){var inp=document.getElementById(inputId);inp.style.display=t.dataset.v==='custom'?'block':'none'}
+  });
+}
+bindTags('theme-tags','inp-theme');
+bindTags('set-tags','inp-setting');
 
 /* ═══ SETUP UI ═══ */
 function randomName(){document.getElementById('inp-name').value=NAMES[Math.floor(Math.random()*NAMES.length)]}
-
 function pickMode(m){
-  if(m==='ai'&&!navigator.onLine){return} // блокируем если оффлайн
+  if(m==='ai'&&!navigator.onLine)return;
   S.mode=m;
   document.getElementById('mode-ai').classList.toggle('on',m==='ai');
   document.getElementById('mode-off').classList.toggle('on',m==='off');
   document.getElementById('ai-setup').style.display=m==='ai'?'':'none';
   document.getElementById('off-setup').style.display=m==='off'?'':'none';
 }
-
 function checkOnline(){
-  if(!navigator.onLine){
-    document.getElementById('net-warn').style.display='';
-    document.getElementById('mode-ai').classList.add('disabled');
-    pickMode('off');
-  }else{
-    document.getElementById('net-warn').style.display='none';
-    document.getElementById('mode-ai').classList.remove('disabled');
-  }
+  if(!navigator.onLine){document.getElementById('net-warn').style.display='';document.getElementById('mode-ai').classList.add('disabled');pickMode('off')}
+  else{document.getElementById('net-warn').style.display='none';document.getElementById('mode-ai').classList.remove('disabled')}
 }
-window.addEventListener('online',checkOnline);
-window.addEventListener('offline',checkOnline);
+window.addEventListener('online',checkOnline);window.addEventListener('offline',checkOnline);
 
-// Теги темы
-document.getElementById('theme-tags').addEventListener('click',function(e){
-  var t=e.target.closest('.tag');if(!t)return;
-  var all=this.querySelectorAll('.tag');for(var i=0;i<all.length;i++)all[i].classList.remove('on');
-  t.classList.add('on');
-  document.getElementById('inp-theme').style.display=t.dataset.t==='custom'?'block':'none';
-});
-// Теги сеттинга
-document.getElementById('setting-tags').addEventListener('click',function(e){
-  var t=e.target.closest('.tag');if(!t)return;
-  var all=this.querySelectorAll('.tag');for(var i=0;i<all.length;i++)all[i].classList.remove('on');
-  t.classList.add('on');
-  document.getElementById('inp-setting').style.display=t.dataset.s==='custom'?'block':'none';
-});
-
-// Рендер карточек оффлайн-сценариев
 (function renderScenarios(){
-  var grid=document.getElementById('scen-grid');
-  var html='';var first=true;
-  for(var k in SCENARIOS){
-    var sc=SCENARIOS[k];
-    html+='<div class="scen'+(first?' on':'')+'" data-sc="'+sc.id+'" onclick="pickScenario(this)">'+
-          '<div class="s-meta">'+sc.tag+' · '+sc.short+'</div>'+
-          '<h4>'+sc.title+'</h4>'+
-          '<div class="s-desc">'+sc.desc+'</div></div>';
-    first=false;
-  }
-  grid.innerHTML=html;
+  var g=document.getElementById('scen-grid'),h='',f=true;
+  for(var k in SCENARIOS){var sc=SCENARIOS[k];h+='<div class="scen'+(f?' on':'')+'" data-sc="'+sc.id+'"><div class="s-meta">'+sc.tag+' \u00b7 '+sc.short+'</div><h4>'+sc.title+'</h4><div class="s-desc">'+sc.desc+'</div></div>';f=false}
+  g.innerHTML=h;
+  g.addEventListener('click',function(e){var s=e.target.closest('.scen');if(!s)return;var all=g.querySelectorAll('.scen');for(var i=0;i<all.length;i++)all[i].classList.remove('on');s.classList.add('on')});
 })();
-function pickScenario(el){var all=document.querySelectorAll('.scen');for(var i=0;i<all.length;i++)all[i].classList.remove('on');el.classList.add('on')}
 
-/* ═══ СТАРТ ИГРЫ ═══ */
+/* ═══ СТАРТ ═══ */
 function beginGame(){
   var name=document.getElementById('inp-name').value.trim()||NAMES[Math.floor(Math.random()*NAMES.length)];
-
   if(S.mode==='off'){
     var scEl=document.querySelector('.scen.on');
     var scId=scEl?scEl.dataset.sc:'mansion';
     var sc=SCENARIOS[scId];
-    S={mode:'off',name:name,theme:'',themeDesc:'',settingKey:sc.settingKey,settingDesc:'',seed:'',
-       scenarioId:scId,step:1,maxSteps:sc.steps.length,
-       caseTitle:sc.title,caseBrief:sc.brief,task:sc.firstTask,
-       leads:[],suspects:sc.suspects.slice(),culprit:sc.culprit,solution:sc.solution,finished:false,hist:[]};
-    applyTheme(sc.settingKey);
-    goTo('s-game');
-    setTimeout(function(){renderOfflineStep()},700);
-
+    S={mode:'off',name:name,theme:'',themeDesc:'',settingKey:sc.settingKey,settingDesc:'',seed:'',scenarioId:scId,step:1,maxSteps:sc.steps.length,caseTitle:sc.title,caseBrief:sc.brief,task:sc.firstTask,leads:[],suspects:sc.suspects.slice(),culprit:sc.culprit,solution:sc.solution,finished:false,hist:[]};
+    goTo('s-game');setTimeout(function(){renderOfflineStep()},700);
   }else{
-    // AI-режим
-    var themeTag=document.querySelector('#theme-tags .tag.on');
-    var themeKey=themeTag?themeTag.dataset.t:'murder';
-    var themeCustom=document.getElementById('inp-theme').value.trim();
-    var setTag=document.querySelector('#setting-tags .tag.on');
-    var setKey=setTag?setTag.dataset.s:'victorian';
-    var setCustom=document.getElementById('inp-setting').value.trim();
-    var seed=document.getElementById('inp-seed').value.trim();
-    var steps=parseInt(document.getElementById('inp-steps').value,10)||14;
-    steps=Math.max(8,Math.min(25,steps));
-
-    S={mode:'ai',name:name,theme:themeKey,themeDesc:themeCustom,settingKey:setKey,settingDesc:setCustom,
-       seed:seed,scenarioId:null,step:1,maxSteps:steps,
-       caseTitle:'Дело формируется...',caseBrief:'...',task:'Прибыть на место и осмотреться',
-       leads:[],suspects:[],culprit:null,solution:'',finished:false,hist:[]};
-    applyTheme(setKey);
-    goTo('s-game');
-    setTimeout(function(){updateUI();requestAIScene('Это ПЕРВЫЙ день расследования. Открой дело: дай название в первой фразе narrative (например "ДЕЛО: Тень на Кенсингтон-роуд"), опиши место и тон, введи 2-3 ключевые фигуры и дай 2-4 варианта действий. Тайно выбери виновного — держи в уме до финала.')},700);
+    var tTag=document.querySelector('#theme-tags .tag.on');var tKey=tTag?tTag.dataset.v:'murder';
+    var sTag=document.querySelector('#set-tags .tag.on');var sKey=sTag?sTag.dataset.v:'victorian';
+    var steps=parseInt(document.getElementById('inp-steps').value,10)||14;steps=Math.max(8,Math.min(25,steps));
+    S={mode:'ai',name:name,theme:tKey,themeDesc:document.getElementById('inp-theme').value.trim(),settingKey:sKey,settingDesc:document.getElementById('inp-setting').value.trim(),seed:document.getElementById('inp-seed').value.trim(),scenarioId:null,step:1,maxSteps:steps,caseTitle:'Дело формируется...',caseBrief:'',task:'Прибыть на место',leads:[],suspects:[],culprit:null,solution:'',finished:false,hist:[]};
+    goTo('s-game');setTimeout(function(){updateUI();requestAIScene('Первый день. Открой дело: название, место, тон, 2-3 фигуры, 2-4 варианта. Тайно выбери виновного.')},700);
   }
 }
 
 /* ═══ ОФФЛАЙН-ДВИЖОК ═══ */
 function renderOfflineStep(){
-  var sc=SCENARIOS[S.scenarioId];
-  var step=sc.steps[S.step-1];
+  var sc=SCENARIOS[S.scenarioId];var step=sc.steps[S.step-1];
   if(!step){showFinale();return}
   S.task=step.task;
-  curScene={narrative:step.narrative,choices:step.choices.map(function(c){return{text:c.text}})};
-  renderScene(curScene);
-  updateUI();
-  saveGame();
+  curScene={narrative:step.narrative,choices:step.choices};
+  renderScene(curScene,false);updateUI();saveGame();
 }
 
-function pickOfflineChoice(i){
-  if(isLoading)return;
-  var sc=SCENARIOS[S.scenarioId];
-  var step=sc.steps[S.step-1];
-  if(!step||!step.choices[i])return;
-  var choice=step.choices[i];
-  // добавить зацепку
-  if(choice.lead){
-    S.leads.push({day:S.step,text:choice.lead});
-    flashLead(choice.lead);
-  }
-  disableChoices();
-  S.step++;
-  setTimeout(function(){
-    if(S.step>S.maxSteps){showFinale()}
-    else{renderOfflineStep()}
-  },900);
-}
-
-/* ═══ JSON PARSER ═══ */
+/* ═══ JSON ═══ */
 function repairJSON(s){s=s.trim();var inS=false,esc=false,br=0,bk=0;for(var i=0;i<s.length;i++){var c=s[i];if(esc){esc=false;continue}if(c==='\\'){esc=true;continue}if(c==='"'){inS=!inS;continue}if(inS)continue;if(c==='{')br++;if(c==='}')br--;if(c==='[')bk++;if(c===']')bk--}if(inS)s+='"';s=s.replace(/,\s*$/,'');while(bk>0){s+=']';bk--}while(br>0){s+='}';br--}return s}
-
-function valScene(o){
-  if(!o||typeof o!=='object')throw 1;
-  var out={
-    narrative:o.narrative||'Тишина. День проходит тяжело.',
-    task:(o.task||'').toString().slice(0,140),
-    lead:typeof o.lead==='string'&&o.lead.trim()?o.lead.trim():null,
-    suspects:Array.isArray(o.suspects)?o.suspects.slice(0,6).map(function(s){return{name:(s&&s.name)||'?',desc:(s&&s.desc)||''}}):[],
-    choices:Array.isArray(o.choices)?o.choices.slice(0,4).map(function(c){return{text:(c&&c.text)||'Продолжить'}}):[],
-    isFinale:!!o.isFinale,
-    culpritIndex:(typeof o.culpritIndex==='number')?o.culpritIndex:null,
-    motive:o.motive||''
-  };
-  if(!out.isFinale&&out.choices.length===0)out.choices=[{text:'Продолжить расследование'}];
-  return out;
-}
+function valScene(o){if(!o||typeof o!=='object')throw 1;return{narrative:o.narrative||'День проходит тяжело.',task:(o.task||'').toString().slice(0,140),lead:typeof o.lead==='string'&&o.lead.trim()?o.lead.trim():null,suspects:Array.isArray(o.suspects)?o.suspects.slice(0,6).map(function(s){return{name:(s&&s.name)||'?',desc:(s&&s.desc)||''}}):[],choices:Array.isArray(o.choices)?o.choices.slice(0,4).map(function(c){return{text:(c&&c.text)||'Продолжить'}}):[{text:'Продолжить'}],isFinale:!!o.isFinale,culpritIndex:typeof o.culpritIndex==='number'?o.culpritIndex:null,motive:o.motive||''}}
 function parseJSON(raw){if(!raw)throw new Error('empty');var t=raw.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return valScene(JSON.parse(t))}catch(e){}var m=t.match(/\{[\s\S]*\}/);if(m){try{return valScene(JSON.parse(m[0]))}catch(e){}try{return valScene(JSON.parse(repairJSON(m[0])))}catch(e){}}try{return valScene(JSON.parse(repairJSON(t)))}catch(e){}throw new Error('parse fail')}
 
-function makeFallback(){return{narrative:'*Связь оборвалась.* Вы стоите в тишине, прокручивая в голове уже известные зацепки. День прошёл впустую — но завтра всё ещё есть.',task:'Восстановить связь и продолжить',lead:null,suspects:S.suspects,choices:[{text:'Перечитать свои записи и попробовать снова'},{text:'Идти наугад'}],isFinale:false,culpritIndex:null,motive:''}}
-
-/* ═══ AI API ═══ */
-function callAI(msg,att){att=att||1;var sysP=buildPrompt();var hl=Math.max(2,CFG.MAX_H-(att-1)*2);var msgs=[{role:'system',content:sysP}];var rec=S.hist.slice(-hl);for(var i=0;i<rec.length;i++)msgs.push({role:rec[i].r,content:rec[i].c});var ctx='[День '+S.step+'/'+S.maxSteps+' · '+S.name+'] '+msg;msgs.push({role:'user',content:ctx});return fetch(CFG.URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:att>1?.75:.88,messages:msgs})}).then(function(resp){if(!resp.ok)return resp.text().then(function(t){if(resp.status===429&&att<CFG.RET){updLD('Лимит... повтор');return new Promise(function(r){setTimeout(r,CFG.RMS[att-1]*2)}).then(function(){return callAI(msg,att+1)})}throw new Error('HTTP '+resp.status)});return resp.json()}).then(function(data){if(data&&data.choices&&data.choices[0]&&data.choices[0].message){var c=data.choices[0].message.content||'';if(!c)throw new Error('empty');S.hist.push({r:'user',c:ctx},{r:'assistant',c:c});if(S.hist.length>CFG.MAX_H*2)S.hist=S.hist.slice(-CFG.MAX_H);return parseJSON(c)}throw new Error('bad format')}).catch(function(err){if(att<CFG.RET){updLD('Помехи... ('+(att)+'/'+CFG.RET+')');return new Promise(function(r){setTimeout(r,CFG.RMS[att-1]||2000)}).then(function(){return callAI(msg,att+1)})}throw err})}
-
+/* ═══ AI — СТРИМИНГ ═══ */
 function requestAIScene(action){
-  if(isLoading)return;isLoading=true;lastAct=action;showLoad(true);updLD('Следы формируются');
-  callAI(action).then(function(d){
-    curScene=d;
-    // применяем изменения
-    if(d.task)S.task=d.task;
-    if(d.lead){S.leads.push({day:S.step,text:d.lead});flashLead(d.lead)}
-    if(d.suspects&&d.suspects.length){
-      // мёрджим: не перезатираем то что было, но обновляем desc
-      var map={};S.suspects.forEach(function(s){map[s.name]=s});
-      d.suspects.forEach(function(s){if(s.name)map[s.name]={name:s.name,desc:s.desc||(map[s.name]&&map[s.name].desc)||''}});
-      S.suspects=Object.keys(map).map(function(k){return map[k]});
+  if(isLoading)return;isLoading=true;lastAct=action;
+  showLoad(false);setFreeEnabled(false);
+  document.getElementById('choices').innerHTML='';document.getElementById('choices').style.display='none';
+
+  var nr=document.getElementById('narr');
+  nr.innerHTML='<div class="nt" id="stream-box"><span id="stream-text"></span><span class="stream-cursor"></span></div>';
+
+  var sysP=buildPrompt();
+  var msgs=[{role:'system',content:sysP}];
+  var rec=S.hist.slice(-CFG.MAX_H);
+  for(var i=0;i<rec.length;i++)msgs.push({role:rec[i].r,content:rec[i].c});
+  var ctx='[День '+S.step+'/'+S.maxSteps+'] '+action;
+  msgs.push({role:'user',content:ctx});
+
+  var fullText='';
+  var streamEl=document.getElementById('stream-text');
+
+  function extractNarrativeFromPartial(raw){
+    var m=raw.match(/"narrative"\s*:\s*"((?:[^"\\]|\\.)*)(")?/);
+    if(m){var t=m[1];try{t=JSON.parse('"'+t+'"')}catch(e){t=t.replace(/\\n/g,'\n').replace(/\\"/g,'"').replace(/\\\\/g,'\\')}return t}
+    return null;
+  }
+  function renderPartialNarrative(text){
+    if(!text)return;
+    var html=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').split(/\n\n|\n/).filter(function(p){return p.trim()}).map(function(p){return'<p>'+p.trim()+'</p>'}).join('');
+    streamEl.innerHTML=html;
+    nr.scrollTop=nr.scrollHeight;
+  }
+
+  fetch(CFG.URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+CFG.KEY},
+    body:JSON.stringify({model:CFG.MODEL,max_tokens:CFG.MAX_T,temperature:.88,stream:true,messages:msgs})
+  }).then(function(resp){
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    var reader=resp.body.getReader();
+    var decoder=new TextDecoder();
+    var buffer='';
+
+    function read(){
+      reader.read().then(function(result){
+        if(result.done){finishStream();return}
+        buffer+=decoder.decode(result.value,{stream:true});
+        var lines=buffer.split('\n');buffer=lines.pop()||'';
+        for(var i=0;i<lines.length;i++){
+          var line=lines[i].trim();
+          if(!line||line==='data: [DONE]')continue;
+          if(line.indexOf('data: ')===0){
+            try{
+              var jj=JSON.parse(line.slice(6));
+              var delta=jj.choices&&jj.choices[0]&&jj.choices[0].delta;
+              if(delta&&delta.content){fullText+=delta.content;var narr=extractNarrativeFromPartial(fullText);renderPartialNarrative(narr)}
+            }catch(e){}
+          }
+        }
+        read();
+      }).catch(function(err){console.error('stream err',err);finishStream()});
     }
-    // определяем название дела из первой сцены
-    if(S.step===1){
-      var m=(d.narrative||'').match(/ДЕЛО:\s*([^\n.]+)/i);
-      if(m){S.caseTitle=m[1].trim().slice(0,80)}
-      else{S.caseTitle=(THEMES[S.theme]||'Дело').replace(/^./,function(c){return c.toUpperCase()})}
-      S.caseBrief=((d.narrative||'').split(/\n/)[0]||'').slice(0,240)||S.caseBrief;
-    }
-    renderScene(d);
-    updateUI();
-    if(d.isFinale){
-      // фиксируем виновного из AI
-      if(typeof d.culpritIndex==='number'&&S.suspects[d.culpritIndex]){
-        S.culprit=S.suspects[d.culpritIndex].name;
-        S.solution=d.motive||'';
+
+    function finishStream(){
+      // Убираем курсор
+      var cursor=document.querySelector('.stream-cursor');if(cursor)cursor.remove();
+      // Сохраняем историю
+      S.hist.push({r:'user',c:ctx},{r:'assistant',c:fullText});
+      if(S.hist.length>CFG.MAX_H*2)S.hist=S.hist.slice(-CFG.MAX_H);
+      try{
+        var d=parseJSON(fullText);
+        curScene=d;
+        if(d.task)S.task=d.task;
+        if(d.lead){S.leads.push({day:S.step,text:d.lead});flashLead(d.lead)}
+        if(d.suspects&&d.suspects.length){
+          var map={};S.suspects.forEach(function(s){map[s.name]=s});
+          d.suspects.forEach(function(s){if(s.name)map[s.name]={name:s.name,desc:s.desc||(map[s.name]&&map[s.name].desc)||''}});
+          S.suspects=Object.keys(map).map(function(k){return map[k]});
+        }
+        if(S.step===1){var m2=(d.narrative||'').match(/ДЕЛО:\s*([^\n.]+)/i);if(m2)S.caseTitle=m2[1].trim().slice(0,80);else S.caseTitle=(THEMES[S.theme]||'Дело');S.caseBrief=((d.narrative||'').split(/\n/)[0]||'').slice(0,240)}
+        // Рендерим кнопки
+        if(d.isFinale){
+          if(typeof d.culpritIndex==='number'&&S.suspects[d.culpritIndex]){S.culprit=S.suspects[d.culpritIndex].name;S.solution=d.motive||''}
+          setTimeout(showFinale,1200);
+        }else{
+          renderChoicesOnly(d.choices);
+          S.step++;
+          if(S.step>S.maxSteps&&!d.isFinale){setTimeout(function(){requestAIScene('Дни кончились. ОБЯЗАТЕЛЬНО isFinale:true, suspects, culpritIndex, motive.')},500)}
+        }
+        updateUI();saveGame();
+      }catch(err){
+        console.error('parse err',err);
+        nr.insertAdjacentHTML('afterbegin','<div class="err">\u26a1 Ошибка разбора. <button onclick="this.parentElement.remove();retryScene()">Повторить</button></div>');
+        renderChoicesOnly([{text:'Попробовать снова'}]);
       }
-      setTimeout(showFinale,1200);
-    }else{
-      S.step++;
-      if(S.step>S.maxSteps&&!d.isFinale){
-        // ИИ не закрыл — форсируем финал
-        setTimeout(function(){requestAIScene('Дни кончились. ОБЯЗАТЕЛЬНО заверши: isFinale:true, 3-5 suspects, culpritIndex, motive.')},500);
-      }
+      isLoading=false;setFreeEnabled(true);
     }
-    saveGame();
+    read();
   }).catch(function(err){
     console.error(err);
-    var fb=makeFallback();curScene=fb;renderScene(fb);updateUI();saveGame();
-    document.getElementById('narr').insertAdjacentHTML('afterbegin','<div class="err">⚡ Связь потеряна. <button onclick="this.parentElement.remove();retryScene()">Попробовать снова</button></div>');
-  }).then(function(){
-    isLoading=false;showLoad(false);setFreeEnabled(true);
+    var cursor=document.querySelector('.stream-cursor');if(cursor)cursor.remove();
+    nr.innerHTML='<div class="nt"><p><em>Связь прервана.</em></p></div>';
+    nr.insertAdjacentHTML('afterbegin','<div class="err">\u26a1 Нет связи с ИИ. <button onclick="this.parentElement.remove();retryScene()">Повторить</button></div>');
+    renderChoicesOnly([{text:'Попробовать снова'}]);
+    isLoading=false;setFreeEnabled(true);
   });
 }
 function retryScene(){if(lastAct&&!isLoading)requestAIScene(lastAct)}
 
-/* ═══ РЕНДЕР СЦЕНЫ ═══ */
+/* ═══ РЕНДЕР ═══ */
+function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function fN(t){if(!t)return'';return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').split(/\n\n|\n/).filter(function(p){return p.trim()}).map(function(p){return'<p>'+p.trim()+'</p>'}).join('')}
 
-function renderScene(d){
-  var nr=document.getElementById('narr'),ch=document.getElementById('choices');
+function renderScene(d,isAI){
+  var nr=document.getElementById('narr');
   nr.innerHTML='<div class="nt fi">'+fN(d.narrative)+'</div>';
   setTimeout(function(){nr.scrollTop=0},40);
-  if(d.choices&&d.choices.length>0){
+  renderChoicesOnly(d.choices);
+}
+
+function renderChoicesOnly(choices){
+  var ch=document.getElementById('choices');
+  if(choices&&choices.length>0){
     var b='';
-    for(var j=0;j<d.choices.length;j++){
-      var c=d.choices[j];
-      var handler=S.mode==='off'?('pickOfflineChoice('+j+')'):('makeAIChoice('+j+')');
-      b+='<button class="ch" onclick="'+handler+'"><span class="ch-i">▸</span>'+(c.text||'Продолжить')+'</button>';
+    for(var j=0;j<choices.length;j++){
+      var c=choices[j];
+      b+='<button class="ch" data-idx="'+j+'"><span class="ch-i">\u25b8</span>'+(c.text||'Продолжить')+'</button>';
     }
     ch.innerHTML=b;ch.style.display='block';
-  }else{
-    ch.innerHTML='';ch.style.display='none';
-  }
+    // Привязка
+    ch.querySelectorAll('.ch').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var idx=parseInt(this.dataset.idx,10);
+        if(S.mode==='off')pickOfflineChoice(idx);else makeAIChoice(idx);
+      });
+    });
+  }else{ch.innerHTML='';ch.style.display='none'}
+}
+
+function pickOfflineChoice(i){
+  if(isLoading)return;
+  var sc=SCENARIOS[S.scenarioId];var step=sc.steps[S.step-1];
+  if(!step||!step.choices[i])return;
+  var choice=step.choices[i];
+  if(choice.lead){S.leads.push({day:S.step,text:choice.lead});flashLead(choice.lead)}
+  disableChoices();S.step++;
+  setTimeout(function(){if(S.step>S.maxSteps)showFinale();else renderOfflineStep()},900);
 }
 
 function makeAIChoice(i){
   if(isLoading||!curScene||!curScene.choices||!curScene.choices[i])return;
-  var c=curScene.choices[i];
-  disableChoices();setFreeEnabled(false);
+  var c=curScene.choices[i];disableChoices();setFreeEnabled(false);
   var remain=S.maxSteps-S.step;
   var hint='';
-  if(remain===2)hint=' (Предпоследний день — начни готовить развязку.)';
-  else if(remain===1)hint=' (СЛЕДУЮЩИЙ день — ФИНАЛ. На нём выставь isFinale:true и дай список suspects.)';
+  if(remain===1)hint=' (СЛЕДУЮЩИЙ день — ФИНАЛ. isFinale:true, suspects, culpritIndex.)';
+  else if(remain===2)hint=' (Предпоследний день.)';
   requestAIScene('Игрок выбрал: "'+c.text+'".'+hint);
 }
 
 function sendFree(){
-  var inp=document.getElementById('inp-free');
-  var text=inp.value.trim();
-  if(!text||isLoading)return;
-  inp.value='';setFreeEnabled(false);disableChoices();
+  var inp=document.getElementById('inp-free');var text=inp.value.trim();
+  if(!text||isLoading)return;inp.value='';setFreeEnabled(false);disableChoices();
   if(S.mode==='off'){
-    // В оффлайне свободный ввод не может менять сюжет — даём фиктивный ответ и даём выбрать кнопку заново
-    var narr='<p><em>Вы пытаетесь: «'+text.replace(/</g,'&lt;')+'»</em></p><p>В оффлайн-сценарии свободные действия не продвигают сюжет — выберите один из предложенных вариантов, чтобы прожить день. (В AI-режиме мир среагирует на любой ваш ход.)</p>';
-    document.getElementById('narr').insertAdjacentHTML('afterbegin','<div class="nt fi" style="border-left:2px solid var(--warn);padding-left:12px;margin-bottom:14px">'+narr+'</div>');
-    setFreeEnabled(true);
-    // включаем обратно кнопки
-    var btns=document.querySelectorAll('.ch');for(var i=0;i<btns.length;i++)btns[i].disabled=false;
-    return;
+    document.getElementById('narr').insertAdjacentHTML('afterbegin','<div class="nt fi" style="border-left:2px solid var(--warn);padding-left:12px;margin-bottom:14px"><p><em>\u00ab'+escHtml(text)+'\u00bb</em></p><p style="color:var(--t3)">В оффлайне выберите вариант из кнопок. В AI-режиме мир среагирует на любой ход.</p></div>');
+    setFreeEnabled(true);var btns=document.querySelectorAll('.ch');for(var i=0;i<btns.length;i++)btns[i].disabled=false;return;
   }
   var remain=S.maxSteps-S.step;
-  var hint='';
-  if(remain===1)hint=' (СЛЕДУЮЩИЙ день — ФИНАЛ. На нём выставь isFinale:true.)';
-  requestAIScene(S.name+' делает своё: "'+text+'". Мир реагирует реалистично для сеттинга. День всё равно расходуется — дай новую зацепку или важный сдвиг.'+hint);
+  var hint=remain===1?' (СЛЕДУЮЩИЙ — ФИНАЛ. isFinale:true.)':'';
+  requestAIScene(S.name+' делает: "'+text+'". Реагируй реалистично. День расходуется. Дай lead.'+hint);
 }
-document.addEventListener('keydown',function(e){if(e.key==='Enter'&&document.activeElement&&document.activeElement.id==='inp-free'){e.preventDefault();sendFree()}});
-function setFreeEnabled(v){var inp=document.getElementById('inp-free'),btn=document.getElementById('btn-free');if(inp)inp.disabled=!v;if(btn)btn.disabled=!v}
-function disableChoices(){var btns=document.querySelectorAll('.ch');for(var i=0;i<btns.length;i++)btns[i].disabled=true}
 
-/* ═══ UI UPDATE ═══ */
-function updateUI(){try{
-  var cur=Math.min(S.step,S.maxSteps);
-  document.getElementById('tbs-cur').textContent=cur;
-  document.getElementById('tbs-max').textContent=S.maxSteps;
-  document.getElementById('tbs-fill').style.width=(cur/S.maxSteps*100)+'%';
-  document.getElementById('task-text').textContent=S.task||'—';
-  document.getElementById('case-title').textContent=S.caseTitle||'—';
-  document.getElementById('case-brief').textContent=S.caseBrief||'—';
-  document.getElementById('side-task').textContent=S.task||'—';
-  document.getElementById('leads-n').textContent=S.leads.length;
-  var ll=document.getElementById('leads-list');
-  if(S.leads.length){
-    var arr=S.leads.slice().reverse();
-    ll.innerHTML=arr.map(function(l){return'<div class="lead-item"><span class="li-n">Д'+l.day+'</span><span class="li-t">'+escHtml(l.text)+'</span></div>'}).join('');
-  }else{
-    ll.innerHTML='<div class="empty-note">Пока ничего</div>';
-  }
-  var sl=document.getElementById('susp-list');
-  if(S.suspects.length){
-    sl.innerHTML=S.suspects.map(function(s){return'<div class="susp-item"><div class="sn">'+escHtml(s.name)+'</div><div class="sd">'+escHtml(s.desc||'')+'</div></div>'}).join('');
-  }else{
-    sl.innerHTML='<div class="empty-note">Ещё не выявлены</div>';
-  }
-}catch(e){console.warn('ui:',e)}}
-
-function escHtml(s){return(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function setFreeEnabled(v){var i=document.getElementById('inp-free'),b=document.getElementById('btn-free');if(i)i.disabled=!v;if(b)b.disabled=!v}
+function disableChoices(){var b=document.querySelectorAll('.ch');for(var i=0;i<b.length;i++)b[i].disabled=true}
 
 function flashLead(text){
-  var nr=document.getElementById('narr');
-  var box=document.createElement('div');
-  box.className='lead-ann';
-  box.innerHTML='<div class="la-l">🔍 Новая зацепка · День '+S.step+'</div><div class="la-t">'+escHtml(text)+'</div>';
-  nr.appendChild(box);
-  setTimeout(function(){nr.scrollTop=nr.scrollHeight},100);
+  var nr=document.getElementById('narr');var box=document.createElement('div');box.className='lead-ann';
+  box.innerHTML='<div class="la-l">\ud83d\udd0d Новая зацепка \u00b7 День '+S.step+'</div><div class="la-t">'+escHtml(text)+'</div>';
+  nr.appendChild(box);setTimeout(function(){nr.scrollTop=nr.scrollHeight},100);
 }
 
 function showLoad(v){document.getElementById('loader').classList.toggle('on',v);document.getElementById('bottom-area').style.display=v?'none':'block'}
 function updLD(t){var e=document.querySelector('.ld-t');if(e)e.textContent=t}
 
-function flashSave(btn){var o=btn.textContent;btn.textContent='✓';setTimeout(function(){btn.textContent=o},1200)}
+/* ═══ UI ═══ */
+function updateUI(){try{
+  var cur=Math.min(S.step,S.maxSteps);
+  document.getElementById('tbs-cur').textContent=cur;
+  document.getElementById('tbs-max').textContent=S.maxSteps;
+  document.getElementById('tbs-fill').style.width=(cur/S.maxSteps*100)+'%';
+  document.getElementById('tb-prog-f').style.width=(cur/S.maxSteps*100)+'%';
+  document.getElementById('task-text').textContent=S.task||'\u2014';
+  document.getElementById('case-title').textContent=S.caseTitle||'\u2014';
+  document.getElementById('case-brief').textContent=S.caseBrief||'';
+  document.getElementById('side-task').textContent=S.task||'\u2014';
+  document.getElementById('leads-n').textContent=S.leads.length;
+  var ll=document.getElementById('leads-list');
+  if(S.leads.length){ll.innerHTML=S.leads.slice().reverse().map(function(l){return'<div class="lead-item"><span class="li-n">Д'+l.day+'</span><span class="li-t">'+escHtml(l.text)+'</span></div>'}).join('')}
+  else{ll.innerHTML='<div class="empty-note">Пока ничего</div>'}
+  var sl=document.getElementById('susp-list');
+  if(S.suspects.length){sl.innerHTML=S.suspects.map(function(s){return'<div class="susp-item"><div class="sn">'+escHtml(s.name)+'</div><div class="sd">'+escHtml(s.desc||'')+'</div></div>'}).join('')}
+  else{sl.innerHTML='<div class="empty-note">Ещё не выявлены</div>'}
+}catch(e){console.warn('ui:',e)}}
 
-/* ═══ ФИНАЛ: ОБВИНЕНИЕ ═══ */
+/* ═══ ФИНАЛ ═══ */
 function showFinale(){
   S.finished=true;
-  var txt='<p><strong>Время вышло.</strong> Дни расследования закончились. Пора назвать виновного.</p>';
-  txt+='<p>Перечитайте журнал — все зацепки у вас на руках. Ниже — подозреваемые. Выберите одного.</p>';
-  if(S.leads.length){
-    txt+='<p style="margin-top:14px"><em>Ключевые зацепки:</em></p><ul style="padding-left:18px;color:var(--t2);font-size:13px">';
-    S.leads.slice(-8).forEach(function(l){txt+='<li>Д'+l.day+': '+escHtml(l.text)+'</li>'});
-    txt+='</ul>';
-  }
+  var txt='<p><strong>Время вышло.</strong> Пора назвать виновного.</p>';
+  if(S.leads.length){txt+='<p><em>Ключевые зацепки:</em></p><ul style="padding-left:18px;color:var(--t2);font-size:13px">';S.leads.slice(-8).forEach(function(l){txt+='<li>Д'+l.day+': '+escHtml(l.text)+'</li>'});txt+='</ul>'}
   document.getElementById('fin-text').innerHTML=txt;
-
   var sl=S.suspects.length?S.suspects:[{name:'(нет подозреваемых)',desc:''}];
-  var html='';
-  sl.forEach(function(s,i){
-    html+='<button class="ch" onclick="accuse('+i+')"><span class="ch-i">⚖</span>'+escHtml(s.name)+(s.desc?' <span style="color:var(--t3);font-size:11px">— '+escHtml(s.desc)+'</span>':'')+'</button>';
-  });
-  document.getElementById('fin-susp').innerHTML=html;
+  var h='';sl.forEach(function(s,i){h+='<button class="ch" data-ai="'+i+'"><span class="ch-i">\u2696</span>'+escHtml(s.name)+(s.desc?' <span style="color:var(--t3);font-size:11px">\u2014 '+escHtml(s.desc)+'</span>':'')+'</button>'});
+  var fs=document.getElementById('fin-susp');fs.innerHTML=h;
+  fs.querySelectorAll('.ch').forEach(function(btn){btn.addEventListener('click',function(){accuse(parseInt(this.dataset.ai,10))})});
   goTo('s-finale');
 }
 
 function accuse(i){
-  var s=S.suspects[i];
-  if(!s)return;
-  var picked=s.name;
-  var correct=S.culprit&&picked.toLowerCase()===S.culprit.toLowerCase();
+  var s=S.suspects[i];if(!s)return;var picked=s.name;
+  var correct=S.culprit&&picked.toLowerCase().indexOf(S.culprit.toLowerCase())>=0;
   var et=document.getElementById('e-t'),ex=document.getElementById('e-tx'),es=document.getElementById('e-st');
-
-  if(correct){
-    et.textContent='ДЕЛО РАСКРЫТО';et.className='et win';
-    var body='<p><strong>Вы назвали: '+escHtml(picked)+'.</strong></p>';
-    body+='<p>И вы оказались правы.</p>';
-    if(S.solution)body+='<p>'+escHtml(S.solution)+'</p>';
-    ex.innerHTML=body;
-  }else{
-    et.textContent='ДЕЛО ПРОВАЛЕНО';et.className='et lose';
-    var body='<p><strong>Вы назвали: '+escHtml(picked)+'.</strong></p>';
-    body+='<p>Но настоящий виновный — <strong>'+escHtml(S.culprit||'неизвестен')+'</strong>.</p>';
-    if(S.solution)body+='<p>'+escHtml(S.solution)+'</p>';
-    body+='<p style="color:var(--t3);font-style:italic">Ниточка ускользнула. В следующий раз — внимательнее к деталям.</p>';
-    ex.innerHTML=body;
-  }
-  es.innerHTML=S.caseTitle+'<br>Детектив: '+S.name+'<br>Зацепок собрано: '+S.leads.length+' · Дней использовано: '+Math.min(S.step,S.maxSteps)+'/'+S.maxSteps;
-  goTo('s-end');
-  try{localStorage.removeItem('ds_save')}catch(e){}
+  if(correct){et.textContent='ДЕЛО РАСКРЫТО';et.className='et win';ex.innerHTML='<p><strong>Вы назвали: '+escHtml(picked)+'.</strong></p><p>Верно.</p>'+(S.solution?'<p>'+escHtml(S.solution)+'</p>':'')}
+  else{et.textContent='ПРОВАЛ';et.className='et lose';ex.innerHTML='<p><strong>Вы назвали: '+escHtml(picked)+'.</strong></p><p>Виновный \u2014 <strong>'+escHtml(S.culprit||'?')+'</strong>.</p>'+(S.solution?'<p>'+escHtml(S.solution)+'</p>':'')+'<p style="color:var(--t3);font-style:italic">В следующий раз \u2014 внимательнее к деталям.</p>'}
+  es.innerHTML=escHtml(S.caseTitle)+'<br>Детектив: '+escHtml(S.name)+'<br>Зацепок: '+S.leads.length+' \u00b7 Дней: '+Math.min(S.step,S.maxSteps)+'/'+S.maxSteps;
+  goTo('s-end');try{localStorage.removeItem('ds_save')}catch(e){}
 }
 
-/* ═══ УПРАВЛЕНИЕ ═══ */
-function abandonCase(){
-  if(!confirm('Бросить дело? Прогресс будет потерян.'))return;
-  try{localStorage.removeItem('ds_save')}catch(e){}
-  location.reload();
-}
-
-/* ═══ SAVE / LOAD ═══ */
+/* ═══ SAVE/LOAD ═══ */
 function saveGame(){try{localStorage.setItem('ds_save',JSON.stringify(S))}catch(e){}}
-function tryLoad(){
-  try{
-    var d=localStorage.getItem('ds_save');if(!d)return;
-    S=JSON.parse(d);
-    applyTheme(S.settingKey);
-    goTo('s-game');
-    setTimeout(function(){
-      updateUI();
-      if(S.mode==='off'){
-        if(S.step>S.maxSteps)showFinale();else renderOfflineStep();
-      }else{
-        requestAIScene('Возобновление расследования. Напомни текущую обстановку одним абзацем и дай новые 2-4 варианта действий для дня '+S.step+'.');
-      }
-    },700);
-  }catch(e){console.warn(e)}
-}
+function tryLoad(){try{var d=localStorage.getItem('ds_save');if(!d)return;S=JSON.parse(d);goTo('s-game');setTimeout(function(){updateUI();if(S.mode==='off'){if(S.step>S.maxSteps)showFinale();else renderOfflineStep()}else{requestAIScene('Возобновление. Напомни обстановку и дай варианты для дня '+S.step+'.')}},700)}catch(e){console.warn(e)}}
 
 /* ═══ INIT ═══ */
-if(localStorage.getItem('ds_save')){var b=document.getElementById('btn-cont');if(b)b.style.display=''}
-randomName();
-checkOnline();
-document.addEventListener('click',function(e){var s=document.getElementById('side'),b=document.getElementById('mob-btn');if(s&&b&&s.classList.contains('open')&&!s.contains(e.target)&&!b.contains(e.target))s.classList.remove('open')});
+if(localStorage.getItem('ds_save')){document.getElementById('btn-cont').style.display=''}
+randomName();checkOnline();
 
-}catch(FATAL){var cr=document.getElementById('crash');if(cr){cr.style.display='block';cr.innerHTML='<h2 style="color:#ef4444;margin-bottom:20px">⚠ Ошибка</h2><p>'+FATAL.message+'</p><pre style="margin-top:12px;color:#888;font-size:12px">'+(FATAL.stack||'')+'</pre><br><button onclick="location.reload()" style="color:#b08968;border:1px solid #b08968;background:none;padding:8px 20px;cursor:pointer">Перезагрузить</button>'}else document.body.innerHTML='<div style="padding:40px;color:red;font-family:monospace">'+FATAL.message+'<br><button onclick="location.reload()">⟳</button></div>'}
+}catch(FATAL){var cr=document.getElementById('crash');if(cr){cr.style.display='block';cr.innerHTML='<h2 style="color:#ef4444;margin-bottom:20px">\u26a0 Ошибка</h2><p>'+FATAL.message+'</p><pre style="margin-top:12px;color:#888;font-size:12px">'+(FATAL.stack||'')+'</pre><br><button onclick="location.reload()" style="color:#b08968;border:1px solid #b08968;background:none;padding:8px 20px;cursor:pointer">Перезагрузить</button>'}else document.body.innerHTML='<div style="padding:40px;color:red">'+FATAL.message+'</div>'}
 </script>
 </body>
 </html>
-
